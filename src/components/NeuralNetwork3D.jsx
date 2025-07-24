@@ -325,7 +325,7 @@ const NeuralNetwork3D = ({ className = "" }) => {
           transition={{ duration: 0.5, delay: 0.4 }}
         >
           <p className="text-gray-400 text-xs leading-relaxed">
-            *Le développement d'intelligence artificielle sur mesure n'est possible uniquement si l'entreprise possède des jeux de données qui concerne la demande.
+            ⚠️ Pour développer une intelligence artificielle sur mesure, il est plus favorable que l'entreprise dispose de jeux de données pertinents pour répondre à la demande.
           </p>
         </motion.div>
       </div>

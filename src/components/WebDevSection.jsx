@@ -24,11 +24,6 @@ const WebDevSection = ({ className = "" }) => {
       description: "Protection avancée des données"
     },
     {
-      icon: Zap,
-      title: "Performance",
-      description: "Temps de chargement optimisés"
-    },
-    {
       icon: Search,
       title: "SEO Optimisé",
       description: "Visibilité maximale sur Google"
@@ -37,59 +32,45 @@ const WebDevSection = ({ className = "" }) => {
       icon: ShoppingCart,
       title: "E-commerce",
       description: "Solutions de vente en ligne"
-    },
-    {
-      icon: Globe,
-      title: "Multi-langues",
-      description: "Support international"
     }
   ];
 
-  const technologies = [
-    { name: "React", color: "#61DAFB" },
-    { name: "Node.js", color: "#339933" },
-    { name: "TypeScript", color: "#3178C6" },
-    { name: "Next.js", color: "#000000" },
-    { name: "MongoDB", color: "#47A248" },
-    { name: "PostgreSQL", color: "#336791" },
-    { name: "Docker", color: "#2496ED" },
-    { name: "AWS", color: "#FF9900" }
-  ];
 
   return (
     <div className={`relative w-full ${className}`}>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+      {/* Header */}
+      <div className="text-center mb-16">
+        <motion.h2 
+          className="text-4xl md:text-5xl font-bold text-white mb-4"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+        >
+          Développement{' '}
+          <span style={{ color: '#3F8391' }}>Web</span>
+        </motion.h2>
+        <motion.p 
+          className="text-xl text-gray-300 leading-relaxed max-w-4xl mx-auto"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
+          Des sites web modernes, performants et sécurisés. De la conception 
+          à la mise en ligne, je crée des expériences digitales exceptionnelles 
+          qui convertissent vos visiteurs en clients.
+        </motion.p>
+      </div>
+
+      {/* Main Content Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center mb-16">
         
-        {/* Section Texte et Features */}
+        {/* Section Features */}
         <motion.div
           className="space-y-8"
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6 }}
         >
-          {/* Header */}
-          <div>
-            <motion.h2 
-              className="text-4xl md:text-5xl font-bold text-white mb-4"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-            >
-              Développement{' '}
-              <span style={{ color: '#3F8391' }}>Web</span>
-            </motion.h2>
-            <motion.p 
-              className="text-xl text-gray-300 leading-relaxed"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-            >
-              Des sites web modernes, performants et sécurisés. De la conception 
-              à la mise en ligne, je crée des expériences digitales exceptionnelles 
-              qui convertissent vos visiteurs en clients.
-            </motion.p>
-          </div>
-
           {/* Features Grid */}
           <div className="grid grid-cols-2 gap-4">
             {features.map((feature, index) => (
@@ -150,45 +131,6 @@ const WebDevSection = ({ className = "" }) => {
               </motion.div>
             ))}
           </div>
-
-          {/* Technologies */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-          >
-            <h4 className="text-lg font-semibold text-white mb-4">
-              Technologies maîtrisées
-            </h4>
-            <div className="flex flex-wrap gap-3">
-              {technologies.map((tech, index) => (
-                <motion.span
-                  key={index}
-                  className="px-4 py-2 rounded-full text-sm font-medium backdrop-blur-md border border-white/20"
-                  style={{
-                    background: `
-                      linear-gradient(135deg, 
-                        rgba(255, 255, 255, 0.1) 0%, 
-                        rgba(255, 255, 255, 0.05) 100%
-                      )
-                    `,
-                    color: '#FFFFFF'
-                  }}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.3, delay: 0.7 + index * 0.05 }}
-                  whileHover={{ 
-                    scale: 1.05,
-                    backgroundColor: `${tech.color}20`,
-                    borderColor: `${tech.color}50`,
-                    transition: { duration: 0.2 }
-                  }}
-                >
-                  {tech.name}
-                </motion.span>
-              ))}
-            </div>
-          </motion.div>
         </motion.div>
 
         {/* Section Visual/Image */}
@@ -198,7 +140,7 @@ const WebDevSection = ({ className = "" }) => {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
         >
-          {/* Main Visual Container */}
+          {/* Main Image Container */}
           <div 
             className="relative h-[500px] rounded-3xl overflow-hidden border border-white/10"
             style={{
@@ -207,9 +149,7 @@ const WebDevSection = ({ className = "" }) => {
                   rgba(255, 255, 255, 0.1) 0%, 
                   rgba(255, 255, 255, 0.05) 50%, 
                   rgba(0, 0, 0, 0.1) 100%
-                ),
-                radial-gradient(circle at 30% 30%, rgba(63, 131, 145, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.1) 0%, transparent 50%)
+                )
               `,
               backdropFilter: 'blur(20px)',
               boxShadow: `
@@ -218,188 +158,325 @@ const WebDevSection = ({ className = "" }) => {
               `
             }}
           >
-            {/* Floating Code Elements */}
-            <div className="absolute inset-0 p-8">
-              {/* Code snippet 1 */}
-              <motion.div
-                className="absolute top-12 left-8 p-4 rounded-xl backdrop-blur-md border border-white/20"
-                style={{
-                  background: 'rgba(0, 0, 0, 0.3)',
-                  fontFamily: 'monospace'
-                }}
-                animate={{
-                  y: [0, -10, 0],
-                  rotateY: [0, 5, 0]
-                }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-              >
-                <div className="text-cyan-400 text-xs">
-                  <div className="text-purple-400">const</div>
-                  <div className="text-white">website = {`{`}</div>
-                  <div className="ml-4 text-green-400">performance: 'fast',</div>
-                  <div className="ml-4 text-green-400">design: 'modern',</div>
-                  <div className="ml-4 text-green-400">seo: 'optimized'</div>
-                  <div className="text-white">{`}`}</div>
-                </div>
-              </motion.div>
-
-              {/* Code snippet 2 */}
-              <motion.div
-                className="absolute top-32 right-8 p-4 rounded-xl backdrop-blur-md border border-white/20"
-                style={{
-                  background: 'rgba(0, 0, 0, 0.3)',
-                  fontFamily: 'monospace'
-                }}
-                animate={{
-                  y: [0, 15, 0],
-                  rotateY: [0, -5, 0]
-                }}
-                transition={{
-                  duration: 5,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: 1
-                }}
-              >
-                <div className="text-cyan-400 text-xs">
-                  <div className="text-orange-400">{'<Component'}</div>
-                  <div className="text-blue-400 ml-2">responsive</div>
-                  <div className="text-blue-400 ml-2">secure</div>
-                  <div className="text-orange-400">{'>'}</div>
-                </div>
-              </motion.div>
-
-              {/* Database icon */}
-              <motion.div
-                className="absolute bottom-32 left-12"
-                animate={{
-                  rotate: [0, 360],
-                  scale: [1, 1.1, 1]
-                }}
-                transition={{
-                  duration: 8,
-                  repeat: Infinity,
-                  ease: "linear"
-                }}
-              >
-                <div 
-                  className="w-16 h-16 rounded-2xl flex items-center justify-center"
-                  style={{
-                    background: `
-                      linear-gradient(135deg, 
-                        rgba(63, 131, 145, 0.3) 0%, 
-                        rgba(63, 131, 145, 0.1) 100%
-                      )
-                    `,
-                    boxShadow: '0 8px 25px rgba(63, 131, 145, 0.3)'
-                  }}
-                >
-                  <Database size={28} color="#3F8391" />
-                </div>
-              </motion.div>
-
-              {/* Globe icon */}
-              <motion.div
-                className="absolute bottom-12 right-16"
-                animate={{
-                  y: [0, -20, 0],
-                  rotate: [0, 10, 0]
-                }}
-                transition={{
-                  duration: 6,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: 2
-                }}
-              >
-                <div 
-                  className="w-20 h-20 rounded-2xl flex items-center justify-center"
-                  style={{
-                    background: `
-                      linear-gradient(135deg, 
-                        rgba(255, 255, 255, 0.2) 0%, 
-                        rgba(255, 255, 255, 0.1) 100%
-                      )
-                    `,
-                    boxShadow: '0 10px 30px rgba(255, 255, 255, 0.1)'
-                  }}
-                >
-                  <Globe size={32} color="#FFFFFF" />
-                </div>
-              </motion.div>
-
-              {/* Floating particles */}
-              {Array.from({ length: 8 }).map((_, i) => (
-                <motion.div
-                  key={i}
-                  className="absolute w-2 h-2 rounded-full"
-                  style={{
-                    backgroundColor: '#3F8391',
-                    left: `${20 + i * 10}%`,
-                    top: `${15 + (i % 3) * 25}%`,
-                    filter: 'blur(1px)'
-                  }}
-                  animate={{
-                    y: [0, -30, 0],
-                    opacity: [0.3, 1, 0.3],
-                    scale: [0.5, 1, 0.5]
-                  }}
-                  transition={{
-                    duration: 3 + i * 0.5,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    delay: i * 0.3
-                  }}
-                />
-              ))}
-            </div>
-
-            {/* Central Glow */}
+            {/* Image */}
+            <motion.img
+              src="src/assets/institut-corail/Mockup.png"
+              alt="Institut Corail - Projet de développement web"
+              className="w-full h-full object-cover rounded-3xl"
+              initial={{ scale: 1.1, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.5 }}
+              whileHover={{ 
+                scale: 1.02,
+                transition: { duration: 0.3 }
+              }}
+            />
+            
+            {/* Overlay gradient for better text visibility */}
             <div 
-              className="absolute inset-0 rounded-3xl opacity-30"
+              className="absolute inset-0 rounded-3xl"
               style={{
                 background: `
-                  radial-gradient(circle at center, 
-                    rgba(63, 131, 145, 0.2) 0%, 
-                    transparent 70%
+                  linear-gradient(135deg, 
+                    rgba(0, 0, 0, 0.2) 0%, 
+                    rgba(0, 0, 0, 0.1) 50%, 
+                    rgba(63, 131, 145, 0.1) 100%
                   )
                 `
               }}
             />
           </div>
 
-          {/* Floating Info Badge */}
-          <motion.div
-            className="absolute -bottom-6 -left-6 p-4 rounded-2xl backdrop-blur-xl border border-white/20"
-            style={{
-              background: `
-                linear-gradient(135deg, 
-                  rgba(255, 255, 255, 0.15) 0%, 
-                  rgba(255, 255, 255, 0.05) 100%
-                )
-              `,
-              boxShadow: '0 15px 35px rgba(0, 0, 0, 0.2)'
-            }}
-            initial={{ opacity: 0, y: 20, rotate: -5 }}
-            animate={{ opacity: 1, y: 0, rotate: 0 }}
-            transition={{ duration: 0.6, delay: 0.8 }}
-            whileHover={{
-              scale: 1.05,
-              rotate: 2,
-              transition: { duration: 0.2 }
-            }}
-          >
-            <div className="text-center">
-              <div className="text-2xl font-bold text-white mb-1">100%</div>
-              <div className="text-sm text-gray-300 font-medium">Satisfaction</div>
-            </div>
-          </motion.div>
         </motion.div>
       </div>
+
+      {/* Technologies Marquee - Full Width */}
+      <motion.div
+        className="w-full"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.6 }}
+      >
+        <h4 className="text-lg font-semibold text-white mb-6 text-center">
+          Technologies maîtrisées
+        </h4>
+        
+        {/* Marquee Container */}
+        <div className="marquee-container">
+          <style>{`
+            .marquee-container {
+              --size: clamp(4rem, 1rem + 15vmin, 8rem);
+              --gap: calc(var(--size) / 8);
+              --duration: 30s;
+              --scroll-start: 0;
+              --scroll-end: calc(-100% - var(--gap));
+              
+              width: 100%;
+              max-width: 100%;
+            }
+
+            .marquee {
+              display: flex;
+              overflow: hidden;
+              user-select: none;
+              gap: var(--gap);
+              mask-image: linear-gradient(
+                to right,
+                transparent,
+                black 10%,
+                black 90%,
+                transparent
+              );
+              -webkit-mask-image: linear-gradient(
+                to right,
+                transparent,
+                black 10%,
+                black 90%,
+                transparent
+              );
+              margin-bottom: var(--gap);
+            }
+
+            .marquee__group {
+              flex-shrink: 0;
+              display: flex;
+              align-items: center;
+              gap: var(--gap);
+              min-width: 100%;
+              animation: scroll-x var(--duration) linear infinite;
+            }
+
+            .marquee:hover .marquee__group {
+              animation-play-state: paused;
+            }
+
+            .marquee--reverse .marquee__group {
+              animation-direction: reverse;
+              animation-delay: -3s;
+            }
+
+            @keyframes scroll-x {
+              from {
+                transform: translateX(var(--scroll-start));
+              }
+              to {
+                transform: translateX(var(--scroll-end));
+              }
+            }
+
+            .tech-logo-container {
+              width: var(--size);
+              height: calc(var(--size) * 0.8);
+              border-radius: 16px;
+              backdrop-filter: blur(20px) saturate(180%);
+              -webkit-backdrop-filter: blur(20px) saturate(180%);
+              background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+              border: 1px solid rgba(255, 255, 255, 0.2);
+              box-shadow: 
+                0 4px 16px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              padding: calc(var(--size) / 12);
+              transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+              position: relative;
+              overflow: hidden;
+            }
+
+            .tech-logo-container::before {
+              content: '';
+              position: absolute;
+              top: 0;
+              left: -100%;
+              width: 100%;
+              height: 100%;
+              background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(63, 131, 145, 0.3),
+                transparent
+              );
+              transition: left 0.5s ease;
+            }
+
+            .tech-logo-container:hover {
+              transform: translateY(-4px) scale(1.05);
+              background: linear-gradient(135deg, rgba(63, 131, 145, 0.15) 0%, rgba(255, 255, 255, 0.1) 100%);
+              box-shadow: 
+                0 8px 24px rgba(63, 131, 145, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+              border-color: rgba(63, 131, 145, 0.4);
+            }
+
+            .tech-logo-container:hover::before {
+              left: 100%;
+            }
+
+            .tech-logo-container img {
+              width: 80%;
+              height: 80%;
+              object-fit: contain;
+              filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+              transition: filter 0.3s ease;
+            }
+
+            .tech-logo-container:hover img {
+              filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+            }
+
+            @media (prefers-reduced-motion: reduce) {
+              .marquee__group {
+                animation-play-state: paused;
+              }
+              
+              .tech-logo-container {
+                transition: none;
+              }
+              
+              .tech-logo-container:hover {
+                transform: none;
+              }
+            }
+          `}</style>
+
+          <div className="marquee">
+            <div className="marquee__group">
+              <div className="tech-logo-container">
+                <img src="src/assets/software/React-logo.png" alt="React" loading="lazy" />
+              </div>
+              <div className="tech-logo-container">
+                <img src="src/assets/software/python-logo.png" alt="Python" loading="lazy" />
+              </div>
+              <div className="tech-logo-container">
+                <img src="src/assets/software/HTML-CSS-JS-Logo.png" alt="HTML CSS JS" loading="lazy" />
+              </div>
+              <div className="tech-logo-container">
+                <img src="src/assets/software/Logo-Vuejs.png" alt="Vue.js" loading="lazy" />
+              </div>
+              <div className="tech-logo-container">
+                <img src="src/assets/software/sql-logo.png" alt="SQL" loading="lazy" />
+              </div>
+              <div className="tech-logo-container">
+                <img src="src/assets/software/figma-logo.png" alt="Figma" loading="lazy" />
+              </div>
+              <div className="tech-logo-container">
+                <img src="src/assets/software/git-logo.png" alt="Git" loading="lazy" />
+              </div>
+              <div className="tech-logo-container">
+                <img src="src/assets/software/Blender-logo.png" alt="Blender" loading="lazy" />
+              </div>
+              <div className="tech-logo-container">
+                <img src="src/assets/software/adobesuite-logo.png" alt="Adobe Suite" loading="lazy" />
+              </div>
+              <div className="tech-logo-container">
+                <img src="src/assets/software/Pandas_logo.svg.png" alt="Pandas" loading="lazy" />
+              </div>
+              <div className="tech-logo-container">
+                <img src="src/assets/software/Pytorch_logo.png" alt="PyTorch" loading="lazy" />
+              </div>
+              <div className="tech-logo-container">
+                <img src="src/assets/software/Scikit_learn_logo.png" alt="Scikit-learn" loading="lazy" />
+              </div>
+              <div className="tech-logo-container">
+                <img src="src/assets/software/threejs.png" alt="Three.js" loading="lazy" />
+              </div>
+            </div>
+
+            <div aria-hidden="true" className="marquee__group">
+              <div className="tech-logo-container">
+                <img src="src/assets/software/React-logo.png" alt="React" loading="lazy" />
+              </div>
+              <div className="tech-logo-container">
+                <img src="src/assets/software/python-logo.png" alt="Python" loading="lazy" />
+              </div>
+              <div className="tech-logo-container">
+                <img src="src/assets/software/HTML-CSS-JS-Logo.png" alt="HTML CSS JS" loading="lazy" />
+              </div>
+              <div className="tech-logo-container">
+                <img src="src/assets/software/Logo-Vuejs.png" alt="Vue.js" loading="lazy" />
+              </div>
+              <div className="tech-logo-container">
+                <img src="src/assets/software/sql-logo.png" alt="SQL" loading="lazy" />
+              </div>
+              <div className="tech-logo-container">
+                <img src="src/assets/software/figma-logo.png" alt="Figma" loading="lazy" />
+              </div>
+              <div className="tech-logo-container">
+                <img src="src/assets/software/git-logo.png" alt="Git" loading="lazy" />
+              </div>
+              <div className="tech-logo-container">
+                <img src="src/assets/software/Blender-logo.png" alt="Blender" loading="lazy" />
+              </div>
+              <div className="tech-logo-container">
+                <img src="src/assets/software/adobesuite-logo.png" alt="Adobe Suite" loading="lazy" />
+              </div>
+              <div className="tech-logo-container">
+                <img src="src/assets/software/Pandas_logo.svg.png" alt="Pandas" loading="lazy" />
+              </div>
+              <div className="tech-logo-container">
+                <img src="src/assets/software/Pytorch_logo.png" alt="PyTorch" loading="lazy" />
+              </div>
+              <div className="tech-logo-container">
+                <img src="src/assets/software/Scikit_learn_logo.png" alt="Scikit-learn" loading="lazy" />
+              </div>
+              <div className="tech-logo-container">
+                <img src="src/assets/software/threejs.png" alt="Three.js" loading="lazy" />
+              </div>
+            </div>
+          </div>
+
+          <div className="marquee marquee--reverse">
+            <div className="marquee__group">
+              <div className="tech-logo-container">
+                <img src="src/assets/software/supabase-logo.png" alt="Supabase" loading="lazy" />
+              </div>
+              <div className="tech-logo-container">
+                <img src="src/assets/software/shopify-logo.png" alt="Shopify" loading="lazy" />
+              </div>
+              <div className="tech-logo-container">
+                <img src="src/assets/software/PowerBI-logo.png" alt="Power BI" loading="lazy" />
+              </div>
+              <div className="tech-logo-container">
+                <img src="src/assets/software/hostinger-logo.png" alt="Hostinger" loading="lazy" />
+              </div>
+              <div className="tech-logo-container">
+                <img src="src/assets/software/logo-erp-sage-x3.png" alt="Sage X3" loading="lazy" />
+              </div>
+              <div className="tech-logo-container">
+                <img src="src/assets/software/wordpress-logo.png" alt="WordPress" loading="lazy" />
+              </div>
+              <div className="tech-logo-container">
+                <img src="src/assets/software/analytics-logo.png" alt="Analytics" loading="lazy" />
+              </div>
+            </div>
+
+            <div aria-hidden="true" className="marquee__group">
+              <div className="tech-logo-container">
+                <img src="src/assets/software/supabase-logo.png" alt="Supabase" loading="lazy" />
+              </div>
+              <div className="tech-logo-container">
+                <img src="src/assets/software/shopify-logo.png" alt="Shopify" loading="lazy" />
+              </div>
+              <div className="tech-logo-container">
+                <img src="src/assets/software/PowerBI-logo.png" alt="Power BI" loading="lazy" />
+              </div>
+              <div className="tech-logo-container">
+                <img src="src/assets/software/hostinger-logo.png" alt="Hostinger" loading="lazy" />
+              </div>
+              <div className="tech-logo-container">
+                <img src="src/assets/software/logo-erp-sage-x3.png" alt="Sage X3" loading="lazy" />
+              </div>
+              <div className="tech-logo-container">
+                <img src="src/assets/software/wordpress-logo.png" alt="WordPress" loading="lazy" />
+              </div>
+              <div className="tech-logo-container">
+                <img src="src/assets/software/analytics-logo.png" alt="Analytics" loading="lazy" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </motion.div>
     </div>
   );
 };

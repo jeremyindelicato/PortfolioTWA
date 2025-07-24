@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Eye } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 
 // Import des images
 import institutCorailLogo from '../assets/institut-corail/logoinstitutcorail.png';
@@ -99,10 +100,10 @@ const ProjectCarousel = () => {
     setCurrentIndex(index);
   };
 
-  const handleProjectClick = (projectName) => {
-    // Simule la navigation vers une page dédiée
-    console.log(`Navigation vers le projet: ${projectName}`);
-    // window.location.href = `/projets/${projectName.toLowerCase().replace(/\s+/g, '-')}`;
+  const navigate = useNavigate();
+
+  const handleProjectsPageClick = () => {
+    navigate('/projects');
   };
 
   return (
@@ -121,7 +122,7 @@ const ProjectCarousel = () => {
           transition={{ duration: 0.6, delay: 0.2 }}
         >
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            Mes <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400">Projets</span>
+            Mes <span style={{ color: '#3F8391' }}>Projets</span>
           </h2>
           <p className="text-gray-300 text-lg max-w-2xl mx-auto">
             Découvrez une sélection de mes réalisations, alliant créativité et expertise technique
@@ -149,24 +150,23 @@ const ProjectCarousel = () => {
                   className="min-w-full h-full relative group cursor-pointer"
                   onMouseEnter={() => setHoveredProject(project.id)}
                   onMouseLeave={() => setHoveredProject(null)}
-                  onClick={() => handleProjectClick(project.name)}
+                  onClick={() => handleProjectsPageClick()}
                 >
                   {/* Background Image */}
-                  <div 
-                    className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105 flex items-center justify-center bg-gradient-to-br from-slate-800 to-slate-900"
-                    style={{ 
-                      filter: 'brightness(0.3)'
-                    }}
-                  >
+                  <div className="absolute inset-0 bg-gradient-to-br from-slate-800 to-slate-900">
                     <img 
                       src={project.image} 
                       alt={project.name}
-                      className="max-w-xs max-h-xs object-contain opacity-20 group-hover:opacity-30 transition-opacity duration-500"
+                      className="w-full h-full object-cover transition-all duration-500"
                     />
                   </div>
                   
-                  {/* Gradient Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                  {/* Gradient Overlay - Only on hover */}
+                  <div className={`absolute inset-0 bg-gradient-to-t transition-opacity duration-500 ${
+                    hoveredProject === project.id 
+                      ? 'from-black/80 via-black/40 to-transparent opacity-100' 
+                      : 'opacity-0'
+                  }`} />
                   
                   {/* Content Overlay */}
                   <div className="absolute inset-0 flex items-end p-8">
@@ -189,14 +189,27 @@ const ProjectCarousel = () => {
                         <h3 className="text-2xl font-bold text-white mb-2">{project.name}</h3>
                         <p className="text-gray-200 mb-4 max-w-md">{project.description}</p>
                         <button 
-                          className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-lg hover:from-cyan-600 hover:to-blue-600 transition-all duration-200 hover:scale-105"
+                          className="inline-flex items-center gap-2 px-6 py-3 text-white font-semibold rounded-full transition-all duration-300"
+                          style={{
+                            background: 'linear-gradient(135deg, #3F8391 0%, #5ba3b0 100%)',
+                            border: '1px solid rgba(255, 255, 255, 0.2)',
+                            boxShadow: '0 4px 16px rgba(63, 131, 145, 0.3)'
+                          }}
                           onClick={(e) => {
                             e.stopPropagation();
-                            handleProjectClick(project.name);
+                            handleProjectsPageClick();
+                          }}
+                          onMouseEnter={(e) => {
+                            e.target.style.transform = 'scale(1.05)';
+                            e.target.style.boxShadow = '0 6px 20px rgba(63, 131, 145, 0.4)';
+                          }}
+                          onMouseLeave={(e) => {
+                            e.target.style.transform = 'scale(1)';
+                            e.target.style.boxShadow = '0 4px 16px rgba(63, 131, 145, 0.3)';
                           }}
                         >
-                          Voir le projet
-                          <ExternalLink size={16} />
+                          Voir mes projets & expérience
+                          <Eye size={16} />
                         </button>
                       </div>
                     </motion.div>

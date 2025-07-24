@@ -11,9 +11,10 @@ import WebDevSection from './components/WebDevSection';
 import GrowthMarketingSection from './components/GrowthMarketingSection';
 import QuoteModal from './components/QuoteModal';
 import TypewriterEffect from './components/TypewriterEffect';
+import CredibilityDashboard from './components/CredibilityDashboard';
 import { motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
-import { Mail, Phone, MapPin, Send, Github, Linkedin, Twitter, FileText } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, Github, Linkedin, Twitter, FileText, Download } from 'lucide-react';
 import photoProfil from './assets/autre/photodeprofil.png';
 import epitechLogo from './assets/autre/epitech.svg';
 import strykerLogo from './assets/autre/stryker.svg';
@@ -222,11 +223,14 @@ function Accueil() {
         </motion.div>
       </motion.div>
 
+      {/* Section Services */}
+      <ServicesCards />
+      
       {/* Section Projets */}
       <ProjectCarousel />
       
-      {/* Section Services */}
-      <ServicesCards />
+      {/* Section Crédibilité - Dashboard */}
+      <CredibilityDashboard />
     </div>
   );
 }
@@ -605,19 +609,19 @@ function Contact() {
     {
       icon: Mail,
       title: "Email",
-      value: "jeremy@exemple.com",
+      value: "indelicatojeremy@gmail.com",
       link: "mailto:jeremy@exemple.com"
     },
     {
       icon: Phone,
       title: "Téléphone",
-      value: "+33 6 XX XX XX XX",
+      value: "+33 7 80 04 17 08",
       link: "tel:+33600000000"
     },
     {
       icon: MapPin,
       title: "Localisation",
-      value: "France",
+      value: "Lyon, France",
       link: null
     }
   ];
@@ -626,13 +630,13 @@ function Contact() {
     {
       icon: Github,
       name: "GitHub",
-      url: "https://github.com/jeremy",
+      url: "https://github.com/jeremyindelicato",
       color: "#333"
     },
     {
       icon: Linkedin,
       name: "LinkedIn",
-      url: "https://linkedin.com/in/jeremy",
+      url: "https://www.linkedin.com/in/j%C3%A9r%C3%A9my-indelicato-1a3450290/",
       color: "#0077B5"
     },
     {
