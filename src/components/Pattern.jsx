@@ -1,43 +1,56 @@
-import React from 'react';
-import styled from 'styled-components';
+import React, { useEffect, useState } from 'react';
 
 const Pattern = () => {
-  return (
-    <StyledWrapper>
-      <div className="container" />
-    </StyledWrapper>
-  );
-}
+  const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
 
-const StyledWrapper = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: -1;
-  pointer-events: none;
-  .container {
-    width: 100vw;
-    height: 100vh;
-    background:rgb(41, 41, 41);
-    --gap: 5em;
-    --line: 1px;
-    --color: rgba(255, 255, 255, 0.2);
-    background-image: linear-gradient(
-        -90deg,
-        transparent calc(var(--gap) - var(--line)),
-        var(--color) calc(var(--gap) - var(--line) + 1px),
-        var(--color) var(--gap)
-      ),
-      linear-gradient(
-        0deg,
-        transparent calc(var(--gap) - var(--line)),
-        var(--color) calc(var(--gap) - var(--line) + 1px),
-        var(--color) var(--gap)
-      );
-    background-size: var(--gap) var(--gap);
-  }
-`;
+  useEffect(() => {
+    const updateSize = () => {
+      setWindowSize({
+        width: window.innerWidth,
+        height: Math.max(window.innerHeight, document.documentElement.scrollHeight)
+      });
+    };
+
+    updateSize();
+    window.addEventListener('resize', updateSize);
+    
+    // Observer pour détecter les changements de contenu
+    const observer = new MutationObserver(updateSize);
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    return () => {
+      window.removeEventListener('resize', updateSize);
+      observer.disconnect();
+    };
+  }, []);
+
+  const getGapSize = () => {
+    if (windowSize.width <= 480) return '2em';
+    if (windowSize.width <= 768) return '3em';
+    return '5em';
+  };
+
+  const gap = getGapSize();
+
+  const patternStyle = {
+    background: 'rgb(41, 41, 41)',
+    backgroundImage: `
+      linear-gradient(-90deg, transparent calc(${gap} - 1px), rgba(255, 255, 255, 0.2) calc(${gap} - 1px + 1px), rgba(255, 255, 255, 0.2) ${gap}),
+      linear-gradient(0deg, transparent calc(${gap} - 1px), rgba(255, 255, 255, 0.2) calc(${gap} - 1px + 1px), rgba(255, 255, 255, 0.2) ${gap})
+    `,
+    backgroundSize: `${gap} ${gap}`
+  };
+
+  return (
+    <div 
+      className="fixed top-0 left-0 w-full pointer-events-none"
+      style={{
+        height: `${Math.max(windowSize.height, 2000)}px`,
+        zIndex: -1,
+        ...patternStyle
+      }}
+    />
+  );
+};
 
 export default Pattern; 

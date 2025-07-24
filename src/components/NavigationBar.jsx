@@ -1,14 +1,16 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 
 const NavigationBar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const location = useLocation();
   
   const navItems = [
-    'À propos de moi',
-    'Mes services',
-    'Projets & Expérience',
-    'Contact'
+    { name: 'À propos de moi', path: '/' },
+    { name: 'Mes services', path: '/services' },
+    { name: 'Projets & Expérience', path: '/projects' },
+    { name: 'Contact', path: '/contact' }
   ];
 
   return (
@@ -22,60 +24,38 @@ const NavigationBar = () => {
       >
         <div className="flex items-center justify-between">
           {navItems.map((item, index) => (
-            <motion.a
-              key={index}
-              href="#"
-              className="relative text-white font-medium text-base px-4 py-2 rounded-full overflow-hidden"
-              whileHover="hover"
-              whileTap="tap"
-              initial="initial"
-              variants={{
-                initial: { 
-                  color: '#ffffff',
-                  y: 0 
-                },
-                hover: { 
-                  color: '#3F8391',
-                  y: -2,
-                  transition: {
-                    duration: 0.3,
-                    ease: "easeOut"
-                  }
-                },
-                tap: { 
-                  y: 1,
-                  transition: {
-                    duration: 0.1
-                  }
-                }
-              }}
-            >
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent"
-                variants={{
-                  initial: { x: '-100%', opacity: 0 },
-                  hover: { 
+            <motion.div key={index}>
+              <Link
+                to={item.path}
+                className={`relative font-medium text-base px-4 py-2 rounded-full overflow-hidden transition-colors duration-300 ${
+                  location.pathname === item.path 
+                    ? 'text-white bg-white/10' 
+                    : 'text-white hover:text-[#3F8391]'
+                }`}
+              >
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent"
+                  initial={{ x: '-100%', opacity: 0 }}
+                  whileHover={{ 
                     x: '100%', 
                     opacity: 1,
                     transition: {
                       duration: 0.6,
                       ease: "easeInOut"
                     }
-                  }
-                }}
-              />
-              <motion.span
-                className="relative z-10"
-                variants={{
-                  hover: {
+                  }}
+                />
+                <motion.span
+                  className="relative z-10"
+                  whileHover={{
                     textShadow: '0 0 8px rgba(63, 131, 145, 0.5)',
                     transition: { duration: 0.3 }
-                  }
-                }}
-              >
-                {item}
-              </motion.span>
-            </motion.a>
+                  }}
+                >
+                  {item.name}
+                </motion.span>
+              </Link>
+            </motion.div>
           ))}
         </div>
       </nav>
@@ -150,32 +130,37 @@ const NavigationBar = () => {
           }}
         >
           {navItems.map((item, index) => (
-            <motion.a
-              key={index}
-              href="#"
-              className="block text-white font-medium text-base px-4 py-3 rounded-lg mb-2 last:mb-0"
-              variants={{
-                open: {
-                  opacity: 1,
-                  x: 0,
+            <motion.div key={index}>
+              <Link
+                to={item.path}
+                className={`block font-medium text-base px-4 py-3 rounded-lg mb-2 last:mb-0 transition-colors duration-300 ${
+                  location.pathname === item.path 
+                    ? 'text-white bg-white/10' 
+                    : 'text-white hover:text-[#3F8391]'
+                }`}
+                variants={{
+                  open: {
+                    opacity: 1,
+                    x: 0,
+                    transition: { duration: 0.2 }
+                  },
+                  closed: {
+                    opacity: 0,
+                    x: 20,
+                    transition: { duration: 0.2 }
+                  }
+                }}
+                whileHover={{
+                  color: '#3F8391',
+                  x: 5,
                   transition: { duration: 0.2 }
-                },
-                closed: {
-                  opacity: 0,
-                  x: 20,
-                  transition: { duration: 0.2 }
-                }
-              }}
-              whileHover={{
-                color: '#3F8391',
-                x: 5,
-                transition: { duration: 0.2 }
-              }}
-              whileTap={{ scale: 0.98 }}
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              {item}
-            </motion.a>
+                }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {item.name}
+              </Link>
+            </motion.div>
           ))}
         </motion.div>
       </div>
