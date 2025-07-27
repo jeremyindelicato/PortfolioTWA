@@ -125,7 +125,7 @@ const CredibilityDashboard = ({ className = "" }) => {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.8 }}
     >
-      <div className="max-w-7xl mx-auto px-4">
+      <div className="max-w-6xl mx-auto px-4">
         {/* Header */}
         <motion.div 
           className="text-center mb-16"

@@ -8,7 +8,7 @@ const ServicesCards = () => {
       title: "Site Web",
       subtitle: "Développement Complet",
       description: "Site web sur-mesure avec SEO optimisé, design responsive et performance maximale",
-      features: ["Design Responsive", "SEO Optimisé", "Performance", "Sécurisé"],
+      features: ["Design Responsive", "SEO Optimisé", "Sécurisé"],
       icon: Globe,
       gradient: "from-blue-500 to-cyan-500",
       bgColor: "rgba(59, 130, 246, 0.1)",
@@ -45,7 +45,7 @@ const ServicesCards = () => {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.8, delay: 0.2 }}
     >
-      <div className="max-w-7xl mx-auto px-4">
+      <div className="max-w-6xl mx-auto px-4">
         {/* Header */}
         <motion.div 
           className="text-center mb-16"

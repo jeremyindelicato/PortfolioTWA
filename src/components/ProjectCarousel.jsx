@@ -113,7 +113,7 @@ const ProjectCarousel = () => {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.8 }}
     >
-      <div className="max-w-7xl mx-auto px-4">
+      <div className="max-w-6xl mx-auto px-4">
         {/* Header */}
         <motion.div 
           className="text-center mb-12"
@@ -131,15 +131,34 @@ const ProjectCarousel = () => {
 
         {/* Carousel Container */}
         <motion.div 
-          className="relative overflow-hidden rounded-2xl bg-black/20 backdrop-blur-sm border border-white/10"
+          className="relative overflow-hidden rounded-3xl border border-white/10 max-w-4xl mx-auto"
+          style={{
+            background: `
+              linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.1) 0%, 
+                rgba(255, 255, 255, 0.05) 50%, 
+                rgba(0, 0, 0, 0.1) 100%
+              )
+            `,
+            backdropFilter: 'blur(20px)',
+            boxShadow: `
+              0 20px 50px rgba(0, 0, 0, 0.3),
+              inset 0 1px 0 rgba(255, 255, 255, 0.2)
+            `
+          }}
           onMouseEnter={() => setIsAutoPlaying(false)}
           onMouseLeave={() => setIsAutoPlaying(true)}
-          initial={{ scale: 0.9, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
+          initial={{ scale: 0.9, opacity: 0, y: 50 }}
+          animate={{ scale: 1, opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+          whileHover={{ 
+            scale: 1.02,
+            boxShadow: "0 25px 60px rgba(0, 0, 0, 0.4)",
+            transition: { duration: 0.3 }
+          }}
         >
           {/* Main Carousel */}
-          <div className="relative h-96 md:h-[500px]">
+          <div className="relative h-72 md:h-80">
             <div 
               className="flex transition-transform duration-700 ease-out h-full"
               style={{ transform: `translateX(-${currentIndex * 100}%)` }}
@@ -153,74 +172,128 @@ const ProjectCarousel = () => {
                   onClick={() => handleProjectsPageClick()}
                 >
                   {/* Background Image */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-slate-800 to-slate-900">
-                    <img 
+                  <div className="absolute inset-0 bg-gradient-to-br from-slate-800 to-slate-900 rounded-3xl overflow-hidden">
+                    <motion.img 
                       src={project.image} 
                       alt={project.name}
-                      className="w-full h-full object-cover transition-all duration-500"
+                      className="w-full h-full object-cover"
+                      initial={{ scale: 1 }}
+                      animate={{ 
+                        scale: hoveredProject === project.id ? 1.05 : 1,
+                        filter: hoveredProject === project.id ? "brightness(0.7)" : "brightness(1)"
+                      }}
+                      transition={{ duration: 0.5 }}
                     />
                   </div>
                   
                   {/* Gradient Overlay - Only on hover */}
-                  <div className={`absolute inset-0 bg-gradient-to-t transition-opacity duration-500 ${
-                    hoveredProject === project.id 
-                      ? 'from-black/80 via-black/40 to-transparent opacity-100' 
-                      : 'opacity-0'
-                  }`} />
+                  <motion.div 
+                    className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent rounded-3xl"
+                    initial={{ opacity: 0 }}
+                    animate={{ 
+                      opacity: hoveredProject === project.id ? 1 : 0
+                    }}
+                    transition={{ duration: 0.5 }}
+                  />
                   
                   {/* Content Overlay */}
-                  <div className="absolute inset-0 flex items-end p-8">
+                  <div className="absolute inset-0 flex items-end p-6">
                     <motion.div 
-                      className={`transform transition-all duration-500 ${
-                        hoveredProject === project.id 
-                          ? 'translate-y-0 opacity-100' 
-                          : 'translate-y-4 opacity-0'
-                      }`}
-                      initial={{ y: 20, opacity: 0 }}
-                      animate={hoveredProject === project.id ? { y: 0, opacity: 1 } : { y: 20, opacity: 0 }}
-                      transition={{ duration: 0.3 }}
+                      initial={{ y: 30, opacity: 0 }}
+                      animate={hoveredProject === project.id ? { y: 0, opacity: 1 } : { y: 30, opacity: 0 }}
+                      transition={{ duration: 0.4, ease: "easeOut" }}
                     >
-                      <div className="bg-white/10 backdrop-blur-md rounded-xl p-6 border border-white/20">
-                        <div className="flex items-center gap-2 mb-2">
-                          <span className="px-3 py-1 bg-cyan-500/20 border border-cyan-400/30 rounded-full text-cyan-300 text-sm">
+                      <div 
+                        className="backdrop-blur-xl rounded-2xl p-5 border border-white/20 max-w-sm"
+                        style={{
+                          background: `
+                            linear-gradient(135deg, 
+                              rgba(255, 255, 255, 0.15) 0%, 
+                              rgba(255, 255, 255, 0.05) 100%
+                            )
+                          `,
+                          boxShadow: '0 15px 35px rgba(0, 0, 0, 0.2)'
+                        }}
+                      >
+                        <motion.div 
+                          className="flex items-center gap-2 mb-3"
+                          initial={{ x: -10, opacity: 0 }}
+                          animate={hoveredProject === project.id ? { x: 0, opacity: 1 } : { x: -10, opacity: 0 }}
+                          transition={{ duration: 0.3, delay: 0.1 }}
+                        >
+                          <span 
+                            className="px-3 py-1 rounded-full text-xs font-medium border"
+                            style={{
+                              backgroundColor: 'rgba(63, 131, 145, 0.2)',
+                              color: '#3F8391',
+                              borderColor: 'rgba(63, 131, 145, 0.3)'
+                            }}
+                          >
                             {project.category}
                           </span>
-                        </div>
-                        <h3 className="text-2xl font-bold text-white mb-2">{project.name}</h3>
-                        <p className="text-gray-200 mb-4 max-w-md">{project.description}</p>
-                        <button 
-                          className="inline-flex items-center gap-2 px-6 py-3 text-white font-semibold rounded-full transition-all duration-300"
+                        </motion.div>
+                        
+                        <motion.h3 
+                          className="text-xl font-bold text-white mb-2"
+                          initial={{ x: -10, opacity: 0 }}
+                          animate={hoveredProject === project.id ? { x: 0, opacity: 1 } : { x: -10, opacity: 0 }}
+                          transition={{ duration: 0.3, delay: 0.15 }}
+                        >
+                          {project.name}
+                        </motion.h3>
+                        
+                        <motion.p 
+                          className="text-gray-200 mb-4 text-sm leading-relaxed"
+                          initial={{ x: -10, opacity: 0 }}
+                          animate={hoveredProject === project.id ? { x: 0, opacity: 1 } : { x: -10, opacity: 0 }}
+                          transition={{ duration: 0.3, delay: 0.2 }}
+                        >
+                          {project.description}
+                        </motion.p>
+                        
+                        <motion.button 
+                          className="inline-flex items-center gap-2 px-5 py-2.5 text-white font-semibold rounded-full text-sm transition-all duration-300"
                           style={{
                             background: 'linear-gradient(135deg, #3F8391 0%, #5ba3b0 100%)',
                             border: '1px solid rgba(255, 255, 255, 0.2)',
                             boxShadow: '0 4px 16px rgba(63, 131, 145, 0.3)'
                           }}
+                          initial={{ y: 10, opacity: 0 }}
+                          animate={hoveredProject === project.id ? { y: 0, opacity: 1 } : { y: 10, opacity: 0 }}
+                          transition={{ duration: 0.3, delay: 0.25 }}
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
                           onClick={(e) => {
                             e.stopPropagation();
                             handleProjectsPageClick();
                           }}
-                          onMouseEnter={(e) => {
-                            e.target.style.transform = 'scale(1.05)';
-                            e.target.style.boxShadow = '0 6px 20px rgba(63, 131, 145, 0.4)';
-                          }}
-                          onMouseLeave={(e) => {
-                            e.target.style.transform = 'scale(1)';
-                            e.target.style.boxShadow = '0 4px 16px rgba(63, 131, 145, 0.3)';
-                          }}
                         >
-                          Voir mes projets & expérience
-                          <Eye size={16} />
-                        </button>
+                          Voir mes projets
+                          <Eye size={14} />
+                        </motion.button>
                       </div>
                     </motion.div>
                   </div>
 
                   {/* Project Title (Always Visible) */}
-                  <div className="absolute top-8 left-8">
-                    <h3 className="text-3xl font-bold text-white drop-shadow-lg">
+                  <motion.div 
+                    className="absolute top-6 left-6"
+                    initial={{ x: -20, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ duration: 0.6, delay: index * 0.1 }}
+                  >
+                    <motion.h3 
+                      className="text-2xl md:text-3xl font-bold text-white drop-shadow-lg"
+                      animate={{
+                        textShadow: hoveredProject === project.id 
+                          ? "0 0 20px rgba(63, 131, 145, 0.8)" 
+                          : "0 2px 4px rgba(0, 0, 0, 0.8)"
+                      }}
+                      transition={{ duration: 0.3 }}
+                    >
                       {project.name}
-                    </h3>
-                  </div>
+                    </motion.h3>
+                  </motion.div>
                 </div>
               ))}
             </div>
@@ -229,43 +302,105 @@ const ProjectCarousel = () => {
           {/* Navigation Arrows */}
           <motion.button
             onClick={prevSlide}
-            className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-all duration-200 hover:scale-110"
-            whileHover={{ scale: 1.1 }}
+            className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 backdrop-blur-xl border border-white/20 rounded-full flex items-center justify-center text-white transition-all duration-200"
+            style={{
+              background: `
+                linear-gradient(135deg, 
+                  rgba(255, 255, 255, 0.15) 0%, 
+                  rgba(255, 255, 255, 0.05) 100%
+                )
+              `,
+              boxShadow: '0 8px 25px rgba(0, 0, 0, 0.3)'
+            }}
+            whileHover={{ 
+              scale: 1.1,
+              backgroundColor: 'rgba(63, 131, 145, 0.2)',
+              boxShadow: '0 10px 30px rgba(63, 131, 145, 0.3)'
+            }}
             whileTap={{ scale: 0.9 }}
+            initial={{ x: -20, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
           >
-            <ChevronLeft size={24} />
+            <ChevronLeft size={20} />
           </motion.button>
           
           <motion.button
             onClick={nextSlide}
-            className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-all duration-200 hover:scale-110"
-            whileHover={{ scale: 1.1 }}
+            className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 backdrop-blur-xl border border-white/20 rounded-full flex items-center justify-center text-white transition-all duration-200"
+            style={{
+              background: `
+                linear-gradient(135deg, 
+                  rgba(255, 255, 255, 0.15) 0%, 
+                  rgba(255, 255, 255, 0.05) 100%
+                )
+              `,
+              boxShadow: '0 8px 25px rgba(0, 0, 0, 0.3)'
+            }}
+            whileHover={{ 
+              scale: 1.1,
+              backgroundColor: 'rgba(63, 131, 145, 0.2)',
+              boxShadow: '0 10px 30px rgba(63, 131, 145, 0.3)'
+            }}
             whileTap={{ scale: 0.9 }}
+            initial={{ x: 20, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
           >
-            <ChevronRight size={24} />
+            <ChevronRight size={20} />
           </motion.button>
 
           {/* Dots Indicator */}
-          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2">
+          <motion.div 
+            className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2"
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.8 }}
+          >
             {projects.map((_, index) => (
               <motion.button
                 key={index}
                 onClick={() => goToSlide(index)}
-                className={`w-3 h-3 rounded-full transition-all duration-200 ${
-                  index === currentIndex 
-                    ? 'bg-white scale-125' 
-                    : 'bg-white/40 hover:bg-white/60'
-                }`}
-                whileHover={{ scale: 1.2 }}
-                whileTap={{ scale: 0.9 }}
+                className="w-2 h-2 rounded-full transition-all duration-300"
+                style={{
+                  backgroundColor: index === currentIndex ? '#3F8391' : 'rgba(255, 255, 255, 0.4)',
+                  boxShadow: index === currentIndex ? '0 0 15px rgba(63, 131, 145, 0.6)' : 'none'
+                }}
+                whileHover={{ 
+                  scale: 1.3,
+                  backgroundColor: '#3F8391'
+                }}
+                whileTap={{ scale: 0.8 }}
+                animate={{
+                  scale: index === currentIndex ? 1.2 : 1
+                }}
               />
             ))}
-          </div>
+          </motion.div>
 
           {/* Auto-play Indicator */}
-          <div className="absolute top-4 right-4">
-            <div className={`w-2 h-2 rounded-full ${isAutoPlaying ? 'bg-green-400' : 'bg-gray-400'} animate-pulse`} />
-          </div>
+          <motion.div 
+            className="absolute top-4 right-4"
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.4, delay: 1 }}
+          >
+            <motion.div 
+              className="w-2 h-2 rounded-full"
+              style={{
+                backgroundColor: isAutoPlaying ? '#10B981' : '#6B7280'
+              }}
+              animate={{
+                scale: isAutoPlaying ? [1, 1.2, 1] : 1,
+                opacity: isAutoPlaying ? [1, 0.5, 1] : 0.7
+              }}
+              transition={{
+                duration: 2,
+                repeat: isAutoPlaying ? Infinity : 0,
+                ease: "easeInOut"
+              }}
+            />
+          </motion.div>
         </motion.div>
 
         {/* Project Counter */}

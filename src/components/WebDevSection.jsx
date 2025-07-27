@@ -38,8 +38,9 @@ const WebDevSection = ({ className = "" }) => {
 
   return (
     <div className={`relative w-full ${className}`}>
-      {/* Header */}
-      <div className="text-center mb-16">
+      <div className="max-w-6xl mx-auto px-4">
+        {/* Header */}
+        <div className="text-center mb-16">
         <motion.h2 
           className="text-4xl md:text-5xl font-bold text-white mb-4"
           initial={{ opacity: 0, y: 20 }}
@@ -477,6 +478,7 @@ const WebDevSection = ({ className = "" }) => {
           </div>
         </div>
       </motion.div>
+      </div>
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import backgroundImage from '../assets/autre/background.jpg';
 
 const NavigationBar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -29,28 +30,34 @@ const NavigationBar = () => {
     <>
       {/* Desktop Navigation */}
       <motion.nav 
-        className="hidden md:block mx-auto max-w-5xl rounded-full px-6 py-2 shadow-xl fixed top-4 left-1/2 -translate-x-1/2 z-40 transition-all duration-300"
+        className="hidden md:block mx-auto max-w-6xl rounded-full px-8 py-4 shadow-xl fixed bottom-8 left-1/2 -translate-x-1/2 z-40 transition-all duration-500"
         style={{
-          background: `radial-gradient(ellipse at center, 
-            rgba(60, 60, 61, ${isScrolled && !isHovered ? 0.6 : 1}) 0%, 
-            rgba(4, 15, 17, ${isScrolled && !isHovered ? 0.6 : 1}) 100%
-          )`,
+          background: `
+            linear-gradient(
+              rgba(0, 0, 0, ${isScrolled && !isHovered ? 0.6 : 0.7}),
+              rgba(0, 0, 0, ${isScrolled && !isHovered ? 0.6 : 0.7})
+            ),
+            url(${backgroundImage})
+          `,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
           backdropFilter: isScrolled && !isHovered ? 'blur(20px)' : 'blur(10px)',
           border: `1px solid rgba(255, 255, 255, ${isScrolled && !isHovered ? 0.1 : 0.2})`
         }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         animate={{
-          y: isScrolled ? -2 : 0
+          y: isScrolled ? 2 : 0
         }}
         transition={{ duration: 0.3, ease: "easeOut" }}
       >
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-center space-x-2">
           {navItems.map((item, index) => (
             <motion.div key={index}>
               <Link
                 to={item.path}
-                className={`relative font-medium text-base px-4 py-2 rounded-full overflow-hidden transition-colors duration-300 ${
+                className={`relative font-medium text-sm px-5 py-2.5 rounded-full overflow-hidden transition-colors duration-300 whitespace-nowrap ${
                   location.pathname === item.path 
                     ? 'text-white bg-white/10' 
                     : 'text-white hover:text-[#3F8391]'
@@ -89,10 +96,7 @@ const NavigationBar = () => {
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           className="fixed top-4 right-4 z-50 p-3 rounded-full text-white shadow-lg transition-all duration-300"
           style={{
-            background: `radial-gradient(ellipse at center, 
-              rgba(60, 60, 61, ${isScrolled ? 0.8 : 1}) 0%, 
-              rgba(4, 15, 17, ${isScrolled ? 0.8 : 1}) 100%
-            )`,
+            background: `rgba(0, 0, 0, ${isScrolled ? 0.8 : 0.9})`,
             backdropFilter: isScrolled ? 'blur(15px)' : 'blur(5px)',
             border: `1px solid rgba(255, 255, 255, ${isScrolled ? 0.15 : 0.2})`
           }}
@@ -158,10 +162,7 @@ const NavigationBar = () => {
           }}
           className="fixed top-20 right-4 z-40 p-4 rounded-2xl shadow-2xl transition-all duration-300"
           style={{
-            background: `radial-gradient(ellipse at center, 
-              rgba(60, 60, 61, ${isScrolled ? 0.9 : 1}) 0%, 
-              rgba(4, 15, 17, ${isScrolled ? 0.9 : 1}) 100%
-            )`,
+            background: `rgba(0, 0, 0, ${isScrolled ? 0.9 : 0.95})`,
             backdropFilter: isScrolled ? 'blur(20px)' : 'blur(10px)',
             border: `1px solid rgba(255, 255, 255, ${isScrolled ? 0.15 : 0.2})`
           }}
