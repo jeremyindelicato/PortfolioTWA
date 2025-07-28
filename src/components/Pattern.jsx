@@ -19,7 +19,7 @@ const Pattern = () => {
           objectFit: 'cover'
         }}
       >
-        <source src="/src/assets/autre/background.video.mp4" type="video/mp4" />
+        <source src="../assets/autre/background.video.mp4" type="video/mp4" />
         {/* Fallback en cas d'échec de chargement de la vidéo */}
         Votre navigateur ne supporte pas les vidéos HTML5.
       </video>
