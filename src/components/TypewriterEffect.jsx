@@ -18,7 +18,7 @@ const TypewriterEffect = () => {
         'développe votre e-commerce',
         'rédige vos mentions légales',
         'rédige votre conformité RGPD',
-        'gère votre hébergement',
+        'gère votre hébergement web',
         'choisis votre nom de domaine',
         'booste votre croissance'
       ],

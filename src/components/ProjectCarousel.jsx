@@ -204,73 +204,38 @@ const ProjectCarousel = () => {
                       transition={{ duration: 0.4, ease: "easeOut" }}
                     >
                       <div 
-                        className="backdrop-blur-xl rounded-2xl p-5 border border-white/20 max-w-sm"
+                        className="backdrop-blur-lg rounded-lg p-2 border border-white/10 max-w-64"
                         style={{
-                          background: `
-                            linear-gradient(135deg, 
-                              rgba(255, 255, 255, 0.15) 0%, 
-                              rgba(255, 255, 255, 0.05) 100%
-                            )
-                          `,
-                          boxShadow: '0 15px 35px rgba(0, 0, 0, 0.2)'
+                          background: 'rgba(255, 255, 255, 0.08)',
+                          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)'
                         }}
                       >
                         <motion.div 
-                          className="flex items-center gap-2 mb-3"
+                          className="flex items-center gap-2 mb-2"
                           initial={{ x: -10, opacity: 0 }}
                           animate={hoveredProject === project.id ? { x: 0, opacity: 1 } : { x: -10, opacity: 0 }}
                           transition={{ duration: 0.3, delay: 0.1 }}
                         >
                           <span 
-                            className="px-3 py-1 rounded-full text-xs font-medium border"
+                            className="px-2 py-1 rounded-md text-xs font-medium border"
                             style={{
-                              backgroundColor: 'rgba(63, 131, 145, 0.2)',
+                              backgroundColor: 'rgba(63, 131, 145, 0.15)',
                               color: '#3F8391',
-                              borderColor: 'rgba(63, 131, 145, 0.3)'
+                              borderColor: 'rgba(63, 131, 145, 0.2)'
                             }}
                           >
                             {project.category}
                           </span>
                         </motion.div>
                         
-                        <motion.h3 
-                          className="text-xl font-bold text-white mb-2"
+                        <motion.p 
+                          className="text-gray-300 text-xs leading-relaxed"
                           initial={{ x: -10, opacity: 0 }}
                           animate={hoveredProject === project.id ? { x: 0, opacity: 1 } : { x: -10, opacity: 0 }}
                           transition={{ duration: 0.3, delay: 0.15 }}
                         >
-                          {project.name}
-                        </motion.h3>
-                        
-                        <motion.p 
-                          className="text-gray-200 mb-4 text-sm leading-relaxed"
-                          initial={{ x: -10, opacity: 0 }}
-                          animate={hoveredProject === project.id ? { x: 0, opacity: 1 } : { x: -10, opacity: 0 }}
-                          transition={{ duration: 0.3, delay: 0.2 }}
-                        >
                           {project.description}
                         </motion.p>
-                        
-                        <motion.button 
-                          className="inline-flex items-center gap-2 px-5 py-2.5 text-white font-semibold rounded-full text-sm transition-all duration-300"
-                          style={{
-                            background: 'linear-gradient(135deg, #3F8391 0%, #5ba3b0 100%)',
-                            border: '1px solid rgba(255, 255, 255, 0.2)',
-                            boxShadow: '0 4px 16px rgba(63, 131, 145, 0.3)'
-                          }}
-                          initial={{ y: 10, opacity: 0 }}
-                          animate={hoveredProject === project.id ? { y: 0, opacity: 1 } : { y: 10, opacity: 0 }}
-                          transition={{ duration: 0.3, delay: 0.25 }}
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleProjectsPageClick();
-                          }}
-                        >
-                          Voir mes projets
-                          <Eye size={14} />
-                        </motion.button>
                       </div>
                     </motion.div>
                   </div>
@@ -299,55 +264,45 @@ const ProjectCarousel = () => {
             </div>
           </div>
 
-          {/* Navigation Arrows */}
+          {/* Navigation Arrows - Plus minimalistes */}
           <motion.button
             onClick={prevSlide}
-            className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 backdrop-blur-xl border border-white/20 rounded-full flex items-center justify-center text-white transition-all duration-200"
+            className="absolute left-2 top-1/2 -translate-y-1/2 w-6 h-6 backdrop-blur-sm border border-white/10 rounded-full flex items-center justify-center text-white/70 transition-all duration-200"
             style={{
-              background: `
-                linear-gradient(135deg, 
-                  rgba(255, 255, 255, 0.15) 0%, 
-                  rgba(255, 255, 255, 0.05) 100%
-                )
-              `,
-              boxShadow: '0 8px 25px rgba(0, 0, 0, 0.3)'
+              background: 'rgba(255, 255, 255, 0.05)',
+              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)'
             }}
             whileHover={{ 
               scale: 1.1,
-              backgroundColor: 'rgba(63, 131, 145, 0.2)',
-              boxShadow: '0 10px 30px rgba(63, 131, 145, 0.3)'
+              backgroundColor: 'rgba(63, 131, 145, 0.1)',
+              color: '#3F8391'
             }}
-            whileTap={{ scale: 0.9 }}
+            whileTap={{ scale: 0.95 }}
             initial={{ x: -20, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.6 }}
           >
-            <ChevronLeft size={20} />
+            <ChevronLeft size={14} />
           </motion.button>
           
           <motion.button
             onClick={nextSlide}
-            className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 backdrop-blur-xl border border-white/20 rounded-full flex items-center justify-center text-white transition-all duration-200"
+            className="absolute right-2 top-1/2 -translate-y-1/2 w-6 h-6 backdrop-blur-sm border border-white/10 rounded-full flex items-center justify-center text-white/70 transition-all duration-200"
             style={{
-              background: `
-                linear-gradient(135deg, 
-                  rgba(255, 255, 255, 0.15) 0%, 
-                  rgba(255, 255, 255, 0.05) 100%
-                )
-              `,
-              boxShadow: '0 8px 25px rgba(0, 0, 0, 0.3)'
+              background: 'rgba(255, 255, 255, 0.05)',
+              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)'
             }}
             whileHover={{ 
               scale: 1.1,
-              backgroundColor: 'rgba(63, 131, 145, 0.2)',
-              boxShadow: '0 10px 30px rgba(63, 131, 145, 0.3)'
+              backgroundColor: 'rgba(63, 131, 145, 0.1)',
+              color: '#3F8391'
             }}
-            whileTap={{ scale: 0.9 }}
+            whileTap={{ scale: 0.95 }}
             initial={{ x: 20, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.6 }}
           >
-            <ChevronRight size={20} />
+            <ChevronRight size={14} />
           </motion.button>
 
           {/* Dots Indicator */}
@@ -361,18 +316,18 @@ const ProjectCarousel = () => {
               <motion.button
                 key={index}
                 onClick={() => goToSlide(index)}
-                className="w-2 h-2 rounded-full transition-all duration-300"
+                className="w-1 h-1 rounded-full transition-all duration-300"
                 style={{
-                  backgroundColor: index === currentIndex ? '#3F8391' : 'rgba(255, 255, 255, 0.4)',
-                  boxShadow: index === currentIndex ? '0 0 15px rgba(63, 131, 145, 0.6)' : 'none'
+                  backgroundColor: index === currentIndex ? '#3F8391' : 'rgba(255, 255, 255, 0.3)',
+                  boxShadow: index === currentIndex ? '0 0 8px rgba(63, 131, 145, 0.4)' : 'none'
                 }}
                 whileHover={{ 
-                  scale: 1.3,
+                  scale: 1.2,
                   backgroundColor: '#3F8391'
                 }}
-                whileTap={{ scale: 0.8 }}
+                whileTap={{ scale: 0.9 }}
                 animate={{
-                  scale: index === currentIndex ? 1.2 : 1
+                  scale: index === currentIndex ? 1.1 : 1
                 }}
               />
             ))}
@@ -403,14 +358,40 @@ const ProjectCarousel = () => {
           </motion.div>
         </motion.div>
 
-        {/* Project Counter */}
+        {/* Bouton Voir mes projets */}
         <motion.div 
           className="text-center mt-8"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.6 }}
         >
-          <p className="text-gray-400">
+          <motion.button
+            onClick={handleProjectsPageClick}
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full font-medium text-white transition-all duration-300"
+            style={{
+              background: 'linear-gradient(135deg, #3F8391 0%, #5ba3b0 100%)',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              boxShadow: '0 4px 16px rgba(63, 131, 145, 0.2)'
+            }}
+            whileHover={{ 
+              scale: 1.05,
+              boxShadow: '0 6px 20px rgba(63, 131, 145, 0.3)'
+            }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <Eye size={16} />
+            Voir mes projets
+          </motion.button>
+        </motion.div>
+        
+        {/* Project Counter */}
+        <motion.div 
+          className="text-center mt-4"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.8 }}
+        >
+          <p className="text-gray-400 text-sm">
             {currentIndex + 1} / {projects.length}
           </p>
         </motion.div>

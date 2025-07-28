@@ -3,10 +3,10 @@ import { motion } from 'framer-motion';
 import { 
   TrendingUp, 
   Users, 
-  Calendar, 
-  GraduationCap, 
-  Award, 
-  Target,
+  Monitor, 
+  Clock, 
+  Star, 
+  Bot,
   BarChart3,
   PieChart,
   Activity
@@ -15,20 +15,24 @@ import {
 const CredibilityDashboard = ({ className = "" }) => {
   const [animatedValues, setAnimatedValues] = useState({
     clients: 0,
-    experience: 0,
-    education: 0,
-    visibility: 0,
-    satisfaction: 0,
-    projects: 0
+    websites: 0,
+    mobileApps: 0,
+    deliveryTime: 0,
+    trafficGrowth: 0,
+    leadsMultiplier: 0,
+    rating: 0,
+    aiProjects: 0
   });
 
   const finalValues = {
     clients: 12,
-    experience: 2,
-    education: 80, // 4ème année sur 5 = 80%
-    visibility: 28,
-    satisfaction: 98,
-    projects: 8
+    websites: 16,
+    mobileApps: 2,
+    deliveryTime: 9,
+    trafficGrowth: 43,
+    leadsMultiplier: 3,
+    rating: 4.6,
+    aiProjects: 6
   };
 
   useEffect(() => {
@@ -45,11 +49,13 @@ const CredibilityDashboard = ({ className = "" }) => {
 
         setAnimatedValues({
           clients: Math.floor(finalValues.clients * easeProgress),
-          experience: Math.floor(finalValues.experience * easeProgress * 10) / 10,
-          education: Math.floor(finalValues.education * easeProgress),
-          visibility: Math.floor(finalValues.visibility * easeProgress),
-          satisfaction: Math.floor(finalValues.satisfaction * easeProgress),
-          projects: Math.floor(finalValues.projects * easeProgress)
+          websites: Math.floor(finalValues.websites * easeProgress),
+          mobileApps: Math.floor(finalValues.mobileApps * easeProgress),
+          deliveryTime: Math.floor(finalValues.deliveryTime * easeProgress),
+          trafficGrowth: Math.floor(finalValues.trafficGrowth * easeProgress),
+          leadsMultiplier: Math.floor(finalValues.leadsMultiplier * easeProgress * 10) / 10,
+          rating: Math.floor(finalValues.rating * easeProgress * 10) / 10,
+          aiProjects: Math.floor(finalValues.aiProjects * easeProgress)
         });
 
         if (currentStep >= steps) {
@@ -68,55 +74,71 @@ const CredibilityDashboard = ({ className = "" }) => {
   const metrics = [
     {
       id: 'clients',
-      title: 'Clients Satisfaits',
+      title: 'Clients servis',
       value: animatedValues.clients,
       suffix: '+',
       icon: Users,
       color: '#3F8391',
-      description: 'Projets livrés avec succès'
+      description: 'Projets livrés avec succès',
+      chartType: 'bar'
     },
     {
-      id: 'experience',
-      title: "Années d'Expérience",
-      value: animatedValues.experience,
+      id: 'projects',
+      title: 'Sites & apps livrés',
+      value: animatedValues.websites + animatedValues.mobileApps,
+      suffix: ' projets',
+      icon: Monitor,
+      color: '#F59E0B',
+      description: 'Total sites & applications',
+      chartType: 'donut'
+    },
+    {
+      id: 'delivery',
+      title: 'Délai moyen',
+      value: animatedValues.deliveryTime,
+      suffix: ' jours',
+      icon: Clock,
+      color: '#10B981',
+      description: 'Temps de livraison',
+      chartType: 'radial'
+    },
+    {
+      id: 'growth',
+      title: 'Croissance client',
+      value: `+${animatedValues.trafficGrowth}% / x${animatedValues.leadsMultiplier}`,
       suffix: '',
-      icon: Calendar,
-      color: '#5ba3b0',
-      description: 'En développement professionnel'
+      icon: TrendingUp,
+      color: '#8B5CF6',
+      description: 'Trafic / leads générés',
+      chartType: 'line'
     },
     {
-      id: 'education',
-      title: 'Formation Epitech',
-      value: animatedValues.education,
-      suffix: '%',
-      icon: GraduationCap,
-      color: '#3F8391',
-      description: '4ème année sur 5 complétée'
+      id: 'rating',
+      title: 'Note moyenne',
+      value: animatedValues.rating,
+      suffix: ' / 5',
+      icon: Star,
+      color: '#F59E0B',
+      description: 'Évaluations clients',
+      chartType: 'stars'
     },
     {
-      id: 'satisfaction',
-      title: 'Taux de Satisfaction',
-      value: animatedValues.satisfaction,
-      suffix: '%',
-      icon: Award,
-      color: '#5ba3b0',
-      description: 'Retours clients positifs'
+      id: 'ai',
+      title: 'IA déployées',
+      value: animatedValues.aiProjects,
+      suffix: ' sur-mesure',
+      icon: Bot,
+      color: '#EF4444',
+      description: 'Automatisations IA',
+      chartType: 'timeline'
     }
   ];
 
-  const chartData = [
-    { name: 'ASC', value: 28, color: '#3F8391' },
-    { name: 'Autres', value: 72, color: '#1a4d52' }
-  ];
-
-  const projectsData = [
-    { month: 'Jan', projects: 1 },
-    { month: 'Fév', projects: 2 },
-    { month: 'Mar', projects: 1 },
-    { month: 'Avr', projects: 2 },
-    { month: 'Mai', projects: 1 },
-    { month: 'Jun', projects: 1 }
-  ];
+  const deliveryData = [5, 12, 8, 15, 6, 9, 11, 7];
+  const trafficData = [100, 115, 125, 132, 128, 143];
+  const leadsData = [10, 12, 18, 22, 28, 30];
+  const ratingsData = [0, 1, 0, 2, 9]; // Distribution des notes 1-5 étoiles
+  const aiTimelineData = [1, 0, 2, 1, 0, 2]; // Projets IA par mois
 
   return (
     <motion.section 
@@ -160,230 +182,268 @@ const CredibilityDashboard = ({ className = "" }) => {
             `
           }}
         >
-          {/* Top Metrics Grid */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            {metrics.map((metric, index) => (
-              <motion.div
-                key={metric.id}
-                className="p-6 rounded-2xl border border-white/10 text-center group cursor-pointer"
-                style={{
-                  background: `
-                    linear-gradient(135deg, 
-                      rgba(255, 255, 255, 0.08) 0%, 
-                      rgba(255, 255, 255, 0.02) 100%
-                    )
-                  `,
-                  boxShadow: '0 4px 16px rgba(0, 0, 0, 0.1)'
-                }}
-                initial={{ y: 30, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
-                whileHover={{ 
-                  scale: 1.02,
-                  y: -5,
-                  transition: { duration: 0.2 }
-                }}
-              >
-                {/* Glow effect on hover */}
-                <div 
-                  className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-20 transition-opacity duration-300"
-                  style={{
-                    background: `radial-gradient(circle at center, ${metric.color} 0%, transparent 70%)`
-                  }}
-                />
-                
-                <div className="relative z-10">
-                  <div 
-                    className="w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-4"
-                    style={{
-                      background: `linear-gradient(135deg, ${metric.color}40, ${metric.color}20)`
-                    }}
-                  >
-                    <metric.icon size={24} color={metric.color} />
-                  </div>
-                  
-                  <div className="text-3xl font-bold text-white mb-2">
-                    {metric.value}{metric.suffix}
-                  </div>
-                  
-                  <div className="text-sm font-medium text-white mb-1">
-                    {metric.title}
-                  </div>
-                  
-                  <div className="text-xs text-gray-400">
-                    {metric.description}
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* Charts Row */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            
-            {/* Growth Chart */}
-            <motion.div
-              className="p-6 rounded-2xl border border-white/10"
-              style={{
-                background: `
-                  linear-gradient(135deg, 
-                    rgba(255, 255, 255, 0.08) 0%, 
-                    rgba(255, 255, 255, 0.02) 100%
-                  )
-                `
-              }}
-              initial={{ x: -30, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.8 }}
-            >
-              <div className="flex items-center gap-3 mb-6">
-                <div 
-                  className="w-10 h-10 rounded-xl flex items-center justify-center"
-                  style={{ backgroundColor: '#3F8391' }}
-                >
-                  <TrendingUp size={20} color="#FFFFFF" />
-                </div>
-                <div>
-                  <h3 className="text-lg font-bold text-white">Croissance ASC</h3>
-                  <p className="text-sm text-gray-400">Augmentation de visibilité</p>
-                </div>
-              </div>
-
-              {/* Line Chart Simulation */}
-              <div className="relative h-32 mb-4">
-                <svg className="w-full h-full" viewBox="0 0 300 120">
-                  {/* Grid lines */}
-                  <defs>
-                    <pattern id="grid" width="30" height="24" patternUnits="userSpaceOnUse">
-                      <path d="M 30 0 L 0 0 0 24" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="0.5"/>
-                    </pattern>
-                  </defs>
-                  <rect width="100%" height="100%" fill="url(#grid)" />
-                  
-                  {/* Growth line */}
-                  <motion.path
-                    d="M 20 100 Q 80 80 150 60 T 280 20"
-                    stroke="#3F8391"
-                    strokeWidth="3"
-                    fill="none"
-                    strokeLinecap="round"
-                    initial={{ pathLength: 0 }}
-                    animate={{ pathLength: animatedValues.visibility / 28 }}
-                    transition={{ duration: 2, delay: 1 }}
-                  />
-                  
-                  {/* Data points */}
-                  <motion.circle
-                    cx="20" cy="100" r="4"
-                    fill="#3F8391"
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ delay: 1.5 }}
-                  />
-                  <motion.circle
-                    cx="280" cy="20" r="6"
-                    fill="#3F8391"
-                    initial={{ scale: 0 }}
-                    animate={{ scale: animatedValues.visibility > 20 ? 1 : 0 }}
-                    transition={{ delay: 2.5 }}
-                  />
-                  
-                  {/* Value label */}
-                  <motion.text
-                    x="280" y="15"
-                    fill="#ffffff"
-                    fontSize="12"
-                    textAnchor="middle"
-                    fontWeight="bold"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: animatedValues.visibility > 20 ? 1 : 0 }}
-                    transition={{ delay: 2.8 }}
-                  >
-                    +{animatedValues.visibility}%
-                  </motion.text>
-                  
-                  {/* Start point label */}
-                  <text x="20" y="115" fill="#9CA3AF" fontSize="10" textAnchor="middle">Jan</text>
-                  <text x="280" y="115" fill="#9CA3AF" fontSize="10" textAnchor="middle">Déc</text>
-                </svg>
-              </div>
-
+          {/* Métriques principales - Version simplifiée */}
+          <motion.div
+            className="p-6 rounded-2xl border border-white/10 mb-8"
+            style={{
+              background: `
+                linear-gradient(135deg, 
+                  rgba(255, 255, 255, 0.08) 0%, 
+                  rgba(255, 255, 255, 0.02) 100%
+                )
+              `,
+              boxShadow: '0 4px 16px rgba(0, 0, 0, 0.1)'
+            }}
+            initial={{ y: 30, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+          >
+            <h3 className="text-xl font-bold text-white mb-6 text-center">Vue d'Ensemble</h3>
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
               <div className="text-center">
-                <div className="text-sm text-gray-300 mb-2">
-                  Visibilité digitale améliorée chez ASC
-                </div>
-                <div className="flex items-center justify-center gap-4 text-xs">
-                  <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 rounded-full" style={{ backgroundColor: '#3F8391' }} />
-                    <span className="text-gray-400">Amélioration</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 rounded-full" style={{ backgroundColor: '#1a4d52' }} />
-                    <span className="text-gray-400">Baseline</span>
-                  </div>
-                </div>
+                <div className="text-3xl font-bold text-[#3F8391] mb-1">+{animatedValues.clients}</div>
+                <div className="text-sm text-gray-300">Clients Servis</div>
               </div>
-            </motion.div>
+              <div className="text-center">
+                <div className="text-3xl font-bold text-[#F59E0B] mb-1">{animatedValues.websites + animatedValues.mobileApps}</div>
+                <div className="text-sm text-gray-300">Projets Livrés</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl font-bold text-[#10B981] mb-1">{animatedValues.deliveryTime}j</div>
+                <div className="text-sm text-gray-300">Délai Moyen</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl font-bold text-[#8B5CF6] mb-1">{animatedValues.rating}/5</div>
+                <div className="text-sm text-gray-300">Note Moyenne</div>
+              </div>
+            </div>
+          </motion.div>
 
-            {/* Projects Timeline */}
+          {/* Graphiques détaillés - Focus sur les visualisations */}
+          <div className="grid grid-cols-1 gap-8">
+            {/* Graphique en barres - Délais de livraison */}
             <motion.div
-              className="p-6 rounded-2xl border border-white/10"
+              className="p-6 rounded-xl border border-white/10"
               style={{
-                background: `
-                  linear-gradient(135deg, 
-                    rgba(255, 255, 255, 0.08) 0%, 
-                    rgba(255, 255, 255, 0.02) 100%
-                  )
-                `
+                background: `rgba(245, 158, 11, 0.05)`,
+                borderColor: '#F59E0B'
               }}
-              initial={{ x: 30, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.6, delay: 1.0 }}
             >
-              <div className="flex items-center gap-3 mb-6">
-                <div 
-                  className="w-10 h-10 rounded-xl flex items-center justify-center"
-                  style={{ backgroundColor: '#5ba3b0' }}
-                >
-                  <BarChart3 size={20} color="#FFFFFF" />
-                </div>
-                <div>
-                  <h3 className="text-lg font-bold text-white">Projets 2024</h3>
-                  <p className="text-sm text-gray-400">Répartition mensuelle</p>
-                </div>
-              </div>
-
-              {/* Bar Chart */}
-              <div className="space-y-3">
-                {projectsData.map((item, index) => (
-                  <div key={item.month} className="flex items-center gap-3">
-                    <div className="w-8 text-xs text-gray-400 font-medium">
-                      {item.month}
-                    </div>
-                    <div className="flex-1 relative">
-                      <div 
-                        className="h-6 rounded-full"
-                        style={{ backgroundColor: 'rgba(63, 131, 145, 0.2)' }}
-                      />
+              <h4 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+                <Monitor size={20} color="#F59E0B" />
+                Délais de Livraison - 8 Derniers Projets
+              </h4>
+              <div className="flex items-end justify-between h-32 gap-2">
+                {deliveryData.map((days, index) => (
+                  <div key={index} className="flex-1 flex flex-col items-center">
+                    <div className="flex-1 flex items-end w-full">
                       <motion.div
-                        className="absolute top-0 left-0 h-6 rounded-full"
-                        style={{ backgroundColor: '#3F8391' }}
-                        initial={{ width: 0 }}
-                        animate={{ width: `${(item.projects / 2) * 100}%` }}
-                        transition={{ duration: 1, delay: 1.2 + index * 0.1 }}
+                        className="w-full rounded-t-lg shadow-lg"
+                        style={{ 
+                          backgroundColor: days <= 9 ? '#F59E0B' : '#EF4444',
+                          boxShadow: `0 4px 12px ${days <= 9 ? 'rgba(245, 158, 11, 0.3)' : 'rgba(239, 68, 68, 0.3)'}`,
+                          minHeight: '20px'
+                        }}
+                        initial={{ height: '20px' }}
+                        animate={{ height: `${Math.max(20, (days / 15) * 120)}px` }}
+                        transition={{ duration: 0.8, delay: 1.2 + index * 0.1 }}
+                        title={`${days} jours`}
                       />
                     </div>
-                    <div className="w-6 text-xs text-white font-medium text-right">
-                      {item.projects}
-                    </div>
+                    <span className="text-sm text-gray-300 mt-2 font-medium">P{index + 1}</span>
+                    <span className="text-xs text-white font-bold">{days}j</span>
                   </div>
                 ))}
               </div>
+              <div className="text-sm text-gray-400 mt-4 text-center">
+                Moyenne: 9 jours | Objectif: &lt;15 jours | 🎯 Performance excellente
+              </div>
+            </motion.div>
 
-              <div className="mt-4 text-center">
-                <div className="text-sm text-gray-300">
-                  {animatedValues.projects} projets complétés en 2024
+          </div>
+
+          {/* Graphiques de performance */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
+            {/* Graphique linéaire - Croissance trafic/leads enrichi */}
+            <motion.div
+              className="p-6 rounded-xl border border-white/10"
+              style={{
+                background: `rgba(139, 92, 246, 0.05)`,
+                borderColor: '#8B5CF6'
+              }}
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.6, delay: 1.3 }}
+            >
+              <h4 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+                <TrendingUp size={20} color="#8B5CF6" />
+                Croissance Marketing - 6 Derniers Mois
+              </h4>
+              
+              {/* Métriques principales */}
+              <div className="grid grid-cols-2 gap-4 mb-4">
+                <div className="text-center p-3 bg-black/20 rounded-lg">
+                  <div className="text-xl font-bold text-purple-400">+43%</div>
+                  <div className="text-xs text-gray-300">Trafic Web</div>
                 </div>
+                <div className="text-center p-3 bg-black/20 rounded-lg">
+                  <div className="text-xl font-bold text-yellow-400">x3</div>
+                  <div className="text-xs text-gray-300">Leads Générés</div>
+                </div>
+              </div>
+              
+              {/* Graphique amélioré */}
+              <div className="relative h-20 mb-4">
+                <svg className="w-full h-full" viewBox="0 0 120 80">
+                  {/* Grille de fond */}
+                  <defs>
+                    <pattern id="grid-purple" width="20" height="16" patternUnits="userSpaceOnUse">
+                      <path d="M 20 0 L 0 0 0 16" fill="none" stroke="rgba(139, 92, 246, 0.1)" strokeWidth="0.5"/>
+                    </pattern>
+                  </defs>
+                  <rect width="100%" height="100%" fill="url(#grid-purple)" />
+                  
+                  {/* Ligne trafic */}
+                  <motion.polyline
+                    points="10,65 30,60 50,50 70,48 90,52 110,40"
+                    fill="none" stroke="#8B5CF6" strokeWidth="3" strokeLinecap="round"
+                    initial={{ pathLength: 0 }}
+                    animate={{ pathLength: 1 }}
+                    transition={{ duration: 1.5, delay: 1.5 }}
+                  />
+                  {/* Ligne leads */}
+                  <motion.polyline
+                    points="10,55 30,53 50,42 70,38 90,32 110,25"
+                    fill="none" stroke="#F59E0B" strokeWidth="3" strokeLinecap="round"
+                    initial={{ pathLength: 0 }}
+                    animate={{ pathLength: 1 }}
+                    transition={{ duration: 1.5, delay: 1.7 }}
+                  />
+                  
+                  {/* Points de données */}
+                  <motion.circle cx="110" cy="40" r="4" fill="#8B5CF6" initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 2.5 }} />
+                  <motion.circle cx="110" cy="25" r="4" fill="#F59E0B" initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 2.7 }} />
+                </svg>
+              </div>
+              
+              {/* Légende détaillée */}
+              <div className="space-y-2">
+                <div className="flex items-center justify-between text-sm">
+                  <div className="flex items-center gap-2">
+                    <div className="w-3 h-3 rounded-full bg-purple-500"/>
+                    <span className="text-gray-300">Trafic Organique</span>
+                  </div>
+                  <span className="text-purple-400 font-semibold">+43%</span>
+                </div>
+                <div className="flex items-center justify-between text-sm">
+                  <div className="flex items-center gap-2">
+                    <div className="w-3 h-3 rounded-full bg-yellow-500"/>
+                    <span className="text-gray-300">Leads Qualifiés</span>
+                  </div>
+                  <span className="text-yellow-400 font-semibold">300%</span>
+                </div>
+              </div>
+              
+              <div className="text-sm text-gray-400 mt-4 text-center">
+                📈 Objectif 2024: +50% trafic • 🎯 Performance sur la bonne voie
+              </div>
+            </motion.div>
+
+
+            {/* Timeline IA - Enrichie avec détails */}
+            <motion.div
+              className="p-6 rounded-xl border border-white/10"
+              style={{
+                background: `rgba(239, 68, 68, 0.05)`,
+                borderColor: '#EF4444'
+              }}
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.6, delay: 1.4 }}
+            >
+              <h4 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+                <Bot size={20} color="#EF4444" />
+                Automatisations IA - Déploiements 2024
+              </h4>
+              
+              {/* Statistiques IA */}
+              <div className="grid grid-cols-3 gap-3 mb-4">
+                <div className="text-center p-2 bg-black/20 rounded-lg">
+                  <div className="text-lg font-bold text-red-400">6</div>
+                  <div className="text-xs text-gray-300">Déployées</div>
+                </div>
+                <div className="text-center p-2 bg-black/20 rounded-lg">
+                  <div className="text-lg font-bold text-orange-400">2</div>
+                  <div className="text-xs text-gray-300">En cours</div>
+                </div>
+                <div className="text-center p-2 bg-black/20 rounded-lg">
+                  <div className="text-lg font-bold text-green-400">95%</div>
+                  <div className="text-xs text-gray-300">Succès</div>
+                </div>
+              </div>
+              
+              {/* Graphique timeline amélioré */}
+              <div className="relative h-16 mb-4">
+                <svg className="w-full h-full" viewBox="0 0 120 64">
+                  {/* Area chart avec dégradé */}
+                  <defs>
+                    <linearGradient id="aiGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" stopColor="#EF4444" stopOpacity="0.6"/>
+                      <stop offset="100%" stopColor="#EF4444" stopOpacity="0.1"/>
+                    </linearGradient>
+                  </defs>
+                  
+                  <motion.path
+                    d="M10,50 L30,60 L50,30 L70,40 L90,60 L110,30 L110,60 L10,60 Z"
+                    fill="url(#aiGradient)"
+                    stroke="#EF4444" strokeWidth="3"
+                    initial={{ pathLength: 0, fillOpacity: 0 }}
+                    animate={{ pathLength: 1, fillOpacity: 1 }}
+                    transition={{ duration: 1.5, delay: 1.6 }}
+                  />
+                  
+                  {/* Points de données */}
+                  {[30, 50, 70, 90, 110].map((x, i) => (
+                    <motion.circle
+                      key={i}
+                      cx={x} cy={[60, 30, 40, 60, 30][i]}
+                      r="3" fill="#EF4444"
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ delay: 1.8 + i * 0.1 }}
+                    />
+                  ))}
+                </svg>
+              </div>
+              
+              {/* Liste des IA déployées */}
+              <div className="bg-black/20 rounded-lg p-3 mb-4">
+                <div className="text-xs text-gray-400 mb-2">IA Déployées:</div>
+                <div className="space-y-1 text-xs">
+                  <div className="flex justify-between">
+                    <span className="text-gray-300">• ChatBot Support Client</span>
+                    <span className="text-green-400">✓ Actif</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-300">• Analyse Sentiment</span>
+                    <span className="text-green-400">✓ Actif</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-300">• Recommandations Produits</span>
+                    <span className="text-green-400">✓ Actif</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-300">• Classification Documents</span>
+                    <span className="text-orange-400">⚠ En cours</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="text-sm text-gray-400 text-center">
+                🤖 Gain productivité: +73% • ⏱️ Temps économisé: 120h/mois
               </div>
             </motion.div>
           </div>

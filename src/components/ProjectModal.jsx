@@ -242,6 +242,28 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
                   </motion.a>
                 )}
                 
+                {project.detailUrl && (
+                  <motion.a
+                    href={project.detailUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-2 px-6 py-3 rounded-full font-semibold border transition-all duration-300"
+                    style={{
+                      border: '2px solid #8B5CF6',
+                      color: '#8B5CF6',
+                      backgroundColor: 'rgba(139, 92, 246, 0.05)'
+                    }}
+                    whileHover={{ 
+                      scale: 1.05,
+                      backgroundColor: 'rgba(139, 92, 246, 0.1)'
+                    }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <FileText size={18} />
+                    Voir le détail
+                  </motion.a>
+                )}
+                
                 {project.summaryUrl && (
                   <motion.a
                     href={project.summaryUrl}

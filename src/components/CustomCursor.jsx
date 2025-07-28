@@ -6,8 +6,34 @@ const CustomCursor = () => {
   const [isHovering, setIsHovering] = useState(false);
   const [isClicking, setIsClicking] = useState(false);
   const [cursorVariant, setCursorVariant] = useState('default');
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    // Détection des appareils mobiles/tactiles
+    const checkIsMobile = () => {
+      const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+      const isSmallScreen = window.innerWidth < 768; // Breakpoint md de Tailwind
+      const hasCoarsePointer = window.matchMedia('(pointer: coarse)').matches;
+      
+      return isTouchDevice || isSmallScreen || hasCoarsePointer;
+    };
+
+    const currentIsMobile = checkIsMobile();
+    setIsMobile(currentIsMobile);
+
+    // Si c'est mobile, ne pas initialiser du tout le curseur personnalisé
+    if (currentIsMobile) {
+      // S'assurer que le curseur par défaut est restauré
+      document.body.style.cursor = 'auto';
+      document.body.style.userSelect = 'auto';
+      
+      // Cleanup complet - ne rien faire d'autre
+      return () => {
+        document.body.style.cursor = 'auto';
+        document.body.style.userSelect = 'auto';
+      };
+    }
+
     const updateMousePosition = (e) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
     };
@@ -59,9 +85,19 @@ const CustomCursor = () => {
     document.addEventListener('mouseover', handleMouseEnter);
     document.addEventListener('mouseout', handleMouseLeave);
 
-    // Masquer le curseur par défaut
+    // Masquer le curseur par défaut seulement sur desktop
     document.body.style.cursor = 'none';
     document.body.style.userSelect = 'none';
+
+    // Surveiller les changements de taille d'écran (seulement sur desktop)
+    const handleResize = () => {
+      const newIsMobile = checkIsMobile();
+      if (newIsMobile !== currentIsMobile) {
+        // Forcer un refresh complet du composant si le statut change
+        window.location.reload();
+      }
+    };
+    window.addEventListener('resize', handleResize);
 
     return () => {
       document.removeEventListener('mousemove', updateMousePosition);
@@ -69,6 +105,7 @@ const CustomCursor = () => {
       document.removeEventListener('mouseup', handleMouseUp);
       document.removeEventListener('mouseover', handleMouseEnter);
       document.removeEventListener('mouseout', handleMouseLeave);
+      window.removeEventListener('resize', handleResize);
       document.body.style.cursor = 'auto';
       document.body.style.userSelect = 'auto';
     };
@@ -121,6 +158,11 @@ const CustomCursor = () => {
     if (isHovering) return 'hover';
     return 'default';
   };
+
+  // Ne pas afficher le curseur sur mobile
+  if (isMobile) {
+    return null;
+  }
 
   return (
     <div className="fixed inset-0 pointer-events-none z-[9999]">

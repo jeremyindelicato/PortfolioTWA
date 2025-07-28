@@ -50,7 +50,7 @@ const DynamicBg = styled.div`
   position: absolute;
   inset: 0;
   z-index: 0;
-  background: linear-gradient(270deg, #1a1a1a, #232526, #414345, #232526, #1a1a1a);
+  background: linear-gradient(270deg, #1a1a1a,rgb(0, 0, 0),rgb(0, 0, 0),rgb(7, 7, 7), #1a1a1a);
   background-size: 400% 400%;
   animation: ${dynamicBg} 6s ease-in-out infinite;
   opacity: 0.95;

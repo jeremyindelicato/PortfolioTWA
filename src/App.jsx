@@ -17,20 +17,43 @@ import QuoteModal from './components/QuoteModal';
 import TypewriterEffect from './components/TypewriterEffect';
 import CredibilityDashboard from './components/CredibilityDashboard';
 import ProjectModal from './components/ProjectModal';
+import InspirationMarquee from './components/InspirationMarquee';
 import { motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
-import { Mail, Phone, MapPin, Send, Github, Linkedin, Twitter, FileText, Download } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, FileText, Download } from 'lucide-react';
 import photoProfil from './assets/autre/photodeprofil.png';
 import epitechLogo from './assets/autre/epitech.svg';
 import strykerLogo from './assets/autre/stryker.svg';
+import cvPdf from './assets/autre/CV_JeremyIndelicato_Alternance.pdf';
+import irisTechnicalPdf from './assets/iris/Dossier_Technique_iris_pipeline.pdf';
 
 function App() {
   const [loading, setLoading] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkIsMobile = () => {
+      const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+      const isSmallScreen = window.innerWidth < 768;
+      const hasCoarsePointer = window.matchMedia('(pointer: coarse)').matches;
+      
+      return isTouchDevice || isSmallScreen || hasCoarsePointer;
+    };
+
+    setIsMobile(checkIsMobile());
+
+    const handleResize = () => {
+      setIsMobile(checkIsMobile());
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   return (
     <>
       <Pattern />
-      <CustomCursor />
+      {!isMobile && <CustomCursor />}
       <Router>
         <LoaderController loading={loading} setLoading={setLoading} />
         <NavigationBar />
@@ -354,7 +377,7 @@ function Accueil() {
           {/* Bouton téléchargement CV */}
           <motion.div className="mb-8">
             <motion.a
-              href="/cv-jeremy-indelicato.pdf"
+              href={cvPdf}
               download="CV-Jeremy-Indelicato-TWA.pdf"
               className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl font-semibold transition-all duration-300 border border-white/20 backdrop-blur-xl relative overflow-hidden group"
               style={{
@@ -385,6 +408,17 @@ function Accueil() {
               <Download size={20} className="relative z-10" />
               <span className="relative z-10">Télécharger mon CV</span>
             </motion.a>
+          </motion.div>
+
+          {/* Marquee d'inspiration */}
+          <motion.div 
+            className="mb-8"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            viewport={{ once: true }}
+          >
+            <InspirationMarquee />
           </motion.div>
 
           {/* Ligne de séparation */}
@@ -449,7 +483,8 @@ function ProjetsEtExperience() {
       media: {
         type: "image",
         src: "/src/assets/iris/irislogo.png"
-      }
+      },
+      detailUrl: irisTechnicalPdf
     },
     {
       id: 2,
@@ -504,7 +539,8 @@ function ProjetsEtExperience() {
       media: {
         type: "image",
         src: "/src/assets/orapi/orapilogo.png"
-      }
+      },
+      detailUrl: "https://huggingface.co/taciturn999/OrapAI"
     },
     {
       id: 4,
@@ -919,19 +955,16 @@ function Contact() {
 
   const socialLinks = [
     {
-      icon: Github,
       name: "GitHub",
       url: "https://github.com/jeremyindelicato",
       color: "#333"
     },
     {
-      icon: Linkedin,
-      name: "LinkedIn",
+      name: "LinkedIn", 
       url: "https://www.linkedin.com/in/j%C3%A9r%C3%A9my-indelicato-1a3450290/",
       color: "#0077B5"
     },
     {
-      icon: Twitter,
       name: "Twitter",
       url: "https://twitter.com/jeremy",
       color: "#1DA1F2"
@@ -1077,7 +1110,9 @@ function Contact() {
                     {/* Shimmer effect */}
                     <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/30 to-transparent" />
                     
-                    <social.icon size={24} color="#3F8391" className="relative z-10" />
+                    <span className="text-sm font-semibold relative z-10" style={{ color: "#3F8391" }}>
+                      {social.name.charAt(0)}
+                    </span>
                   </motion.a>
                 ))}
               </div>
