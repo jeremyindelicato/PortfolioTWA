@@ -32,7 +32,7 @@ const NavigationBar = () => {
       <motion.nav 
         className="hidden md:block mx-auto max-w-6xl rounded-full px-8 py-4 shadow-xl fixed bottom-8 left-1/2 -translate-x-1/2 z-40 transition-all duration-500"
         style={{
-          background: `
+          backgroundImage: `
             linear-gradient(
               rgba(0, 0, 0, ${isScrolled && !isHovered ? 0.6 : 0.7}),
               rgba(0, 0, 0, ${isScrolled && !isHovered ? 0.6 : 0.7})
@@ -40,10 +40,13 @@ const NavigationBar = () => {
             url(${backgroundImage})
           `,
           backgroundSize: 'cover',
-          backgroundPosition: 'center',
+          backgroundPosition: 'center center',
           backgroundRepeat: 'no-repeat',
+          backgroundOrigin: 'border-box',
+          backgroundClip: 'border-box',
           backdropFilter: isScrolled && !isHovered ? 'blur(20px)' : 'blur(10px)',
-          border: `1px solid rgba(255, 255, 255, ${isScrolled && !isHovered ? 0.1 : 0.2})`
+          border: `1px solid rgba(255, 255, 255, ${isScrolled && !isHovered ? 0.1 : 0.2})`,
+          overflow: 'hidden'
         }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}

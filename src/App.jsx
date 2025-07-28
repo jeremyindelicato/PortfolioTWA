@@ -168,7 +168,7 @@ function Accueil() {
               <span 
                 style={{ 
                   color: '#3F8391',
-                  textShadow: '0 0 30px rgba(63, 131, 145, 0.5)'
+                  textShadow: '0 0 30px rgba(30, 47, 49, 0.5)'
                 }}
               >
                 Jérémy
@@ -341,6 +341,72 @@ function Accueil() {
       >
         <CredibilityDashboard />
       </motion.div>
+
+      {/* Footer avec CV et Copyright */}
+      <motion.footer
+        className="w-full py-16 mt-20"
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        viewport={{ once: true }}
+      >
+        <div className="max-w-4xl mx-auto px-4 text-center">
+          {/* Bouton téléchargement CV */}
+          <motion.div className="mb-8">
+            <motion.a
+              href="/cv-jeremy-indelicato.pdf"
+              download="CV-Jeremy-Indelicato-TWA.pdf"
+              className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl font-semibold transition-all duration-300 border border-white/20 backdrop-blur-xl relative overflow-hidden group"
+              style={{
+                background: `
+                  linear-gradient(135deg, 
+                    rgba(255, 255, 255, 0.15) 0%, 
+                    rgba(255, 255, 255, 0.05) 50%, 
+                    rgba(255, 255, 255, 0.1) 100%
+                  )
+                `,
+                backdropFilter: 'blur(20px)',
+                boxShadow: `
+                  0 8px 32px rgba(0, 0, 0, 0.1),
+                  inset 0 1px 0 rgba(255, 255, 255, 0.3),
+                  inset 0 -1px 0 rgba(0, 0, 0, 0.1)
+                `,
+                color: '#FFFFFF'
+              }}
+              whileHover={{ 
+                scale: 1.05,
+                boxShadow: "0 12px 40px rgba(63, 131, 145, 0.3)"
+              }}
+              whileTap={{ scale: 0.95 }}
+            >
+              {/* Shimmer effect */}
+              <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+              
+              <Download size={20} className="relative z-10" />
+              <span className="relative z-10">Télécharger mon CV</span>
+            </motion.a>
+          </motion.div>
+
+          {/* Ligne de séparation */}
+          <div 
+            className="w-full h-px mb-8 mx-auto"
+            style={{
+              background: 'linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.2) 50%, transparent 100%)'
+            }}
+          />
+
+          {/* Copyright */}
+          <motion.p 
+            className="text-gray-300 text-sm leading-relaxed drop-shadow-md"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            viewport={{ once: true }}
+          >
+            Tous droits réservés © Jérémy Indelicato - TWA 2025
+          </motion.p>
+        </div>
+      </motion.footer>
     </div>
   );
 }
@@ -387,25 +453,25 @@ function ProjetsEtExperience() {
     },
     {
       id: 2,
-      name: "LXP Gaming Platform",
+      name: "LinguaXplore",
       category: "Projet d'étude",
-      shortDescription: "Plateforme d'apprentissage expérientiel combinant jeux vidéo et développement web",
-      fullDescription: "Création d'une plateforme innovante combinant l'apprentissage par le jeu et le développement web. Le projet inclut la création de mini-jeux éducatifs intégrés dans une plateforme web moderne.\n\nL'approche gamifiée permet aux utilisateurs d'apprendre tout en s'amusant, avec un système de progression, de récompenses et de défis personnalisés selon le niveau de chaque apprenant.",
+      shortDescription: "Jeu vidéo éducatif pour l'apprentissage des langues",
+      fullDescription: "Création d'une plateforme immersive d'apprentissage des langues à travers des jeux vidéo et des expériences interactives. Le projet inclut le développement d'un site web moderne, l'intégration de l'intelligence artificielle pour les interactions avec les personnages non-joueurs (PNJ), et un système de progression gamifié.\n\nL'objectif est de rendre l'apprentissage des langues plus engageant et efficace en combinant technologie et pédagogie.\n\n Nous avons développé un site web minimaliste et responsive, intégrant des éléments de design moderne et une interface utilisateur intuitive.",
       image: "/src/assets/lxp/lxplogo.png",
-      date: "2023",
-      technologies: ["React", "Node.js", "Unity", "WebGL", "MongoDB", "Socket.io"],
+      date: "2024",
+      technologies: ["Unreal Engine", "Blender", "JavaScript", "OpenAI API", "Figma", "Illustrator"],
       keyFeatures: [
-        "Jeux éducatifs intégrés en WebGL",
-        "Système de progression gamifié",
-        "Tableaux de bord analytics",
-        "Communication temps réel"
+        "Quêtes linguistiques scénarisées en VR",
+        "Site Web : Design minimaliste et responsive",
+        "Intelligence artificielle pour les PNJ",
+        "Système de progression et de niveaux"
       ],
       achievements: [
-        "Plus de 50 mini-jeux développés",
-        "Taux d'engagement de 85%",
+        "Personnalisation du skin personnage",
+        "Chat de proximité",
         "Interface web responsive et moderne"
       ],
-      websiteUrl: "https://lxp-demo.example.com",
+      websiteUrl: "https://lavender-curlew-739021.hostingersite.com/",
       media: {
         type: "image",
         src: "/src/assets/lxp/lxplogo.png"
@@ -423,7 +489,7 @@ function ProjetsEtExperience() {
       fullDescription: "Mission en alternance chez Orapi, spécialisée dans les solutions de nettoyage industriel. Développement d'un système de ChatBot intelligent pour le support client et mise en place d'une architecture de gestion des données robuste.\n\nLe projet a inclus l'analyse des besoins clients, la conception d'une base de données optimisée, et l'implémentation d'algorithmes de traitement du langage naturel pour améliorer l'expérience utilisateur.",
       image: "/src/assets/orapi/orapilogo.png",
       date: "2023 - 2024",
-      technologies: ["Python", "NLP", "PostgreSQL", "Docker", "FastAPI", "React"],
+      technologies: ["Python", "Sage X3 V12", "PostgreSQL", "Mistral AI API", "Google Colab", "PyTorch"],
       keyFeatures: [
         "ChatBot avec IA conversationnelle",
         "Système de gestion de données clients",
@@ -445,22 +511,22 @@ function ProjetsEtExperience() {
       name: "ASC - Growth Marketing",
       category: "Expérience",
       shortDescription: "Stage en Growth Marketing - Growth hacking, développement web et design",
-      fullDescription: "Stage au sein de l'ASC (Association Sportive et Culturelle) en tant que spécialiste Growth Marketing. Mission complète incluant la stratégie de croissance, le développement web, et la création d'identité visuelle.\n\nDéveloppement d'une stratégie growth hacking complète avec création du site web, optimisation SEO, campagnes marketing digitales, et mise en place d'outils d'analytics pour mesurer la performance.",
+      fullDescription: "Stage de 7 mois chez Advanced Silicone Coating (Groupe Hartmann), une entreprise spécialisée dans les solutions de pansements. Le projet a consisté à développer une stratégie de growth marketing incluant la création d'un site web moderne, l'automatisation des campagnes de prospection, et l'analyse des données de marché.\n\nL'objectif était d'augmenter la visibilité en ligne de l'entreprise et de générer des leads qualifiés pour les équipes commerciales.",
       image: "/src/assets/asc/asclogo.png",
       date: "2023",
-      technologies: ["React", "WordPress", "Google Analytics", "Facebook Ads", "Figma", "Photoshop"],
+      technologies: ["SiteCore", "PhantomBuster", "Python", "Intégration HTML", "Figma", "Premiere Pro"],
       keyFeatures: [
-        "Site web responsive moderne",
-        "Stratégie SEO complète",
-        "Campagnes publicitaires ciblées",
-        "Dashboard de suivi des KPIs"
+        "Site web moderne",
+        "Création de contenus pour les réseaux sociaux",
+        "Analyse de données et de marché",
+        "Automatisation de la prospection"
       ],
       achievements: [
-        "Augmentation du trafic web de 200%",
-        "Croissance des membres de 150%",
-        "ROI publicitaire de 300%"
+        "Augmentation du trafic web de 28%",
+        "Génération de plus de 30 leads qualifiés via les campagnes automatisées",
+        "Amélioration de la stratégie de contenu B2B"
       ],
-      websiteUrl: "https://asc-association.fr",
+      websiteUrl: "https://bento.me/advanced-silicone-coating",
       media: {
         type: "image",
         src: "/src/assets/asc/asclogo.png"
@@ -475,10 +541,10 @@ function ProjetsEtExperience() {
       name: "Institut Corail",
       category: "Client freelance",
       shortDescription: "Institut de beauté et soins - Développement web, design, SEO et e-commerce",
-      fullDescription: "Projet complet pour l'Institut Corail, spécialisé dans les soins de beauté et l'esthétique. Création d'une présence digitale complète incluant le site web, la stratégie SEO, et la mise en place d'une boutique en ligne.\n\nLe projet a nécessité une approche sur-mesure pour refléter l'élégance et le professionnalisme de l'institut, avec une attention particulière portée à l'expérience utilisateur et à la conversion client.",
+      fullDescription: "Projet complet pour l'Institut Corail, spécialisé dans les soins de beauté et l'esthétique. Création d'une présence digitale complète incluant le site web, la stratégie SEO, et la mise en place d'une boutique en ligne.\n\nLe projet a nécessité une approche sur-mesure pour refléter l'élégance et le professionnalisme de l'institut, avec une attention particulière portée à l'expérience utilisateur et à la conversion client.\n\n L'institut se situe à Loyettes, à 298 Rue du Bugey, 01360 Loyettes.",
       image: "/src/assets/institut-corail/logoinstitutcorail.png",
       date: "2024",
-      technologies: ["React", "Shopify", "Stripe", "Google SEO", "Figma", "Photoshop"],
+      technologies: ["Hostinger", "Google Analytics", "Vue.js", "Search Console", "Figma", "Tag Manager"],
       keyFeatures: [
         "Site web vitrine élégant",
         "Boutique e-commerce intégrée",
@@ -486,11 +552,11 @@ function ProjetsEtExperience() {
         "Optimisation SEO complète"
       ],
       achievements: [
-        "Augmentation des réservations de 180%",
+        "Augmentation de la visibilité",
         "Positionnement #1 sur Google local",
         "Taux de conversion e-commerce de 4.2%"
       ],
-      websiteUrl: "https://institut-corail.fr",
+      websiteUrl: "https://institut-corail.com",
       media: {
         type: "image",
         src: "/src/assets/institut-corail/Mockup.png"
@@ -503,20 +569,20 @@ function ProjetsEtExperience() {
       shortDescription: "Création d'art floral - Développement web, design, SEO et e-commerce",
       fullDescription: "Développement complet de la présence digitale pour Maison L.I.C, spécialisée dans la création d'art floral haut de gamme. Le projet englobe la création d'un univers visuel unique, le développement d'un site e-commerce, et une stratégie SEO ciblée.\n\nL'accent a été mis sur la mise en valeur des créations florales à travers une galerie interactive et un système de commande personnalisé pour les événements sur-mesure.",
       image: "/src/assets/maisonlic/logo.png",
-      date: "2024",
-      technologies: ["WordPress", "WooCommerce", "Stripe", "SEO", "Photoshop", "Lightroom"],
+      date: "2025",
+      technologies: ["Shopify", "HTML", "Stripe", "SEO", "Search Console", "Hostinger"],
       keyFeatures: [
-        "Galerie interactive des créations",
-        "Système de devis personnalisé",
         "Boutique e-commerce florale",
-        "Blog et conseils floraux"
+        "Mise en avant des créations",
+        "Design optimisé pour les mobiles",
+        "Système de paiement sécurisé"
       ],
       achievements: [
-        "Commandes en ligne +250%",
-        "Visibilité locale multipliée par 5",
-        "Panier moyen augmenté de 65%"
+        "SEO optimisé pour les recherches locales",
+        "Création d'une communauté engagée",
+        "Commande en ligne sur mesure"
       ],
-      websiteUrl: "https://maison-lic.fr",
+      websiteUrl: "https://maisonlic.fr",
       media: {
         type: "image",
         src: "/src/assets/maisonlic/logo.png"
@@ -873,7 +939,17 @@ function Contact() {
   ];
 
   return (
-    <div className="w-full min-h-screen py-16 pb-24">
+    <div className="w-full min-h-screen py-16 pb-24 relative">
+      {/* Overlay spécial pour la page contact - plus clair */}
+      <div 
+        className="fixed inset-0 w-full h-full pointer-events-none"
+        style={{
+          background: 'rgba(255, 255, 255, 0.02)', // Overlay très léger
+          backdropFilter: 'blur(1px)',
+          zIndex: -1
+        }}
+      />
+      
       {/* Header */}
       <motion.div 
         className="text-center mb-16"
@@ -881,10 +957,10 @@ function Contact() {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6 }}
       >
-        <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
+        <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 drop-shadow-lg">
           Me <span style={{ color: '#3F8391' }}>Contacter</span>
         </h1>
-        <p className="text-xl text-gray-300 max-w-3xl mx-auto px-4">
+        <p className="text-xl text-gray-100 max-w-3xl mx-auto px-4 drop-shadow-md">
           Discutons de votre projet et créons ensemble quelque chose d'exceptionnel
         </p>
       </motion.div>
@@ -897,7 +973,7 @@ function Contact() {
             animate={{ x: 0, opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <h2 className="text-3xl font-bold text-white mb-8">
+            <h2 className="text-3xl font-bold text-white mb-8 drop-shadow-lg">
               Restons connectés
             </h2>
             
@@ -905,33 +981,60 @@ function Contact() {
               {contactInfo.map((info, index) => (
                 <motion.div
                   key={index}
-                  className="flex items-center gap-4 p-4 rounded-xl border border-white/10"
+                  className="flex items-center gap-4 p-6 rounded-2xl border border-white/20 backdrop-blur-xl overflow-hidden relative"
                   style={{
-                    background: 'radial-gradient(ellipse at center, #3C3C3D 0%, #040F11 100%)'
+                    background: `
+                      linear-gradient(135deg, 
+                        rgba(255, 255, 255, 0.15) 0%, 
+                        rgba(255, 255, 255, 0.05) 50%, 
+                        rgba(255, 255, 255, 0.1) 100%
+                      )
+                    `,
+                    backdropFilter: 'blur(20px)',
+                    boxShadow: `
+                      0 8px 32px rgba(0, 0, 0, 0.1),
+                      inset 0 1px 0 rgba(255, 255, 255, 0.3),
+                      inset 0 -1px 0 rgba(0, 0, 0, 0.1)
+                    `
                   }}
                   initial={{ y: 20, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ duration: 0.4, delay: index * 0.1 }}
-                  whileHover={{ scale: 1.02 }}
+                  whileHover={{ 
+                    scale: 1.02,
+                    boxShadow: "0 12px 40px rgba(0, 0, 0, 0.15)"
+                  }}
                 >
+                  {/* Shimmer effect */}
+                  <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-50" />
+                  
                   <div 
-                    className="p-3 rounded-full"
-                    style={{ backgroundColor: '#3F8391' }}
+                    className="p-4 rounded-2xl border border-white/30"
+                    style={{ 
+                      background: `
+                        linear-gradient(135deg, 
+                          rgba(63, 131, 145, 0.8) 0%, 
+                          rgba(63, 131, 145, 0.6) 100%
+                        )
+                      `,
+                      backdropFilter: 'blur(10px)',
+                      boxShadow: '0 4px 16px rgba(63, 131, 145, 0.3)'
+                    }}
                   >
                     <info.icon size={24} color="#FFFFFF" />
                   </div>
-                  <div>
-                    <h3 className="text-white font-semibold">{info.title}</h3>
+                  <div className="relative z-10">
+                    <h3 className="text-white font-semibold drop-shadow-md">{info.title}</h3>
                     {info.link ? (
                       <a 
                         href={info.link} 
-                        className="text-gray-300 hover:text-white transition-colors"
+                        className="text-gray-100 hover:text-white transition-colors drop-shadow-sm"
                         style={{ color: '#3F8391' }}
                       >
                         {info.value}
                       </a>
                     ) : (
-                      <p className="text-gray-300">{info.value}</p>
+                      <p className="text-gray-100 drop-shadow-sm">{info.value}</p>
                     )}
                   </div>
                 </motion.div>
@@ -940,7 +1043,7 @@ function Contact() {
 
             {/* Réseaux sociaux */}
             <div>
-              <h3 className="text-xl font-bold text-white mb-4">
+              <h3 className="text-xl font-bold text-white mb-4 drop-shadow-lg">
                 Suivez-moi
               </h3>
               <div className="flex gap-4">
@@ -950,14 +1053,31 @@ function Contact() {
                     href={social.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-3 rounded-full border border-white/20 hover:border-white/40 transition-all duration-300"
+                    className="p-4 rounded-2xl border border-white/20 backdrop-blur-xl hover:border-white/40 transition-all duration-300 relative overflow-hidden group"
                     style={{
-                      background: 'radial-gradient(ellipse at center, #3C3C3D 0%, #040F11 100%)'
+                      background: `
+                        linear-gradient(135deg, 
+                          rgba(255, 255, 255, 0.12) 0%, 
+                          rgba(255, 255, 255, 0.08) 100%
+                        )
+                      `,
+                      backdropFilter: 'blur(15px)',
+                      boxShadow: `
+                        0 6px 24px rgba(0, 0, 0, 0.1),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.2)
+                      `
                     }}
-                    whileHover={{ scale: 1.1, y: -2 }}
+                    whileHover={{ 
+                      scale: 1.1, 
+                      y: -2,
+                      boxShadow: "0 8px 32px rgba(0, 0, 0, 0.15)"
+                    }}
                     whileTap={{ scale: 0.9 }}
                   >
-                    <social.icon size={24} color="#3F8391" />
+                    {/* Shimmer effect */}
+                    <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+                    
+                    <social.icon size={24} color="#3F8391" className="relative z-10" />
                   </motion.a>
                 ))}
               </div>
@@ -971,48 +1091,84 @@ function Contact() {
             transition={{ duration: 0.6, delay: 0.4 }}
           >
             <div 
-              className="p-8 rounded-2xl border border-white/10"
+              className="p-8 rounded-3xl border border-white/20 backdrop-blur-xl relative overflow-hidden"
               style={{
-                background: 'radial-gradient(ellipse at center, #3C3C3D 0%, #040F11 100%)'
+                background: `
+                  linear-gradient(135deg, 
+                    rgba(255, 255, 255, 0.15) 0%, 
+                    rgba(255, 255, 255, 0.05) 50%, 
+                    rgba(255, 255, 255, 0.1) 100%
+                  )
+                `,
+                backdropFilter: 'blur(20px)',
+                boxShadow: `
+                  0 12px 48px rgba(0, 0, 0, 0.1),
+                  inset 0 1px 0 rgba(255, 255, 255, 0.3),
+                  inset 0 -1px 0 rgba(0, 0, 0, 0.1)
+                `
               }}
             >
-              <h2 className="text-2xl font-bold text-white mb-6">
+              {/* Floating reflections */}
+              <div className="absolute top-6 left-6 w-16 h-16 bg-gradient-to-br from-white/20 to-transparent rounded-full blur-xl opacity-60" />
+              <div className="absolute bottom-6 right-6 w-12 h-12 bg-gradient-to-tl from-white/15 to-transparent rounded-full blur-lg opacity-40" />
+              
+              <h2 className="text-2xl font-bold text-white mb-6 drop-shadow-lg relative z-10">
                 Envoyez-moi un message
               </h2>
 
-              <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 relative z-10">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-white text-sm font-semibold mb-2">
+                    <label className="block text-white text-sm font-semibold mb-2 drop-shadow-md">
                       Prénom *
                     </label>
                     <input
                       {...register("firstName", { required: "Le prénom est requis" })}
-                      className="w-full px-4 py-3 rounded-lg bg-black/20 border border-white/20 text-white placeholder-gray-400 focus:border-white/40 focus:outline-none transition-colors"
+                      className="w-full px-4 py-3 rounded-xl border border-white/30 text-white placeholder-gray-200 focus:border-white/50 focus:outline-none transition-all duration-300 backdrop-blur-md"
+                      style={{
+                        background: `
+                          linear-gradient(135deg, 
+                            rgba(255, 255, 255, 0.1) 0%, 
+                            rgba(255, 255, 255, 0.05) 100%
+                          )
+                        `,
+                        backdropFilter: 'blur(10px)',
+                        boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.2)'
+                      }}
                       placeholder="Votre prénom"
                     />
                     {errors.firstName && (
-                      <p className="text-red-400 text-sm mt-1">{errors.firstName.message}</p>
+                      <p className="text-red-300 text-sm mt-1 drop-shadow-md">{errors.firstName.message}</p>
                     )}
                   </div>
 
                   <div>
-                    <label className="block text-white text-sm font-semibold mb-2">
+                    <label className="block text-white text-sm font-semibold mb-2 drop-shadow-md">
                       Nom *
                     </label>
                     <input
                       {...register("lastName", { required: "Le nom est requis" })}
-                      className="w-full px-4 py-3 rounded-lg bg-black/20 border border-white/20 text-white placeholder-gray-400 focus:border-white/40 focus:outline-none transition-colors"
+                      className="w-full px-4 py-3 rounded-xl border border-white/30 text-white placeholder-gray-200 focus:border-white/50 focus:outline-none transition-all duration-300 backdrop-blur-md"
+                      style={{
+                        background: `
+                          linear-gradient(135deg, 
+                            rgba(255, 255, 255, 0.1) 0%, 
+                            rgba(255, 255, 255, 0.05) 100%
+                          )
+                        `,
+                        backdropFilter: 'blur(10px)',
+                        boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.2)'
+                      }}
                       placeholder="Votre nom"
                     />
                     {errors.lastName && (
-                      <p className="text-red-400 text-sm mt-1">{errors.lastName.message}</p>
+                      <p className="text-red-300 text-sm mt-1 drop-shadow-md">{errors.lastName.message}</p>
                     )}
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-white text-sm font-semibold mb-2">
+                  <label className="block text-white text-sm font-semibold mb-2 drop-shadow-md">
                     Email *
                   </label>
                   <input
@@ -1024,80 +1180,117 @@ function Contact() {
                       }
                     })}
                     type="email"
-                    className="w-full px-4 py-3 rounded-lg bg-black/20 border border-white/20 text-white placeholder-gray-400 focus:border-white/40 focus:outline-none transition-colors"
+                    className="w-full px-4 py-3 rounded-xl border border-white/30 text-white placeholder-gray-200 focus:border-white/50 focus:outline-none transition-all duration-300 backdrop-blur-md"
+                    style={{
+                      background: `
+                        linear-gradient(135deg, 
+                          rgba(255, 255, 255, 0.1) 0%, 
+                          rgba(255, 255, 255, 0.05) 100%
+                        )
+                      `,
+                      backdropFilter: 'blur(10px)',
+                      boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.2)'
+                    }}
                     placeholder="votre@email.com"
                   />
                   {errors.email && (
-                    <p className="text-red-400 text-sm mt-1">{errors.email.message}</p>
+                    <p className="text-red-300 text-sm mt-1 drop-shadow-md">{errors.email.message}</p>
                   )}
                 </div>
 
                 <div>
-                  <label className="block text-white text-sm font-semibold mb-2">
+                  <label className="block text-white text-sm font-semibold mb-2 drop-shadow-md">
                     Sujet *
                   </label>
                   <select
                     {...register("subject", { required: "Le sujet est requis" })}
-                    className="w-full px-4 py-3 rounded-lg bg-black/20 border border-white/20 text-white focus:border-white/40 focus:outline-none transition-colors"
+                    className="w-full px-4 py-3 rounded-xl border border-white/30 text-white focus:border-white/50 focus:outline-none transition-all duration-300 backdrop-blur-md"
+                    style={{
+                      background: `
+                        linear-gradient(135deg, 
+                          rgba(255, 255, 255, 0.1) 0%, 
+                          rgba(255, 255, 255, 0.05) 100%
+                        )
+                      `,
+                      backdropFilter: 'blur(10px)',
+                      boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.2)'
+                    }}
                   >
-                    <option value="">Sélectionnez un sujet</option>
-                    <option value="web">Développement Web</option>
-                    <option value="mobile">Application Mobile</option>
-                    <option value="ai">Intelligence Artificielle</option>
-                    <option value="growth">Growth Hacking</option>
-                    <option value="other">Autre</option>
+                    <option value="" style={{ background: '#1a1a1a', color: '#fff' }}>Sélectionnez un sujet</option>
+                    <option value="web" style={{ background: '#1a1a1a', color: '#fff' }}>Développement Web</option>
+                    <option value="mobile" style={{ background: '#1a1a1a', color: '#fff' }}>Application Mobile</option>
+                    <option value="ai" style={{ background: '#1a1a1a', color: '#fff' }}>Intelligence Artificielle</option>
+                    <option value="growth" style={{ background: '#1a1a1a', color: '#fff' }}>Growth Hacking</option>
+                    <option value="other" style={{ background: '#1a1a1a', color: '#fff' }}>Autre</option>
                   </select>
                   {errors.subject && (
-                    <p className="text-red-400 text-sm mt-1">{errors.subject.message}</p>
+                    <p className="text-red-300 text-sm mt-1 drop-shadow-md">{errors.subject.message}</p>
                   )}
                 </div>
 
                 <div>
-                  <label className="block text-white text-sm font-semibold mb-2">
+                  <label className="block text-white text-sm font-semibold mb-2 drop-shadow-md">
                     Message *
                   </label>
                   <textarea
                     {...register("message", { required: "Le message est requis" })}
                     rows={5}
-                    className="w-full px-4 py-3 rounded-lg bg-black/20 border border-white/20 text-white placeholder-gray-400 focus:border-white/40 focus:outline-none transition-colors resize-none"
+                    className="w-full px-4 py-3 rounded-xl border border-white/30 text-white placeholder-gray-200 focus:border-white/50 focus:outline-none transition-all duration-300 resize-none backdrop-blur-md"
+                    style={{
+                      background: `
+                        linear-gradient(135deg, 
+                          rgba(255, 255, 255, 0.1) 0%, 
+                          rgba(255, 255, 255, 0.05) 100%
+                        )
+                      `,
+                      backdropFilter: 'blur(10px)',
+                      boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.2)'
+                    }}
                     placeholder="Décrivez votre projet..."
                   />
                   {errors.message && (
-                    <p className="text-red-400 text-sm mt-1">{errors.message.message}</p>
+                    <p className="text-red-300 text-sm mt-1 drop-shadow-md">{errors.message.message}</p>
                   )}
                 </div>
 
                 <motion.button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full py-4 px-6 rounded-full font-semibold transition-all duration-300 flex items-center justify-center gap-2"
+                  className="w-full py-4 px-6 rounded-2xl font-semibold transition-all duration-300 flex items-center justify-center gap-2 border border-white/30 backdrop-blur-xl relative overflow-hidden group"
                   style={{
-                    background: isSubmitting ? '#666' : 'radial-gradient(ellipse at center, #3C3C3D 0%, #040F11 100%)',
-                    border: '2px solid #3F8391',
+                    background: isSubmitting 
+                      ? 'rgba(255, 255, 255, 0.05)' 
+                      : `
+                        linear-gradient(135deg, 
+                          rgba(63, 131, 145, 0.8) 0%, 
+                          rgba(63, 131, 145, 0.6) 100%
+                        )
+                      `,
+                    backdropFilter: 'blur(15px)',
+                    boxShadow: `
+                      0 8px 32px rgba(63, 131, 145, 0.3),
+                      inset 0 1px 0 rgba(255, 255, 255, 0.3)
+                    `,
                     color: '#FFFFFF'
                   }}
-                  whileHover={!isSubmitting ? { scale: 1.02 } : {}}
+                  whileHover={!isSubmitting ? { 
+                    scale: 1.02,
+                    boxShadow: "0 12px 40px rgba(63, 131, 145, 0.4)"
+                  } : {}}
                   whileTap={!isSubmitting ? { scale: 0.98 } : {}}
-                  onMouseEnter={(e) => {
-                    if (!isSubmitting) {
-                      e.target.style.backgroundColor = '#3F8391';
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (!isSubmitting) {
-                      e.target.style.background = 'radial-gradient(ellipse at center, #3C3C3D 0%, #040F11 100%)';
-                    }
-                  }}
                 >
+                  {/* Shimmer effect */}
+                  <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+                  
                   {isSubmitting ? (
                     <>
-                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                      Envoi en cours...
+                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin relative z-10" />
+                      <span className="relative z-10">Envoi en cours...</span>
                     </>
                   ) : (
                     <>
-                      <Send size={20} />
-                      Envoyer le message
+                      <Send size={20} className="relative z-10" />
+                      <span className="relative z-10">Envoyer le message</span>
                     </>
                   )}
                 </motion.button>
@@ -1106,7 +1299,17 @@ function Contact() {
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="text-green-400 text-center p-4 rounded-lg bg-green-400/10 border border-green-400/20"
+                    className="text-green-100 text-center p-4 rounded-2xl border border-green-400/30 backdrop-blur-xl"
+                    style={{
+                      background: `
+                        linear-gradient(135deg, 
+                          rgba(34, 197, 94, 0.15) 0%, 
+                          rgba(34, 197, 94, 0.08) 100%
+                        )
+                      `,
+                      backdropFilter: 'blur(15px)',
+                      boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.2)'
+                    }}
                   >
                     Message envoyé avec succès ! Je vous répondrai bientôt.
                   </motion.div>
@@ -1116,7 +1319,17 @@ function Contact() {
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="text-red-400 text-center p-4 rounded-lg bg-red-400/10 border border-red-400/20"
+                    className="text-red-100 text-center p-4 rounded-2xl border border-red-400/30 backdrop-blur-xl"
+                    style={{
+                      background: `
+                        linear-gradient(135deg, 
+                          rgba(239, 68, 68, 0.15) 0%, 
+                          rgba(239, 68, 68, 0.08) 100%
+                        )
+                      `,
+                      backdropFilter: 'blur(15px)',
+                      boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.2)'
+                    }}
                   >
                     Erreur lors de l'envoi. Veuillez réessayer.
                   </motion.div>
