@@ -7,6 +7,7 @@ const CustomCursor = () => {
   const [isClicking, setIsClicking] = useState(false);
   const [cursorVariant, setCursorVariant] = useState('default');
   const [isMobile, setIsMobile] = useState(false);
+  const [trailPositions, setTrailPositions] = useState([]);
 
   useEffect(() => {
     // Détection des appareils mobiles/tactiles
@@ -35,7 +36,14 @@ const CustomCursor = () => {
     }
 
     const updateMousePosition = (e) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
+      const newPosition = { x: e.clientX, y: e.clientY };
+      setMousePosition(newPosition);
+      
+      // Mettre à jour la traînée fine
+      setTrailPositions(prevTrail => {
+        const newTrail = [newPosition, ...prevTrail];
+        return newTrail.slice(0, 8); // Garder seulement 8 points pour une traînée fine
+      });
     };
 
     const handleMouseDown = () => setIsClicking(true);
@@ -325,6 +333,33 @@ const CustomCursor = () => {
           damping: 20
         }}
       />
+
+      {/* Traînée fine supplémentaire */}
+      {trailPositions.map((position, index) => (
+        <motion.div
+          key={`trail-${index}`}
+          className="absolute rounded-full pointer-events-none"
+          style={{
+            left: position.x - 2,
+            top: position.y - 2,
+            width: 4,
+            height: 4,
+            backgroundColor: `rgba(63, 131, 145, ${0.3 - (index * 0.035)})`,
+            filter: 'blur(0.5px)'
+          }}
+          initial={{ scale: 0, opacity: 0 }}
+          animate={{ 
+            scale: 1 - (index * 0.1),
+            opacity: 0.6 - (index * 0.075)
+          }}
+          transition={{
+            type: "spring",
+            stiffness: 400 - (index * 20),
+            damping: 15 + index,
+            mass: 0.3 + (index * 0.1)
+          }}
+        />
+      ))}
     </div>
   );
 };

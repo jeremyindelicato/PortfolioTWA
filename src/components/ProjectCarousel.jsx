@@ -125,7 +125,7 @@ const ProjectCarousel = () => {
             Mes <span style={{ color: '#3F8391' }}>Projets</span>
           </h2>
           <p className="text-gray-300 text-lg max-w-2xl mx-auto">
-            Découvrez une sélection de mes réalisations, alliant créativité et expertise technique
+            Découvrez une sélection de projets que j'ai réalisé au cours de ma carrière.
           </p>
         </motion.div>
 

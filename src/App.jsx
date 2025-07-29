@@ -270,12 +270,9 @@ function Accueil() {
         {/* Contenu texte */}
         <div className="text-center lg:text-left max-w-2xl">
           <p className="text-lg sm:text-xl lg:text-2xl text-gray-400 mb-6 lg:mb-8 leading-relaxed">
-            <span style={{ color: '#3F8391' }} className="font-semibold">AI & Data Engineer</span> freelance passionné avec une expertise complète en{' '}
-            <span style={{ color: '#3F8391' }} className="font-semibold">développement web</span>,{' '}
-            <span style={{ color: '#3F8391' }} className="font-semibold">applications mobiles</span> et{' '}
-            <span style={{ color: '#3F8391' }} className="font-semibold">intelligence artificielle</span>.
+            <span style={{ color: '#3F8391' }} className="font-semibold">AI & Data Engineer</span> chez <span style={{ color: '#3F8391' }} className="font-semibold">Stryker</span>, je vous accompagne de manière indépendante dans la création de <span style={{ color: '#3F8391' }} className="font-semibold">solutions web sur-mesure</span>, taillées pour vos objectifs.
             <br />
-            Je transforme vos idées en solutions digitales performantes.
+            Mêlant <span style={{ color: '#3F8391' }} className="font-semibold">développement web</span>, <span style={{ color: '#3F8391' }} className="font-semibold">data</span> et <span style={{ color: '#3F8391' }} className="font-semibold">IA</span>, je transforme vos idées en <span style={{ color: '#3F8391' }} className="font-semibold">leviers concrets de croissance</span>.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start mb-8 lg:mb-12">
@@ -1026,7 +1023,7 @@ function Contact() {
           Me <span style={{ color: '#3F8391' }}>Contacter</span>
         </h1>
         <p className="text-xl text-gray-100 max-w-3xl mx-auto drop-shadow-md">
-          Discutons de votre projet et créons ensemble quelque chose d'exceptionnel
+          Un projet en tête ? Parlons-en ! Je suis disponible pour donner vie à vos idées sur mesure.👨‍💻
         </p>
       </motion.div>
 

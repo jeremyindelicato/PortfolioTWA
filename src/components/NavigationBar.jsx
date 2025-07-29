@@ -81,7 +81,7 @@ const NavigationBar = () => {
                 <motion.span
                   className="relative z-10"
                   whileHover={{
-                    textShadow: '0 0 8px rgba(63, 131, 145, 0.5)',
+                    textShadow: '0 0 8px rgba(255, 255, 255, 0.5)',
                     transition: { duration: 0.3 }
                   }}
                 >

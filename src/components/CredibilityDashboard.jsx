@@ -175,7 +175,6 @@ const CredibilityDashboard = ({ className = "" }) => {
               ),
               radial-gradient(circle at 20% 20%, rgba(63, 131, 145, 0.08) 0%, transparent 50%)
             `,
-            backdropFilter: 'blur(20px)',
             boxShadow: `
               0 20px 50px rgba(0, 0, 0, 0.3),
               inset 0 1px 0 rgba(255, 255, 255, 0.2)
@@ -200,22 +199,96 @@ const CredibilityDashboard = ({ className = "" }) => {
           >
             <h3 className="text-xl font-bold text-white mb-6 text-center">Vue d'Ensemble</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-              <div className="text-center">
-                <div className="text-3xl font-bold text-[#3F8391] mb-1">+{animatedValues.clients}</div>
-                <div className="text-sm text-gray-300">Clients Servis</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-[#F59E0B] mb-1">{animatedValues.websites + animatedValues.mobileApps}</div>
-                <div className="text-sm text-gray-300">Projets Livrés</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-[#10B981] mb-1">{animatedValues.deliveryTime}j</div>
-                <div className="text-sm text-gray-300">Délai Moyen</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-[#8B5CF6] mb-1">{animatedValues.rating}/5</div>
-                <div className="text-sm text-gray-300">Note Moyenne</div>
-              </div>
+              <motion.div 
+                className="text-center p-4 rounded-xl cursor-pointer transition-all duration-300 hover:bg-white/5 group"
+                whileHover={{ scale: 1.05, y: -5 }}
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+              >
+                <motion.div 
+                  className="text-3xl font-bold text-[#3F8391] mb-1 group-hover:text-[#5aa4b3]"
+                  animate={{ 
+                    textShadow: animatedValues.clients > 0 ? "0 0 10px rgba(63, 131, 145, 0.5)" : "none"
+                  }}
+                >
+                  +{animatedValues.clients}
+                </motion.div>
+                <div className="text-sm text-gray-300 group-hover:text-white">Clients Servis</div>
+                <motion.div 
+                  className="mt-2 h-1 bg-gradient-to-r from-[#3F8391] to-transparent rounded-full"
+                  initial={{ width: 0 }}
+                  animate={{ width: `${(animatedValues.clients / finalValues.clients) * 100}%` }}
+                  transition={{ duration: 1.5, delay: 0.5 }}
+                />
+              </motion.div>
+              <motion.div 
+                className="text-center p-4 rounded-xl cursor-pointer transition-all duration-300 hover:bg-white/5 group"
+                whileHover={{ scale: 1.05, y: -5 }}
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+              >
+                <motion.div 
+                  className="text-3xl font-bold text-[#F59E0B] mb-1 group-hover:text-[#fbbf24]"
+                  animate={{ 
+                    textShadow: (animatedValues.websites + animatedValues.mobileApps) > 0 ? "0 0 10px rgba(245, 158, 11, 0.5)" : "none"
+                  }}
+                >
+                  {animatedValues.websites + animatedValues.mobileApps}
+                </motion.div>
+                <div className="text-sm text-gray-300 group-hover:text-white">Projets Livrés</div>
+                <motion.div 
+                  className="mt-2 h-1 bg-gradient-to-r from-[#F59E0B] to-transparent rounded-full"
+                  initial={{ width: 0 }}
+                  animate={{ width: `${((animatedValues.websites + animatedValues.mobileApps) / (finalValues.websites + finalValues.mobileApps)) * 100}%` }}
+                  transition={{ duration: 1.5, delay: 0.7 }}
+                />
+              </motion.div>
+              <motion.div 
+                className="text-center p-4 rounded-xl cursor-pointer transition-all duration-300 hover:bg-white/5 group"
+                whileHover={{ scale: 1.05, y: -5 }}
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+              >
+                <motion.div 
+                  className="text-3xl font-bold text-[#10B981] mb-1 group-hover:text-[#34d399]"
+                  animate={{ 
+                    textShadow: animatedValues.deliveryTime > 0 ? "0 0 10px rgba(16, 185, 129, 0.5)" : "none"
+                  }}
+                >
+                  {animatedValues.deliveryTime}j
+                </motion.div>
+                <div className="text-sm text-gray-300 group-hover:text-white">Délai Moyen</div>
+                <motion.div 
+                  className="mt-2 h-1 bg-gradient-to-r from-[#10B981] to-transparent rounded-full"
+                  initial={{ width: 0 }}
+                  animate={{ width: `${(animatedValues.deliveryTime / finalValues.deliveryTime) * 100}%` }}
+                  transition={{ duration: 1.5, delay: 0.9 }}
+                />
+              </motion.div>
+              <motion.div 
+                className="text-center p-4 rounded-xl cursor-pointer transition-all duration-300 hover:bg-white/5 group"
+                whileHover={{ scale: 1.05, y: -5 }}
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+              >
+                <motion.div 
+                  className="text-3xl font-bold text-[#8B5CF6] mb-1 group-hover:text-[#a78bfa] flex items-center justify-center gap-1"
+                  animate={{ 
+                    textShadow: animatedValues.rating > 0 ? "0 0 10px rgba(139, 92, 246, 0.5)" : "none"
+                  }}
+                >
+                  {animatedValues.rating}/5
+                  <motion.div
+                    animate={{ rotate: animatedValues.rating > 4 ? [0, 15, -15, 0] : 0 }}
+                    transition={{ duration: 2, repeat: Infinity, delay: 1 }}
+                  >
+                    <Star size={20} fill="currentColor" />
+                  </motion.div>
+                </motion.div>
+                <div className="text-sm text-gray-300 group-hover:text-white">Note Moyenne</div>
+                <motion.div 
+                  className="mt-2 h-1 bg-gradient-to-r from-[#8B5CF6] to-transparent rounded-full"
+                  initial={{ width: 0 }}
+                  animate={{ width: `${(animatedValues.rating / finalValues.rating) * 100}%` }}
+                  transition={{ duration: 1.5, delay: 1.1 }}
+                />
+              </motion.div>
             </div>
           </motion.div>
 
@@ -238,10 +311,15 @@ const CredibilityDashboard = ({ className = "" }) => {
               </h4>
               <div className="flex items-end justify-between h-32 gap-2">
                 {deliveryData.map((days, index) => (
-                  <div key={index} className="flex-1 flex flex-col items-center">
+                  <motion.div 
+                    key={index} 
+                    className="flex-1 flex flex-col items-center group cursor-pointer"
+                    whileHover={{ scale: 1.1 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                  >
                     <div className="flex-1 flex items-end w-full">
                       <motion.div
-                        className="w-full rounded-t-lg shadow-lg"
+                        className="w-full rounded-t-lg shadow-lg relative overflow-hidden"
                         style={{ 
                           backgroundColor: days <= 9 ? '#F59E0B' : '#EF4444',
                           boxShadow: `0 4px 12px ${days <= 9 ? 'rgba(245, 158, 11, 0.3)' : 'rgba(239, 68, 68, 0.3)'}`,
@@ -251,11 +329,45 @@ const CredibilityDashboard = ({ className = "" }) => {
                         animate={{ height: `${Math.max(20, (days / 15) * 120)}px` }}
                         transition={{ duration: 0.8, delay: 1.2 + index * 0.1 }}
                         title={`${days} jours`}
-                      />
+                        whileHover={{ 
+                          boxShadow: `0 8px 24px ${days <= 9 ? 'rgba(245, 158, 11, 0.5)' : 'rgba(239, 68, 68, 0.5)'}`,
+                          y: -2
+                        }}
+                      >
+                        <motion.div
+                          className="absolute inset-0 bg-white/20"
+                          initial={{ scaleY: 0 }}
+                          whileHover={{ scaleY: 1 }}
+                          transition={{ duration: 0.3 }}
+                          style={{ originY: 1 }}
+                        />
+                        <motion.div
+                          className="absolute top-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-white rounded-full opacity-0 group-hover:opacity-100"
+                          animate={{ 
+                            y: [0, -5, 0],
+                            opacity: [0.5, 1, 0.5]
+                          }}
+                          transition={{ 
+                            duration: 1.5, 
+                            repeat: Infinity, 
+                            delay: index * 0.2 
+                          }}
+                        />
+                      </motion.div>
                     </div>
-                    <span className="text-sm text-gray-300 mt-2 font-medium">P{index + 1}</span>
-                    <span className="text-xs text-white font-bold">{days}j</span>
-                  </div>
+                    <motion.span 
+                      className="text-sm text-gray-300 mt-2 font-medium group-hover:text-white"
+                      whileHover={{ scale: 1.1 }}
+                    >
+                      P{index + 1}
+                    </motion.span>
+                    <motion.span 
+                      className="text-xs text-white font-bold group-hover:text-yellow-300"
+                      whileHover={{ scale: 1.2 }}
+                    >
+                      {days}j
+                    </motion.span>
+                  </motion.div>
                 ))}
               </div>
               <div className="text-sm text-gray-400 mt-4 text-center">
@@ -285,14 +397,58 @@ const CredibilityDashboard = ({ className = "" }) => {
               
               {/* Métriques principales */}
               <div className="grid grid-cols-2 gap-4 mb-4">
-                <div className="text-center p-3 bg-black/20 rounded-lg">
-                  <div className="text-xl font-bold text-purple-400">+43%</div>
-                  <div className="text-xs text-gray-300">Trafic Web</div>
-                </div>
-                <div className="text-center p-3 bg-black/20 rounded-lg">
-                  <div className="text-xl font-bold text-yellow-400">x3</div>
-                  <div className="text-xs text-gray-300">Leads Générés</div>
-                </div>
+                <motion.div 
+                  className="text-center p-3 bg-black/20 rounded-lg cursor-pointer group relative overflow-hidden"
+                  whileHover={{ 
+                    scale: 1.05,
+                    backgroundColor: "rgba(139, 92, 246, 0.1)" 
+                  }}
+                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                >
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-transparent opacity-0 group-hover:opacity-100"
+                    initial={{ x: "-100%" }}
+                    whileHover={{ x: "100%" }}
+                    transition={{ duration: 0.6 }}
+                  />
+                  <motion.div 
+                    className="text-xl font-bold text-purple-400 relative z-10"
+                    animate={{ 
+                      scale: [1, 1.1, 1],
+                      textShadow: ["0 0 0px rgba(139, 92, 246, 0)", "0 0 10px rgba(139, 92, 246, 0.8)", "0 0 0px rgba(139, 92, 246, 0)"]
+                    }}
+                    transition={{ duration: 2, repeat: Infinity, delay: 1.5 }}
+                  >
+                    +43%
+                  </motion.div>
+                  <div className="text-xs text-gray-300 relative z-10 group-hover:text-white">Trafic Web</div>
+                </motion.div>
+                <motion.div 
+                  className="text-center p-3 bg-black/20 rounded-lg cursor-pointer group relative overflow-hidden"
+                  whileHover={{ 
+                    scale: 1.05,
+                    backgroundColor: "rgba(245, 158, 11, 0.1)" 
+                  }}
+                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                >
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-r from-yellow-500/20 to-transparent opacity-0 group-hover:opacity-100"
+                    initial={{ x: "-100%" }}
+                    whileHover={{ x: "100%" }}
+                    transition={{ duration: 0.6 }}
+                  />
+                  <motion.div 
+                    className="text-xl font-bold text-yellow-400 relative z-10"
+                    animate={{ 
+                      scale: [1, 1.1, 1],
+                      textShadow: ["0 0 0px rgba(245, 158, 11, 0)", "0 0 10px rgba(245, 158, 11, 0.8)", "0 0 0px rgba(245, 158, 11, 0)"]
+                    }}
+                    transition={{ duration: 2, repeat: Infinity, delay: 1.7 }}
+                  >
+                    x3
+                  </motion.div>
+                  <div className="text-xs text-gray-300 relative z-10 group-hover:text-white">Leads Générés</div>
+                </motion.div>
               </div>
               
               {/* Graphique amélioré */}
@@ -371,18 +527,103 @@ const CredibilityDashboard = ({ className = "" }) => {
               
               {/* Statistiques IA */}
               <div className="grid grid-cols-3 gap-3 mb-4">
-                <div className="text-center p-2 bg-black/20 rounded-lg">
-                  <div className="text-lg font-bold text-red-400">6</div>
-                  <div className="text-xs text-gray-300">Déployées</div>
-                </div>
-                <div className="text-center p-2 bg-black/20 rounded-lg">
-                  <div className="text-lg font-bold text-orange-400">2</div>
-                  <div className="text-xs text-gray-300">En cours</div>
-                </div>
-                <div className="text-center p-2 bg-black/20 rounded-lg">
-                  <div className="text-lg font-bold text-green-400">95%</div>
-                  <div className="text-xs text-gray-300">Succès</div>
-                </div>
+                <motion.div 
+                  className="text-center p-2 bg-black/20 rounded-lg cursor-pointer group relative overflow-hidden"
+                  whileHover={{ 
+                    scale: 1.05,
+                    backgroundColor: "rgba(239, 68, 68, 0.1)" 
+                  }}
+                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                >
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-r from-red-500/20 to-transparent opacity-0 group-hover:opacity-100"
+                    initial={{ x: "-100%" }}
+                    whileHover={{ x: "100%" }}
+                    transition={{ duration: 0.6 }}
+                  />
+                  <motion.div 
+                    className="text-lg font-bold text-red-400 relative z-10"
+                    animate={{ 
+                      scale: [1, 1.2, 1],
+                      rotate: [0, 5, -5, 0]
+                    }}
+                    transition={{ 
+                      duration: 3, 
+                      repeat: Infinity,
+                      delay: 1.6
+                    }}
+                  >
+                    6
+                  </motion.div>
+                  <div className="text-xs text-gray-300 relative z-10 group-hover:text-white">Déployées</div>
+                </motion.div>
+                <motion.div 
+                  className="text-center p-2 bg-black/20 rounded-lg cursor-pointer group relative overflow-hidden"
+                  whileHover={{ 
+                    scale: 1.05,
+                    backgroundColor: "rgba(249, 115, 22, 0.1)" 
+                  }}
+                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                >
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-r from-orange-500/20 to-transparent opacity-0 group-hover:opacity-100"
+                    initial={{ x: "-100%" }}
+                    whileHover={{ x: "100%" }}
+                    transition={{ duration: 0.6 }}
+                  />
+                  <motion.div 
+                    className="text-lg font-bold text-orange-400 relative z-10"
+                    animate={{ 
+                      y: [0, -3, 0],
+                      textShadow: ["0 0 0px rgba(249, 115, 22, 0)", "0 0 8px rgba(249, 115, 22, 0.8)", "0 0 0px rgba(249, 115, 22, 0)"]
+                    }}
+                    transition={{ 
+                      duration: 2.5, 
+                      repeat: Infinity,
+                      delay: 1.8
+                    }}
+                  >
+                    2
+                  </motion.div>
+                  <div className="text-xs text-gray-300 relative z-10 group-hover:text-white">En cours</div>
+                </motion.div>
+                <motion.div 
+                  className="text-center p-2 bg-black/20 rounded-lg cursor-pointer group relative overflow-hidden"
+                  whileHover={{ 
+                    scale: 1.05,
+                    backgroundColor: "rgba(34, 197, 94, 0.1)" 
+                  }}
+                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                >
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-r from-green-500/20 to-transparent opacity-0 group-hover:opacity-100"
+                    initial={{ x: "-100%" }}
+                    whileHover={{ x: "100%" }}
+                    transition={{ duration: 0.6 }}
+                  />
+                  <motion.div 
+                    className="text-lg font-bold text-green-400 relative z-10 flex items-center justify-center gap-1"
+                    animate={{ 
+                      scale: [1, 1.1, 1],
+                      textShadow: ["0 0 0px rgba(34, 197, 94, 0)", "0 0 10px rgba(34, 197, 94, 0.8)", "0 0 0px rgba(34, 197, 94, 0)"]
+                    }}
+                    transition={{ 
+                      duration: 2, 
+                      repeat: Infinity,
+                      delay: 2
+                    }}
+                  >
+                    95%
+                    <motion.div
+                      animate={{ rotate: [0, 360] }}
+                      transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+                      className="text-xs"
+                    >
+                      ✓
+                    </motion.div>
+                  </motion.div>
+                  <div className="text-xs text-gray-300 relative z-10 group-hover:text-white">Succès</div>
+                </motion.div>
               </div>
               
               {/* Graphique timeline amélioré */}
@@ -420,27 +661,121 @@ const CredibilityDashboard = ({ className = "" }) => {
               </div>
               
               {/* Liste des IA déployées */}
-              <div className="bg-black/20 rounded-lg p-3 mb-4">
-                <div className="text-xs text-gray-400 mb-2">IA Déployées:</div>
+              <motion.div 
+                className="bg-black/20 rounded-lg p-3 mb-4"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 2.2 }}
+              >
+                <motion.div 
+                  className="text-xs text-gray-400 mb-2"
+                  animate={{ 
+                    color: ["#9CA3AF", "#3F8391", "#9CA3AF"]
+                  }}
+                  transition={{ duration: 3, repeat: Infinity }}
+                >
+                  IA Déployées:
+                </motion.div>
                 <div className="space-y-1 text-xs">
-                  <div className="flex justify-between">
-                    <span className="text-gray-300">• ChatBot Support Client</span>
-                    <span className="text-green-400">✓ Actif</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-300">• Analyse Sentiment</span>
-                    <span className="text-green-400">✓ Actif</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-300">• Recommandations Produits</span>
-                    <span className="text-green-400">✓ Actif</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-300">• Classification Documents</span>
-                    <span className="text-orange-400">⚠ En cours</span>
-                  </div>
+                  <motion.div 
+                    className="flex justify-between p-1 rounded cursor-pointer group"
+                    whileHover={{ backgroundColor: "rgba(34, 197, 94, 0.1)", x: 5 }}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 2.4 }}
+                  >
+                    <span className="text-gray-300 group-hover:text-white">• ChatBot Support Client</span>
+                    <motion.span 
+                      className="text-green-400 flex items-center gap-1"
+                      animate={{ 
+                        scale: [1, 1.1, 1]
+                      }}
+                      transition={{ duration: 2, repeat: Infinity, delay: 2.5 }}
+                    >
+                      <motion.div
+                        animate={{ rotate: [0, 360] }}
+                        transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+                      >
+                        ✓
+                      </motion.div>
+                      Actif
+                    </motion.span>
+                  </motion.div>
+                  <motion.div 
+                    className="flex justify-between p-1 rounded cursor-pointer group"
+                    whileHover={{ backgroundColor: "rgba(34, 197, 94, 0.1)", x: 5 }}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 2.6 }}
+                  >
+                    <span className="text-gray-300 group-hover:text-white">• Analyse Sentiment</span>
+                    <motion.span 
+                      className="text-green-400 flex items-center gap-1"
+                      animate={{ 
+                        scale: [1, 1.1, 1]
+                      }}
+                      transition={{ duration: 2, repeat: Infinity, delay: 2.7 }}
+                    >
+                      <motion.div
+                        animate={{ rotate: [0, 360] }}
+                        transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+                      >
+                        ✓
+                      </motion.div>
+                      Actif
+                    </motion.span>
+                  </motion.div>
+                  <motion.div 
+                    className="flex justify-between p-1 rounded cursor-pointer group"
+                    whileHover={{ backgroundColor: "rgba(34, 197, 94, 0.1)", x: 5 }}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 2.8 }}
+                  >
+                    <span className="text-gray-300 group-hover:text-white">• Recommandations Produits</span>
+                    <motion.span 
+                      className="text-green-400 flex items-center gap-1"
+                      animate={{ 
+                        scale: [1, 1.1, 1]
+                      }}
+                      transition={{ duration: 2, repeat: Infinity, delay: 2.9 }}
+                    >
+                      <motion.div
+                        animate={{ rotate: [0, 360] }}
+                        transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+                      >
+                        ✓
+                      </motion.div>
+                      Actif
+                    </motion.span>
+                  </motion.div>
+                  <motion.div 
+                    className="flex justify-between p-1 rounded cursor-pointer group"
+                    whileHover={{ backgroundColor: "rgba(249, 115, 22, 0.1)", x: 5 }}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 3.0 }}
+                  >
+                    <span className="text-gray-300 group-hover:text-white">• Classification Documents</span>
+                    <motion.span 
+                      className="text-orange-400 flex items-center gap-1"
+                      animate={{ 
+                        opacity: [0.7, 1, 0.7],
+                        scale: [1, 1.05, 1]
+                      }}
+                      transition={{ duration: 1.5, repeat: Infinity }}
+                    >
+                      <motion.div
+                        animate={{ rotate: [0, 15, -15, 0] }}
+                        transition={{ duration: 2, repeat: Infinity }}
+                      >
+                        ⚠
+                      </motion.div>
+                      En cours
+                    </motion.span>
+                  </motion.div>
                 </div>
-              </div>
+              </motion.div>
               
               <div className="text-sm text-gray-400 text-center">
                 🤖 Gain productivité: +73% • ⏱️ Temps économisé: 120h/mois
