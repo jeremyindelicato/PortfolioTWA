@@ -68,7 +68,7 @@ function App() {
       <Router>
         <LoaderController loading={loading} setLoading={setLoading} />
         <NavigationBar />
-        <div className="min-h-screen flex flex-col items-center justify-center px-2 w-full">
+        <div className="min-h-screen w-full">
           <Routes>
             <Route path="/" element={<Accueil />} />
             <Route path="/projects" element={<ProjetsEtExperience />} />
@@ -195,7 +195,7 @@ function Accueil() {
     <div className="w-full pb-24">
       {/* Hero Section - Plein écran */}
       <div className="min-h-screen flex items-center justify-center px-4 relative">
-        <div className="text-center max-w-6xl" ref={heroTextRef}>
+        <div className="text-center max-w-6xl mx-auto" ref={heroTextRef}>
           <div className="hero-main-text mb-8">
             <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-bold text-white mb-4 leading-tight">
               👋 , je suis{' '}
@@ -236,7 +236,7 @@ function Accueil() {
       {/* Section About avec photo */}
       <div 
         ref={aboutSectionRef}
-        className="min-h-[80vh] flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-16 px-4 py-12 lg:py-20"
+        className="min-h-[80vh] flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-16 px-4 py-12 lg:py-20 max-w-6xl mx-auto"
       >
         {/* Photo de profil */}
         <div className="relative profile-image">
@@ -404,7 +404,7 @@ function Accueil() {
         transition={{ duration: 0.8 }}
         viewport={{ once: true }}
       >
-        <div className="max-w-4xl mx-auto px-4 text-center">
+        <div className="max-w-6xl mx-auto px-4 text-center">
           {/* Bouton téléchargement CV */}
           <motion.div className="mb-8">
             <motion.a
@@ -760,7 +760,7 @@ function ProjetsEtExperience() {
     <div className="w-full min-h-screen py-16 pb-24">
       {/* Header */}
       <motion.div 
-        className="text-center mb-16"
+        className="text-center mb-16 px-4 mx-auto max-w-6xl"
         initial={{ y: 50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6 }}
@@ -768,7 +768,7 @@ function ProjetsEtExperience() {
         <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
           Projets & <span style={{ color: '#3F8391' }}>Expérience</span>
         </h1>
-        <p className="text-xl text-gray-300 max-w-3xl mx-auto px-4">
+        <p className="text-xl text-gray-300 max-w-3xl mx-auto">
           Découvrez mon parcours professionnel et mes réalisations techniques
         </p>
       </motion.div>
@@ -839,7 +839,7 @@ function MesServices() {
     <div className="w-full min-h-screen py-16 pb-24">
       {/* Header */}
       <motion.div 
-        className="text-center mb-20"
+        className="text-center mb-20 px-4 mx-auto max-w-6xl"
         initial={{ y: 50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6 }}
@@ -847,7 +847,7 @@ function MesServices() {
         <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
           Mes <span style={{ color: '#3F8391' }}>Services</span>
         </h1>
-        <p className="text-xl text-gray-300 max-w-3xl mx-auto px-4">
+        <p className="text-xl text-gray-300 max-w-3xl mx-auto">
           Des solutions digitales complètes et sur-mesure pour propulser votre entreprise
         </p>
       </motion.div>
@@ -877,7 +877,7 @@ function MesServices() {
 
       {/* Call to Action Global */}
       <motion.div
-        className="text-center mt-20"
+        className="text-center mt-20 max-w-4xl mx-auto px-4"
         initial={{ y: 50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, delay: 0.8 }}
@@ -1016,7 +1016,7 @@ function Contact() {
       
       {/* Header */}
       <motion.div 
-        className="text-center mb-16"
+        className="text-center mb-16 px-4 mx-auto max-w-6xl"
         initial={{ y: 50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6 }}
@@ -1024,7 +1024,7 @@ function Contact() {
         <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 drop-shadow-lg">
           Me <span style={{ color: '#3F8391' }}>Contacter</span>
         </h1>
-        <p className="text-xl text-gray-100 max-w-3xl mx-auto px-4 drop-shadow-md">
+        <p className="text-xl text-gray-100 max-w-3xl mx-auto drop-shadow-md">
           Discutons de votre projet et créons ensemble quelque chose d'exceptionnel
         </p>
       </motion.div>

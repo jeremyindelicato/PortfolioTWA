@@ -112,19 +112,19 @@ const InspirationMarquee = () => {
         }
         
         .animate-infinite-scroll {
-          animation: infinite-scroll 120s linear infinite;
+          animation: infinite-scroll 150s linear infinite;
           width: max-content;
         }
         
         @media (max-width: 768px) {
           .animate-infinite-scroll {
-            animation: infinite-scroll 90s linear infinite;
+            animation: infinite-scroll 120s linear infinite;
           }
         }
         
         @media (max-width: 480px) {
           .animate-infinite-scroll {
-            animation: infinite-scroll 60s linear infinite;
+            animation: infinite-scroll 90s linear infinite;
           }
         }
       `}</style>
