@@ -5,7 +5,7 @@ import * as THREE from 'three';
 import { motion } from 'framer-motion';
 
 // Composant pour un neurone individuel
-function Neuron({ position, skill, isActive, onHover, onLeave }) {
+function Neuron({ position, skill, isActive, isSelected, onHover, onLeave, onSelect }) {
   const meshRef = useRef();
   const textRef = useRef();
   const [hovered, setHovered] = useState(false);
@@ -16,7 +16,7 @@ function Neuron({ position, skill, isActive, onHover, onLeave }) {
       meshRef.current.rotation.y = state.clock.elapsedTime * 0.5;
       
       // Effet de pulsation
-      const scale = isActive || hovered ? 1.3 : 1;
+      const scale = isSelected ? 1.5 : isActive || hovered ? 1.3 : 1;
       meshRef.current.scale.lerp(new THREE.Vector3(scale, scale, scale), 0.1);
     }
   });
@@ -35,6 +35,11 @@ function Neuron({ position, skill, isActive, onHover, onLeave }) {
     document.body.style.cursor = 'none';
   };
 
+  const handleClick = (e) => {
+    e.stopPropagation();
+    onSelect(skill);
+  };
+
   return (
     <group position={position}>
       <Sphere
@@ -42,11 +47,12 @@ function Neuron({ position, skill, isActive, onHover, onLeave }) {
         args={[0.3, 32, 32]}
         onPointerEnter={handlePointerEnter}
         onPointerLeave={handlePointerLeave}
+        onClick={handleClick}
       >
         <meshPhysicalMaterial
-          color="#3F8391"
-          emissive={hovered || isActive ? "#3F8391" : "#1a4d52"}
-          emissiveIntensity={hovered || isActive ? 0.6 : 0.2}
+          color="#ffffff"
+          emissive={isSelected ? "#ffffff" : hovered || isActive ? "#ffffff" : "#cccccc"}
+          emissiveIntensity={isSelected ? 1.0 : hovered || isActive ? 0.6 : 0.2}
           roughness={0.1}
           metalness={0.9}
           transmission={0.1}
@@ -59,9 +65,9 @@ function Neuron({ position, skill, isActive, onHover, onLeave }) {
       {/* Halo lumineux */}
       <Sphere args={[0.5, 32, 32]} renderOrder={-1}>
         <meshBasicMaterial
-          color="#3F8391"
+          color="#ffffff"
           transparent
-          opacity={hovered || isActive ? 0.3 : 0.08}
+          opacity={isSelected ? 0.5 : hovered || isActive ? 0.3 : 0.08}
           depthWrite={false}
         />
       </Sphere>
@@ -75,10 +81,10 @@ function Neuron({ position, skill, isActive, onHover, onLeave }) {
         anchorX="center"
         anchorY="middle"
         material-transparent={true}
-        material-opacity={hovered || isActive ? 1 : 0}
+        material-opacity={isSelected ? 1 : hovered || isActive ? 1 : 0}
         renderOrder={1}
       >
-        {skill}
+        {skill.name}
       </Text>
     </group>
   );
@@ -111,7 +117,7 @@ function Connection({ start, end, opacity = 0.5 }) {
         />
       </bufferGeometry>
       <lineBasicMaterial 
-        color="#3F8391" 
+        color="#ffffff" 
         transparent 
         opacity={opacity}
         linewidth={2}
@@ -122,16 +128,48 @@ function Connection({ start, end, opacity = 0.5 }) {
 }
 
 // Composant principal du réseau de neurones
-function NetworkScene({ hoveredSkill, setHoveredSkill }) {
+function NetworkScene({ hoveredSkill, setHoveredSkill, selectedSkill, setSelectedSkill }) {
   const skills = [
-    { name: "Machine Learning", position: [0, 2, 0] },
-    { name: "Fine-tuning", position: [-2, 1.5, 1] },
-    { name: "Chatbot", position: [2.5, 1, -1.5] },
-    { name: "Deep Learning", position: [-1.5, 0, 2] },
-    { name: "Automatisation", position: [1.5, 0, -2.5] },
-    { name: "IA Sur-mesure", position: [0, -1.5, 0] },
-    { name: "Modèle Prédictif", position: [-2, -0.5, -1] },
-    { name: "Data Driven Model", position: [2, -0.5, 1] }
+    { 
+      name: "Machine Learning", 
+      position: [0, 2, 0],
+      definition: "Algorithmes permettant aux machines d'apprendre et de s'améliorer automatiquement à partir de données."
+    },
+    { 
+      name: "Fine-tuning", 
+      position: [-2, 1.5, 1],
+      definition: "Processus d'adaptation d'un modèle pré-entraîné à une tâche spécifique avec des données ciblées."
+    },
+    { 
+      name: "Chatbot", 
+      position: [2.5, 1, -1.5],
+      definition: "Agent conversationnel intelligent capable d'interagir naturellement avec les utilisateurs."
+    },
+    { 
+      name: "Deep Learning", 
+      position: [-1.5, 0, 2],
+      definition: "Réseaux de neurones profonds inspirés du cerveau humain pour résoudre des problèmes complexes."
+    },
+    { 
+      name: "Automatisation", 
+      position: [1.5, 0, -2.5],
+      definition: "Utilisation de l'IA pour automatiser des tâches répétitives et optimiser les processus."
+    },
+    { 
+      name: "IA Sur-mesure", 
+      position: [0, -1.5, 0],
+      definition: "Solutions d'intelligence artificielle personnalisées selon les besoins spécifiques de chaque client."
+    },
+    { 
+      name: "Modèle Prédictif", 
+      position: [-2, -0.5, -1],
+      definition: "Algorithmes capables de prédire des tendances futures basées sur l'analyse de données historiques."
+    },
+    { 
+      name: "Data Driven Model", 
+      position: [2, -0.5, 1],
+      definition: "Modèles basés sur l'analyse approfondie de grandes quantités de données pour la prise de décision."
+    }
   ];
 
   // Génération des connexions
@@ -170,9 +208,9 @@ function NetworkScene({ hoveredSkill, setHoveredSkill }) {
       />
       
       {/* Éclairage */}
-      <ambientLight intensity={0.4} />
-      <pointLight position={[10, 10, 10]} intensity={1} />
-      <pointLight position={[-10, -10, -10]} intensity={0.5} color="#3F8391" />
+      <ambientLight intensity={0.6} />
+      <pointLight position={[10, 10, 10]} intensity={1.2} color="#ffffff" />
+      <pointLight position={[-10, -10, -10]} intensity={0.8} color="#ffffff" />
       
       {/* Connexions */}
       {connections.map((conn, index) => (
@@ -189,10 +227,12 @@ function NetworkScene({ hoveredSkill, setHoveredSkill }) {
         <Neuron
           key={index}
           position={skill.position}
-          skill={skill.name}
-          isActive={hoveredSkill === skill.name}
+          skill={skill}
+          isActive={hoveredSkill && hoveredSkill.name === skill.name}
+          isSelected={selectedSkill && selectedSkill.name === skill.name}
           onHover={setHoveredSkill}
           onLeave={() => setHoveredSkill(null)}
+          onSelect={setSelectedSkill}
         />
       ))}
       
@@ -209,9 +249,9 @@ function NetworkScene({ hoveredSkill, setHoveredSkill }) {
           renderOrder={-3}
         >
           <meshBasicMaterial
-            color="#3F8391"
+            color="#ffffff"
             transparent
-            opacity={0.4}
+            opacity={0.2}
             toneMapped={false}
           />
         </Sphere>
@@ -223,20 +263,38 @@ function NetworkScene({ hoveredSkill, setHoveredSkill }) {
 // Composant principal exporté
 const NeuralNetwork3D = ({ className = "" }) => {
   const [hoveredSkill, setHoveredSkill] = useState(null);
+  const [selectedSkill, setSelectedSkill] = useState(null);
+
+  const handleCanvasClick = (e) => {
+    // Si le clic ne vient pas d'un neurone (stopPropagation empêche ça), désélectionner
+    setSelectedSkill(null);
+  };
+
+  const handleSkillSelect = (skill) => {
+    // Si le skill est déjà sélectionné, le désélectionner, sinon le sélectionner
+    if (selectedSkill && selectedSkill.name === skill.name) {
+      setSelectedSkill(null);
+    } else {
+      setSelectedSkill(skill);
+    }
+  };
 
   return (
-    <div className={`relative w-full h-[400px] sm:h-[500px] lg:h-[600px] rounded-3xl overflow-hidden ${className}`}>
+    <div 
+      className={`relative w-full h-[400px] sm:h-[500px] lg:h-[600px] rounded-3xl overflow-hidden ${className}`}
+      onClick={handleCanvasClick}
+    >
       {/* Background glassmorphism */}
       <div 
         className="absolute inset-0 backdrop-blur-xl border border-white/10"
         style={{
           background: `
             linear-gradient(135deg, 
-              rgba(255, 255, 255, 0.1) 0%, 
-              rgba(255, 255, 255, 0.05) 50%, 
-              rgba(0, 0, 0, 0.1) 100%
+              rgba(63, 131, 145, 0.8) 0%, 
+              rgba(63, 131, 145, 0.6) 50%, 
+              rgba(63, 131, 145, 0.9) 100%
             ),
-            radial-gradient(circle at 20% 20%, rgba(63, 131, 145, 0.1) 0%, transparent 50%)
+            radial-gradient(circle at 20% 20%, rgba(63, 131, 145, 0.3) 0%, transparent 50%)
           `,
           boxShadow: `
             0 8px 32px rgba(0, 0, 0, 0.3),
@@ -256,12 +314,14 @@ const NeuralNetwork3D = ({ className = "" }) => {
       >
         <NetworkScene 
           hoveredSkill={hoveredSkill} 
-          setHoveredSkill={setHoveredSkill} 
+          setHoveredSkill={setHoveredSkill}
+          selectedSkill={selectedSkill}
+          setSelectedSkill={handleSkillSelect}
         />
       </Canvas>
       
       {/* Interface overlay */}
-      <div className="absolute top-3 sm:top-6 left-3 sm:left-6 z-10">
+      <div className="absolute top-3 sm:top-6 left-3 sm:left-6 z-10" onClick={(e) => e.stopPropagation()}>
         <motion.div
           className="p-4 rounded-2xl backdrop-blur-md border border-white/20"
           style={{
@@ -277,27 +337,36 @@ const NeuralNetwork3D = ({ className = "" }) => {
           <p className="text-gray-300 text-sm mb-3">
             Explorez mes compétences en IA
           </p>
-          {hoveredSkill && (
+          {(hoveredSkill || selectedSkill) && (
             <motion.div
-              className="px-3 py-1 rounded-full border"
+              className="px-4 py-3 rounded-lg border border-white/20 mt-3"
               style={{
-                borderColor: '#3F8391',
-                backgroundColor: 'rgba(63, 131, 145, 0.2)'
+                backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                backdropFilter: 'blur(10px)'
               }}
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.8, opacity: 0 }}
+              initial={{ scale: 0.8, opacity: 0, y: -10 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.8, opacity: 0, y: -10 }}
+              transition={{ duration: 0.2 }}
             >
-              <span className="text-white text-sm font-medium">
-                {hoveredSkill}
-              </span>
+              <div className="text-white text-sm font-medium mb-1">
+                {(hoveredSkill || selectedSkill).name}
+              </div>
+              <div className="text-white/80 text-xs leading-relaxed max-w-xs">
+                {(hoveredSkill || selectedSkill).definition}
+              </div>
+              {selectedSkill && (
+                <div className="text-yellow-300 text-xs mt-2 font-medium">
+                  ● Sélectionné
+                </div>
+              )}
             </motion.div>
           )}
         </motion.div>
       </div>
       
       {/* Instructions */}
-      <div className="absolute bottom-6 right-6 z-10">
+      <div className="absolute bottom-6 right-6 z-10" onClick={(e) => e.stopPropagation()}>
         <motion.div
           className="p-3 rounded-xl backdrop-blur-md border border-white/10"
           style={{
@@ -314,7 +383,7 @@ const NeuralNetwork3D = ({ className = "" }) => {
       </div>
 
       {/* Note importante */}
-      <div className="absolute bottom-6 left-6 z-10">
+      <div className="absolute bottom-6 left-6 z-10" onClick={(e) => e.stopPropagation()}>
         <motion.div
           className="p-4 rounded-xl backdrop-blur-md border border-white/10 max-w-xs"
           style={{
