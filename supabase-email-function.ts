@@ -33,8 +33,8 @@ interface QuoteRequest {
 
 // Configuration email (à remplacer par vos vraies informations)
 const EMAIL_CONFIG = {
-  from: "noreply@jeremy-indelicato.com", // Votre email d'envoi
-  to: "indelicatojeremy@gmail.com", // Votre email de réception
+  from: "onboarding@resend.dev", // Email vérifié par défaut chez Resend
+  to: "indelicatojeremy@gmail.com", // METTEZ VOTRE VRAIE ADRESSE EMAIL ICI
   smtp: {
     host: "smtp.gmail.com", // Ou votre provider SMTP
     port: 587,
@@ -179,13 +179,29 @@ function generateEmailHTML(data: QuoteRequest): string {
 
 // Fonction principale de l'Edge Function
 Deno.serve(async (req: Request) => {
+  // Headers CORS pour toutes les réponses
+  const corsHeaders = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Content-Type': 'application/json',
+  };
+
+  // Gérer les requêtes OPTIONS (preflight)
+  if (req.method === 'OPTIONS') {
+    return new Response(null, { 
+      status: 200, 
+      headers: corsHeaders 
+    });
+  }
+
   // Vérifier la méthode HTTP
   if (req.method !== 'POST') {
     return new Response(
       JSON.stringify({ error: 'Method not allowed' }), 
       { 
         status: 405, 
-        headers: { 'Content-Type': 'application/json' } 
+        headers: corsHeaders
       }
     );
   }
@@ -195,17 +211,18 @@ Deno.serve(async (req: Request) => {
     const quoteData: QuoteRequest = await req.json();
     
     console.log('📧 Nouvelle demande de devis reçue:', quoteData.id);
+    console.log('🔑 RESEND_API_KEY available:', !!Deno.env.get('RESEND_API_KEY'));
+    console.log('📮 Sending to:', EMAIL_CONFIG.to);
 
     // Générer le contenu de l'email
     const emailHTML = generateEmailHTML(quoteData);
     const emailSubject = `🚀 Nouvelle demande ${quoteData.service_type} - ${quoteData.first_name} ${quoteData.last_name} (${quoteData.budget_range || 'Budget non spécifié'})`;
 
-    // Envoyer l'email (exemple avec fetch vers service email)
-    // Vous pouvez utiliser SendGrid, Resend, ou tout autre service
+    // Envoyer l'email via Resend
     const emailResponse = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${Deno.env.get('RESEND_API_KEY')}`,
+        'Authorization': `Bearer ${Deno.env.get('RESEND_API_KEY') || 'VOTRE_CLE_RESEND_ICI'}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
@@ -243,11 +260,7 @@ Deno.serve(async (req: Request) => {
       }),
       { 
         status: 200,
-        headers: { 
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-        }
+        headers: corsHeaders
       }
     );
 
@@ -262,11 +275,7 @@ Deno.serve(async (req: Request) => {
       }),
       { 
         status: 500,
-        headers: { 
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-        }
+        headers: corsHeaders
       }
     );
   }
