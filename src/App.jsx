@@ -27,6 +27,17 @@ import strykerLogo from './assets/autre/stryker.svg';
 import cvPdf from './assets/autre/CV_JeremyIndelicato_Alternance.pdf';
 import irisTechnicalPdf from './assets/iris/Dossier_Technique_iris_pipeline.pdf';
 
+// Import des images pour les projets
+import irisLogo from './assets/iris/irislogo.png';
+import irisMockup from './assets/iris/mockup2.png';
+import lxpLogo from './assets/lxp/lxplogo.png';
+import orapiLogo from './assets/orapi/orapilogo.png';
+import orapiChatbot from './assets/orapi/example_chatbot_ai.png';
+import ascLogo from './assets/asc/asclogo.png';
+import institutCorailLogo from './assets/institut-corail/logoinstitutcorail.png';
+import institutCorailMockup from './assets/institut-corail/Mockup.png';
+import maisonlicLogo from './assets/maisonlic/logo.png';
+
 function App() {
   const [loading, setLoading] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -269,36 +280,56 @@ function Accueil() {
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-8 lg:mb-12">
             <motion.button 
-              className="px-8 py-4 lg:px-10 lg:py-5 text-white font-semibold rounded-full transition-all duration-300 text-base lg:text-lg"
+              className="px-8 py-4 lg:px-10 lg:py-5 text-white font-semibold rounded-full transition-all duration-300 text-base lg:text-lg border border-white/20 backdrop-blur-xl relative overflow-hidden group"
               style={{
-                background: 'radial-gradient(ellipse at center, #3C3C3D 0%, #040F11 100%)',
-                border: '2px solid #3F8391'
+                background: `
+                  linear-gradient(135deg, 
+                    rgba(255, 255, 255, 0.1) 0%, 
+                    rgba(255, 255, 255, 0.05) 50%, 
+                    rgba(0, 0, 0, 0.1) 100%
+                  )
+                `,
+                backdropFilter: 'blur(20px)',
+                border: '2px solid rgba(63, 131, 145, 0.5)',
+                boxShadow: `
+                  0 8px 32px rgba(0, 0, 0, 0.3),
+                  inset 0 1px 0 rgba(255, 255, 255, 0.2)
+                `
               }}
               whileHover={{ 
                 scale: 1.05,
-                backgroundColor: '#3F8391',
-                boxShadow: '0 10px 30px rgba(63, 131, 145, 0.4)'
+                boxShadow: '0 12px 40px rgba(63, 131, 145, 0.4)'
               }}
               whileTap={{ scale: 0.95 }}
             >
-              Voir mes projets
+              {/* Shimmer effect */}
+              <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+              <span className="relative z-10">Voir mes projets</span>
             </motion.button>
             <motion.button 
-              className="px-8 py-4 lg:px-10 lg:py-5 font-semibold rounded-full transition-all duration-300 text-base lg:text-lg"
+              className="px-8 py-4 lg:px-10 lg:py-5 font-semibold rounded-full transition-all duration-300 text-base lg:text-lg text-white relative overflow-hidden group"
               style={{
-                border: '2px solid #3F8391',
-                color: '#3F8391',
-                backgroundColor: 'transparent'
+                background: `
+                  linear-gradient(135deg, 
+                    rgba(63, 131, 145, 0.8) 0%, 
+                    rgba(63, 131, 145, 0.6) 50%, 
+                    rgba(63, 131, 145, 0.4) 100%
+                  )
+                `,
+                boxShadow: `
+                  0 4px 16px rgba(63, 131, 145, 0.3),
+                  inset 0 1px 0 rgba(255, 255, 255, 0.2)
+                `
               }}
               whileHover={{ 
                 scale: 1.05,
-                backgroundColor: '#3F8391',
-                color: '#FFFFFF',
-                boxShadow: '0 10px 30px rgba(63, 131, 145, 0.4)'
+                boxShadow: '0 6px 24px rgba(63, 131, 145, 0.4)'
               }}
               whileTap={{ scale: 0.95 }}
             >
-              Me contacter
+              {/* Shimmer effect */}
+              <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+              <span className="relative z-10">Me contacter</span>
             </motion.button>
           </div>
 
@@ -464,25 +495,25 @@ function ProjetsEtExperience() {
       id: 1,
       name: "Iris Pipeline",
       category: "Projet d'étude",
-      shortDescription: "Pipeline de machine learning pour l'analyse et la reconnaissance visuelle avancée",
-      fullDescription: "Développement d'un pipeline complet de machine learning utilisant des techniques d'intelligence artificielle pour l'analyse et la reconnaissance d'images. Le projet comprend la collecte de données, le préprocessing, l'entraînement de modèles de deep learning, et le déploiement en production.\n\nL'accent a été mis sur l'optimisation des performances et la scalabilité du système, permettant de traiter des milliers d'images par minute avec une précision élevée.",
-      image: "/src/assets/iris/irislogo.png",
-      date: "2023 - 2024",
-      technologies: ["Python", "TensorFlow", "OpenCV", "Docker", "FastAPI", "PostgreSQL"],
+      shortDescription: "Pipeline de machine learning pour la prédiction de la largeur de sépale",
+      fullDescription: "Développement d'un pipeline de machine learning complet pour l'analyse et la prédiction d'une largeur de sépale. Le projet inclut la création d'une API REST pour les prédictions, l'utilisation de MLflow pour le suivi des modèles, et une base de données PostgreSQL pour stocker les données structurées.\n\nL'objectif est de fournir une solution robuste et scalable pour le traitement d'images, avec un focus sur la performance et la maintenabilité du code.\n\nLe projet a été réalisé dans le cadre de ma formation à Epitech.",
+      image: irisLogo,
+      date: "2025",
+      technologies: ["Python", "FastAPI", "MLflow", "Docker", "Scikit-learn", "PostgreSQL"],
       keyFeatures: [
         "Pipeline automatisé de traitement d'images",
-        "Modèles de deep learning personnalisés",
-        "API REST pour l'intégration",
-        "Interface de monitoring en temps réel"
+        "API REST pour faire des prédictions via /predict",
+        "Base de données PostgreSQL pour les données structurées",
+        "Tracking des modèles et métriques via MLflow"
       ],
       achievements: [
-        "Précision de 94% sur le dataset de test",
-        "Temps de traitement réduit de 60%",
-        "Architecture scalable jusqu'à 10k images/minute"
+        "MSE < 0.1 avec RandomForestRegressor",
+        "Containerisation et orchestration réussies avec Docker Compose",
+        "Pipeline traçable et maintenable"
       ],
       media: {
         type: "image",
-        src: "/src/assets/iris/irislogo.png"
+        src: irisMockup
       },
       detailUrl: irisTechnicalPdf
     },
@@ -492,7 +523,7 @@ function ProjetsEtExperience() {
       category: "Projet d'étude",
       shortDescription: "Jeu vidéo éducatif pour l'apprentissage des langues",
       fullDescription: "Création d'une plateforme immersive d'apprentissage des langues à travers des jeux vidéo et des expériences interactives. Le projet inclut le développement d'un site web moderne, l'intégration de l'intelligence artificielle pour les interactions avec les personnages non-joueurs (PNJ), et un système de progression gamifié.\n\nL'objectif est de rendre l'apprentissage des langues plus engageant et efficace en combinant technologie et pédagogie.\n\n Nous avons développé un site web minimaliste et responsive, intégrant des éléments de design moderne et une interface utilisateur intuitive.",
-      image: "/src/assets/lxp/lxplogo.png",
+      image: lxpLogo,
       date: "2024",
       technologies: ["Unreal Engine", "Blender", "JavaScript", "OpenAI API", "Figma", "Illustrator"],
       keyFeatures: [
@@ -509,7 +540,7 @@ function ProjetsEtExperience() {
       websiteUrl: "https://lavender-curlew-739021.hostingersite.com/",
       media: {
         type: "image",
-        src: "/src/assets/lxp/lxplogo.png"
+        src: lxpLogo
       }
     }
   ];
@@ -522,23 +553,23 @@ function ProjetsEtExperience() {
       category: "Expérience",
       shortDescription: "Alternance en tant que Data Engineer - Développement de ChatBot et gestion de données",
       fullDescription: "Mission en alternance chez Orapi, spécialisée dans les solutions de nettoyage industriel. Développement d'un système de ChatBot intelligent pour le support client et mise en place d'une architecture de gestion des données robuste.\n\nLe projet a inclus l'analyse des besoins clients, la conception d'une base de données optimisée, et l'implémentation d'algorithmes de traitement du langage naturel pour améliorer l'expérience utilisateur.",
-      image: "/src/assets/orapi/orapilogo.png",
-      date: "2023 - 2024",
+      image: orapiLogo,
+      date: "2025",
       technologies: ["Python", "Sage X3 V12", "PostgreSQL", "Mistral AI API", "Google Colab", "PyTorch"],
       keyFeatures: [
-        "ChatBot avec IA conversationnelle",
-        "Système de gestion de données clients",
-        "Dashboard analytique temps réel",
+        "IA fine-tuné conversationnelle",
+        "Système de gestion de données produits",
+        "Nettoyage et structuration des données",
         "Intégration avec les systèmes existants"
       ],
       achievements: [
-        "Réduction de 40% du temps de réponse support",
-        "Automatisation de 70% des requêtes clients",
-        "Amélioration de la satisfaction client de 25%"
+        "Restructuration de la base de données (+ de 1000 produits)",
+        "Gestion de la gamme de produit MDD",
+        "Amélioration de la satisfaction client"
       ],
       media: {
         type: "image",
-        src: "/src/assets/orapi/orapilogo.png"
+        src: orapiChatbot
       },
       detailUrl: "https://huggingface.co/taciturn999/OrapAI"
     },
@@ -546,9 +577,9 @@ function ProjetsEtExperience() {
       id: 4,
       name: "ASC - Growth Marketing",
       category: "Expérience",
-      shortDescription: "Stage en Growth Marketing - Growth hacking, développement web et design",
+      shortDescription: "Stage en Growth Marketing - Développement web et design & croissance",
       fullDescription: "Stage de 7 mois chez Advanced Silicone Coating (Groupe Hartmann), une entreprise spécialisée dans les solutions de pansements. Le projet a consisté à développer une stratégie de growth marketing incluant la création d'un site web moderne, l'automatisation des campagnes de prospection, et l'analyse des données de marché.\n\nL'objectif était d'augmenter la visibilité en ligne de l'entreprise et de générer des leads qualifiés pour les équipes commerciales.",
-      image: "/src/assets/asc/asclogo.png",
+      image: ascLogo,
       date: "2023",
       technologies: ["SiteCore", "PhantomBuster", "Python", "Intégration HTML", "Figma", "Premiere Pro"],
       keyFeatures: [
@@ -565,7 +596,7 @@ function ProjetsEtExperience() {
       websiteUrl: "https://bento.me/advanced-silicone-coating",
       media: {
         type: "image",
-        src: "/src/assets/asc/asclogo.png"
+        src: ascLogo
       }
     }
   ];
@@ -578,7 +609,7 @@ function ProjetsEtExperience() {
       category: "Client freelance",
       shortDescription: "Institut de beauté et soins - Développement web, design, SEO et e-commerce",
       fullDescription: "Projet complet pour l'Institut Corail, spécialisé dans les soins de beauté et l'esthétique. Création d'une présence digitale complète incluant le site web, la stratégie SEO, et la mise en place d'une boutique en ligne.\n\nLe projet a nécessité une approche sur-mesure pour refléter l'élégance et le professionnalisme de l'institut, avec une attention particulière portée à l'expérience utilisateur et à la conversion client.\n\n L'institut se situe à Loyettes, à 298 Rue du Bugey, 01360 Loyettes.",
-      image: "/src/assets/institut-corail/logoinstitutcorail.png",
+      image: institutCorailLogo,
       date: "2024",
       technologies: ["Hostinger", "Google Analytics", "Vue.js", "Search Console", "Figma", "Tag Manager"],
       keyFeatures: [
@@ -595,7 +626,7 @@ function ProjetsEtExperience() {
       websiteUrl: "https://institut-corail.com",
       media: {
         type: "image",
-        src: "/src/assets/institut-corail/Mockup.png"
+        src: institutCorailMockup
       }
     },
     {
@@ -604,7 +635,7 @@ function ProjetsEtExperience() {
       category: "Client freelance",
       shortDescription: "Création d'art floral - Développement web, design, SEO et e-commerce",
       fullDescription: "Développement complet de la présence digitale pour Maison L.I.C, spécialisée dans la création d'art floral haut de gamme. Le projet englobe la création d'un univers visuel unique, le développement d'un site e-commerce, et une stratégie SEO ciblée.\n\nL'accent a été mis sur la mise en valeur des créations florales à travers une galerie interactive et un système de commande personnalisé pour les événements sur-mesure.",
-      image: "/src/assets/maisonlic/logo.png",
+      image: maisonlicLogo,
       date: "2025",
       technologies: ["Shopify", "HTML", "Stripe", "SEO", "Search Console", "Hostinger"],
       keyFeatures: [
@@ -621,7 +652,7 @@ function ProjetsEtExperience() {
       websiteUrl: "https://maisonlic.fr",
       media: {
         type: "image",
-        src: "/src/assets/maisonlic/logo.png"
+        src: maisonlicLogo
       }
     }
   ];

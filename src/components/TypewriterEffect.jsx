@@ -14,7 +14,7 @@ const TypewriterEffect = () => {
         'perfectionne votre SEO',
         'gère vos bases de données',
         'design vos interfaces',
-        'anime vos projets',
+        'donne vie à votre marque',
         'développe votre e-commerce',
         'rédige vos mentions légales',
         'rédige votre conformité RGPD',

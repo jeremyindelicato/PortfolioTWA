@@ -9,7 +9,7 @@ import ascLogo from '../assets/asc/asclogo.png';
 import lxpLogo from '../assets/lxp/lxplogo.png';
 import irisLogo from '../assets/iris/irislogo.png';
 import spacedriverLogo from '../assets/spacedriver/spacedriverlogo.png';
-import iamcryptoLogo from '../assets/iamcrypto/iamcryptologo.png';
+import iamcryptoLogo from '../assets/iamcrypto/mockup-mac.png';
 import maisonlicLogo from '../assets/maisonlic/logo.png';
 import orapiLogo from '../assets/orapi/orapilogo.png';
 
@@ -23,57 +23,57 @@ const ProjectCarousel = () => {
       id: 1,
       name: "Institut Corail",
       image: institutCorailLogo,
-      description: "Plateforme de recherche marine et de conservation des récifs coralliens",
-      category: "Recherche & Environnement"
+      description: "Institut de beauté et soins esthétiques haut de gamme",
+      category: "Site Web, E-commerce & SEO"
     },
     {
       id: 2,
       name: "ASC",
       image: ascLogo,
-      description: "Solution complète de gestion d'association sportive et culturelle",
-      category: "Gestion & Sport"
+      description: "Stage de 7 mois chez Advanced Silicone Coating (Groupe Hartmann), une entreprise spécialisée dans les solutions de pansements",
+      category: "Site Web, Growth Marketing & Design"
     },
     {
       id: 3,
       name: "LXP",
       image: lxpLogo,
-      description: "Plateforme d'apprentissage expérientiel nouvelle génération",
-      category: "Éducation & Tech"
+      description: "Jeu vidéo éducatif pour l'apprentissage des langues",
+      category: "Jeu Vidéo & Site Web"
     },
     {
       id: 4,
       name: "Iris",
       image: irisLogo,
-      description: "Assistant IA pour l'analyse et la reconnaissance visuelle",
+      description: "Machine Learning pour la prédiction de la largeur de sépale",
       category: "Intelligence Artificielle"
     },
     {
       id: 5,
       name: "Space Driver",
       image: spacedriverLogo,
-      description: "Jeu de simulation spatiale immersif en temps réel",
-      category: "Gaming & Simulation"
+      description: "Simulateur de conduite spatiale",
+      category: "Jeu Vidéo"
     },
     {
       id: 6,
       name: "I AM CRYPTO",
       image: iamcryptoLogo,
-      description: "Plateforme de trading et d'analyse de cryptomonnaies",
-      category: "Fintech & Blockchain"
+      description: "Récolte les cryptomonnaies en jouant Playboi Carti",
+      category: "Jeu Vidéo"
     },
     {
       id: 7,
       name: "Maison L.I.C",
       image: maisonlicLogo,
-      description: "Site vitrine pour agence d'architecture d'intérieur haut de gamme",
-      category: "Architecture & Design"
+      description: "Art floral et décoration d'intérieur",
+      category: "Site Web & SEO"
     },
     {
       id: 8,
       name: "Orapi",
       image: orapiLogo,
-      description: "Solution e-commerce B2B pour produits chimiques industriels",
-      category: "E-commerce & Industrie"
+      description: "Gestion de données et ChatBot intelligent pour le support client",
+      category: "Data Engineering & IA",
     }
   ];
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import backgroundVideo from '../assets/autre/background-video.mp4';
 
 const Pattern = () => {
   return (
@@ -19,7 +20,7 @@ const Pattern = () => {
           objectFit: 'cover'
         }}
       >
-        <source src="../assets/autre/background.video.mp4" type="video/mp4" />
+        <source src={backgroundVideo} type="video/mp4" />
         {/* Fallback en cas d'échec de chargement de la vidéo */}
         Votre navigateur ne supporte pas les vidéos HTML5.
       </video>

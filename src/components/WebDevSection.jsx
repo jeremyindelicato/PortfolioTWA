@@ -1,6 +1,29 @@
 import { motion } from 'framer-motion';
 import { Code2, Database, Smartphone, Globe, Shield, Zap, Search, ShoppingCart } from 'lucide-react';
 
+// Import des logos technologies
+import reactLogo from '../assets/software/React-logo.png';
+import pythonLogo from '../assets/software/python-logo.png';
+import htmlCssJsLogo from '../assets/software/HTML-CSS-JS-Logo.png';
+import vuejsLogo from '../assets/software/Logo-Vuejs.png';
+import sqlLogo from '../assets/software/sql-logo.png';
+import figmaLogo from '../assets/software/figma-logo.png';
+import gitLogo from '../assets/software/git-logo.png';
+import blenderLogo from '../assets/software/Blender-logo.png';
+import adobeLogo from '../assets/software/adobesuite-logo.png';
+import pandasLogo from '../assets/software/Pandas_logo.svg.png';
+import pytorchLogo from '../assets/software/Pytorch_logo.png';
+import scikitLearnLogo from '../assets/software/Scikit_learn_logo.png';
+import threejsLogo from '../assets/software/threejs.png';
+import supabaseLogo from '../assets/software/supabase-logo.png';
+import shopifyLogo from '../assets/software/shopify-logo.png';
+import powerBiLogo from '../assets/software/PowerBI-logo.png';
+import hostingerLogo from '../assets/software/hostinger-logo.png';
+import sageX3Logo from '../assets/software/logo-erp-sage-x3.png';
+import wordpressLogo from '../assets/software/wordpress-logo.png';
+import analyticsLogo from '../assets/software/analytics-logo.png';
+import institutCorailMockup from '../assets/institut-corail/Mockup.png';
+
 const WebDevSection = ({ className = "" }) => {
   const features = [
     {
@@ -161,7 +184,7 @@ const WebDevSection = ({ className = "" }) => {
           >
             {/* Image */}
             <motion.img
-              src="src/assets/institut-corail/Mockup.png"
+              src={institutCorailMockup}
               alt="Institut Corail - Projet de développement web"
               className="w-full h-full object-cover rounded-3xl"
               initial={{ scale: 1.1, opacity: 0 }}
@@ -344,85 +367,85 @@ const WebDevSection = ({ className = "" }) => {
           <div className="marquee">
             <div className="marquee__group">
               <div className="tech-logo-container">
-                <img src="src/assets/software/React-logo.png" alt="React" loading="lazy" />
+                <img src={reactLogo} alt="React" loading="lazy" />
               </div>
               <div className="tech-logo-container">
-                <img src="src/assets/software/python-logo.png" alt="Python" loading="lazy" />
+                <img src={pythonLogo} alt="Python" loading="lazy" />
               </div>
               <div className="tech-logo-container">
-                <img src="src/assets/software/HTML-CSS-JS-Logo.png" alt="HTML CSS JS" loading="lazy" />
+                <img src={htmlCssJsLogo} alt="HTML CSS JS" loading="lazy" />
               </div>
               <div className="tech-logo-container">
-                <img src="src/assets/software/Logo-Vuejs.png" alt="Vue.js" loading="lazy" />
+                <img src={vuejsLogo} alt="Vue.js" loading="lazy" />
               </div>
               <div className="tech-logo-container">
-                <img src="src/assets/software/sql-logo.png" alt="SQL" loading="lazy" />
+                <img src={sqlLogo} alt="SQL" loading="lazy" />
               </div>
               <div className="tech-logo-container">
-                <img src="src/assets/software/figma-logo.png" alt="Figma" loading="lazy" />
+                <img src={figmaLogo} alt="Figma" loading="lazy" />
               </div>
               <div className="tech-logo-container">
-                <img src="src/assets/software/git-logo.png" alt="Git" loading="lazy" />
+                <img src={gitLogo} alt="Git" loading="lazy" />
               </div>
               <div className="tech-logo-container">
-                <img src="src/assets/software/Blender-logo.png" alt="Blender" loading="lazy" />
+                <img src={blenderLogo} alt="Blender" loading="lazy" />
               </div>
               <div className="tech-logo-container">
-                <img src="src/assets/software/adobesuite-logo.png" alt="Adobe Suite" loading="lazy" />
+                <img src={adobeLogo} alt="Adobe Suite" loading="lazy" />
               </div>
               <div className="tech-logo-container">
-                <img src="src/assets/software/Pandas_logo.svg.png" alt="Pandas" loading="lazy" />
+                <img src={pandasLogo} alt="Pandas" loading="lazy" />
               </div>
               <div className="tech-logo-container">
-                <img src="src/assets/software/Pytorch_logo.png" alt="PyTorch" loading="lazy" />
+                <img src={pytorchLogo} alt="PyTorch" loading="lazy" />
               </div>
               <div className="tech-logo-container">
-                <img src="src/assets/software/Scikit_learn_logo.png" alt="Scikit-learn" loading="lazy" />
+                <img src={scikitLearnLogo} alt="Scikit-learn" loading="lazy" />
               </div>
               <div className="tech-logo-container">
-                <img src="src/assets/software/threejs.png" alt="Three.js" loading="lazy" />
+                <img src={threejsLogo} alt="Three.js" loading="lazy" />
               </div>
             </div>
 
             <div aria-hidden="true" className="marquee__group">
               <div className="tech-logo-container">
-                <img src="src/assets/software/React-logo.png" alt="React" loading="lazy" />
+                <img src={reactLogo} alt="React" loading="lazy" />
               </div>
               <div className="tech-logo-container">
-                <img src="src/assets/software/python-logo.png" alt="Python" loading="lazy" />
+                <img src={pythonLogo} alt="Python" loading="lazy" />
               </div>
               <div className="tech-logo-container">
-                <img src="src/assets/software/HTML-CSS-JS-Logo.png" alt="HTML CSS JS" loading="lazy" />
+                <img src={htmlCssJsLogo} alt="HTML CSS JS" loading="lazy" />
               </div>
               <div className="tech-logo-container">
-                <img src="src/assets/software/Logo-Vuejs.png" alt="Vue.js" loading="lazy" />
+                <img src={vuejsLogo} alt="Vue.js" loading="lazy" />
               </div>
               <div className="tech-logo-container">
-                <img src="src/assets/software/sql-logo.png" alt="SQL" loading="lazy" />
+                <img src={sqlLogo} alt="SQL" loading="lazy" />
               </div>
               <div className="tech-logo-container">
-                <img src="src/assets/software/figma-logo.png" alt="Figma" loading="lazy" />
+                <img src={figmaLogo} alt="Figma" loading="lazy" />
               </div>
               <div className="tech-logo-container">
-                <img src="src/assets/software/git-logo.png" alt="Git" loading="lazy" />
+                <img src={gitLogo} alt="Git" loading="lazy" />
               </div>
               <div className="tech-logo-container">
-                <img src="src/assets/software/Blender-logo.png" alt="Blender" loading="lazy" />
+                <img src={blenderLogo} alt="Blender" loading="lazy" />
               </div>
               <div className="tech-logo-container">
-                <img src="src/assets/software/adobesuite-logo.png" alt="Adobe Suite" loading="lazy" />
+                <img src={adobeLogo} alt="Adobe Suite" loading="lazy" />
               </div>
               <div className="tech-logo-container">
-                <img src="src/assets/software/Pandas_logo.svg.png" alt="Pandas" loading="lazy" />
+                <img src={pandasLogo} alt="Pandas" loading="lazy" />
               </div>
               <div className="tech-logo-container">
-                <img src="src/assets/software/Pytorch_logo.png" alt="PyTorch" loading="lazy" />
+                <img src={pytorchLogo} alt="PyTorch" loading="lazy" />
               </div>
               <div className="tech-logo-container">
-                <img src="src/assets/software/Scikit_learn_logo.png" alt="Scikit-learn" loading="lazy" />
+                <img src={scikitLearnLogo} alt="Scikit-learn" loading="lazy" />
               </div>
               <div className="tech-logo-container">
-                <img src="src/assets/software/threejs.png" alt="Three.js" loading="lazy" />
+                <img src={threejsLogo} alt="Three.js" loading="lazy" />
               </div>
             </div>
           </div>
@@ -430,49 +453,49 @@ const WebDevSection = ({ className = "" }) => {
           <div className="marquee marquee--reverse">
             <div className="marquee__group">
               <div className="tech-logo-container">
-                <img src="src/assets/software/supabase-logo.png" alt="Supabase" loading="lazy" />
+                <img src={supabaseLogo} alt="Supabase" loading="lazy" />
               </div>
               <div className="tech-logo-container">
-                <img src="src/assets/software/shopify-logo.png" alt="Shopify" loading="lazy" />
+                <img src={shopifyLogo} alt="Shopify" loading="lazy" />
               </div>
               <div className="tech-logo-container">
-                <img src="src/assets/software/PowerBI-logo.png" alt="Power BI" loading="lazy" />
+                <img src={powerBiLogo} alt="Power BI" loading="lazy" />
               </div>
               <div className="tech-logo-container">
-                <img src="src/assets/software/hostinger-logo.png" alt="Hostinger" loading="lazy" />
+                <img src={hostingerLogo} alt="Hostinger" loading="lazy" />
               </div>
               <div className="tech-logo-container">
-                <img src="src/assets/software/logo-erp-sage-x3.png" alt="Sage X3" loading="lazy" />
+                <img src={sageX3Logo} alt="Sage X3" loading="lazy" />
               </div>
               <div className="tech-logo-container">
-                <img src="src/assets/software/wordpress-logo.png" alt="WordPress" loading="lazy" />
+                <img src={wordpressLogo} alt="WordPress" loading="lazy" />
               </div>
               <div className="tech-logo-container">
-                <img src="src/assets/software/analytics-logo.png" alt="Analytics" loading="lazy" />
+                <img src={analyticsLogo} alt="Analytics" loading="lazy" />
               </div>
             </div>
 
             <div aria-hidden="true" className="marquee__group">
               <div className="tech-logo-container">
-                <img src="src/assets/software/supabase-logo.png" alt="Supabase" loading="lazy" />
+                <img src={supabaseLogo} alt="Supabase" loading="lazy" />
               </div>
               <div className="tech-logo-container">
-                <img src="src/assets/software/shopify-logo.png" alt="Shopify" loading="lazy" />
+                <img src={shopifyLogo} alt="Shopify" loading="lazy" />
               </div>
               <div className="tech-logo-container">
-                <img src="src/assets/software/PowerBI-logo.png" alt="Power BI" loading="lazy" />
+                <img src={powerBiLogo} alt="Power BI" loading="lazy" />
               </div>
               <div className="tech-logo-container">
-                <img src="src/assets/software/hostinger-logo.png" alt="Hostinger" loading="lazy" />
+                <img src={hostingerLogo} alt="Hostinger" loading="lazy" />
               </div>
               <div className="tech-logo-container">
-                <img src="src/assets/software/logo-erp-sage-x3.png" alt="Sage X3" loading="lazy" />
+                <img src={sageX3Logo} alt="Sage X3" loading="lazy" />
               </div>
               <div className="tech-logo-container">
-                <img src="src/assets/software/wordpress-logo.png" alt="WordPress" loading="lazy" />
+                <img src={wordpressLogo} alt="WordPress" loading="lazy" />
               </div>
               <div className="tech-logo-container">
-                <img src="src/assets/software/analytics-logo.png" alt="Analytics" loading="lazy" />
+                <img src={analyticsLogo} alt="Analytics" loading="lazy" />
               </div>
             </div>
           </div>
