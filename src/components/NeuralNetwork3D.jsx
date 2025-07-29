@@ -159,7 +159,7 @@ function NetworkScene({ hoveredSkill, setHoveredSkill }) {
         enableZoom={true}
         enablePan={false}
         enableRotate={true}
-        autoRotate={true}
+        autoRotate={window.innerWidth > 768}
         autoRotateSpeed={0.8}
         maxPolarAngle={Math.PI}
         minPolarAngle={0}
@@ -225,7 +225,7 @@ const NeuralNetwork3D = ({ className = "" }) => {
   const [hoveredSkill, setHoveredSkill] = useState(null);
 
   return (
-    <div className={`relative w-full h-[600px] rounded-3xl overflow-hidden ${className}`}>
+    <div className={`relative w-full h-[400px] sm:h-[500px] lg:h-[600px] rounded-3xl overflow-hidden ${className}`}>
       {/* Background glassmorphism */}
       <div 
         className="absolute inset-0 backdrop-blur-xl border border-white/10"
@@ -261,7 +261,7 @@ const NeuralNetwork3D = ({ className = "" }) => {
       </Canvas>
       
       {/* Interface overlay */}
-      <div className="absolute top-6 left-6 z-10">
+      <div className="absolute top-3 sm:top-6 left-3 sm:left-6 z-10">
         <motion.div
           className="p-4 rounded-2xl backdrop-blur-md border border-white/20"
           style={{

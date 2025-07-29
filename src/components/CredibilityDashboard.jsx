@@ -165,7 +165,7 @@ const CredibilityDashboard = ({ className = "" }) => {
 
         {/* Dashboard Container */}
         <div 
-          className="rounded-3xl p-8 border border-white/10"
+          className="rounded-3xl p-4 sm:p-6 lg:p-8 border border-white/10"
           style={{
             background: `
               linear-gradient(135deg, 
@@ -199,7 +199,7 @@ const CredibilityDashboard = ({ className = "" }) => {
             transition={{ duration: 0.5, delay: 0.3 }}
           >
             <h3 className="text-xl font-bold text-white mb-6 text-center">Vue d'Ensemble</h3>
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
               <div className="text-center">
                 <div className="text-3xl font-bold text-[#3F8391] mb-1">+{animatedValues.clients}</div>
                 <div className="text-sm text-gray-300">Clients Servis</div>
@@ -220,7 +220,7 @@ const CredibilityDashboard = ({ className = "" }) => {
           </motion.div>
 
           {/* Graphiques détaillés - Focus sur les visualisations */}
-          <div className="grid grid-cols-1 gap-8">
+          <div className="grid grid-cols-1 gap-6 sm:gap-8">
             {/* Graphique en barres - Délais de livraison */}
             <motion.div
               className="p-6 rounded-xl border border-white/10"
@@ -266,7 +266,7 @@ const CredibilityDashboard = ({ className = "" }) => {
           </div>
 
           {/* Graphiques de performance */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
+          <div className="grid grid-cols-1 gap-6 sm:gap-8 mt-6 sm:mt-8">
             {/* Graphique linéaire - Croissance trafic/leads enrichi */}
             <motion.div
               className="p-6 rounded-xl border border-white/10"

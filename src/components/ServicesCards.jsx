@@ -62,11 +62,11 @@ const ServicesCards = () => {
         </motion.div>
 
         {/* Services Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           {services.map((service, index) => (
             <motion.div
               key={service.id}
-              className="group relative overflow-hidden rounded-3xl p-[1px] cursor-pointer"
+              className="group relative overflow-hidden rounded-3xl p-[1px] cursor-pointer touch-manipulation"
               initial={{ y: 60, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.4 + index * 0.1 }}
@@ -174,7 +174,7 @@ const ServicesCards = () => {
                   </p>
 
                   {/* Features */}
-                  <div className="grid grid-cols-2 gap-2 mb-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-2 mb-6">
                     {service.features.map((feature, idx) => (
                       <motion.div
                         key={idx}

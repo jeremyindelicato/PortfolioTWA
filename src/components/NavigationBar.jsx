@@ -163,7 +163,7 @@ const NavigationBar = () => {
               }
             }
           }}
-          className="fixed top-20 right-4 z-40 p-4 rounded-2xl shadow-2xl transition-all duration-300"
+          className="fixed top-16 sm:top-20 right-2 sm:right-4 left-2 sm:left-auto z-40 p-4 rounded-2xl shadow-2xl transition-all duration-300"
           style={{
             background: `rgba(0, 0, 0, ${isScrolled ? 0.9 : 0.95})`,
             backdropFilter: isScrolled ? 'blur(20px)' : 'blur(10px)',
@@ -174,7 +174,7 @@ const NavigationBar = () => {
             <motion.div key={index}>
               <Link
                 to={item.path}
-                className={`block font-medium text-base px-4 py-3 rounded-lg mb-2 last:mb-0 transition-colors duration-300 ${
+                className={`block font-medium text-base px-6 py-4 sm:px-4 sm:py-3 rounded-lg mb-2 last:mb-0 transition-colors duration-300 min-h-[48px] flex items-center touch-manipulation ${
                   location.pathname === item.path 
                     ? 'text-white bg-white/10' 
                     : 'text-white hover:text-[#3F8391]'

@@ -158,7 +158,7 @@ const ProjectCarousel = () => {
           }}
         >
           {/* Main Carousel */}
-          <div className="relative h-72 md:h-80">
+          <div className="relative h-64 sm:h-72 md:h-80">
             <div 
               className="flex transition-transform duration-700 ease-out h-full"
               style={{ transform: `translateX(-${currentIndex * 100}%)` }}
@@ -204,7 +204,7 @@ const ProjectCarousel = () => {
                       transition={{ duration: 0.4, ease: "easeOut" }}
                     >
                       <div 
-                        className="backdrop-blur-lg rounded-lg p-2 border border-white/10 max-w-64"
+                        className="backdrop-blur-lg rounded-lg p-3 sm:p-2 border border-white/10 max-w-72 sm:max-w-64"
                         style={{
                           background: 'rgba(255, 255, 255, 0.08)',
                           boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)'
@@ -267,7 +267,7 @@ const ProjectCarousel = () => {
           {/* Navigation Arrows - Plus minimalistes */}
           <motion.button
             onClick={prevSlide}
-            className="absolute left-2 top-1/2 -translate-y-1/2 w-6 h-6 backdrop-blur-sm border border-white/10 rounded-full flex items-center justify-center text-white/70 transition-all duration-200"
+            className="absolute left-3 sm:left-2 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-6 sm:h-6 backdrop-blur-sm border border-white/10 rounded-full flex items-center justify-center text-white/70 transition-all duration-200 touch-manipulation"
             style={{
               background: 'rgba(255, 255, 255, 0.05)',
               boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)'
@@ -287,7 +287,7 @@ const ProjectCarousel = () => {
           
           <motion.button
             onClick={nextSlide}
-            className="absolute right-2 top-1/2 -translate-y-1/2 w-6 h-6 backdrop-blur-sm border border-white/10 rounded-full flex items-center justify-center text-white/70 transition-all duration-200"
+            className="absolute right-3 sm:right-2 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-6 sm:h-6 backdrop-blur-sm border border-white/10 rounded-full flex items-center justify-center text-white/70 transition-all duration-200 touch-manipulation"
             style={{
               background: 'rgba(255, 255, 255, 0.05)',
               boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)'

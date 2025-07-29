@@ -29,6 +29,20 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Améliorer l'expérience tactile */
+button, a, [role="button"] {
+  touch-action: manipulation;
+}
+
+/* Breakpoint xs pour très petits écrans */
+@media (max-width: 475px) {
+  html {
+    font-size: 14px;
+  }
 }
 
 h1 {

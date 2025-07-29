@@ -60,10 +60,10 @@ const WebDevSection = ({ className = "" }) => {
 
 
   return (
-    <div className={`relative w-full ${className}`}>
+    <div className={`relative w-full py-12 sm:py-16 lg:py-20 ${className}`}>
       <div className="max-w-6xl mx-auto px-4">
         {/* Header */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-8 sm:mb-12 lg:mb-16">
         <motion.h2 
           className="text-4xl md:text-5xl font-bold text-white mb-4"
           initial={{ opacity: 0, y: 20 }}
@@ -226,10 +226,10 @@ const WebDevSection = ({ className = "" }) => {
         </h4>
         
         {/* Marquee Container */}
-        <div className="marquee-container">
+        <div className="marquee-container py-8 sm:py-12">
           <style>{`
             .marquee-container {
-              --size: clamp(4rem, 1rem + 15vmin, 8rem);
+              --size: clamp(4rem, 1rem + 15vmin, 6rem);
               --gap: calc(var(--size) / 8);
               --duration: 30s;
               --scroll-start: 0;
@@ -360,6 +360,24 @@ const WebDevSection = ({ className = "" }) => {
               
               .tech-logo-container:hover {
                 transform: none;
+              }
+            }
+
+            @media (max-width: 640px) {
+              .marquee-container {
+                --size: 4.5rem;
+                --duration: 40s;
+              }
+              
+              .marquee {
+                gap: calc(var(--size) / 6);
+              }
+            }
+
+            @media (max-width: 475px) {
+              .marquee-container {
+                --size: 4rem;
+                --duration: 45s;
               }
             }
           `}</style>
