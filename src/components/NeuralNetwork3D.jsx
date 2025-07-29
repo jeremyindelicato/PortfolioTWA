@@ -36,6 +36,7 @@ function Neuron({ position, skill, isActive, isSelected, onHover, onLeave, onSel
   };
 
   const handleClick = (e) => {
+    console.log('Neuron clicked:', skill.name);
     e.stopPropagation();
     onSelect(skill);
   };
@@ -264,17 +265,28 @@ function NetworkScene({ hoveredSkill, setHoveredSkill, selectedSkill, setSelecte
 const NeuralNetwork3D = ({ className = "" }) => {
   const [hoveredSkill, setHoveredSkill] = useState(null);
   const [selectedSkill, setSelectedSkill] = useState(null);
+  const neuronClickedRef = useRef(false);
 
   const handleCanvasClick = (e) => {
-    // Si le clic ne vient pas d'un neurone (stopPropagation empêche ça), désélectionner
-    setSelectedSkill(null);
+    console.log('Canvas clicked, neuronClicked:', neuronClickedRef.current);
+    // Si un neurone a été cliqué, ne pas désélectionner
+    if (!neuronClickedRef.current) {
+      console.log('Canvas clicked - deselecting skill');
+      setSelectedSkill(null);
+    }
+    // Reset le flag après traitement
+    neuronClickedRef.current = false;
   };
 
   const handleSkillSelect = (skill) => {
-    // Si le skill est déjà sélectionné, le désélectionner, sinon le sélectionner
+    console.log('Skill clicked:', skill.name, 'Currently selected:', selectedSkill?.name);
+    neuronClickedRef.current = true; // Marquer qu'un neurone a été cliqué
+    
     if (selectedSkill && selectedSkill.name === skill.name) {
+      console.log('Deselecting same skill');
       setSelectedSkill(null);
     } else {
+      console.log('Selecting new skill');
       setSelectedSkill(skill);
     }
   };

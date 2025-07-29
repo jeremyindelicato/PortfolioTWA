@@ -13,6 +13,7 @@
     "@fontsource/fira-code": "^5.2.6",
     "@react-three/drei": "^10.6.0",
     "@react-three/fiber": "^9.2.0",
+    "@supabase/supabase-js": "^2.53.0",
     "@tailwindcss/vite": "^4.1.11",
     "framer-motion": "^12.23.7",
     "gsap": "^3.13.0",
