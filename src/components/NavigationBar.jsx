@@ -147,6 +147,7 @@ const NavigationBar = () => {
             open: {
               opacity: 1,
               y: 0,
+              pointerEvents: "auto",
               transition: {
                 duration: 0.3,
                 staggerChildren: 0.1,
@@ -156,6 +157,7 @@ const NavigationBar = () => {
             closed: {
               opacity: 0,
               y: -20,
+              pointerEvents: "none",
               transition: {
                 duration: 0.3,
                 staggerChildren: 0.05,

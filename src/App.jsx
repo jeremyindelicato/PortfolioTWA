@@ -849,7 +849,7 @@ function MesServices() {
         </p>
       </motion.div>
 
-      <div className="max-w-6xl mx-auto px-4 space-y-32">
+      <div className="max-w-6xl mx-auto px-4 space-y-20">
         {/* Section IA avec réseau de neurones 3D */}
         <section className="flex justify-center">
           <div className="w-full max-w-6xl">
