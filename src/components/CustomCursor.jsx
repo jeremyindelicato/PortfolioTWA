@@ -146,7 +146,7 @@ const CustomCursor = () => {
   }
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-[9999]">
+    <div className="fixed inset-0 pointer-events-none z-[99999]">
       <motion.img
         src={isHovering ? cursorHover : cursorDefault}
         alt="Curseur personnalisé"
