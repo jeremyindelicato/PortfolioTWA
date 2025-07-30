@@ -6,6 +6,7 @@ import { submitQuoteRequest } from '../utils/supabase';
 const QuoteModal = ({ isOpen, onClose }) => {
   const [step, setStep] = useState(1);
   const [totalSteps, setTotalSteps] = useState(3); // Will be updated based on service type
+  const [isSuccessScreen, setIsSuccessScreen] = useState(false); // New state for success screen
   const [formData, setFormData] = useState({
     // Étape 1: Service type
     serviceType: '',
@@ -143,6 +144,14 @@ const QuoteModal = ({ isOpen, onClose }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Vérification que la préférence de contact est sélectionnée
+    if (!formData.preferredContact) {
+      setSubmitStatus('error');
+      setSubmitMessage('Veuillez sélectionner votre préférence de contact.');
+      return;
+    }
+    
     setIsSubmitting(true);
     setSubmitStatus(null);
     
@@ -155,12 +164,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
       if (result.success) {
         setSubmitStatus('success');
         setSubmitMessage(result.message);
-        
-        // Attendre un peu pour que l'utilisateur voie le message
-        setTimeout(() => {
-          onClose();
-          resetForm();
-        }, 3000);
+        setIsSuccessScreen(true); // Show success screen instead of closing
       } else {
         throw new Error(result.message || 'Erreur lors de l\'envoi');
       }
@@ -263,7 +267,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                   Demande de Devis
                 </h2>
                 <p className="text-gray-400 text-sm">
-                  {getStepTitle(step)} - Étape {step} sur {getActualTotalSteps()}
+                  {isSuccessScreen ? 'Demande envoyée !' : `${getStepTitle(step)} - Étape ${step} sur ${getActualTotalSteps()}`}
                 </p>
               </div>
             </div>
@@ -442,7 +446,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                           value={formData.businessSector}
                           onChange={(e) => handleInputChange('businessSector', e.target.value)}
                           className="w-full px-4 py-3 rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none"
-                          placeholder="Ex: E-commerce, Santé, Éducation..."
+                          placeholder="Ex: Parfumerie, Santé, Éducation..."
                         />
                       </div>
                       
@@ -698,9 +702,9 @@ const QuoteModal = ({ isOpen, onClose }) => {
                       
                       <div>
                         <label className="block text-white font-medium mb-3">
-                          Quels moyens de paiement souhaitez-vous proposer ?
+                          Quels moyens de paiement souhaitez-vous proposer ? (Plusieurs choix possibles)
                         </label>
-                        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                           {[
                             'Carte bancaire',
                             'PayPal',
@@ -715,7 +719,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               key={method}
                               type="button"
                               onClick={() => handleArrayChange('paymentMethods', method)}
-                              className={`p-3 rounded-xl border text-center transition-all duration-300 ${
+                              className={`p-3 rounded-xl border text-left transition-all duration-300 ${
                                 formData.paymentMethods.includes(method)
                                   ? 'border-[#3F8391] bg-[#3F8391]/20 text-white'
                                   : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
@@ -723,7 +727,20 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               whileHover={{ scale: 1.01 }}
                               whileTap={{ scale: 0.99 }}
                             >
-                              <span className="text-xs">{method}</span>
+                              <div className="flex items-center gap-3">
+                                <div className={`w-5 h-5 rounded border-2 flex items-center justify-center ${
+                                  formData.paymentMethods.includes(method)
+                                    ? 'bg-[#3F8391] border-[#3F8391]'
+                                    : 'border-white/40'
+                                }`}>
+                                  {formData.paymentMethods.includes(method) && (
+                                    <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                    </svg>
+                                  )}
+                                </div>
+                                <span className="text-sm">{method}</span>
+                              </div>
                             </motion.button>
                           ))}
                         </div>
@@ -787,7 +804,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                       
                       <div>
                         <label className="block text-white font-medium mb-3">
-                          Quel est votre budget approximatif ?
+                          Quel est votre budget approximatif ? (Un seul choix)
                         </label>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                           {[
@@ -802,7 +819,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               key={range}
                               type="button"
                               onClick={() => handleInputChange('budgetRange', range)}
-                              className={`p-3 rounded-xl border text-center transition-all duration-300 ${
+                              className={`p-3 rounded-xl border text-left transition-all duration-300 ${
                                 formData.budgetRange === range
                                   ? 'border-[#3F8391] bg-[#3F8391]/20 text-white'
                                   : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
@@ -810,7 +827,18 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
                             >
-                              {range}
+                              <div className="flex items-center gap-3">
+                                <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+                                  formData.budgetRange === range
+                                    ? 'bg-[#3F8391] border-[#3F8391]'
+                                    : 'border-white/40'
+                                }`}>
+                                  {formData.budgetRange === range && (
+                                    <div className="w-2 h-2 bg-white rounded-full" />
+                                  )}
+                                </div>
+                                <span className="text-sm">{range}</span>
+                              </div>
                             </motion.button>
                           ))}
                         </div>
@@ -901,18 +929,18 @@ const QuoteModal = ({ isOpen, onClose }) => {
                       Maintenance & Suivi
                     </h3>
                     
-                    <div className="space-y-6">
-                      <div>
+                    <div className="space-y-8">
+                      <div className="bg-white/5 p-4 rounded-2xl border border-white/10">
                         <label className="block text-white font-medium mb-3">
-                          Souhaitez-vous une formation pour gérer votre site ?
+                          1. Souhaitez-vous une formation pour gérer votre site ?
                         </label>
-                        <div className="flex gap-4">
+                        <div className="flex flex-col sm:flex-row gap-3">
                           {[true, false].map((value) => (
                             <motion.button
                               key={value}
                               type="button"
                               onClick={() => handleInputChange('needTraining', value)}
-                              className={`px-6 py-3 rounded-xl border transition-all duration-300 ${
+                              className={`px-4 py-3 rounded-xl border text-left transition-all duration-300 ${
                                 formData.needTraining === value
                                   ? 'border-[#3F8391] bg-[#3F8391]/20 text-white'
                                   : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
@@ -920,15 +948,28 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
                             >
-                              {value ? 'Oui, j\'ai besoin d\'une formation' : 'Non, je maîtrise déjà'}
+                              <div className="flex items-center gap-3">
+                                <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+                                  formData.needTraining === value
+                                    ? 'bg-[#3F8391] border-[#3F8391]'
+                                    : 'border-white/40'
+                                }`}>
+                                  {formData.needTraining === value && (
+                                    <div className="w-2 h-2 bg-white rounded-full" />
+                                  )}
+                                </div>
+                                <span className="text-sm">
+                                  {value ? 'Oui, j\'ai besoin d\'une formation' : 'Non, je maîtrise déjà'}
+                                </span>
+                              </div>
                             </motion.button>
                           ))}
                         </div>
                       </div>
                       
-                      <div>
+                      <div className="bg-white/5 p-4 rounded-2xl border border-white/10">
                         <label className="block text-white font-medium mb-3">
-                          Souhaitez-vous que je m'occupe de la maintenance après livraison ?
+                          2. Souhaitez-vous que je m'occupe de la maintenance après livraison ?
                         </label>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                           {['Oui', 'Non', 'À discuter'].map((option) => (
@@ -936,7 +977,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               key={option}
                               type="button"
                               onClick={() => handleInputChange('needMaintenance', option)}
-                              className={`p-3 rounded-xl border text-center transition-all duration-300 ${
+                              className={`p-3 rounded-xl border text-left transition-all duration-300 ${
                                 formData.needMaintenance === option
                                   ? 'border-[#3F8391] bg-[#3F8391]/20 text-white'
                                   : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
@@ -944,7 +985,18 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
                             >
-                              {option}
+                              <div className="flex items-center gap-3">
+                                <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+                                  formData.needMaintenance === option
+                                    ? 'bg-[#3F8391] border-[#3F8391]'
+                                    : 'border-white/40'
+                                }`}>
+                                  {formData.needMaintenance === option && (
+                                    <div className="w-2 h-2 bg-white rounded-full" />
+                                  )}
+                                </div>
+                                <span className="text-sm">{option}</span>
+                              </div>
                             </motion.button>
                           ))}
                         </div>
@@ -988,7 +1040,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
               )}
 
               {/* Étape 9: Contact préféré */}
-              {((step === 9 && formData.desiredFeatures.includes('Boutique e-commerce')) || (step === 8 && !formData.desiredFeatures.includes('Boutique e-commerce'))) && formData.serviceType === 'Développement Web' && (
+              {((step === 9 && formData.desiredFeatures.includes('Boutique e-commerce')) || (step === 8 && !formData.desiredFeatures.includes('Boutique e-commerce'))) && formData.serviceType === 'Développement Web' && !isSuccessScreen && (
                 <motion.div
                   key={`step${step}`}
                   initial={{ opacity: 0, x: 20 }}
@@ -999,13 +1051,13 @@ const QuoteModal = ({ isOpen, onClose }) => {
                   <div>
                     <h3 className="text-xl font-semibold text-white mb-6 flex items-center gap-2">
                       <Phone size={24} className="text-[#3F8391]" />
-                      Dernière étape
+                      Préférence de contact
                     </h3>
                     
                     <div className="space-y-6">
                       <div>
                         <label className="block text-white font-medium mb-3">
-                          Souhaitez-vous être contacté par :
+                          Comment souhaitez-vous être contacté : <span className="text-red-400">*</span>
                         </label>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                           {[
@@ -1031,24 +1083,124 @@ const QuoteModal = ({ isOpen, onClose }) => {
                             </motion.button>
                           ))}
                         </div>
-                      </div>
-                      
-                      <div className="bg-[#3F8391]/10 border border-[#3F8391]/20 rounded-2xl p-4">
-                        <h4 className="text-white font-semibold mb-2 flex items-center gap-2">
-                          ✨ Presque fini !
-                        </h4>
-                        <p className="text-gray-300 text-sm">
-                          Votre demande sera traitée sous 24h. Je vous recontacterai pour discuter 
-                          de votre projet et vous proposer un devis personnalisé.
-                        </p>
+                        
+                        {/* Message d'aide */}
+                        {!formData.preferredContact && (
+                          <div className="mt-4 bg-yellow-500/10 border border-yellow-500/20 rounded-xl p-3">
+                            <p className="text-yellow-200 text-sm flex items-center gap-2">
+                              <span>💡</span>
+                              <span>Sélectionnez votre mode de contact préféré pour continuer</span>
+                            </p>
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>
                 </motion.div>
               )}
+
+              {/* Écran de succès */}
+              {isSuccessScreen && (
+                <motion.div
+                  key="success-screen"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  className="text-center py-8"
+                >
+                  <div className="max-w-md mx-auto">
+                    {/* Icône de succès */}
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+                      className="w-24 h-24 mx-auto mb-6 rounded-full flex items-center justify-center"
+                      style={{
+                        background: 'linear-gradient(135deg, rgba(34, 197, 94, 0.2), rgba(34, 197, 94, 0.1))'
+                      }}
+                    >
+                      <CheckCircle size={48} className="text-green-400" />
+                    </motion.div>
+
+                    {/* Titre */}
+                    <motion.h3
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.3 }}
+                      className="text-3xl font-bold text-white mb-4"
+                    >
+                      Demande envoyée avec succès !
+                    </motion.h3>
+
+                    {/* Message */}
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.4 }}
+                      className="space-y-4"
+                    >
+                      <p className="text-gray-300 text-lg mb-6">
+                        Merci {formData.firstName} ! Votre demande de devis pour 
+                        <span className="text-[#3F8391] font-semibold"> {formData.serviceType}</span> a bien été reçue.
+                      </p>
+
+                      <div className="bg-[#3F8391]/10 border border-[#3F8391]/20 rounded-2xl p-6 text-left">
+                        <h4 className="text-white font-semibold mb-3 flex items-center gap-2">
+                          <Clock size={20} className="text-[#3F8391]" />
+                          Prochaines étapes :
+                        </h4>
+                        <ul className="text-gray-300 space-y-2 text-sm">
+                          <li className="flex items-start gap-2">
+                            <span className="text-[#3F8391] mt-1">•</span>
+                            <span>Analyse de votre demande sous <strong>24h</strong></span>
+                          </li>
+                          <li className="flex items-start gap-2">
+                            <span className="text-[#3F8391] mt-1">•</span>
+                            <span>Contact par <strong>{formData.preferredContact?.toLowerCase()}</strong> pour discuter de votre projet</span>
+                          </li>
+                          <li className="flex items-start gap-2">
+                            <span className="text-[#3F8391] mt-1">•</span>
+                            <span>Proposition de devis personnalisé et détaillé</span>
+                          </li>
+                        </ul>
+                      </div>
+
+                      <div className="bg-blue-500/10 border border-blue-500/20 rounded-2xl p-4">
+                        <p className="text-blue-200 text-sm">
+                          📧 Un email de confirmation a été envoyé à <strong>{formData.email}</strong>
+                        </p>
+                      </div>
+                    </motion.div>
+
+                    {/* Bouton de fermeture */}
+                    <motion.button
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.5 }}
+                      onClick={() => {
+                        onClose();
+                        setTimeout(() => {
+                          resetForm();
+                          setIsSuccessScreen(false);
+                        }, 300);
+                      }}
+                      className="mt-8 px-8 py-3 rounded-full font-medium text-white transition-all duration-300 flex items-center gap-2 mx-auto"
+                      style={{
+                        background: 'linear-gradient(135deg, rgba(63, 131, 145, 0.8), rgba(63, 131, 145, 0.6))'
+                      }}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      <CheckCircle size={18} />
+                      Parfait, merci !
+                    </motion.button>
+                  </div>
+                </motion.div>
+              )}
             </AnimatePresence>
 
-            {/* Navigation Buttons */}
+            {/* Navigation Buttons - Masqués sur l'écran de succès */}
+            {!isSuccessScreen && (
             <div className="flex justify-between mt-8 pt-6 border-t border-white/10">
               <motion.button
                 type="button"
@@ -1090,17 +1242,17 @@ const QuoteModal = ({ isOpen, onClose }) => {
               ) : (
                 <motion.button
                   type="submit"
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || !formData.preferredContact}
                   className={`px-8 py-3 rounded-full font-medium text-white transition-all duration-300 flex items-center gap-2 ${
-                    isSubmitting ? 'cursor-not-allowed opacity-70' : ''
+                    (isSubmitting || !formData.preferredContact) ? 'cursor-not-allowed opacity-70' : ''
                   }`}
                   style={{
-                    background: isSubmitting 
+                    background: (isSubmitting || !formData.preferredContact)
                       ? 'rgba(107, 114, 128, 0.5)' 
                       : 'linear-gradient(135deg, rgba(63, 131, 145, 0.8), rgba(63, 131, 145, 0.6))'
                   }}
-                  whileHover={!isSubmitting ? { scale: 1.05 } : {}}
-                  whileTap={!isSubmitting ? { scale: 0.95 } : {}}
+                  whileHover={!(isSubmitting || !formData.preferredContact) ? { scale: 1.05 } : {}}
+                  whileTap={!(isSubmitting || !formData.preferredContact) ? { scale: 0.95 } : {}}
                 >
                   {isSubmitting ? (
                     <>
@@ -1116,8 +1268,10 @@ const QuoteModal = ({ isOpen, onClose }) => {
                 </motion.button>
               )}
             </div>
+            )}
 
-            {/* Message de statut */}
+            {/* Message de statut - Masqué sur l'écran de succès */}
+            {!isSuccessScreen && (
             <AnimatePresence>
               {submitStatus && (
                 <motion.div
@@ -1149,6 +1303,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                 </motion.div>
               )}
             </AnimatePresence>
+            )}
           </form>
         </motion.div>
       </div>
