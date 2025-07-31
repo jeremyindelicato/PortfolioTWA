@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, memo } from 'react';
 import { motion } from 'framer-motion';
 import cursorDefault from '../assets/cursor/cursor.png';
 import cursorHover from '../assets/cursor/cursor-hover.png';
@@ -170,4 +170,4 @@ const CustomCursor = () => {
   );
 };
 
-export default CustomCursor;
+export default memo(CustomCursor);

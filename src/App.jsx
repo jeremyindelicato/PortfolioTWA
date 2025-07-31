@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, Suspense, lazy, Component } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -10,14 +10,80 @@ import Loader from './components/Loader';
 import ProjectCarousel from './components/ProjectCarousel';
 import ServicesCards from './components/ServicesCards';
 import CustomCursor from './components/CustomCursor';
-import NeuralNetwork3D from './components/NeuralNetwork3D';
-import WebDevSection from './components/WebDevSection';
-import GrowthMarketingSection from './components/GrowthMarketingSection';
-import QuoteModal from './components/QuoteModal';
 import TypewriterEffect from './components/TypewriterEffect';
 import CredibilityDashboard from './components/CredibilityDashboard';
 import ProjectModal from './components/ProjectModal';
 import InspirationMarquee from './components/InspirationMarquee';
+
+// Import direct temporaire pour déboguer NeuralNetwork3D
+import NeuralNetwork3DComponent from './components/NeuralNetwork3D';
+
+// Lazy loading des composants Three.js lourds
+const NeuralNetwork3D = NeuralNetwork3DComponent;
+// const NeuralNetwork3D = lazy(() => {
+//   console.log('Loading NeuralNetwork3D...');
+//   return import('./components/NeuralNetwork3D').catch(error => {
+//     console.error('Error loading NeuralNetwork3D:', error);
+//     throw error;
+//   });
+// });
+const WebDevSection = lazy(() => import('./components/WebDevSection'));
+const GrowthMarketingSection = lazy(() => import('./components/GrowthMarketingSection'));
+const QuoteModal = lazy(() => import('./components/QuoteModal'));
+
+// Composant de fallback pour le lazy loading
+const LoadingFallback = ({ height = "400px", componentName = "Composant" }) => {
+  console.log(`Loading fallback for ${componentName}`);
+  return (
+    <div 
+      className="flex items-center justify-center"
+      style={{ height }}
+    >
+      <div className="flex flex-col items-center gap-4">
+        <div className="w-8 h-8 border-2 border-[#3F8391] border-t-transparent rounded-full animate-spin"></div>
+        <p className="text-gray-400 text-sm">Chargement {componentName}...</p>
+      </div>
+    </div>
+  );
+};
+
+// Error Boundary simple pour les composants lazy
+class LazyErrorBoundary extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    console.error('LazyErrorBoundary caught an error:', error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="flex items-center justify-center" style={{ height: this.props.height || "400px" }}>
+          <div className="flex flex-col items-center gap-4 text-red-400">
+            <div className="text-2xl">⚠️</div>
+            <p className="text-sm">Erreur de chargement du composant</p>
+            <button 
+              onClick={() => this.setState({ hasError: false, error: null })}
+              className="px-4 py-2 bg-red-500/20 rounded-lg text-xs hover:bg-red-500/30"
+            >
+              Réessayer
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    return this.props.children;
+  }
+}
+
 import { motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
 import { Mail, Phone, MapPin, Send, FileText, Download, ExternalLink } from 'lucide-react';
@@ -30,12 +96,14 @@ import irisTechnicalPdf from './assets/iris/Dossier_Technique_iris_pipeline.pdf'
 // Import des images pour les projets
 import irisLogo from './assets/iris/irislogo.png';
 import irisMockup from './assets/iris/mockup2.png';
-import lxpLogo from './assets/lxp/lxplogo.png';
-import orapiLogo from './assets/orapi/orapilogo.png';
+import lxpLogo from './assets/lxp/lxp-mini-logo.jpg';
+import lxpThumbnail from './assets/lxp/lxpthumbnail.png';
+import orapiLogo from './assets/orapi/petit-logo-orapi.jpg';
 import orapiChatbot from './assets/orapi/example_chatbot_ai.png';
-import ascLogo from './assets/asc/asclogo.png';
-import institutCorailLogo from './assets/institut-corail/logoinstitutcorail.png';
-import institutCorailMockup from './assets/institut-corail/Mockup.png';
+import ascLogo from './assets/asc/asc-mini-logo.jpg';
+import ascThumbnail from './assets/asc/asc-grandeimage.jpg';
+import institutCorailLogo from './assets/institut-corail/ petit-logo-institut-corail.jpg';
+import institutCorailMockup from './assets/institut-corail/grand-image-institut-corail.png';
 import maisonlicLogo from './assets/maisonlic/logo.png';
 
 function App() {
@@ -537,7 +605,7 @@ function ProjetsEtExperience() {
       websiteUrl: "https://lavender-curlew-739021.hostingersite.com/",
       media: {
         type: "image",
-        src: lxpLogo
+        src: lxpThumbnail
       }
     }
   ];
@@ -593,7 +661,7 @@ function ProjetsEtExperience() {
       websiteUrl: "https://bento.me/advanced-silicone-coating",
       media: {
         type: "image",
-        src: ascLogo
+        src: ascThumbnail
       }
     }
   ];
@@ -766,7 +834,7 @@ function ProjetsEtExperience() {
           Projets & <span style={{ color: '#3F8391' }}>Expérience</span>
         </h1>
         <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-          Découvrez mon parcours professionnel et mes réalisations techniques
+          Découvrez une sélection de projets réalisés au fil de ma carrière, accompagnés de mes expériences professionnelles. 💼
         </p>
       </motion.div>
 
@@ -777,7 +845,7 @@ function ProjetsEtExperience() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <h2 className="text-3xl font-bold text-white mb-8 text-center">
+          <h2 className="text-3xl font-bold text-white mb-8 text-left">
             Projets d'<span style={{ color: '#3F8391' }}>Étude</span>
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -793,7 +861,7 @@ function ProjetsEtExperience() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.4 }}
         >
-          <h2 className="text-3xl font-bold text-white mb-8 text-center">
+          <h2 className="text-3xl font-bold text-white mb-8 text-left">
             <span style={{ color: '#3F8391' }}>Expériences</span> Professionnelles
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -809,7 +877,7 @@ function ProjetsEtExperience() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.6 }}
         >
-          <h2 className="text-3xl font-bold text-white mb-8 text-center">
+          <h2 className="text-3xl font-bold text-white mb-8 text-left">
             Clients <span style={{ color: '#3F8391' }}>Freelance</span>
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -853,21 +921,27 @@ function MesServices() {
         {/* Section IA avec réseau de neurones 3D */}
         <section className="flex justify-center">
           <div className="w-full max-w-6xl">
-            <NeuralNetwork3D />
+            <LazyErrorBoundary height="600px">
+              <NeuralNetwork3D />
+            </LazyErrorBoundary>
           </div>
         </section>
 
         {/* Section Développement Web */}
         <section className="flex justify-center">
           <div className="w-full max-w-6xl">
-            <WebDevSection />
+            <Suspense fallback={<LoadingFallback height="500px" />}>
+              <WebDevSection />
+            </Suspense>
           </div>
         </section>
 
         {/* Section Growth Marketing */}
         <section className="flex justify-center">
           <div className="w-full max-w-6xl">
-            <GrowthMarketingSection />
+            <Suspense fallback={<LoadingFallback height="500px" />}>
+              <GrowthMarketingSection />
+            </Suspense>
           </div>
         </section>
       </div>
@@ -918,10 +992,12 @@ function MesServices() {
       </motion.div>
 
       {/* Quote Modal */}
-      <QuoteModal 
-        isOpen={isQuoteModalOpen} 
-        onClose={() => setIsQuoteModalOpen(false)} 
-      />
+      <Suspense fallback={null}>
+        <QuoteModal 
+          isOpen={isQuoteModalOpen} 
+          onClose={() => setIsQuoteModalOpen(false)} 
+        />
+      </Suspense>
     </div>
   );
 }
@@ -1437,10 +1513,12 @@ function Contact() {
       </div>
 
       {/* Quote Modal */}
-      <QuoteModal 
-        isOpen={isQuoteModalOpen} 
-        onClose={() => setIsQuoteModalOpen(false)} 
-      />
+      <Suspense fallback={null}>
+        <QuoteModal 
+          isOpen={isQuoteModalOpen} 
+          onClose={() => setIsQuoteModalOpen(false)} 
+        />
+      </Suspense>
     </div>
   );
 }

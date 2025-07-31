@@ -44,23 +44,23 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
             {/* Close Button */}
             <motion.button
               onClick={onClose}
-              className="absolute top-6 right-6 w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white z-10 transition-all duration-200"
+              className="absolute top-5 right-5 w-14 h-14 rounded-full border-2 border-white/40 flex items-center justify-center text-white z-10 transition-all duration-200 hover:border-white/60"
               style={{
                 background: `
                   linear-gradient(135deg, 
-                    rgba(255, 255, 255, 0.15) 0%, 
-                    rgba(255, 255, 255, 0.05) 100%
+                    rgba(255, 255, 255, 0.2) 0%, 
+                    rgba(255, 255, 255, 0.1) 100%
                   )
                 `,
-                backdropFilter: 'blur(10px)'
+                backdropFilter: 'blur(15px)'
               }}
               whileHover={{ 
                 scale: 1.1,
-                backgroundColor: 'rgba(239, 68, 68, 0.3)'
+                backgroundColor: 'rgba(239, 68, 68, 0.4)'
               }}
               whileTap={{ scale: 0.9 }}
             >
-              <X size={20} />
+              <X size={32} className="stroke-white stroke-2" />
             </motion.button>
 
             <div className="p-8">

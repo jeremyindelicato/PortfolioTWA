@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, memo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import backgroundImage from '../assets/autre/background.jpg';
 
@@ -97,17 +97,14 @@ const NavigationBar = () => {
       <div className="md:hidden">
         <motion.button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="fixed top-4 right-4 z-50 p-3 rounded-full text-white shadow-lg transition-all duration-300"
+          className="fixed top-4 right-4 z-50 p-3 rounded-full text-white shadow-lg"
           style={{
             background: `rgba(0, 0, 0, ${isScrolled ? 0.8 : 0.9})`,
             backdropFilter: isScrolled ? 'blur(15px)' : 'blur(5px)',
             border: `1px solid rgba(255, 255, 255, ${isScrolled ? 0.15 : 0.2})`
           }}
           whileTap={{ scale: 0.95 }}
-          animate={{
-            y: isScrolled ? -2 : 0
-          }}
-          transition={{ duration: 0.3, ease: "easeOut" }}
+          transition={{ duration: 0.2, ease: "easeOut" }}
         >
           <motion.div
             animate={mobileMenuOpen ? "open" : "closed"}
@@ -119,7 +116,7 @@ const NavigationBar = () => {
                 closed: { rotate: 0, y: 0 },
                 open: { rotate: 45, y: 6 }
               }}
-              transition={{ duration: 0.3 }}
+              transition={{ duration: 0.25, ease: "easeInOut" }}
             />
             <motion.span
               className="block h-0.5 w-6 bg-white rounded-full mt-1.5"
@@ -127,7 +124,7 @@ const NavigationBar = () => {
                 closed: { opacity: 1 },
                 open: { opacity: 0 }
               }}
-              transition={{ duration: 0.3 }}
+              transition={{ duration: 0.2, ease: "easeInOut" }}
             />
             <motion.span
               className="block h-0.5 w-6 bg-white rounded-full mt-1.5"
@@ -135,7 +132,7 @@ const NavigationBar = () => {
                 closed: { rotate: 0, y: 0 },
                 open: { rotate: -45, y: -6 }
               }}
-              transition={{ duration: 0.3 }}
+              transition={{ duration: 0.25, ease: "easeInOut" }}
             />
           </motion.div>
         </motion.button>
@@ -149,8 +146,9 @@ const NavigationBar = () => {
               y: 0,
               pointerEvents: "auto",
               transition: {
-                duration: 0.3,
-                staggerChildren: 0.1,
+                duration: 0.25,
+                ease: "easeOut",
+                staggerChildren: 0.08,
                 delayChildren: 0.1
               }
             },
@@ -159,13 +157,14 @@ const NavigationBar = () => {
               y: -20,
               pointerEvents: "none",
               transition: {
-                duration: 0.3,
+                duration: 0.2,
+                ease: "easeIn",
                 staggerChildren: 0.05,
                 staggerDirection: -1
               }
             }
           }}
-          className="fixed top-16 sm:top-20 right-2 sm:right-4 left-2 sm:left-auto z-40 p-4 rounded-2xl shadow-2xl transition-all duration-300"
+          className="fixed top-20 sm:top-24 right-2 sm:right-4 left-2 sm:left-auto z-40 p-4 rounded-2xl shadow-2xl"
           style={{
             background: `rgba(0, 0, 0, ${isScrolled ? 0.9 : 0.95})`,
             backdropFilter: isScrolled ? 'blur(20px)' : 'blur(10px)',
@@ -179,7 +178,7 @@ const NavigationBar = () => {
                 className={`block font-medium text-base px-6 py-4 sm:px-4 sm:py-3 rounded-lg mb-2 last:mb-0 transition-colors duration-300 min-h-[48px] flex items-center touch-manipulation ${
                   location.pathname === item.path 
                     ? 'text-white bg-white/10' 
-                    : 'text-white hover:text-[#3F8391]'
+                    : 'text-white hover:text-[#FFFFFF]'
                 }`}
                 variants={{
                   open: {
@@ -194,7 +193,7 @@ const NavigationBar = () => {
                   }
                 }}
                 whileHover={{
-                  color: '#3F8391',
+                  color: '#FFFFFF',
                   x: 5,
                   transition: { duration: 0.2 }
                 }}
@@ -211,4 +210,4 @@ const NavigationBar = () => {
   );
 };
 
-export default NavigationBar; 
+export default memo(NavigationBar); 

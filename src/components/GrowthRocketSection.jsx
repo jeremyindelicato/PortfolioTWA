@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { motion } from 'framer-motion';
 import { gsap } from 'gsap';
-import * as THREE from 'three';
+import { MathUtils } from 'three';
 
 // Composant fusée 3D
 function Rocket({ currentSkill, onSkillChange }) {
@@ -25,8 +25,8 @@ function Rocket({ currentSkill, onSkillChange }) {
       rocketRef.current.position.y = Math.sin(state.clock.getElapsedTime() * 1.5) * 0.2;
       
       // Suivre la souris
-      rocketRef.current.position.x = THREE.MathUtils.lerp(rocketRef.current.position.x, mousePos.x * 2, 0.05);
-      rocketRef.current.position.y += THREE.MathUtils.lerp(0, mousePos.y * 2, 0.05);
+      rocketRef.current.position.x = MathUtils.lerp(rocketRef.current.position.x, mousePos.x * 2, 0.05);
+      rocketRef.current.position.y += MathUtils.lerp(0, mousePos.y * 2, 0.05);
     }
 
     if (fireRef.current) {

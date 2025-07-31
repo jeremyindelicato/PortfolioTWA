@@ -267,7 +267,7 @@ const NeuralNetwork3D = ({ className = "" }) => {
   const [selectedSkill, setSelectedSkill] = useState(null);
   const neuronClickedRef = useRef(false);
 
-  const handleCanvasClick = (e) => {
+  const handleCanvasClick = () => {
     console.log('Canvas clicked, neuronClicked:', neuronClickedRef.current);
     // Si un neurone a été cliqué, ne pas désélectionner
     if (!neuronClickedRef.current) {
