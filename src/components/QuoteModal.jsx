@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Send, FileText, ChevronLeft, ChevronRight, User, Target, Settings, ShoppingCart, Clock, Wrench, MessageSquare, Phone, CheckCircle, AlertCircle } from 'lucide-react';
-import { submitQuoteRequest } from '../utils/supabase';
+import { X, Send, FileText, ChevronLeft, ChevronRight, User, Target, Settings, ShoppingCart, Clock, Wrench, MessageSquare, Phone, CheckCircle, AlertCircle, Brain, Database, Zap, Bot, BarChart3, Cpu } from 'lucide-react';
+import { submitQuoteRequest, submitAiQuoteRequest } from '../utils/supabase';
 
 const QuoteModal = ({ isOpen, onClose }) => {
   const [step, setStep] = useState(1);
@@ -45,7 +45,32 @@ const QuoteModal = ({ isOpen, onClose }) => {
     additionalNotes: '',
     
     // Contact préféré (étape 9)
-    preferredContact: ''
+    preferredContact: '',
+
+    // 🤖 CHAMPS SPÉCIFIQUES IA
+    // 🧑‍💼 1. Infos de base IA
+    aiNeedDescription: '',
+    
+    // 🎯 2. Objectif du projet IA
+    aiProjectGoals: [],
+    aiCustomGoal: '',
+    
+    // 📊 3. Données disponibles
+    hasDataAvailable: null,
+    dataTypes: [],
+    dataVolume: '',
+    
+    // ⚙️ 4. Fonctionnalités souhaitées IA
+    aiDesiredFeatures: [],
+    
+    // ⏰ 5. Délai et budget IA
+    projectStartTimeline: '',
+    aiBudgetRange: '',
+    
+    // 📝 6. Complément IA
+    needTechnicalSupport: null,
+    needFutureMaintenance: null,
+    aiAdditionalNotes: ''
   });
 
   const handleInputChange = (field, value) => {
@@ -97,6 +122,18 @@ const QuoteModal = ({ isOpen, onClose }) => {
         9: 'Contact préféré'
       };
       return titles[stepNumber] || 'Étape';
+    } else if (formData.serviceType === 'Intelligence Artificielle') {
+      const aiTitles = {
+        1: 'Service',
+        2: 'Infos de base',
+        3: 'Objectif du projet',
+        4: 'Données disponibles',
+        5: 'Fonctionnalités souhaitées',
+        6: 'Délai et budget',
+        7: 'Complément',
+        8: 'Contact préféré'
+      };
+      return aiTitles[stepNumber] || 'Étape';
     }
     return `Étape ${stepNumber}`;
   };
@@ -107,8 +144,10 @@ const QuoteModal = ({ isOpen, onClose }) => {
       // Check if e-commerce is selected to determine if we need step 5
       const hasEcommerce = formData.desiredFeatures.includes('Boutique e-commerce');
       return hasEcommerce ? 9 : 8; // Skip e-commerce step if not selected
+    } else if (formData.serviceType === 'Intelligence Artificielle') {
+      return 8; // IA has 8 steps total
     }
-    return 3; // Default for other services (IA, Growth)
+    return 3; // Default for other services (Growth)
   };
 
   const getActualTotalSteps = () => {
@@ -158,8 +197,10 @@ const QuoteModal = ({ isOpen, onClose }) => {
     try {
       console.log('🚀 Envoi de la demande de devis:', formData);
       
-      // Envoyer via Supabase (sauvegarde + email)
-      const result = await submitQuoteRequest(formData);
+      // Choisir la fonction appropriée selon le type de service
+      const result = formData.serviceType === 'Intelligence Artificielle' 
+        ? await submitAiQuoteRequest(formData)
+        : await submitQuoteRequest(formData);
       
       if (result.success) {
         setSubmitStatus('success');
@@ -203,7 +244,20 @@ const QuoteModal = ({ isOpen, onClose }) => {
       needTraining: null,
       needMaintenance: '',
       additionalNotes: '',
-      preferredContact: ''
+      preferredContact: '',
+      // 🤖 Reset des champs IA
+      aiNeedDescription: '',
+      aiProjectGoals: [],
+      aiCustomGoal: '',
+      hasDataAvailable: null,
+      dataTypes: [],
+      dataVolume: '',
+      aiDesiredFeatures: [],
+      projectStartTimeline: '',
+      aiBudgetRange: '',
+      needTechnicalSupport: null,
+      needFutureMaintenance: null,
+      aiAdditionalNotes: ''
     });
   };
 
@@ -353,7 +407,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                         </motion.button>
                       ))}
                     </div>
-                    {formData.serviceType && formData.serviceType !== 'Développement Web' && (
+                    {formData.serviceType && !['Développement Web', 'Intelligence Artificielle'].includes(formData.serviceType) && (
                       <div className="mt-4 p-4 rounded-xl bg-yellow-500/10 border border-yellow-500/20">
                         <p className="text-yellow-200 text-sm">
                           🚧 Le questionnaire détaillé pour "{formData.serviceType}" sera bientôt disponible. 
@@ -872,7 +926,613 @@ const QuoteModal = ({ isOpen, onClose }) => {
                 </motion.div>
               )}
 
-              {formData.serviceType !== 'Développement Web' && step === 3 && (
+              {/* 🤖 ÉTAPES INTELLIGENCE ARTIFICIELLE */}
+              
+              {/* Étape 2 IA: Infos de base */}
+              {step === 2 && formData.serviceType === 'Intelligence Artificielle' && (
+                <motion.div
+                  key="ai-step2"
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  className="space-y-6"
+                >
+                  <div>
+                    <h3 className="text-xl font-semibold text-white mb-6 flex items-center gap-2">
+                      <User size={24} className="text-[#3F8391]" />
+                      🧑‍💼 Infos de base
+                    </h3>
+                    
+                    <div className="space-y-4">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-white font-medium mb-2">
+                            Prénom *
+                          </label>
+                          <input
+                            type="text"
+                            required
+                            value={formData.firstName}
+                            onChange={(e) => handleInputChange('firstName', e.target.value)}
+                            className="w-full px-4 py-3 rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none"
+                            placeholder="Votre prénom"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-white font-medium mb-2">
+                            Nom *
+                          </label>
+                          <input
+                            type="text"
+                            required
+                            value={formData.lastName}
+                            onChange={(e) => handleInputChange('lastName', e.target.value)}
+                            className="w-full px-4 py-3 rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none"
+                            placeholder="Votre nom"
+                          />
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <label className="block text-white font-medium mb-2">
+                          Email professionnel *
+                        </label>
+                        <input
+                          type="email"
+                          required
+                          value={formData.email}
+                          onChange={(e) => handleInputChange('email', e.target.value)}
+                          className="w-full px-4 py-3 rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none"
+                          placeholder="votre@email.com"
+                        />
+                      </div>
+                      
+                      <div>
+                        <label className="block text-white font-medium mb-2">
+                          Entreprise (facultatif)
+                        </label>
+                        <input
+                          type="text"
+                          value={formData.companyName}
+                          onChange={(e) => handleInputChange('companyName', e.target.value)}
+                          className="w-full px-4 py-3 rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none"
+                          placeholder="Nom de votre entreprise"
+                        />
+                      </div>
+                      
+                      <div>
+                        <label className="block text-white font-medium mb-2">
+                          Secteur d'activité
+                        </label>
+                        <input
+                          type="text"
+                          value={formData.businessSector}
+                          onChange={(e) => handleInputChange('businessSector', e.target.value)}
+                          className="w-full px-4 py-3 rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none"
+                          placeholder="Ex: E-commerce, Santé, Finance..."
+                        />
+                      </div>
+                      
+                      <div>
+                        <label className="block text-white font-medium mb-2">
+                          Décrivez brièvement votre besoin en IA (en une phrase) *
+                        </label>
+                        <textarea
+                          required
+                          value={formData.aiNeedDescription}
+                          onChange={(e) => handleInputChange('aiNeedDescription', e.target.value)}
+                          className="w-full h-24 px-4 py-3 rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none resize-none"
+                          placeholder="Ex: Automatiser le tri de mes emails clients par priorité..."
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+
+              {/* Étape 3 IA: Objectif du projet */}
+              {step === 3 && formData.serviceType === 'Intelligence Artificielle' && (
+                <motion.div
+                  key="ai-step3"
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  className="space-y-6"
+                >
+                  <div>
+                    <h3 className="text-xl font-semibold text-white mb-6 flex items-center gap-2">
+                      <Target size={24} className="text-[#3F8391]" />
+                      🎯 Objectif du projet
+                    </h3>
+                    
+                    <div className="space-y-6">
+                      <div>
+                        <label className="block text-white font-medium mb-3">
+                          Quel est le but principal de votre projet ? (Choix multiple)
+                        </label>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                          {[
+                            'Créer un chatbot (SAV, FAQ, assistant…)',
+                            'Automatiser une tâche répétitive',
+                            'Prédire un comportement / résultat',
+                            'Analyser / exploiter de la donnée',
+                            'Concevoir un modèle sur-mesure',
+                            'Autre'
+                          ].map((goal) => (
+                            <motion.button
+                              key={goal}
+                              type="button"
+                              onClick={() => handleArrayChange('aiProjectGoals', goal)}
+                              className={`p-3 rounded-xl border text-left transition-all duration-300 ${
+                                formData.aiProjectGoals.includes(goal)
+                                  ? 'border-[#3F8391] bg-[#3F8391]/20 text-white'
+                                  : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
+                              }`}
+                              whileHover={{ scale: 1.01 }}
+                              whileTap={{ scale: 0.99 }}
+                            >
+                              <div className="flex items-center gap-2">
+                                <div className={`w-4 h-4 rounded border-2 ${
+                                  formData.aiProjectGoals.includes(goal)
+                                    ? 'bg-[#3F8391] border-[#3F8391]'
+                                    : 'border-white/40'
+                                }`}>
+                                  {formData.aiProjectGoals.includes(goal) && (
+                                    <div className="w-full h-full flex items-center justify-center">
+                                      <div className="w-1.5 h-1.5 bg-white rounded-full" />
+                                    </div>
+                                  )}
+                                </div>
+                                <span className="text-sm">{goal}</span>
+                              </div>
+                            </motion.button>
+                          ))}
+                        </div>
+                      </div>
+                      
+                      {formData.aiProjectGoals.includes('Autre') && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: 'auto' }}
+                          exit={{ opacity: 0, height: 0 }}
+                        >
+                          <label className="block text-white font-medium mb-2">
+                            Précisez votre objectif :
+                          </label>
+                          <input
+                            type="text"
+                            value={formData.aiCustomGoal}
+                            onChange={(e) => handleInputChange('aiCustomGoal', e.target.value)}
+                            className="w-full px-4 py-3 rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none"
+                            placeholder="Décrivez votre objectif spécifique..."
+                          />
+                        </motion.div>
+                      )}
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+
+              {/* Étape 4 IA: Données disponibles */}
+              {step === 4 && formData.serviceType === 'Intelligence Artificielle' && (
+                <motion.div
+                  key="ai-step4"
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  className="space-y-6"
+                >
+                  <div>
+                    <h3 className="text-xl font-semibold text-white mb-6 flex items-center gap-2">
+                      <Database size={24} className="text-[#3F8391]" />
+                      📊 Données disponibles
+                    </h3>
+                    
+                    <div className="space-y-6">
+                      <div>
+                        <label className="block text-white font-medium mb-3">
+                          Avez-vous déjà des données exploitables ?
+                        </label>
+                        <div className="flex gap-4">
+                          {['Oui', 'Non', 'En cours'].map((value) => (
+                            <motion.button
+                              key={value}
+                              type="button"
+                              onClick={() => handleInputChange('hasDataAvailable', value)}
+                              className={`px-6 py-3 rounded-xl border transition-all duration-300 ${
+                                formData.hasDataAvailable === value
+                                  ? 'border-[#3F8391] bg-[#3F8391]/20 text-white'
+                                  : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
+                              }`}
+                              whileHover={{ scale: 1.02 }}
+                              whileTap={{ scale: 0.98 }}
+                            >
+                              {value}
+                            </motion.button>
+                          ))}
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <label className="block text-white font-medium mb-3">
+                          Quel type de données ? (Choix multiple)
+                        </label>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                          {[
+                            'Textes',
+                            'Images',
+                            'Données tabulaires (Excel, CSV)',
+                            'Vidéos',
+                            'Audio',
+                            'Autre'
+                          ].map((dataType) => (
+                            <motion.button
+                              key={dataType}
+                              type="button"
+                              onClick={() => handleArrayChange('dataTypes', dataType)}
+                              className={`p-3 rounded-xl border text-left transition-all duration-300 ${
+                                formData.dataTypes.includes(dataType)
+                                  ? 'border-[#3F8391] bg-[#3F8391]/20 text-white'
+                                  : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
+                              }`}
+                              whileHover={{ scale: 1.01 }}
+                              whileTap={{ scale: 0.99 }}
+                            >
+                              <div className="flex items-center gap-2">
+                                <div className={`w-4 h-4 rounded border-2 ${
+                                  formData.dataTypes.includes(dataType)
+                                    ? 'bg-[#3F8391] border-[#3F8391]'
+                                    : 'border-white/40'
+                                }`}>
+                                  {formData.dataTypes.includes(dataType) && (
+                                    <div className="w-full h-full flex items-center justify-center">
+                                      <div className="w-1.5 h-1.5 bg-white rounded-full" />
+                                    </div>
+                                  )}
+                                </div>
+                                <span className="text-sm">{dataType}</span>
+                              </div>
+                            </motion.button>
+                          ))}
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <label className="block text-white font-medium mb-3">
+                          Volume estimé :
+                        </label>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                          {[
+                            'Moins de 1 000 lignes',
+                            '1k–100k',
+                            '+100k',
+                            'Je ne sais pas'
+                          ].map((volume) => (
+                            <motion.button
+                              key={volume}
+                              type="button"
+                              onClick={() => handleInputChange('dataVolume', volume)}
+                              className={`p-3 rounded-xl border text-center transition-all duration-300 ${
+                                formData.dataVolume === volume
+                                  ? 'border-[#3F8391] bg-[#3F8391]/20 text-white'
+                                  : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
+                              }`}
+                              whileHover={{ scale: 1.02 }}
+                              whileTap={{ scale: 0.98 }}
+                            >
+                              <div className="flex items-center justify-center gap-3">
+                                <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+                                  formData.dataVolume === volume
+                                    ? 'bg-[#3F8391] border-[#3F8391]'
+                                    : 'border-white/40'
+                                }`}>
+                                  {formData.dataVolume === volume && (
+                                    <div className="w-2 h-2 bg-white rounded-full" />
+                                  )}
+                                </div>
+                                <span className="text-sm">{volume}</span>
+                              </div>
+                            </motion.button>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+
+              {/* Étape 5 IA: Fonctionnalités souhaitées */}
+              {step === 5 && formData.serviceType === 'Intelligence Artificielle' && (
+                <motion.div
+                  key="ai-step5"
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  className="space-y-6"
+                >
+                  <div>
+                    <h3 className="text-xl font-semibold text-white mb-6 flex items-center gap-2">
+                      <Settings size={24} className="text-[#3F8391]" />
+                      ⚙️ Fonctionnalités souhaitées
+                    </h3>
+                    
+                    <div className="space-y-6">
+                      <div>
+                        <label className="block text-white font-medium mb-3">
+                          Que souhaitez-vous pour votre projet ? (Choix multiple selon projet)
+                        </label>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                          {[
+                            'Intégration à un site / app',
+                            'Interface simple d\'administration',
+                            'Connexion API externe',
+                            'Dashboard de suivi',
+                            'Fichier ou rapport exportable',
+                            'Entraînement d\'un modèle IA custom',
+                            'Déploiement dans le cloud',
+                            'Autre'
+                          ].map((feature) => (
+                            <motion.button
+                              key={feature}
+                              type="button"
+                              onClick={() => handleArrayChange('aiDesiredFeatures', feature)}
+                              className={`p-3 rounded-xl border text-left transition-all duration-300 ${
+                                formData.aiDesiredFeatures.includes(feature)
+                                  ? 'border-[#3F8391] bg-[#3F8391]/20 text-white'
+                                  : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
+                              }`}
+                              whileHover={{ scale: 1.01 }}
+                              whileTap={{ scale: 0.99 }}
+                            >
+                              <div className="flex items-center gap-2">
+                                <div className={`w-4 h-4 rounded border-2 ${
+                                  formData.aiDesiredFeatures.includes(feature)
+                                    ? 'bg-[#3F8391] border-[#3F8391]'
+                                    : 'border-white/40'
+                                }`}>
+                                  {formData.aiDesiredFeatures.includes(feature) && (
+                                    <div className="w-full h-full flex items-center justify-center">
+                                      <div className="w-1.5 h-1.5 bg-white rounded-full" />
+                                    </div>
+                                  )}
+                                </div>
+                                <span className="text-sm">{feature}</span>
+                              </div>
+                            </motion.button>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+
+              {/* Étape 6 IA: Délai et budget */}
+              {step === 6 && formData.serviceType === 'Intelligence Artificielle' && (
+                <motion.div
+                  key="ai-step6"
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  className="space-y-6"
+                >
+                  <div>
+                    <h3 className="text-xl font-semibold text-white mb-6 flex items-center gap-2">
+                      <Clock size={24} className="text-[#3F8391]" />
+                      ⏰ Délai et budget
+                    </h3>
+                    
+                    <div className="space-y-6">
+                      <div>
+                        <label className="block text-white font-medium mb-3">
+                          Quand souhaitez-vous démarrer le projet ?
+                        </label>
+                        <div className="flex gap-4">
+                          {['Dès que possible', 'Dans un mois', 'Flexible'].map((timeline) => (
+                            <motion.button
+                              key={timeline}
+                              type="button"
+                              onClick={() => handleInputChange('projectStartTimeline', timeline)}
+                              className={`px-6 py-3 rounded-xl border transition-all duration-300 ${
+                                formData.projectStartTimeline === timeline
+                                  ? 'border-[#3F8391] bg-[#3F8391]/20 text-white'
+                                  : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
+                              }`}
+                              whileHover={{ scale: 1.02 }}
+                              whileTap={{ scale: 0.98 }}
+                            >
+                              {timeline}
+                            </motion.button>
+                          ))}
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <label className="block text-white font-medium mb-3">
+                          Budget prévu (fourchette)
+                        </label>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                          {[
+                            'Moins de 1000€',
+                            '1000–3000€',
+                            '3000–7000€',
+                            '+7000€',
+                            'À discuter'
+                          ].map((budget) => (
+                            <motion.button
+                              key={budget}
+                              type="button"
+                              onClick={() => handleInputChange('aiBudgetRange', budget)}
+                              className={`p-3 rounded-xl border text-center transition-all duration-300 ${
+                                formData.aiBudgetRange === budget
+                                  ? 'border-[#3F8391] bg-[#3F8391]/20 text-white'
+                                  : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
+                              }`}
+                              whileHover={{ scale: 1.02 }}
+                              whileTap={{ scale: 0.98 }}
+                            >
+                              <div className="flex items-center justify-center gap-3">
+                                <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+                                  formData.aiBudgetRange === budget
+                                    ? 'bg-[#3F8391] border-[#3F8391]'
+                                    : 'border-white/40'
+                                }`}>
+                                  {formData.aiBudgetRange === budget && (
+                                    <div className="w-2 h-2 bg-white rounded-full" />
+                                  )}
+                                </div>
+                                <span className="text-sm">{budget}</span>
+                              </div>
+                            </motion.button>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+
+              {/* Étape 7 IA: Complément */}
+              {step === 7 && formData.serviceType === 'Intelligence Artificielle' && (
+                <motion.div
+                  key="ai-step7"
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  className="space-y-6"
+                >
+                  <div>
+                    <h3 className="text-xl font-semibold text-white mb-6 flex items-center gap-2">
+                      <MessageSquare size={24} className="text-[#3F8391]" />
+                      📝 Complément
+                    </h3>
+                    
+                    <div className="space-y-6">
+                      <div className="bg-white/5 p-4 rounded-2xl border border-white/10">
+                        <label className="block text-white font-medium mb-3">
+                          Souhaitez-vous être accompagné techniquement ou stratégiquement ?
+                        </label>
+                        <div className="flex gap-4">
+                          {['Oui', 'Non', 'Les deux'].map((support) => (
+                            <motion.button
+                              key={support}
+                              type="button"
+                              onClick={() => handleInputChange('needTechnicalSupport', support)}
+                              className={`px-6 py-3 rounded-xl border transition-all duration-300 ${
+                                formData.needTechnicalSupport === support
+                                  ? 'border-[#3F8391] bg-[#3F8391]/20 text-white'
+                                  : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
+                              }`}
+                              whileHover={{ scale: 1.02 }}
+                              whileTap={{ scale: 0.98 }}
+                            >
+                              {support}
+                            </motion.button>
+                          ))}
+                        </div>
+                      </div>
+                      
+                      <div className="bg-white/5 p-4 rounded-2xl border border-white/10">
+                        <label className="block text-white font-medium mb-3">
+                          Souhaitez-vous une maintenance ou des évolutions après livraison ?
+                        </label>
+                        <div className="flex gap-4">
+                          {['Oui', 'Non', 'À discuter'].map((maintenance) => (
+                            <motion.button
+                              key={maintenance}
+                              type="button"
+                              onClick={() => handleInputChange('needFutureMaintenance', maintenance)}
+                              className={`px-6 py-3 rounded-xl border transition-all duration-300 ${
+                                formData.needFutureMaintenance === maintenance
+                                  ? 'border-[#3F8391] bg-[#3F8391]/20 text-white'
+                                  : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
+                              }`}
+                              whileHover={{ scale: 1.02 }}
+                              whileTap={{ scale: 0.98 }}
+                            >
+                              {maintenance}
+                            </motion.button>
+                          ))}
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <label className="block text-white font-medium mb-3">
+                          Un dernier mot ou besoin spécifique ?
+                        </label>
+                        <textarea
+                          value={formData.aiAdditionalNotes}
+                          onChange={(e) => handleInputChange('aiAdditionalNotes', e.target.value)}
+                          className="w-full h-24 px-4 py-3 rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none resize-none"
+                          placeholder="Contraintes techniques, inspirations, délais spécifiques, budget détaillé, questions..."
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+
+              {/* Étape 8 IA: Contact préféré */}
+              {step === 8 && formData.serviceType === 'Intelligence Artificielle' && !isSuccessScreen && (
+                <motion.div
+                  key="ai-step8"
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  className="space-y-6"
+                >
+                  <div>
+                    <h3 className="text-xl font-semibold text-white mb-6 flex items-center gap-2">
+                      <Phone size={24} className="text-[#3F8391]" />
+                      Préférence de contact
+                    </h3>
+                    
+                    <div className="space-y-6">
+                      <div>
+                        <label className="block text-white font-medium mb-3">
+                          Comment souhaitez-vous être recontacté ? <span className="text-red-400">*</span>
+                        </label>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                          {[
+                            { value: 'Email', icon: '📧', desc: 'Réponse sous 24h' },
+                            { value: 'Téléphone', icon: '📞', desc: 'Appel direct' },
+                            { value: 'Visio', icon: '💻', desc: 'Réunion en ligne' }
+                          ].map((contact) => (
+                            <motion.button
+                              key={contact.value}
+                              type="button"
+                              onClick={() => handleInputChange('preferredContact', contact.value)}
+                              className={`p-4 rounded-xl border text-center transition-all duration-300 ${
+                                formData.preferredContact === contact.value
+                                  ? 'border-[#3F8391] bg-[#3F8391]/20 text-white'
+                                  : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
+                              }`}
+                              whileHover={{ scale: 1.02 }}
+                              whileTap={{ scale: 0.98 }}
+                            >
+                              <div className="text-2xl mb-2">{contact.icon}</div>
+                              <div className="font-medium">{contact.value}</div>
+                              <div className="text-xs text-gray-400 mt-1">{contact.desc}</div>
+                            </motion.button>
+                          ))}
+                        </div>
+                        
+                        {/* Message d'aide */}
+                        {!formData.preferredContact && (
+                          <div className="mt-4 bg-yellow-500/10 border border-yellow-500/20 rounded-xl p-3">
+                            <p className="text-yellow-200 text-sm flex items-center gap-2">
+                              <span>💡</span>
+                              <span>Sélectionnez votre mode de contact préféré pour continuer</span>
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+
+              {formData.serviceType !== 'Développement Web' && formData.serviceType !== 'Intelligence Artificielle' && step === 3 && (
                 <motion.div
                   key="step3-basic"
                   initial={{ opacity: 0, x: 20 }}
@@ -1222,19 +1882,19 @@ const QuoteModal = ({ isOpen, onClose }) => {
                 <motion.button
                   type="button"
                   onClick={nextStep}
-                  disabled={formData.serviceType === '' || (formData.serviceType !== 'Développement Web' && step === 1)}
+                  disabled={formData.serviceType === ''}
                   className={`px-6 py-3 rounded-full font-medium text-white transition-all duration-300 flex items-center gap-2 ${
-                    formData.serviceType === '' || (formData.serviceType !== 'Développement Web' && step === 1)
+                    formData.serviceType === ''
                       ? 'bg-white/5 text-gray-500 cursor-not-allowed'
                       : ''
                   }`}
                   style={{
-                    background: (formData.serviceType === '' || (formData.serviceType !== 'Développement Web' && step === 1)) 
+                    background: formData.serviceType === '' 
                       ? 'rgba(255, 255, 255, 0.05)' 
                       : 'linear-gradient(135deg, rgba(63, 131, 145, 0.8), rgba(63, 131, 145, 0.6))'
                   }}
-                  whileHover={!(formData.serviceType === '' || (formData.serviceType !== 'Développement Web' && step === 1)) ? { scale: 1.05 } : {}}
-                  whileTap={!(formData.serviceType === '' || (formData.serviceType !== 'Développement Web' && step === 1)) ? { scale: 0.95 } : {}}
+                  whileHover={formData.serviceType !== '' ? { scale: 1.05 } : {}}
+                  whileTap={formData.serviceType !== '' ? { scale: 0.95 } : {}}
                 >
                   Suivant
                   <ChevronRight size={18} />

@@ -198,17 +198,212 @@ export async function submitQuoteRequest(formData) {
 }
 
 // ================================================
+// 🤖 FONCTIONS POUR LES DEMANDES DE DEVIS IA
+// ================================================
+
+/**
+ * Sauvegarder une nouvelle demande de devis IA
+ * @param {Object} aiQuoteData - Données du formulaire de devis IA
+ * @returns {Promise<Object>} Résultat de l'insertion
+ */
+export async function saveAiQuoteRequest(aiQuoteData) {
+  try {
+    console.log('💾 Sauvegarde de la demande de devis IA...', aiQuoteData);
+
+    // Préparer les données pour l'insertion
+    const dbData = {
+      // 🧑‍💼 1. Infos de base
+      first_name: aiQuoteData.firstName,
+      last_name: aiQuoteData.lastName,
+      email: aiQuoteData.email,
+      company_name: aiQuoteData.companyName || null,
+      business_sector: aiQuoteData.businessSector || null,
+      ai_need_description: aiQuoteData.aiNeedDescription,
+      
+      // 🎯 2. Objectif du projet  
+      ai_project_goals: aiQuoteData.aiProjectGoals || [],
+      ai_custom_goal: aiQuoteData.aiCustomGoal || null,
+      
+      // 📊 3. Données disponibles
+      has_data_available: aiQuoteData.hasDataAvailable,
+      data_types: aiQuoteData.dataTypes || [],
+      data_volume: aiQuoteData.dataVolume || null,
+      
+      // ⚙️ 4. Fonctionnalités souhaitées
+      ai_desired_features: aiQuoteData.aiDesiredFeatures || [],
+      
+      // ⏰ 5. Délai et budget
+      project_start_timeline: aiQuoteData.projectStartTimeline || null,
+      ai_budget_range: aiQuoteData.aiBudgetRange || null,
+      
+      // 📝 6. Complément
+      need_technical_support: aiQuoteData.needTechnicalSupport,
+      need_future_maintenance: aiQuoteData.needFutureMaintenance,
+      ai_additional_notes: aiQuoteData.aiAdditionalNotes || null,
+      
+      // 7. Préférence de contact
+      preferred_contact: aiQuoteData.preferredContact,
+      
+      // Métadonnées
+      status: 'pending',
+      email_status: 'pending'
+    };
+
+    // Insérer dans la base de données
+    const { data, error } = await supabase
+      .from('ai_quote_requests')
+      .insert([dbData])
+      .select()
+      .single();
+
+    if (error) {
+      console.error('❌ Erreur lors de la sauvegarde IA:', error);
+      throw new Error(`Erreur de sauvegarde IA: ${error.message}`);
+    }
+
+    console.log('✅ Demande IA sauvegardée avec succès:', data.id);
+    return { success: true, data };
+
+  } catch (error) {
+    console.error('❌ Erreur dans saveAiQuoteRequest:', error);
+    return { success: false, error: error.message };
+  }
+}
+
+/**
+ * Envoyer l'email de notification IA via Edge Function
+ * @param {Object} aiQuoteData - Données de la demande de devis IA
+ * @returns {Promise<Object>} Résultat de l'envoi
+ */
+export async function sendAiQuoteEmail(aiQuoteData) {
+  try {
+    console.log('📧 Envoi de l\'email de notification IA...');
+
+    // Appeler l'Edge Function (réutilise la même fonction avec un flag IA)
+    const { data, error } = await supabase.functions.invoke('send-quote-email', {
+      body: { ...aiQuoteData, isAI: true }
+    });
+
+    if (error) {
+      console.error('❌ Erreur lors de l\'envoi de l\'email IA:', error);
+      throw new Error(`Erreur d'envoi email IA: ${error.message}`);
+    }
+
+    console.log('✅ Email IA envoyé avec succès');
+    return { success: true, data };
+
+  } catch (error) {
+    console.error('❌ Erreur dans sendAiQuoteEmail:', error);
+    return { success: false, error: error.message };
+  }
+}
+
+/**
+ * Mettre à jour le statut email d'une demande IA
+ * @param {string} requestId - ID de la demande
+ * @param {string} status - Nouveau statut ('sent', 'failed', etc.)
+ * @returns {Promise<Object>} Résultat de la mise à jour
+ */
+export async function updateAiEmailStatus(requestId, status) {
+  try {
+    const { data, error } = await supabase
+      .from('ai_quote_requests')
+      .update({ 
+        email_status: status,
+        email_sent_at: status === 'sent' ? new Date().toISOString() : null
+      })
+      .eq('id', requestId);
+
+    if (error) throw error;
+
+    return { success: true, data };
+  } catch (error) {
+    console.error('❌ Erreur updateAiEmailStatus:', error);
+    return { success: false, error: error.message };
+  }
+}
+
+/**
+ * Processus complet IA: sauvegarder + envoyer email
+ * @param {Object} formData - Données du formulaire IA
+ * @returns {Promise<Object>} Résultat complet
+ */
+export async function submitAiQuoteRequest(formData) {
+  try {
+    console.log('🚀 Démarrage du processus complet de demande de devis IA...');
+
+    // 1. Sauvegarder en base de données
+    const saveResult = await saveAiQuoteRequest(formData);
+    if (!saveResult.success) {
+      throw new Error(saveResult.error);
+    }
+
+    const savedRequest = saveResult.data;
+
+    // 2. Envoyer l'email de notification
+    const emailResult = await sendAiQuoteEmail(savedRequest);
+    
+    // 3. Mettre à jour le statut email
+    await updateAiEmailStatus(
+      savedRequest.id, 
+      emailResult.success ? 'sent' : 'failed'
+    );
+
+    if (!emailResult.success) {
+      console.warn('⚠️ Demande IA sauvegardée mais email non envoyé:', emailResult.error);
+      // On ne lance pas d'erreur car la demande est sauvegardée
+    }
+
+    console.log('🎉 Processus IA terminé avec succès!');
+    
+    return {
+      success: true,
+      data: savedRequest,
+      emailSent: emailResult.success,
+      message: emailResult.success 
+        ? 'Demande IA envoyée avec succès ! Vous recevrez une réponse sous 24h.'
+        : 'Demande IA enregistrée ! L\'email de confirmation suivra sous peu.'
+    };
+
+  } catch (error) {
+    console.error('❌ Erreur dans submitAiQuoteRequest:', error);
+    return {
+      success: false,
+      error: error.message,
+      message: 'Une erreur est survenue lors de l\'envoi. Veuillez réessayer.'
+    };
+  }
+}
+
+// ================================================
 // 📊 FONCTIONS UTILITAIRES
 // ================================================
 
 /**
- * Récupérer les statistiques des demandes de devis
+ * Récupérer les statistiques des demandes de devis (Web + IA)
  * @returns {Promise<Object>} Statistiques
  */
 export async function getQuoteStats() {
   try {
     const { data, error } = await supabase
       .from('quote_stats_by_service')
+      .select('*');
+
+    if (error) throw error;
+    return { success: true, data };
+  } catch (error) {
+    return { success: false, error: error.message };
+  }
+}
+
+/**
+ * Récupérer les statistiques spécifiques IA
+ * @returns {Promise<Object>} Statistiques IA
+ */
+export async function getAiQuoteStats() {
+  try {
+    const { data, error } = await supabase
+      .from('ai_quote_stats')
       .select('*');
 
     if (error) throw error;
@@ -282,11 +477,19 @@ export function validateSupabaseConfig() {
 // Export par défaut
 export default {
   supabase,
+  // Fonctions Web
   submitQuoteRequest,
   saveQuoteRequest,
   sendQuoteEmail,
   updateEmailStatus,
+  // Fonctions IA
+  submitAiQuoteRequest,
+  saveAiQuoteRequest,
+  sendAiQuoteEmail,
+  updateAiEmailStatus,
+  // Fonctions utilitaires
   getQuoteStats,
+  getAiQuoteStats,
   getRecentQuotes,
   testSupabaseConnection,
   validateSupabaseConfig

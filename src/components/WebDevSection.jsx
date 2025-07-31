@@ -88,10 +88,66 @@ const WebDevSection = ({ className = "" }) => {
       {/* Main Content Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center mb-16">
         
+        {/* Section Visual/Image */}
+        <motion.div
+          className="relative"
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+        >
+          {/* Main Image Container */}
+          <div 
+            className="relative h-[500px] rounded-3xl overflow-hidden border border-white/10"
+            style={{
+              background: `
+                linear-gradient(135deg, 
+                  rgba(255, 255, 255, 0.1) 0%, 
+                  rgba(255, 255, 255, 0.05) 50%, 
+                  rgba(0, 0, 0, 0.1) 100%
+                )
+              `,
+              backdropFilter: 'blur(20px)',
+              boxShadow: `
+                0 20px 50px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2)
+              `
+            }}
+          >
+            {/* Image */}
+            <motion.img
+              src={institutCorailMockup}
+              alt="Institut Corail - Projet de développement web"
+              className="w-full h-full object-cover rounded-3xl"
+              initial={{ scale: 1.1, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.5 }}
+              whileHover={{ 
+                scale: 1.02,
+                transition: { duration: 0.3 }
+              }}
+            />
+            
+            {/* Overlay gradient for better text visibility */}
+            <div 
+              className="absolute inset-0 rounded-3xl"
+              style={{
+                background: `
+                  linear-gradient(135deg, 
+                    rgba(0, 0, 0, 0.2) 0%, 
+                    rgba(0, 0, 0, 0.1) 50%, 
+                    rgba(63, 131, 145, 0.1) 100%
+                  )
+                `
+              }}
+            />
+          </div>
+
+        </motion.div>
+
         {/* Section Features */}
         <motion.div
           className="space-y-8"
-          initial={{ opacity: 0, x: -50 }}
+          initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6 }}
         >
@@ -155,62 +211,6 @@ const WebDevSection = ({ className = "" }) => {
               </motion.div>
             ))}
           </div>
-        </motion.div>
-
-        {/* Section Visual/Image */}
-        <motion.div
-          className="relative"
-          initial={{ opacity: 0, x: 50 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-        >
-          {/* Main Image Container */}
-          <div 
-            className="relative h-[500px] rounded-3xl overflow-hidden border border-white/10"
-            style={{
-              background: `
-                linear-gradient(135deg, 
-                  rgba(255, 255, 255, 0.1) 0%, 
-                  rgba(255, 255, 255, 0.05) 50%, 
-                  rgba(0, 0, 0, 0.1) 100%
-                )
-              `,
-              backdropFilter: 'blur(20px)',
-              boxShadow: `
-                0 20px 50px rgba(0, 0, 0, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2)
-              `
-            }}
-          >
-            {/* Image */}
-            <motion.img
-              src={institutCorailMockup}
-              alt="Institut Corail - Projet de développement web"
-              className="w-full h-full object-cover rounded-3xl"
-              initial={{ scale: 1.1, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.5 }}
-              whileHover={{ 
-                scale: 1.02,
-                transition: { duration: 0.3 }
-              }}
-            />
-            
-            {/* Overlay gradient for better text visibility */}
-            <div 
-              className="absolute inset-0 rounded-3xl"
-              style={{
-                background: `
-                  linear-gradient(135deg, 
-                    rgba(0, 0, 0, 0.2) 0%, 
-                    rgba(0, 0, 0, 0.1) 50%, 
-                    rgba(63, 131, 145, 0.1) 100%
-                  )
-                `
-              }}
-            />
-          </div>
-
         </motion.div>
       </div>
 

@@ -14,6 +14,7 @@ import TypewriterEffect from './components/TypewriterEffect';
 import CredibilityDashboard from './components/CredibilityDashboard';
 import ProjectModal from './components/ProjectModal';
 import InspirationMarquee from './components/InspirationMarquee';
+import Footer from './components/Footer';
 
 // Import direct temporaire pour déboguer NeuralNetwork3D
 import NeuralNetwork3DComponent from './components/NeuralNetwork3D';
@@ -270,7 +271,7 @@ function Accueil() {
               <span 
                 style={{ 
                   color: '#3F8391',
-                  textShadow: '0 0 30px rgba(30, 47, 49, 0.5)'
+                  textShadow: '0 0 10px rgba(30, 47, 49, 0.5)'
                 }}
               >
                 Jérémy
@@ -494,7 +495,8 @@ function Accueil() {
               }}
               whileHover={{ 
                 scale: 1.05,
-                boxShadow: "0 12px 40px rgba(63, 131, 145, 0.3)"
+                boxShadow: "0 12px 40px rgba(63, 131, 145, 0.3)",
+                background: "linear-gradient(135deg, #3F8391 0%, #5ba3b0 100%)"
               }}
               whileTap={{ scale: 0.95 }}
             >
@@ -894,6 +896,9 @@ function ProjetsEtExperience() {
         isOpen={isModalOpen}
         onClose={closeProjectModal}
       />
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 }
@@ -990,6 +995,9 @@ function MesServices() {
           </motion.button>
         </div>
       </motion.div>
+
+      {/* Footer */}
+      <Footer />
 
       {/* Quote Modal */}
       <Suspense fallback={null}>
@@ -1184,7 +1192,7 @@ function Contact() {
               <h3 className="text-xl font-bold text-white mb-4 drop-shadow-lg">
                 Suivez-moi
               </h3>
-              <div className="flex gap-4">
+              <div className="flex gap-4 items-center">
                 {socialLinks.map((social, index) => (
                   <motion.a
                     key={index}
@@ -1218,42 +1226,39 @@ function Contact() {
                     <social.icon size={20} className="relative z-10" style={{ color: "#3F8391" }} />
                   </motion.a>
                 ))}
+                
+                {/* Bouton Demander un devis - Inline avec les icônes */}
+                <motion.button
+                  onClick={() => setIsQuoteModalOpen(true)}
+                  className="px-6 py-4 text-white font-semibold rounded-2xl transition-all duration-300 relative overflow-hidden group flex items-center gap-2 min-h-[56px] touch-manipulation"
+                  style={{
+                    background: `
+                      linear-gradient(135deg, 
+                        rgba(63, 131, 145, 0.8) 0%, 
+                        rgba(63, 131, 145, 0.6) 100%
+                      )
+                    `,
+                    boxShadow: `
+                      0 8px 32px rgba(63, 131, 145, 0.3),
+                      inset 0 1px 0 rgba(255, 255, 255, 0.2)
+                    `
+                  }}
+                  whileHover={{ 
+                    scale: 1.05,
+                    boxShadow: "0 12px 40px rgba(63, 131, 145, 0.4)"
+                  }}
+                  whileTap={{ scale: 0.95 }}
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ duration: 0.6, delay: 0.4 }}
+                >
+                  <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+                  <FileText size={16} />
+                  <span className="relative">Demander un devis</span>
+                </motion.button>
               </div>
             </div>
 
-            {/* Bouton Demander un devis */}
-            <motion.div
-              className="text-center mt-8"
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.5 }}
-            >
-              <motion.button
-                onClick={() => setIsQuoteModalOpen(true)}
-                className="px-8 py-4 text-white font-semibold rounded-full transition-all duration-300 relative overflow-hidden group flex items-center gap-2 mx-auto"
-                style={{
-                  background: `
-                    linear-gradient(135deg, 
-                      rgba(63, 131, 145, 0.8) 0%, 
-                      rgba(63, 131, 145, 0.6) 100%
-                    )
-                  `,
-                  boxShadow: `
-                    0 8px 32px rgba(63, 131, 145, 0.3),
-                    inset 0 1px 0 rgba(255, 255, 255, 0.2)
-                  `
-                }}
-                whileHover={{ 
-                  scale: 1.05,
-                  boxShadow: "0 12px 40px rgba(63, 131, 145, 0.4)"
-                }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-                <FileText size={20} />
-                <span className="relative">Demander un devis</span>
-              </motion.button>
-            </motion.div>
           </motion.div>
 
           {/* Formulaire de contact */}
@@ -1511,6 +1516,9 @@ function Contact() {
           </motion.div>
         </div>
       </div>
+
+      {/* Footer */}
+      <Footer />
 
       {/* Quote Modal */}
       <Suspense fallback={null}>
