@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { useTheme } from '../contexts/ThemeContext';
 import { 
   TrendingUp, 
   Users, 
@@ -13,6 +14,7 @@ import {
 } from 'lucide-react';
 
 const CredibilityDashboard = ({ className = "" }) => {
+  const { isDarkMode } = useTheme();
   const [animatedValues, setAnimatedValues] = useState({
     clients: 0,
     websites: 0,
@@ -155,52 +157,79 @@ const CredibilityDashboard = ({ className = "" }) => {
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+          <h2 className={`text-4xl md:text-5xl font-bold mb-6 transition-colors duration-500 ${
+            isDarkMode ? 'text-white' : 'text-gray-900'
+          }`}>
             Mes <span style={{ color: '#3F8391' }}>Résultats</span>
           </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+          <p className={`text-xl max-w-3xl mx-auto transition-colors duration-500 ${
+            isDarkMode ? 'text-gray-300' : 'text-gray-600'
+          }`}>
             Des données concrètes qui témoignent de mon expertise et de la satisfaction de mes clients
           </p>
         </motion.div>
 
         {/* Dashboard Container */}
         <div 
-          className="rounded-3xl p-4 sm:p-6 lg:p-8 border border-white/10"
+          className={`rounded-3xl p-4 sm:p-6 lg:p-8 transition-all duration-500 ${
+            isDarkMode ? 'border-white/10' : 'border-gray-300/30'
+          }`}
           style={{
-            background: `
+            background: isDarkMode ? `
               linear-gradient(135deg, 
                 rgba(255, 255, 255, 0.1) 0%, 
                 rgba(255, 255, 255, 0.05) 50%, 
                 rgba(0, 0, 0, 0.1) 100%
               ),
               radial-gradient(circle at 20% 20%, rgba(63, 131, 145, 0.08) 0%, transparent 50%)
+            ` : `
+              linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.95) 0%, 
+                rgba(255, 255, 255, 0.85) 50%, 
+                rgba(255, 255, 255, 0.9) 100%
+              ),
+              radial-gradient(circle at 20% 20%, rgba(63, 131, 145, 0.1) 0%, transparent 50%)
             `,
-            boxShadow: `
+            boxShadow: isDarkMode ? `
               0 20px 50px rgba(0, 0, 0, 0.3),
               inset 0 1px 0 rgba(255, 255, 255, 0.2)
+            ` : `
+              0 20px 50px rgba(0, 0, 0, 0.1),
+              inset 0 1px 0 rgba(255, 255, 255, 0.8)
             `
           }}
         >
           {/* Métriques principales - Version simplifiée */}
           <motion.div
-            className="p-6 rounded-2xl border border-white/10 mb-8"
+            className={`p-6 rounded-2xl mb-8 transition-all duration-500 ${
+              isDarkMode ? 'border-white/10' : 'border-gray-300/30'
+            }`}
             style={{
-              background: `
+              background: isDarkMode ? `
                 linear-gradient(135deg, 
                   rgba(255, 255, 255, 0.08) 0%, 
                   rgba(255, 255, 255, 0.02) 100%
                 )
+              ` : `
+                linear-gradient(135deg, 
+                  rgba(255, 255, 255, 0.9) 0%, 
+                  rgba(255, 255, 255, 0.8) 100%
+                )
               `,
-              boxShadow: '0 4px 16px rgba(0, 0, 0, 0.1)'
+              boxShadow: isDarkMode ? '0 4px 16px rgba(0, 0, 0, 0.1)' : '0 4px 16px rgba(0, 0, 0, 0.05)'
             }}
             initial={{ y: 30, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.3 }}
           >
-            <h3 className="text-xl font-bold text-white mb-6 text-center">Vue d'Ensemble</h3>
+            <h3 className={`text-xl font-bold mb-6 text-center transition-colors duration-500 ${
+              isDarkMode ? 'text-white' : 'text-gray-800'
+            }`}>Vue d'Ensemble</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
               <motion.div 
-                className="text-center p-4 rounded-xl cursor-pointer transition-all duration-300 hover:bg-white/5 group"
+                className={`text-center p-4 rounded-xl cursor-pointer transition-all duration-300 group ${ 
+                  isDarkMode ? 'hover:bg-white/5' : 'hover:bg-black/5'
+                }`}
                 whileHover={{ scale: 1.05, y: -5 }}
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
               >
@@ -212,7 +241,9 @@ const CredibilityDashboard = ({ className = "" }) => {
                 >
                   +{animatedValues.clients}
                 </motion.div>
-                <div className="text-sm text-gray-300 group-hover:text-white">Clients Servis</div>
+                <div className={`text-sm transition-colors duration-500 ${
+                  isDarkMode ? 'text-gray-300 group-hover:text-white' : 'text-gray-600 group-hover:text-gray-800'
+                }`}>Clients Servis</div>
                 <motion.div 
                   className="mt-2 h-1 bg-gradient-to-r from-[#3F8391] to-transparent rounded-full"
                   initial={{ width: 0 }}
@@ -221,7 +252,9 @@ const CredibilityDashboard = ({ className = "" }) => {
                 />
               </motion.div>
               <motion.div 
-                className="text-center p-4 rounded-xl cursor-pointer transition-all duration-300 hover:bg-white/5 group"
+                className={`text-center p-4 rounded-xl cursor-pointer transition-all duration-300 group ${ 
+                  isDarkMode ? 'hover:bg-white/5' : 'hover:bg-black/5'
+                }`}
                 whileHover={{ scale: 1.05, y: -5 }}
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
               >
@@ -233,7 +266,9 @@ const CredibilityDashboard = ({ className = "" }) => {
                 >
                   {animatedValues.websites + animatedValues.mobileApps}
                 </motion.div>
-                <div className="text-sm text-gray-300 group-hover:text-white">Projets Livrés</div>
+                <div className={`text-sm transition-colors duration-500 ${
+                  isDarkMode ? 'text-gray-300 group-hover:text-white' : 'text-gray-600 group-hover:text-gray-800'
+                }`}>Projets Livrés</div>
                 <motion.div 
                   className="mt-2 h-1 bg-gradient-to-r from-[#F59E0B] to-transparent rounded-full"
                   initial={{ width: 0 }}
@@ -242,7 +277,9 @@ const CredibilityDashboard = ({ className = "" }) => {
                 />
               </motion.div>
               <motion.div 
-                className="text-center p-4 rounded-xl cursor-pointer transition-all duration-300 hover:bg-white/5 group"
+                className={`text-center p-4 rounded-xl cursor-pointer transition-all duration-300 group ${ 
+                  isDarkMode ? 'hover:bg-white/5' : 'hover:bg-black/5'
+                }`}
                 whileHover={{ scale: 1.05, y: -5 }}
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
               >
@@ -254,7 +291,9 @@ const CredibilityDashboard = ({ className = "" }) => {
                 >
                   {animatedValues.deliveryTime}j
                 </motion.div>
-                <div className="text-sm text-gray-300 group-hover:text-white">Délai Moyen</div>
+                <div className={`text-sm transition-colors duration-500 ${
+                  isDarkMode ? 'text-gray-300 group-hover:text-white' : 'text-gray-600 group-hover:text-gray-800'
+                }`}>Délai Moyen</div>
                 <motion.div 
                   className="mt-2 h-1 bg-gradient-to-r from-[#10B981] to-transparent rounded-full"
                   initial={{ width: 0 }}
@@ -263,7 +302,9 @@ const CredibilityDashboard = ({ className = "" }) => {
                 />
               </motion.div>
               <motion.div 
-                className="text-center p-4 rounded-xl cursor-pointer transition-all duration-300 hover:bg-white/5 group"
+                className={`text-center p-4 rounded-xl cursor-pointer transition-all duration-300 group ${ 
+                  isDarkMode ? 'hover:bg-white/5' : 'hover:bg-black/5'
+                }`}
                 whileHover={{ scale: 1.05, y: -5 }}
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
               >
@@ -281,7 +322,9 @@ const CredibilityDashboard = ({ className = "" }) => {
                     <Star size={20} fill="currentColor" />
                   </motion.div>
                 </motion.div>
-                <div className="text-sm text-gray-300 group-hover:text-white">Note Moyenne</div>
+                <div className={`text-sm transition-colors duration-500 ${
+                  isDarkMode ? 'text-gray-300 group-hover:text-white' : 'text-gray-600 group-hover:text-gray-800'
+                }`}>Note Moyenne</div>
                 <motion.div 
                   className="mt-2 h-1 bg-gradient-to-r from-[#8B5CF6] to-transparent rounded-full"
                   initial={{ width: 0 }}
@@ -296,16 +339,20 @@ const CredibilityDashboard = ({ className = "" }) => {
           <div className="grid grid-cols-1 gap-6 sm:gap-8">
             {/* Graphique en barres - Délais de livraison */}
             <motion.div
-              className="p-6 rounded-xl border border-white/10"
+              className={`p-6 rounded-xl transition-all duration-500 ${
+                isDarkMode ? 'border-white/10' : 'border-gray-300/30'
+              }`}
               style={{
-                background: `rgba(245, 158, 11, 0.05)`,
+                background: isDarkMode ? `rgba(245, 158, 11, 0.05)` : `rgba(245, 158, 11, 0.1)`,
                 borderColor: '#F59E0B'
               }}
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.6, delay: 1.0 }}
             >
-              <h4 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+              <h4 className={`text-lg font-semibold mb-4 flex items-center gap-2 transition-colors duration-500 ${
+                isDarkMode ? 'text-white' : 'text-gray-800'
+              }`}>
                 <Monitor size={20} color="#F59E0B" />
                 Délais de Livraison - 8 Derniers Projets
               </h4>
@@ -356,13 +403,17 @@ const CredibilityDashboard = ({ className = "" }) => {
                       </motion.div>
                     </div>
                     <motion.span 
-                      className="text-sm text-gray-300 mt-2 font-medium group-hover:text-white"
+                      className={`text-sm mt-2 font-medium transition-colors duration-500 ${
+                        isDarkMode ? 'text-gray-300 group-hover:text-white' : 'text-gray-600 group-hover:text-gray-800'
+                      }`}
                       whileHover={{ scale: 1.1 }}
                     >
                       P{index + 1}
                     </motion.span>
                     <motion.span 
-                      className="text-xs text-white font-bold group-hover:text-yellow-300"
+                      className={`text-xs font-bold transition-colors duration-500 ${
+                        isDarkMode ? 'text-white group-hover:text-yellow-300' : 'text-gray-800 group-hover:text-yellow-600'
+                      }`}
                       whileHover={{ scale: 1.2 }}
                     >
                       {days}j
@@ -370,7 +421,9 @@ const CredibilityDashboard = ({ className = "" }) => {
                   </motion.div>
                 ))}
               </div>
-              <div className="text-sm text-gray-400 mt-4 text-center">
+              <div className={`text-sm mt-4 text-center transition-colors duration-500 ${
+                isDarkMode ? 'text-gray-400' : 'text-gray-600'
+              }`}>
                 Moyenne: 9 jours | Objectif: &lt;15 jours | 🎯 Performance excellente
               </div>
             </motion.div>
@@ -381,16 +434,20 @@ const CredibilityDashboard = ({ className = "" }) => {
           <div className="grid grid-cols-1 gap-6 sm:gap-8 mt-6 sm:mt-8">
             {/* Graphique linéaire - Croissance trafic/leads enrichi */}
             <motion.div
-              className="p-6 rounded-xl border border-white/10"
+              className={`p-6 rounded-xl transition-all duration-500 ${
+                isDarkMode ? 'border-white/10' : 'border-gray-300/30'
+              }`}
               style={{
-                background: `rgba(139, 92, 246, 0.05)`,
+                background: isDarkMode ? `rgba(139, 92, 246, 0.05)` : `rgba(139, 92, 246, 0.1)`,
                 borderColor: '#8B5CF6'
               }}
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.6, delay: 1.3 }}
             >
-              <h4 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+              <h4 className={`text-lg font-semibold mb-4 flex items-center gap-2 transition-colors duration-500 ${
+                isDarkMode ? 'text-white' : 'text-gray-800'
+              }`}>
                 <TrendingUp size={20} color="#8B5CF6" />
                 Croissance Marketing - 6 Derniers Mois
               </h4>
@@ -398,7 +455,9 @@ const CredibilityDashboard = ({ className = "" }) => {
               {/* Métriques principales */}
               <div className="grid grid-cols-2 gap-4 mb-4">
                 <motion.div 
-                  className="text-center p-3 bg-black/20 rounded-lg cursor-pointer group relative overflow-hidden"
+                  className={`text-center p-3 rounded-lg cursor-pointer group relative overflow-hidden ${
+                    isDarkMode ? 'bg-black/20' : 'bg-white/60'
+                  }`}
                   whileHover={{ 
                     scale: 1.05,
                     backgroundColor: "rgba(139, 92, 246, 0.1)" 
@@ -421,10 +480,14 @@ const CredibilityDashboard = ({ className = "" }) => {
                   >
                     +43%
                   </motion.div>
-                  <div className="text-xs text-gray-300 relative z-10 group-hover:text-white">Trafic Web</div>
+                  <div className={`text-xs relative z-10 transition-colors duration-500 ${
+                    isDarkMode ? 'text-gray-300 group-hover:text-white' : 'text-gray-600 group-hover:text-gray-800'
+                  }`}>Trafic Web</div>
                 </motion.div>
                 <motion.div 
-                  className="text-center p-3 bg-black/20 rounded-lg cursor-pointer group relative overflow-hidden"
+                  className={`text-center p-3 rounded-lg cursor-pointer group relative overflow-hidden ${
+                    isDarkMode ? 'bg-black/20' : 'bg-white/60'
+                  }`}
                   whileHover={{ 
                     scale: 1.05,
                     backgroundColor: "rgba(245, 158, 11, 0.1)" 
@@ -447,7 +510,9 @@ const CredibilityDashboard = ({ className = "" }) => {
                   >
                     x3
                   </motion.div>
-                  <div className="text-xs text-gray-300 relative z-10 group-hover:text-white">Leads Générés</div>
+                  <div className={`text-xs relative z-10 transition-colors duration-500 ${
+                    isDarkMode ? 'text-gray-300 group-hover:text-white' : 'text-gray-600 group-hover:text-gray-800'
+                  }`}>Leads Générés</div>
                 </motion.div>
               </div>
               
@@ -490,20 +555,26 @@ const CredibilityDashboard = ({ className = "" }) => {
                 <div className="flex items-center justify-between text-sm">
                   <div className="flex items-center gap-2">
                     <div className="w-3 h-3 rounded-full bg-purple-500"/>
-                    <span className="text-gray-300">Trafic Organique</span>
+                    <span className={`transition-colors duration-500 ${
+                      isDarkMode ? 'text-gray-300' : 'text-gray-600'
+                    }`}>Trafic Organique</span>
                   </div>
                   <span className="text-purple-400 font-semibold">+43%</span>
                 </div>
                 <div className="flex items-center justify-between text-sm">
                   <div className="flex items-center gap-2">
                     <div className="w-3 h-3 rounded-full bg-yellow-500"/>
-                    <span className="text-gray-300">Leads Qualifiés</span>
+                    <span className={`transition-colors duration-500 ${
+                      isDarkMode ? 'text-gray-300' : 'text-gray-600'
+                    }`}>Leads Qualifiés</span>
                   </div>
                   <span className="text-yellow-400 font-semibold">300%</span>
                 </div>
               </div>
               
-              <div className="text-sm text-gray-400 mt-4 text-center">
+              <div className={`text-sm mt-4 text-center transition-colors duration-500 ${
+                isDarkMode ? 'text-gray-400' : 'text-gray-600'
+              }`}>
                 📈 Objectif 2024: +50% trafic • 🎯 Performance sur la bonne voie
               </div>
             </motion.div>
@@ -511,16 +582,20 @@ const CredibilityDashboard = ({ className = "" }) => {
 
             {/* Timeline IA - Enrichie avec détails */}
             <motion.div
-              className="p-6 rounded-xl border border-white/10"
+              className={`p-6 rounded-xl transition-all duration-500 ${
+                isDarkMode ? 'border-white/10' : 'border-gray-300/30'
+              }`}
               style={{
-                background: `rgba(239, 68, 68, 0.05)`,
+                background: isDarkMode ? `rgba(239, 68, 68, 0.05)` : `rgba(239, 68, 68, 0.1)`,
                 borderColor: '#EF4444'
               }}
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.6, delay: 1.4 }}
             >
-              <h4 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+              <h4 className={`text-lg font-semibold mb-4 flex items-center gap-2 transition-colors duration-500 ${
+                isDarkMode ? 'text-white' : 'text-gray-800'
+              }`}>
                 <Bot size={20} color="#EF4444" />
                 Automatisations IA - Déploiements 2024
               </h4>
@@ -528,7 +603,9 @@ const CredibilityDashboard = ({ className = "" }) => {
               {/* Statistiques IA */}
               <div className="grid grid-cols-3 gap-3 mb-4">
                 <motion.div 
-                  className="text-center p-2 bg-black/20 rounded-lg cursor-pointer group relative overflow-hidden"
+                  className={`text-center p-2 rounded-lg cursor-pointer group relative overflow-hidden ${
+                    isDarkMode ? 'bg-black/20' : 'bg-white/60'
+                  }`}
                   whileHover={{ 
                     scale: 1.05,
                     backgroundColor: "rgba(239, 68, 68, 0.1)" 
@@ -555,10 +632,14 @@ const CredibilityDashboard = ({ className = "" }) => {
                   >
                     6
                   </motion.div>
-                  <div className="text-xs text-gray-300 relative z-10 group-hover:text-white">Déployées</div>
+                  <div className={`text-xs relative z-10 transition-colors duration-500 ${
+                    isDarkMode ? 'text-gray-300 group-hover:text-white' : 'text-gray-600 group-hover:text-gray-800'
+                  }`}>Déployées</div>
                 </motion.div>
                 <motion.div 
-                  className="text-center p-2 bg-black/20 rounded-lg cursor-pointer group relative overflow-hidden"
+                  className={`text-center p-2 rounded-lg cursor-pointer group relative overflow-hidden ${
+                    isDarkMode ? 'bg-black/20' : 'bg-white/60'
+                  }`}
                   whileHover={{ 
                     scale: 1.05,
                     backgroundColor: "rgba(249, 115, 22, 0.1)" 
@@ -585,10 +666,14 @@ const CredibilityDashboard = ({ className = "" }) => {
                   >
                     2
                   </motion.div>
-                  <div className="text-xs text-gray-300 relative z-10 group-hover:text-white">En cours</div>
+                  <div className={`text-xs relative z-10 transition-colors duration-500 ${
+                    isDarkMode ? 'text-gray-300 group-hover:text-white' : 'text-gray-600 group-hover:text-gray-800'
+                  }`}>En cours</div>
                 </motion.div>
                 <motion.div 
-                  className="text-center p-2 bg-black/20 rounded-lg cursor-pointer group relative overflow-hidden"
+                  className={`text-center p-2 rounded-lg cursor-pointer group relative overflow-hidden ${
+                    isDarkMode ? 'bg-black/20' : 'bg-white/60'
+                  }`}
                   whileHover={{ 
                     scale: 1.05,
                     backgroundColor: "rgba(34, 197, 94, 0.1)" 
@@ -622,7 +707,9 @@ const CredibilityDashboard = ({ className = "" }) => {
                       ✓
                     </motion.div>
                   </motion.div>
-                  <div className="text-xs text-gray-300 relative z-10 group-hover:text-white">Succès</div>
+                  <div className={`text-xs relative z-10 transition-colors duration-500 ${
+                    isDarkMode ? 'text-gray-300 group-hover:text-white' : 'text-gray-600 group-hover:text-gray-800'
+                  }`}>Succès</div>
                 </motion.div>
               </div>
               
@@ -662,15 +749,19 @@ const CredibilityDashboard = ({ className = "" }) => {
               
               {/* Liste des IA déployées */}
               <motion.div 
-                className="bg-black/20 rounded-lg p-3 mb-4"
+                className={`rounded-lg p-3 mb-4 ${
+                  isDarkMode ? 'bg-black/20' : 'bg-white/60'
+                }`}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 2.2 }}
               >
                 <motion.div 
-                  className="text-xs text-gray-400 mb-2"
+                  className={`text-xs mb-2 transition-colors duration-500 ${
+                    isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                  }`}
                   animate={{ 
-                    color: ["#9CA3AF", "#3F8391", "#9CA3AF"]
+                    color: [isDarkMode ? "#9CA3AF" : "#6B7280", "#3F8391", isDarkMode ? "#9CA3AF" : "#6B7280"]
                   }}
                   transition={{ duration: 3, repeat: Infinity }}
                 >
@@ -684,7 +775,9 @@ const CredibilityDashboard = ({ className = "" }) => {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 2.4 }}
                   >
-                    <span className="text-gray-300 group-hover:text-white">• ChatBot Support Client</span>
+                    <span className={`transition-colors duration-500 ${
+                      isDarkMode ? 'text-gray-300 group-hover:text-white' : 'text-gray-600 group-hover:text-gray-800'
+                    }`}>• ChatBot Support Client</span>
                     <motion.span 
                       className="text-green-400 flex items-center gap-1"
                       animate={{ 
@@ -708,7 +801,9 @@ const CredibilityDashboard = ({ className = "" }) => {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 2.6 }}
                   >
-                    <span className="text-gray-300 group-hover:text-white">• Analyse Sentiment</span>
+                    <span className={`transition-colors duration-500 ${
+                      isDarkMode ? 'text-gray-300 group-hover:text-white' : 'text-gray-600 group-hover:text-gray-800'
+                    }`}>• Analyse Sentiment</span>
                     <motion.span 
                       className="text-green-400 flex items-center gap-1"
                       animate={{ 
@@ -732,7 +827,9 @@ const CredibilityDashboard = ({ className = "" }) => {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 2.8 }}
                   >
-                    <span className="text-gray-300 group-hover:text-white">• Recommandations Produits</span>
+                    <span className={`transition-colors duration-500 ${
+                      isDarkMode ? 'text-gray-300 group-hover:text-white' : 'text-gray-600 group-hover:text-gray-800'
+                    }`}>• Recommandations Produits</span>
                     <motion.span 
                       className="text-green-400 flex items-center gap-1"
                       animate={{ 
@@ -756,7 +853,9 @@ const CredibilityDashboard = ({ className = "" }) => {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 3.0 }}
                   >
-                    <span className="text-gray-300 group-hover:text-white">• Classification Documents</span>
+                    <span className={`transition-colors duration-500 ${
+                      isDarkMode ? 'text-gray-300 group-hover:text-white' : 'text-gray-600 group-hover:text-gray-800'
+                    }`}>• Classification Documents</span>
                     <motion.span 
                       className="text-orange-400 flex items-center gap-1"
                       animate={{ 
@@ -777,7 +876,9 @@ const CredibilityDashboard = ({ className = "" }) => {
                 </div>
               </motion.div>
               
-              <div className="text-sm text-gray-400 text-center">
+              <div className={`text-sm text-center transition-colors duration-500 ${
+                isDarkMode ? 'text-gray-400' : 'text-gray-600'
+              }`}>
                 🤖 Gain productivité: +73% • ⏱️ Temps économisé: 120h/mois
               </div>
             </motion.div>

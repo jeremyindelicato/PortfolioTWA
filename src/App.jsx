@@ -6,6 +6,8 @@ gsap.registerPlugin(ScrollTrigger);
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import NavigationBar from './components/NavigationBar';
 import Pattern from './components/Pattern';
+import ThemeToggle from './components/ThemeToggle';
+import { ThemeProvider, useTheme } from './contexts/ThemeContext';
 import Loader from './components/Loader';
 import ProjectCarousel from './components/ProjectCarousel';
 import ServicesCards from './components/ServicesCards';
@@ -42,7 +44,7 @@ const LoadingFallback = ({ height = "400px", componentName = "Composant" }) => {
     >
       <div className="flex flex-col items-center gap-4">
         <div className="w-8 h-8 border-2 border-[#3F8391] border-t-transparent rounded-full animate-spin"></div>
-        <p className="text-gray-400 text-sm">Chargement {componentName}...</p>
+        <p className="text-sm theme-text-muted">Chargement {componentName}...</p>
       </div>
     </div>
   );
@@ -107,9 +109,10 @@ import institutCorailLogo from './assets/institut-corail/ petit-logo-institut-co
 import institutCorailMockup from './assets/institut-corail/grand-image-institut-corail.png';
 import maisonlicLogo from './assets/maisonlic/logo.png';
 
-function App() {
+function AppContent() {
   const [loading, setLoading] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const { isDarkMode } = useTheme();
 
   useEffect(() => {
     const checkIsMobile = () => {
@@ -137,6 +140,7 @@ function App() {
       <Router>
         <LoaderController loading={loading} setLoading={setLoading} />
         <NavigationBar />
+        <ThemeToggle />
         <div className="min-h-screen w-full">
           <Routes>
             <Route path="/" element={<Accueil />} />
@@ -194,6 +198,7 @@ function useInView(options = {}) {
 
 // Pages à créer ci-dessous
 function Accueil() {
+  const { isDarkMode } = useTheme();
   const [servicesRef, servicesInView] = useInView();
   const [projectsRef, projectsInView] = useInView();
   const [credibilityRef, credibilityInView] = useInView();
@@ -266,12 +271,13 @@ function Accueil() {
       <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 relative">
         <div className="text-center max-w-6xl mx-auto" ref={heroTextRef}>
           <div className="hero-main-text mb-8">
-            <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-white mb-4 leading-tight">
+            <h1 className={`text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-4 leading-tight transition-colors duration-500 ${
+              isDarkMode ? 'text-white' : 'text-gray-900'
+            }`}>
               👋 , je suis{' '}
               <span 
                 style={{ 
-                  color: '#3F8391',
-                  textShadow: '0 0 10px rgba(30, 47, 49, 0.5)'
+                  color: '#3F8391'
                 }}
               >
                 Jérémy
@@ -280,7 +286,9 @@ function Accueil() {
           </div>
           
           <div className="hero-main-text">
-            <div className="text-xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-semibold text-gray-300 mb-6 sm:mb-8 lg:mb-12">
+            <div className={`text-xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-semibold mb-6 sm:mb-8 lg:mb-12 transition-colors duration-500 ${
+              isDarkMode ? 'text-gray-300' : 'text-gray-700'
+            }`}>
               Je{' '}
               <span style={{ color: '#3F8391' }}>
                 <TypewriterEffect />
@@ -291,12 +299,16 @@ function Accueil() {
           {/* Indicateur de scroll */}
           <div className="hero-subtitle absolute bottom-4 sm:bottom-8 left-1/2 transform -translate-x-1/2 hidden xs:block">
             <motion.div
-              className="flex flex-col items-center gap-2 text-white/60"
+              className={`flex flex-col items-center gap-2 transition-colors duration-500 ${
+                isDarkMode ? 'text-white/60' : 'text-gray-900/60'
+              }`}
               animate={{ y: [0, 10, 0] }}
               transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
             >
               <span className="text-sm font-medium">Découvrir</span>
-              <div className="w-px h-8 bg-gradient-to-b from-white/60 to-transparent"></div>
+              <div className={`w-px h-8 bg-gradient-to-b to-transparent ${
+                isDarkMode ? 'from-white/60' : 'from-gray-900/60'
+              }`}></div>
             </motion.div>
           </div>
         </div>
@@ -326,19 +338,14 @@ function Accueil() {
             {/* Effet de brillance */}
             <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-transparent via-white/10 to-transparent animate-pulse"></div>
             
-            {/* Effet de glow */}
-            <div 
-              className="absolute -inset-4 rounded-full opacity-30 blur-2xl"
-              style={{
-                background: 'radial-gradient(circle, rgba(63, 131, 145, 0.4) 0%, transparent 70%)'
-              }}
-            ></div>
           </div>
         </div>
 
         {/* Contenu texte */}
         <div className="text-center lg:text-left max-w-2xl">
-          <p className="text-lg sm:text-xl lg:text-2xl text-gray-400 mb-6 lg:mb-8 leading-relaxed">
+          <p className={`text-lg sm:text-xl lg:text-2xl mb-6 lg:mb-8 leading-relaxed transition-colors duration-500 ${
+            isDarkMode ? 'text-gray-400' : 'text-gray-600'
+          }`}>
             <span style={{ color: '#3F8391' }} className="font-semibold">AI & Data Engineer</span> chez <span style={{ color: '#3F8391' }} className="font-semibold">Stryker</span>, je vous accompagne de manière indépendante dans la création de <span style={{ color: '#3F8391' }} className="font-semibold">solutions web sur-mesure</span>, taillées pour vos objectifs.
             <br />
             Mêlant <span style={{ color: '#3F8391' }} className="font-semibold">développement web</span>, <span style={{ color: '#3F8391' }} className="font-semibold">data</span> et <span style={{ color: '#3F8391' }} className="font-semibold">IA</span>, je transforme vos idées en <span style={{ color: '#3F8391' }} className="font-semibold">leviers concrets de croissance</span>.
@@ -346,20 +353,33 @@ function Accueil() {
 
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start mb-8 lg:mb-12">
             <motion.button 
-              className="px-6 py-4 sm:px-8 sm:py-4 lg:px-10 lg:py-5 text-white font-semibold rounded-full transition-all duration-300 text-base lg:text-lg border border-white/20 backdrop-blur-xl relative overflow-hidden group min-h-[48px] touch-manipulation"
+              className={`px-6 py-4 sm:px-8 sm:py-4 lg:px-10 lg:py-5 font-semibold rounded-full transition-all duration-300 text-base lg:text-lg backdrop-blur-xl relative overflow-hidden group min-h-[48px] touch-manipulation ${
+                isDarkMode 
+                  ? 'text-white border-white/20' 
+                  : 'text-gray-800 border-gray-400 bg-white/20'
+              }`}
               style={{
-                background: `
+                background: isDarkMode ? `
                   linear-gradient(135deg, 
                     rgba(255, 255, 255, 0.1) 0%, 
                     rgba(255, 255, 255, 0.05) 50%, 
                     rgba(0, 0, 0, 0.1) 100%
                   )
+                ` : `
+                  linear-gradient(135deg, 
+                    rgba(255, 255, 255, 0.9) 0%, 
+                    rgba(255, 255, 255, 0.7) 50%, 
+                    rgba(255, 255, 255, 0.8) 100%
+                  )
                 `,
                 backdropFilter: 'blur(20px)',
-                border: '2px solid rgba(63, 131, 145, 0.5)',
-                boxShadow: `
+                border: isDarkMode ? '2px solid rgba(63, 131, 145, 0.5)' : '2px solid rgba(63, 131, 145, 0.8)',
+                boxShadow: isDarkMode ? `
                   0 8px 32px rgba(0, 0, 0, 0.3),
                   inset 0 1px 0 rgba(255, 255, 255, 0.2)
+                ` : `
+                  0 8px 32px rgba(0, 0, 0, 0.15),
+                  inset 0 1px 0 rgba(255, 255, 255, 0.8)
                 `
               }}
               whileHover={{ 
@@ -373,18 +393,29 @@ function Accueil() {
               <span className="relative z-10">Voir mes projets</span>
             </motion.button>
             <motion.button 
-              className="px-6 py-4 sm:px-8 sm:py-4 lg:px-10 lg:py-5 font-semibold rounded-full transition-all duration-300 text-base lg:text-lg text-white relative overflow-hidden group min-h-[48px] touch-manipulation"
+              className={`px-6 py-4 sm:px-8 sm:py-4 lg:px-10 lg:py-5 font-semibold rounded-full transition-all duration-300 text-base lg:text-lg relative overflow-hidden group min-h-[48px] touch-manipulation ${
+                isDarkMode ? 'text-white' : 'text-white'
+              }`}
               style={{
-                background: `
+                background: isDarkMode ? `
                   linear-gradient(135deg, 
                     rgba(63, 131, 145, 0.8) 0%, 
                     rgba(63, 131, 145, 0.6) 50%, 
                     rgba(63, 131, 145, 0.4) 100%
                   )
+                ` : `
+                  linear-gradient(135deg, 
+                    rgba(63, 131, 145, 1) 0%, 
+                    rgba(63, 131, 145, 0.9) 50%, 
+                    rgba(63, 131, 145, 0.8) 100%
+                  )
                 `,
-                boxShadow: `
+                boxShadow: isDarkMode ? `
                   0 4px 16px rgba(63, 131, 145, 0.3),
                   inset 0 1px 0 rgba(255, 255, 255, 0.2)
+                ` : `
+                  0 6px 20px rgba(63, 131, 145, 0.4),
+                  inset 0 1px 0 rgba(255, 255, 255, 0.3)
                 `
               }}
               whileHover={{ 
@@ -411,7 +442,9 @@ function Accueil() {
                 alt="Epitech"
                 className="h-12 sm:h-14 lg:h-16 w-auto filter brightness-90 hover:brightness-110 transition-all duration-300"
               />
-              <span className="text-sm text-gray-400 font-medium">École</span>
+              <span className={`text-sm font-medium transition-colors duration-500 ${
+                isDarkMode ? 'text-gray-400' : 'text-gray-600'
+              }`}>École</span>
             </motion.div>
             
             <div className="w-px h-12 sm:h-14 lg:h-16 bg-gradient-to-b from-transparent via-gray-600 to-transparent" />
@@ -426,7 +459,9 @@ function Accueil() {
                 alt="Stryker"
                 className="h-12 sm:h-14 lg:h-16 w-auto filter brightness-90 hover:brightness-110 transition-all duration-300"
               />
-              <span className="text-sm text-gray-400 font-medium">Alternance</span>
+              <span className={`text-sm font-medium transition-colors duration-500 ${
+                isDarkMode ? 'text-gray-400' : 'text-gray-600'
+              }`}>Alternance</span>
             </motion.div>
           </div>
         </div>
@@ -476,27 +511,40 @@ function Accueil() {
             <motion.a
               href={cvPdf}
               download="CV-Jeremy-Indelicato-TWA.pdf"
-              className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl font-semibold transition-all duration-300 border border-white/20 backdrop-blur-xl relative overflow-hidden group"
+              className={`inline-flex items-center gap-3 px-8 py-4 rounded-2xl font-semibold transition-all duration-300 border backdrop-blur-xl relative overflow-hidden group ${
+                isDarkMode ? 'border-white/20' : 'border-gray-300/40'
+              }`}
               style={{
-                background: `
+                background: isDarkMode ? `
                   linear-gradient(135deg, 
                     rgba(255, 255, 255, 0.15) 0%, 
                     rgba(255, 255, 255, 0.05) 50%, 
                     rgba(255, 255, 255, 0.1) 100%
                   )
+                ` : `
+                  linear-gradient(135deg, 
+                    rgba(255, 255, 255, 0.95) 0%, 
+                    rgba(255, 255, 255, 0.85) 50%, 
+                    rgba(255, 255, 255, 0.9) 100%
+                  )
                 `,
                 backdropFilter: 'blur(20px)',
-                boxShadow: `
+                boxShadow: isDarkMode ? `
                   0 8px 32px rgba(0, 0, 0, 0.1),
                   inset 0 1px 0 rgba(255, 255, 255, 0.3),
                   inset 0 -1px 0 rgba(0, 0, 0, 0.1)
+                ` : `
+                  0 8px 32px rgba(0, 0, 0, 0.05),
+                  inset 0 1px 0 rgba(255, 255, 255, 0.8),
+                  inset 0 -1px 0 rgba(0, 0, 0, 0.05)
                 `,
-                color: '#FFFFFF'
+                color: isDarkMode ? '#FFFFFF' : '#1F2937'
               }}
               whileHover={{ 
                 scale: 1.05,
                 boxShadow: "0 12px 40px rgba(63, 131, 145, 0.3)",
-                background: "linear-gradient(135deg, #3F8391 0%, #5ba3b0 100%)"
+                background: "linear-gradient(135deg, #3F8391 0%, #5ba3b0 100%)",
+                color: "#FFFFFF"
               }}
               whileTap={{ scale: 0.95 }}
             >
@@ -529,7 +577,9 @@ function Accueil() {
 
           {/* Copyright */}
           <motion.p 
-            className="text-gray-300 text-sm leading-relaxed drop-shadow-md"
+            className={`text-sm leading-relaxed drop-shadow-md transition-colors duration-500 ${
+              isDarkMode ? 'text-gray-300' : 'text-gray-600'
+            }`}
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.2 }}
@@ -543,6 +593,7 @@ function Accueil() {
   );
 }
 function ProjetsEtExperience() {
+  const { isDarkMode } = useTheme();
   const [selectedProject, setSelectedProject] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -724,21 +775,34 @@ function ProjetsEtExperience() {
     }
   ];
 
-  const ProjectCard = ({ project, index }) => (
+  const ProjectCard = ({ project, index, isDarkMode }) => (
     <motion.div
-      className="group relative overflow-hidden rounded-3xl border border-white/10 backdrop-blur-sm hover:border-white/20 transition-all duration-300 cursor-pointer"
+      className={`group relative overflow-hidden rounded-3xl backdrop-blur-sm transition-all duration-300 cursor-pointer ${
+        isDarkMode 
+          ? 'border-white/10 hover:border-white/20' 
+          : 'border-gray-300/30 hover:border-gray-400/50'
+      }`}
       style={{
-        background: `
+        background: isDarkMode ? `
           linear-gradient(135deg, 
             rgba(255, 255, 255, 0.1) 0%, 
             rgba(255, 255, 255, 0.05) 50%, 
             rgba(0, 0, 0, 0.1) 100%
           )
+        ` : `
+          linear-gradient(135deg, 
+            rgba(255, 255, 255, 0.9) 0%, 
+            rgba(255, 255, 255, 0.8) 50%, 
+            rgba(255, 255, 255, 0.85) 100%
+          )
         `,
         backdropFilter: 'blur(20px)',
-        boxShadow: `
+        boxShadow: isDarkMode ? `
           0 8px 32px rgba(0, 0, 0, 0.2),
           inset 0 1px 0 rgba(255, 255, 255, 0.2)
+        ` : `
+          0 8px 32px rgba(0, 0, 0, 0.1),
+          inset 0 1px 0 rgba(255, 255, 255, 0.8)
         `
       }}
       initial={{ y: 50, opacity: 0 }}
@@ -760,8 +824,12 @@ function ProjetsEtExperience() {
         {/* Header */}
         <div className="flex items-start justify-between mb-4">
           <div>
-            <h3 className="text-xl font-bold text-white mb-2">{project.name}</h3>
-            <p className="text-sm text-gray-400">{project.date}</p>
+            <h3 className={`text-xl font-bold mb-2 transition-colors duration-500 ${
+              isDarkMode ? 'text-white' : 'text-gray-900'
+            }`}>{project.name}</h3>
+            <p className={`text-sm transition-colors duration-500 ${
+              isDarkMode ? 'text-gray-400' : 'text-gray-600'
+            }`}>{project.date}</p>
           </div>
           <span 
             className="px-3 py-1 rounded-full text-xs font-medium border"
@@ -776,7 +844,9 @@ function ProjetsEtExperience() {
         </div>
 
         {/* Description */}
-        <p className="text-gray-300 mb-6 leading-relaxed text-sm">
+        <p className={`mb-6 leading-relaxed text-sm transition-colors duration-500 ${
+          isDarkMode ? 'text-gray-300' : 'text-gray-600'
+        }`}>
           {project.shortDescription}
         </p>
 
@@ -796,7 +866,9 @@ function ProjetsEtExperience() {
             </span>
           ))}
           {project.technologies.length > 3 && (
-            <span className="text-xs text-gray-400">
+            <span className={`text-xs transition-colors duration-500 ${
+              isDarkMode ? 'text-gray-400' : 'text-gray-600'
+            }`}>
               +{project.technologies.length - 3} autres
             </span>
           )}
@@ -804,11 +876,15 @@ function ProjetsEtExperience() {
 
         {/* CTA Button */}
         <motion.button
-          className="w-full py-3 px-6 rounded-full font-semibold transition-all duration-300 text-sm"
+          className="w-full py-3 px-6 rounded-full font-semibold transition-all duration-300 text-sm text-white"
           style={{
-            background: 'linear-gradient(135deg, #3F8391 0%, #5ba3b0 100%)',
-            border: '1px solid rgba(255, 255, 255, 0.2)',
-            boxShadow: '0 4px 16px rgba(63, 131, 145, 0.3)',
+            background: isDarkMode 
+              ? 'linear-gradient(135deg, #3F8391 0%, #5ba3b0 100%)'
+              : 'linear-gradient(135deg, #3F8391 0%, #4a9bb8 100%)',
+            border: isDarkMode ? '1px solid rgba(255, 255, 255, 0.2)' : '1px solid rgba(255, 255, 255, 0.4)',
+            boxShadow: isDarkMode 
+              ? '0 4px 16px rgba(63, 131, 145, 0.3)'
+              : '0 6px 20px rgba(63, 131, 145, 0.4)',
             color: '#FFFFFF'
           }}
           whileHover={{ 
@@ -832,10 +908,14 @@ function ProjetsEtExperience() {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6 }}
       >
-        <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
+        <h1 className={`text-4xl md:text-6xl font-bold mb-6 transition-colors duration-500 ${
+          isDarkMode ? 'text-white' : 'text-gray-900'
+        }`}>
           Projets & <span style={{ color: '#3F8391' }}>Expérience</span>
         </h1>
-        <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+        <p className={`text-xl max-w-3xl mx-auto transition-colors duration-500 ${
+          isDarkMode ? 'text-gray-300' : 'text-gray-600'
+        }`}>
           Découvrez une sélection de projets réalisés au fil de ma carrière, accompagnés de mes expériences professionnelles. 💼
         </p>
       </motion.div>
@@ -847,12 +927,14 @@ function ProjetsEtExperience() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <h2 className="text-3xl font-bold text-white mb-8 text-left">
+          <h2 className={`text-3xl font-bold mb-8 text-left transition-colors duration-500 ${
+            isDarkMode ? 'text-white' : 'text-gray-900'
+          }`}>
             Projets d'<span style={{ color: '#3F8391' }}>Étude</span>
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {studyProjects.map((project, index) => (
-              <ProjectCard key={project.id} project={project} index={index} />
+              <ProjectCard key={project.id} project={project} index={index} isDarkMode={isDarkMode} />
             ))}
           </div>
         </motion.section>
@@ -863,12 +945,14 @@ function ProjetsEtExperience() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.4 }}
         >
-          <h2 className="text-3xl font-bold text-white mb-8 text-left">
+          <h2 className={`text-3xl font-bold mb-8 text-left transition-colors duration-500 ${
+            isDarkMode ? 'text-white' : 'text-gray-900'
+          }`}>
             <span style={{ color: '#3F8391' }}>Expériences</span> Professionnelles
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {experiences.map((project, index) => (
-              <ProjectCard key={project.id} project={project} index={index} />
+              <ProjectCard key={project.id} project={project} index={index} isDarkMode={isDarkMode} />
             ))}
           </div>
         </motion.section>
@@ -879,12 +963,14 @@ function ProjetsEtExperience() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.6 }}
         >
-          <h2 className="text-3xl font-bold text-white mb-8 text-left">
+          <h2 className={`text-3xl font-bold mb-8 text-left transition-colors duration-500 ${
+            isDarkMode ? 'text-white' : 'text-gray-900'
+          }`}>
             Clients <span style={{ color: '#3F8391' }}>Freelance</span>
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {freelanceProjects.map((project, index) => (
-              <ProjectCard key={project.id} project={project} index={index} />
+              <ProjectCard key={project.id} project={project} index={index} isDarkMode={isDarkMode} />
             ))}
           </div>
         </motion.section>
@@ -903,6 +989,7 @@ function ProjetsEtExperience() {
   );
 }
 function MesServices() {
+  const { isDarkMode } = useTheme();
   const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
 
   return (
@@ -914,10 +1001,14 @@ function MesServices() {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6 }}
       >
-        <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
+        <h1 className={`text-4xl md:text-6xl font-bold mb-6 transition-colors duration-500 ${
+          isDarkMode ? 'text-white' : 'text-gray-900'
+        }`}>
           Mes <span style={{ color: '#3F8391' }}>Services</span>
         </h1>
-        <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+        <p className={`text-xl max-w-3xl mx-auto transition-colors duration-500 ${
+          isDarkMode ? 'text-gray-300' : 'text-gray-600'
+        }`}>
           Des solutions digitales complètes et sur-mesure pour propulser votre entreprise
         </p>
       </motion.div>
@@ -958,10 +1049,14 @@ function MesServices() {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, delay: 0.8 }}
       >
-        <h2 className="text-3xl font-bold text-white mb-6">
+        <h2 className={`text-3xl font-bold mb-6 transition-colors duration-500 ${
+          isDarkMode ? 'text-white' : 'text-gray-900'
+        }`}>
           Prêt à transformer votre vision en réalité ?
         </h2>
-        <p className="text-gray-300 mb-8 max-w-2xl mx-auto leading-relaxed">
+        <p className={`mb-8 max-w-2xl mx-auto leading-relaxed transition-colors duration-500 ${
+          isDarkMode ? 'text-gray-300' : 'text-gray-600'
+        }`}>
           Chaque projet est unique. Discutons de vos besoins spécifiques et créons 
           ensemble la solution parfaite pour votre entreprise.
         </p>
@@ -972,15 +1067,23 @@ function MesServices() {
             onClick={() => setIsQuoteModalOpen(true)}
             className="px-12 py-4 text-white font-semibold rounded-full transition-all duration-300 relative overflow-hidden group flex items-center gap-2"
             style={{
-              background: `
+              background: isDarkMode ? `
                 linear-gradient(135deg, 
                   rgba(63, 131, 145, 0.8) 0%, 
                   rgba(63, 131, 145, 0.6) 100%
                 )
+              ` : `
+                linear-gradient(135deg, 
+                  rgba(63, 131, 145, 1) 0%, 
+                  rgba(63, 131, 145, 0.9) 100%
+                )
               `,
-              boxShadow: `
+              boxShadow: isDarkMode ? `
                 0 8px 32px rgba(63, 131, 145, 0.3),
                 inset 0 1px 0 rgba(255, 255, 255, 0.2)
+              ` : `
+                0 10px 40px rgba(63, 131, 145, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3)
               `
             }}
             whileHover={{ 
@@ -1023,6 +1126,7 @@ const LinkedInIcon = ({ size = 20, ...props }) => (
 );
 
 function Contact() {
+  const { isDarkMode } = useTheme();
   const { register, handleSubmit, formState: { errors }, reset } = useForm();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null);
@@ -1103,10 +1207,14 @@ function Contact() {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6 }}
       >
-        <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 drop-shadow-lg">
+        <h1 className={`text-4xl md:text-6xl font-bold mb-6 drop-shadow-lg transition-colors duration-500 ${
+          isDarkMode ? 'text-white' : 'text-gray-900'
+        }`}>
           Me <span style={{ color: '#3F8391' }}>Contacter</span>
         </h1>
-        <p className="text-xl text-gray-100 max-w-3xl mx-auto drop-shadow-md">
+        <p className={`text-xl max-w-3xl mx-auto drop-shadow-md transition-colors duration-500 ${
+          isDarkMode ? 'text-gray-100' : 'text-gray-700'
+        }`}>
           Un projet en tête ? Parlons-en ! Je suis disponible pour donner vie à vos idées sur mesure.👨‍💻
         </p>
       </motion.div>
@@ -1119,7 +1227,9 @@ function Contact() {
             animate={{ x: 0, opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <h2 className="text-3xl font-bold text-white mb-8 drop-shadow-lg">
+            <h2 className={`text-3xl font-bold mb-8 drop-shadow-lg transition-colors duration-500 ${
+              isDarkMode ? 'text-white' : 'text-gray-900'
+            }`}>
               Restons connectés
             </h2>
             
@@ -1127,20 +1237,32 @@ function Contact() {
               {contactInfo.map((info, index) => (
                 <motion.div
                   key={index}
-                  className="flex items-center gap-4 p-6 rounded-2xl border border-white/20 backdrop-blur-xl overflow-hidden relative"
+                  className={`flex items-center gap-4 p-6 rounded-2xl backdrop-blur-xl overflow-hidden relative transition-all duration-500 ${
+                    isDarkMode ? 'border-white/20' : 'border-gray-300/30'
+                  }`}
                   style={{
-                    background: `
+                    background: isDarkMode ? `
                       linear-gradient(135deg, 
                         rgba(255, 255, 255, 0.15) 0%, 
                         rgba(255, 255, 255, 0.05) 50%, 
                         rgba(255, 255, 255, 0.1) 100%
                       )
+                    ` : `
+                      linear-gradient(135deg, 
+                        rgba(255, 255, 255, 0.95) 0%, 
+                        rgba(255, 255, 255, 0.85) 50%, 
+                        rgba(255, 255, 255, 0.9) 100%
+                      )
                     `,
                     backdropFilter: 'blur(20px)',
-                    boxShadow: `
+                    boxShadow: isDarkMode ? `
                       0 8px 32px rgba(0, 0, 0, 0.1),
                       inset 0 1px 0 rgba(255, 255, 255, 0.3),
                       inset 0 -1px 0 rgba(0, 0, 0, 0.1)
+                    ` : `
+                      0 8px 32px rgba(0, 0, 0, 0.08),
+                      inset 0 1px 0 rgba(255, 255, 255, 0.8),
+                      inset 0 -1px 0 rgba(0, 0, 0, 0.05)
                     `
                   }}
                   initial={{ y: 20, opacity: 0 }}
@@ -1170,17 +1292,23 @@ function Contact() {
                     <info.icon size={24} color="#FFFFFF" />
                   </div>
                   <div className="relative z-10">
-                    <h3 className="text-white font-semibold drop-shadow-md">{info.title}</h3>
+                    <h3 className={`font-semibold drop-shadow-md transition-colors duration-500 ${
+                      isDarkMode ? 'text-white' : 'text-gray-800'
+                    }`}>{info.title}</h3>
                     {info.link ? (
                       <a 
                         href={info.link} 
-                        className="text-gray-100 hover:text-white transition-colors drop-shadow-sm"
+                        className={`hover:opacity-80 transition-colors drop-shadow-sm ${
+                          isDarkMode ? 'text-gray-100' : 'text-gray-700'
+                        }`}
                         style={{ color: '#3F8391' }}
                       >
                         {info.value}
                       </a>
                     ) : (
-                      <p className="text-gray-100 drop-shadow-sm">{info.value}</p>
+                      <p className={`drop-shadow-sm transition-colors duration-500 ${
+                        isDarkMode ? 'text-gray-100' : 'text-gray-700'
+                      }`}>{info.value}</p>
                     )}
                   </div>
                 </motion.div>
@@ -1189,7 +1317,9 @@ function Contact() {
 
             {/* Réseaux sociaux */}
             <div>
-              <h3 className="text-xl font-bold text-white mb-4 drop-shadow-lg">
+              <h3 className={`text-xl font-bold mb-4 drop-shadow-lg transition-colors duration-500 ${
+                isDarkMode ? 'text-white' : 'text-gray-800'
+              }`}>
                 Suivez-moi
               </h3>
               <div className="flex gap-4 items-center">
@@ -1199,18 +1329,30 @@ function Contact() {
                     href={social.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-4 rounded-2xl border border-white/20 backdrop-blur-xl hover:border-white/40 transition-all duration-300 relative overflow-hidden group min-h-[56px] min-w-[56px] flex items-center justify-center touch-manipulation"
+                    className={`p-4 rounded-2xl backdrop-blur-xl transition-all duration-300 relative overflow-hidden group min-h-[56px] min-w-[56px] flex items-center justify-center touch-manipulation ${
+                      isDarkMode 
+                        ? 'border-white/20 hover:border-white/40' 
+                        : 'border-gray-300/30 hover:border-gray-400/50'
+                    }`}
                     style={{
-                      background: `
+                      background: isDarkMode ? `
                         linear-gradient(135deg, 
                           rgba(255, 255, 255, 0.12) 0%, 
                           rgba(255, 255, 255, 0.08) 100%
                         )
+                      ` : `
+                        linear-gradient(135deg, 
+                          rgba(255, 255, 255, 0.9) 0%, 
+                          rgba(255, 255, 255, 0.8) 100%
+                        )
                       `,
                       backdropFilter: 'blur(15px)',
-                      boxShadow: `
+                      boxShadow: isDarkMode ? `
                         0 6px 24px rgba(0, 0, 0, 0.1),
                         inset 0 1px 0 rgba(255, 255, 255, 0.2)
+                      ` : `
+                        0 6px 24px rgba(0, 0, 0, 0.08),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.8)
                       `
                     }}
                     whileHover={{ 
@@ -1232,15 +1374,23 @@ function Contact() {
                   onClick={() => setIsQuoteModalOpen(true)}
                   className="px-6 py-4 text-white font-semibold rounded-2xl transition-all duration-300 relative overflow-hidden group flex items-center gap-2 min-h-[56px] touch-manipulation"
                   style={{
-                    background: `
+                    background: isDarkMode ? `
                       linear-gradient(135deg, 
                         rgba(63, 131, 145, 0.8) 0%, 
                         rgba(63, 131, 145, 0.6) 100%
                       )
+                    ` : `
+                      linear-gradient(135deg, 
+                        rgba(63, 131, 145, 1) 0%, 
+                        rgba(63, 131, 145, 0.9) 100%
+                      )
                     `,
-                    boxShadow: `
+                    boxShadow: isDarkMode ? `
                       0 8px 32px rgba(63, 131, 145, 0.3),
                       inset 0 1px 0 rgba(255, 255, 255, 0.2)
+                    ` : `
+                      0 10px 40px rgba(63, 131, 145, 0.4),
+                      inset 0 1px 0 rgba(255, 255, 255, 0.3)
                     `
                   }}
                   whileHover={{ 
@@ -1268,20 +1418,32 @@ function Contact() {
             transition={{ duration: 0.6, delay: 0.4 }}
           >
             <div 
-              className="p-8 rounded-3xl border border-white/20 backdrop-blur-xl relative overflow-hidden"
+              className={`p-8 rounded-3xl backdrop-blur-xl relative overflow-hidden transition-all duration-500 ${
+                isDarkMode ? 'border-white/20' : 'border-gray-300/30'
+              }`}
               style={{
-                background: `
+                background: isDarkMode ? `
                   linear-gradient(135deg, 
                     rgba(255, 255, 255, 0.15) 0%, 
                     rgba(255, 255, 255, 0.05) 50%, 
                     rgba(255, 255, 255, 0.1) 100%
                   )
+                ` : `
+                  linear-gradient(135deg, 
+                    rgba(255, 255, 255, 0.95) 0%, 
+                    rgba(255, 255, 255, 0.85) 50%, 
+                    rgba(255, 255, 255, 0.9) 100%
+                  )
                 `,
                 backdropFilter: 'blur(20px)',
-                boxShadow: `
+                boxShadow: isDarkMode ? `
                   0 12px 48px rgba(0, 0, 0, 0.1),
                   inset 0 1px 0 rgba(255, 255, 255, 0.3),
                   inset 0 -1px 0 rgba(0, 0, 0, 0.1)
+                ` : `
+                  0 12px 48px rgba(0, 0, 0, 0.08),
+                  inset 0 1px 0 rgba(255, 255, 255, 0.8),
+                  inset 0 -1px 0 rgba(0, 0, 0, 0.05)
                 `
               }}
             >
@@ -1289,19 +1451,27 @@ function Contact() {
               <div className="absolute top-6 left-6 w-16 h-16 bg-gradient-to-br from-white/20 to-transparent rounded-full blur-xl opacity-60" />
               <div className="absolute bottom-6 right-6 w-12 h-12 bg-gradient-to-tl from-white/15 to-transparent rounded-full blur-lg opacity-40" />
               
-              <h2 className="text-2xl font-bold text-white mb-6 drop-shadow-lg relative z-10">
+              <h2 className={`text-2xl font-bold mb-6 drop-shadow-lg relative z-10 transition-colors duration-500 ${
+                isDarkMode ? 'text-white' : 'text-gray-800'
+              }`}>
                 Envoyez-moi un message
               </h2>
 
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 relative z-10">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-white text-sm font-semibold mb-2 drop-shadow-md">
+                    <label className={`block text-sm font-semibold mb-2 drop-shadow-md transition-colors duration-500 ${
+                      isDarkMode ? 'text-white' : 'text-gray-800'
+                    }`}>
                       Prénom *
                     </label>
                     <input
                       {...register("firstName", { required: "Le prénom est requis" })}
-                      className="w-full px-4 py-4 sm:py-3 rounded-xl border border-white/30 text-white placeholder-gray-200 focus:border-white/50 focus:outline-none transition-all duration-300 backdrop-blur-md min-h-[48px] touch-manipulation"
+                      className={`w-full px-4 py-4 sm:py-3 rounded-xl border focus:outline-none transition-all duration-300 backdrop-blur-md min-h-[48px] touch-manipulation ${
+                        isDarkMode 
+                          ? 'border-white/30 text-white placeholder-gray-200 focus:border-white/50' 
+                          : 'border-gray-300 text-gray-800 placeholder-gray-500 focus:border-gray-400'
+                      }`}
                       style={{
                         background: `
                           linear-gradient(135deg, 
@@ -1315,17 +1485,23 @@ function Contact() {
                       placeholder="Votre prénom"
                     />
                     {errors.firstName && (
-                      <p className="text-red-300 text-sm mt-1 drop-shadow-md">{errors.firstName.message}</p>
+                      <p className="text-red-400 text-sm mt-1 drop-shadow-md">{errors.firstName.message}</p>
                     )}
                   </div>
 
                   <div>
-                    <label className="block text-white text-sm font-semibold mb-2 drop-shadow-md">
+                    <label className={`block text-sm font-semibold mb-2 drop-shadow-md transition-colors duration-500 ${
+                      isDarkMode ? 'text-white' : 'text-gray-800'
+                    }`}>
                       Nom *
                     </label>
                     <input
                       {...register("lastName", { required: "Le nom est requis" })}
-                      className="w-full px-4 py-4 sm:py-3 rounded-xl border border-white/30 text-white placeholder-gray-200 focus:border-white/50 focus:outline-none transition-all duration-300 backdrop-blur-md min-h-[48px] touch-manipulation"
+                      className={`w-full px-4 py-4 sm:py-3 rounded-xl border focus:outline-none transition-all duration-300 backdrop-blur-md min-h-[48px] touch-manipulation ${
+                        isDarkMode 
+                          ? 'border-white/30 text-white placeholder-gray-200 focus:border-white/50' 
+                          : 'border-gray-300 text-gray-800 placeholder-gray-500 focus:border-gray-400'
+                      }`}
                       style={{
                         background: `
                           linear-gradient(135deg, 
@@ -1345,7 +1521,9 @@ function Contact() {
                 </div>
 
                 <div>
-                  <label className="block text-white text-sm font-semibold mb-2 drop-shadow-md">
+                  <label className={`block text-sm font-semibold mb-2 drop-shadow-md transition-colors duration-500 ${
+                    isDarkMode ? 'text-white' : 'text-gray-800'
+                  }`}>
                     Email *
                   </label>
                   <input
@@ -1357,7 +1535,11 @@ function Contact() {
                       }
                     })}
                     type="email"
-                    className="w-full px-4 py-3 rounded-xl border border-white/30 text-white placeholder-gray-200 focus:border-white/50 focus:outline-none transition-all duration-300 backdrop-blur-md"
+                    className={`w-full px-4 py-3 rounded-xl border focus:outline-none transition-all duration-300 backdrop-blur-md ${
+                      isDarkMode 
+                        ? 'border-white/30 text-white placeholder-gray-200 focus:border-white/50' 
+                        : 'border-gray-300 text-gray-800 placeholder-gray-500 focus:border-gray-400'
+                    }`}
                     style={{
                       background: `
                         linear-gradient(135deg, 
@@ -1376,12 +1558,18 @@ function Contact() {
                 </div>
 
                 <div>
-                  <label className="block text-white text-sm font-semibold mb-2 drop-shadow-md">
+                  <label className={`block text-sm font-semibold mb-2 drop-shadow-md transition-colors duration-500 ${
+                    isDarkMode ? 'text-white' : 'text-gray-800'
+                  }`}>
                     Sujet *
                   </label>
                   <select
                     {...register("subject", { required: "Le sujet est requis" })}
-                    className="w-full px-4 py-3 rounded-xl border border-white/30 text-white focus:border-white/50 focus:outline-none transition-all duration-300 backdrop-blur-md"
+                    className={`w-full px-4 py-3 rounded-xl border focus:outline-none transition-all duration-300 backdrop-blur-md ${
+                      isDarkMode 
+                        ? 'border-white/30 text-white focus:border-white/50' 
+                        : 'border-gray-300 text-gray-800 focus:border-gray-400'
+                    }`}
                     style={{
                       background: `
                         linear-gradient(135deg, 
@@ -1406,13 +1594,19 @@ function Contact() {
                 </div>
 
                 <div>
-                  <label className="block text-white text-sm font-semibold mb-2 drop-shadow-md">
+                  <label className={`block text-sm font-semibold mb-2 drop-shadow-md transition-colors duration-500 ${
+                    isDarkMode ? 'text-white' : 'text-gray-800'
+                  }`}>
                     Message *
                   </label>
                   <textarea
                     {...register("message", { required: "Le message est requis" })}
                     rows={5}
-                    className="w-full px-4 py-4 sm:py-3 rounded-xl border border-white/30 text-white placeholder-gray-200 focus:border-white/50 focus:outline-none transition-all duration-300 resize-none backdrop-blur-md touch-manipulation"
+                    className={`w-full px-4 py-4 sm:py-3 rounded-xl border focus:outline-none transition-all duration-300 resize-none backdrop-blur-md touch-manipulation ${
+                      isDarkMode 
+                        ? 'border-white/30 text-white placeholder-gray-200 focus:border-white/50' 
+                        : 'border-gray-300 text-gray-800 placeholder-gray-500 focus:border-gray-400'
+                    }`}
                     style={{
                       background: `
                         linear-gradient(135deg, 
@@ -1528,6 +1722,15 @@ function Contact() {
         />
       </Suspense>
     </div>
+  );
+}
+
+// Nouveau composant App simple sans theme hook
+function App() {
+  return (
+    <ThemeProvider>
+      <AppContent />
+    </ThemeProvider>
   );
 }
 

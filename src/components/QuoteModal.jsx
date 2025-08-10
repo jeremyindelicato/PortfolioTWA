@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Send, FileText, ChevronLeft, ChevronRight, User, Target, Settings, ShoppingCart, Clock, Wrench, MessageSquare, Phone, CheckCircle, AlertCircle, Brain, Database, Zap, Bot, BarChart3, Cpu } from 'lucide-react';
+import { useTheme } from '../contexts/ThemeContext';
 import { submitQuoteRequest, submitAiQuoteRequest, submitGrowthQuoteRequest } from '../utils/supabase';
 
 const QuoteModal = ({ isOpen, onClose }) => {
+  const { isDarkMode } = useTheme();
   const [step, setStep] = useState(1);
   const [totalSteps, setTotalSteps] = useState(3); // Will be updated based on service type
   const [isSuccessScreen, setIsSuccessScreen] = useState(false); // New state for success screen
@@ -340,19 +342,30 @@ const QuoteModal = ({ isOpen, onClose }) => {
 
         {/* Modal */}
         <motion.div
-          className="relative w-full max-w-sm sm:max-w-lg md:max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl sm:rounded-3xl border border-white/20"
+          className={`relative w-full max-w-sm sm:max-w-lg md:max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl sm:rounded-3xl border transition-all duration-500 ${
+            isDarkMode ? 'border-white/20' : 'border-gray-300/30'
+          }`}
           style={{
-            background: `
+            background: isDarkMode ? `
               linear-gradient(135deg, 
                 rgba(255, 255, 255, 0.15) 0%, 
                 rgba(255, 255, 255, 0.05) 50%, 
                 rgba(0, 0, 0, 0.2) 100%
               )
+            ` : `
+              linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.98) 0%, 
+                rgba(255, 255, 255, 0.95) 50%, 
+                rgba(255, 255, 255, 0.97) 100%
+              )
             `,
             backdropFilter: 'blur(25px)',
-            boxShadow: `
+            boxShadow: isDarkMode ? `
               0 25px 60px rgba(0, 0, 0, 0.5),
               inset 0 1px 0 rgba(255, 255, 255, 0.3)
+            ` : `
+              0 25px 60px rgba(0, 0, 0, 0.15),
+              inset 0 1px 0 rgba(255, 255, 255, 0.8)
             `
           }}
           initial={{ scale: 0.8, opacity: 0, y: 50 }}
@@ -361,7 +374,9 @@ const QuoteModal = ({ isOpen, onClose }) => {
           transition={{ duration: 0.3, ease: "easeOut" }}
         >
           {/* Header */}
-          <div className="flex items-center justify-between p-6 border-b border-white/10">
+          <div className={`flex items-center justify-between p-6 border-b transition-colors duration-500 ${
+            isDarkMode ? 'border-white/10' : 'border-gray-300/30'
+          }`}>
             <div className="flex items-center gap-3">
               <div 
                 className="w-10 h-10 rounded-xl flex items-center justify-center"
@@ -372,21 +387,29 @@ const QuoteModal = ({ isOpen, onClose }) => {
                 <FileText size={20} color="#FFFFFF" />
               </div>
               <div>
-                <h2 className="text-2xl font-bold text-white">
+                <h2 className={`text-2xl font-bold transition-colors duration-500 ${
+                  isDarkMode ? 'text-white' : 'text-gray-900'
+                }`}>
                   Demande de Devis
                 </h2>
-                <p className="text-gray-400 text-sm">
+                <p className={`text-sm transition-colors duration-500 ${
+                  isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                }`}>
                   {isSuccessScreen ? 'Demande envoyée !' : `${getStepTitle(step)} - Étape ${step} sur ${getActualTotalSteps()}`}
                 </p>
               </div>
             </div>
             <motion.button
               onClick={onClose}
-              className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
+              className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
+                isDarkMode 
+                  ? 'bg-white/10 hover:bg-white/20 text-white' 
+                  : 'bg-gray-100/80 hover:bg-gray-200/90 text-gray-700 hover:text-gray-900'
+              }`}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
             >
-              <X size={20} color="#FFFFFF" />
+              <X size={20} className="transition-colors duration-300" />
             </motion.button>
           </div>
 
@@ -431,7 +454,9 @@ const QuoteModal = ({ isOpen, onClose }) => {
                   className="space-y-4 sm:space-y-6"
                 >
                   <div>
-                    <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
+                    <h3 className={`text-xl font-semibold mb-4 flex items-center gap-2 transition-colors duration-500 ${
+                      isDarkMode ? 'text-white' : 'text-gray-900'
+                    }`}>
                       <Settings size={24} className="text-[#3F8391]" />
                       Quel service vous intéresse ?
                     </h3>
@@ -449,8 +474,8 @@ const QuoteModal = ({ isOpen, onClose }) => {
                           }}
                           className={`p-4 rounded-2xl border text-center transition-all duration-300 ${
                             formData.serviceType === service
-                              ? 'border-[#3F8391] bg-[#3F8391]/30 text-white shadow-lg shadow-[#3F8391]/30'
-                              : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
+                              ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-white'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
+                              : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
                           }`}
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
@@ -473,7 +498,9 @@ const QuoteModal = ({ isOpen, onClose }) => {
                   className="space-y-4 sm:space-y-6"
                 >
                   <div>
-                    <h3 className="text-lg sm:text-xl font-semibold text-white mb-4 sm:mb-6 flex items-center gap-2">
+                    <h3 className={`text-lg sm:text-xl font-semibold mb-4 sm:mb-6 flex items-center gap-2 transition-colors duration-500 ${
+                      isDarkMode ? 'text-white' : 'text-gray-900'
+                    }`}>
                       <User size={24} className="text-[#3F8391]" />
                       Informations générales
                     </h3>
@@ -481,7 +508,9 @@ const QuoteModal = ({ isOpen, onClose }) => {
                     <div className="space-y-3 sm:space-y-4">
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                          <label className="block text-white font-medium mb-2">
+                          <label className={`block font-medium mb-2 transition-colors duration-500 ${
+                            isDarkMode ? 'text-white' : 'text-gray-800'
+                          }`}>
                             Prénom *
                           </label>
                           <input
@@ -489,12 +518,18 @@ const QuoteModal = ({ isOpen, onClose }) => {
                             required
                             value={formData.firstName}
                             onChange={(e) => handleInputChange('firstName', e.target.value)}
-                            className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none text-sm sm:text-base"
+                            className={`w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none text-sm sm:text-base transition-all duration-300 ${
+                              isDarkMode 
+                                ? 'bg-white/10 border-white/20 text-white placeholder-gray-400' 
+                                : 'bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500'
+                            }`}
                             placeholder="Votre prénom"
                           />
                         </div>
                         <div>
-                          <label className="block text-white font-medium mb-2">
+                          <label className={`block font-medium mb-2 transition-colors duration-500 ${
+                            isDarkMode ? 'text-white' : 'text-gray-800'
+                          }`}>
                             Nom *
                           </label>
                           <input
@@ -502,14 +537,20 @@ const QuoteModal = ({ isOpen, onClose }) => {
                             required
                             value={formData.lastName}
                             onChange={(e) => handleInputChange('lastName', e.target.value)}
-                            className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none text-sm sm:text-base"
+                            className={`w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none text-sm sm:text-base transition-all duration-300 ${
+                              isDarkMode 
+                                ? 'bg-white/10 border-white/20 text-white placeholder-gray-400' 
+                                : 'bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500'
+                            }`}
                             placeholder="Votre nom"
                           />
                         </div>
                       </div>
                       
                       <div>
-                        <label className="block text-white font-medium mb-2">
+                        <label className={`block font-medium mb-2 transition-colors duration-500 ${
+                            isDarkMode ? 'text-white' : 'text-gray-800'
+                          }`}>
                           Email *
                         </label>
                         <input
@@ -517,39 +558,57 @@ const QuoteModal = ({ isOpen, onClose }) => {
                           required
                           value={formData.email}
                           onChange={(e) => handleInputChange('email', e.target.value)}
-                          className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none text-sm sm:text-base"
+                          className={`w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none text-sm sm:text-base transition-all duration-300 ${
+                              isDarkMode 
+                                ? 'bg-white/10 border-white/20 text-white placeholder-gray-400' 
+                                : 'bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500'
+                            }`}
                           placeholder="votre@email.com"
                         />
                       </div>
                       
                       <div>
-                        <label className="block text-white font-medium mb-2">
+                        <label className={`block font-medium mb-2 transition-colors duration-500 ${
+                            isDarkMode ? 'text-white' : 'text-gray-800'
+                          }`}>
                           Nom de l'entreprise (si applicable)
                         </label>
                         <input
                           type="text"
                           value={formData.companyName}
                           onChange={(e) => handleInputChange('companyName', e.target.value)}
-                          className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none text-sm sm:text-base"
+                          className={`w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none text-sm sm:text-base transition-all duration-300 ${
+                              isDarkMode 
+                                ? 'bg-white/10 border-white/20 text-white placeholder-gray-400' 
+                                : 'bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500'
+                            }`}
                           placeholder="Nom de votre entreprise ou organisation"
                         />
                       </div>
                       
                       <div>
-                        <label className="block text-white font-medium mb-2">
+                        <label className={`block font-medium mb-2 transition-colors duration-500 ${
+                            isDarkMode ? 'text-white' : 'text-gray-800'
+                          }`}>
                           Secteur d'activité
                         </label>
                         <input
                           type="text"
                           value={formData.businessSector}
                           onChange={(e) => handleInputChange('businessSector', e.target.value)}
-                          className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none text-sm sm:text-base"
+                          className={`w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none text-sm sm:text-base transition-all duration-300 ${
+                              isDarkMode 
+                                ? 'bg-white/10 border-white/20 text-white placeholder-gray-400' 
+                                : 'bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500'
+                            }`}
                           placeholder="Ex: Parfumerie, Santé, Éducation..."
                         />
                       </div>
                       
                       <div>
-                        <label className="block text-white font-medium mb-3">
+                        <label className={`block font-medium mb-3 transition-colors duration-500 ${
+                            isDarkMode ? 'text-white' : 'text-gray-800'
+                          }`}>
                           Avez-vous déjà un site web ?
                         </label>
                         <div className="flex gap-4">
@@ -560,8 +619,8 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               onClick={() => handleInputChange('hasExistingWebsite', value)}
                               className={`px-6 py-3 rounded-xl border transition-all duration-300 ${
                                 formData.hasExistingWebsite === value
-                                  ? 'border-[#3F8391] bg-[#3F8391]/30 text-white shadow-lg shadow-[#3F8391]/30'
-                                  : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
+                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-white'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
+                                  : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
                               }`}
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
@@ -578,14 +637,20 @@ const QuoteModal = ({ isOpen, onClose }) => {
                           animate={{ opacity: 1, height: 'auto' }}
                           exit={{ opacity: 0, height: 0 }}
                         >
-                          <label className="block text-white font-medium mb-2">
+                          <label className={`block font-medium mb-2 transition-colors duration-500 ${
+                            isDarkMode ? 'text-white' : 'text-gray-800'
+                          }`}>
                             Quel est le lien de votre site actuel ?
                           </label>
                           <input
                             type="url"
                             value={formData.existingWebsiteUrl}
                             onChange={(e) => handleInputChange('existingWebsiteUrl', e.target.value)}
-                            className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none text-sm sm:text-base"
+                            className={`w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none text-sm sm:text-base transition-all duration-300 ${
+                              isDarkMode 
+                                ? 'bg-white/10 border-white/20 text-white placeholder-gray-400' 
+                                : 'bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500'
+                            }`}
                             placeholder="https://votre-site-actuel.com"
                           />
                         </motion.div>
@@ -605,14 +670,18 @@ const QuoteModal = ({ isOpen, onClose }) => {
                   className="space-y-4 sm:space-y-6"
                 >
                   <div>
-                    <h3 className="text-lg sm:text-xl font-semibold text-white mb-4 sm:mb-6 flex items-center gap-2">
+                    <h3 className={`text-lg sm:text-xl font-semibold mb-4 sm:mb-6 flex items-center gap-2 transition-colors duration-500 ${
+                      isDarkMode ? 'text-white' : 'text-gray-900'
+                    }`}>
                       <Target size={24} className="text-[#3F8391]" />
                       Objectif du projet
                     </h3>
                     
                     <div className="space-y-4 sm:space-y-6">
                       <div>
-                        <label className="block text-white font-medium mb-3">
+                        <label className={`block font-medium mb-3 transition-colors duration-500 ${
+                            isDarkMode ? 'text-white' : 'text-gray-800'
+                          }`}>
                           Quel est le but principal de votre futur site ? (Plusieurs choix possibles)
                         </label>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -630,8 +699,8 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               onClick={() => handleArrayChange('projectGoals', goal)}
                               className={`p-3 rounded-xl border text-left transition-all duration-300 ${
                                 formData.projectGoals.includes(goal)
-                                  ? 'border-[#3F8391] bg-[#3F8391]/30 text-white shadow-lg shadow-[#3F8391]/30'
-                                  : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
+                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-white'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
+                                  : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
                               }`}
                               whileHover={{ scale: 1.01 }}
                               whileTap={{ scale: 0.99 }}
@@ -656,13 +725,19 @@ const QuoteModal = ({ isOpen, onClose }) => {
                       </div>
                       
                       <div>
-                        <label className="block text-white font-medium mb-3">
+                        <label className={`block font-medium mb-3 transition-colors duration-500 ${
+                            isDarkMode ? 'text-white' : 'text-gray-800'
+                          }`}>
                           Décrivez brièvement votre projet
                         </label>
                         <textarea
                           value={formData.projectDescription}
                           onChange={(e) => handleInputChange('projectDescription', e.target.value)}
-                          className="w-full h-32 px-4 py-3 rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none resize-none"
+                          className={`w-full h-32 px-4 py-3 rounded-2xl border focus:border-[#3F8391] focus:outline-none resize-none transition-all duration-300 ${
+                            isDarkMode 
+                              ? 'bg-white/10 border-white/20 text-white placeholder-gray-400' 
+                              : 'bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500'
+                          }`}
                           placeholder="Expliquez votre vision, vos objectifs spécifiques, votre public cible..."
                         />
                       </div>
@@ -680,14 +755,18 @@ const QuoteModal = ({ isOpen, onClose }) => {
                   className="space-y-4 sm:space-y-6"
                 >
                   <div>
-                    <h3 className="text-lg sm:text-xl font-semibold text-white mb-4 sm:mb-6 flex items-center gap-2">
+                    <h3 className={`text-lg sm:text-xl font-semibold mb-4 sm:mb-6 flex items-center gap-2 transition-colors duration-500 ${
+                      isDarkMode ? 'text-white' : 'text-gray-900'
+                    }`}>
                       <Settings size={24} className="text-[#3F8391]" />
                       Fonctionnalités souhaitées
                     </h3>
                     
                     <div className="space-y-4 sm:space-y-6">
                       <div>
-                        <label className="block text-white font-medium mb-3">
+                        <label className={`block font-medium mb-3 transition-colors duration-500 ${
+                            isDarkMode ? 'text-white' : 'text-gray-800'
+                          }`}>
                           Quelles fonctionnalités souhaitez-vous ? (Plusieurs choix possibles)
                         </label>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -711,8 +790,8 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               onClick={() => handleArrayChange('desiredFeatures', feature)}
                               className={`p-3 rounded-xl border text-left transition-all duration-300 ${
                                 formData.desiredFeatures.includes(feature)
-                                  ? 'border-[#3F8391] bg-[#3F8391]/30 text-white shadow-lg shadow-[#3F8391]/30'
-                                  : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
+                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-white'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
+                                  : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
                               }`}
                               whileHover={{ scale: 1.01 }}
                               whileTap={{ scale: 0.99 }}
@@ -737,7 +816,9 @@ const QuoteModal = ({ isOpen, onClose }) => {
                       </div>
                       
                       <div>
-                        <label className="block text-white font-medium mb-3">
+                        <label className={`block font-medium mb-3 transition-colors duration-500 ${
+                            isDarkMode ? 'text-white' : 'text-gray-800'
+                          }`}>
                           Souhaitez-vous que je réalise le design ?
                         </label>
                         <div className="flex gap-4">
@@ -748,8 +829,8 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               onClick={() => handleInputChange('needDesign', value)}
                               className={`px-6 py-3 rounded-xl border transition-all duration-300 ${
                                 formData.needDesign === value
-                                  ? 'border-[#3F8391] bg-[#3F8391]/30 text-white shadow-lg shadow-[#3F8391]/30'
-                                  : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
+                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-white'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
+                                  : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
                               }`}
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
@@ -774,20 +855,28 @@ const QuoteModal = ({ isOpen, onClose }) => {
                   className="space-y-4 sm:space-y-6"
                 >
                   <div>
-                    <h3 className="text-lg sm:text-xl font-semibold text-white mb-4 sm:mb-6 flex items-center gap-2">
+                    <h3 className={`text-lg sm:text-xl font-semibold mb-4 sm:mb-6 flex items-center gap-2 transition-colors duration-500 ${
+                      isDarkMode ? 'text-white' : 'text-gray-900'
+                    }`}>
                       <ShoppingCart size={24} className="text-[#3F8391]" />
                       Spécificités E-commerce
                     </h3>
                     
                     <div className="space-y-4 sm:space-y-6">
                       <div>
-                        <label className="block text-white font-medium mb-3">
+                        <label className={`block font-medium mb-3 transition-colors duration-500 ${
+                            isDarkMode ? 'text-white' : 'text-gray-800'
+                          }`}>
                           Combien de produits environ ?
                         </label>
                         <select
                           value={formData.productCount}
                           onChange={(e) => handleInputChange('productCount', e.target.value)}
-                          className="w-full px-4 py-3 rounded-2xl bg-white/10 border border-white/20 text-white focus:border-[#3F8391] focus:outline-none"
+                          className={`w-full px-4 py-3 rounded-2xl border focus:border-[#3F8391] focus:outline-none transition-all duration-300 ${
+                            isDarkMode 
+                              ? 'bg-white/10 border-white/20 text-white' 
+                              : 'bg-white/80 border-gray-300/40 text-gray-900'
+                          }`}
                         >
                           <option value="">Sélectionnez une fourchette</option>
                           <option value="1-10">1 à 10 produits</option>
@@ -799,7 +888,9 @@ const QuoteModal = ({ isOpen, onClose }) => {
                       </div>
                       
                       <div>
-                        <label className="block text-white font-medium mb-3">
+                        <label className={`block font-medium mb-3 transition-colors duration-500 ${
+                            isDarkMode ? 'text-white' : 'text-gray-800'
+                          }`}>
                           Quels moyens de paiement souhaitez-vous proposer ? (Plusieurs choix possibles)
                         </label>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -819,8 +910,8 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               onClick={() => handleArrayChange('paymentMethods', method)}
                               className={`p-3 rounded-xl border text-left transition-all duration-300 ${
                                 formData.paymentMethods.includes(method)
-                                  ? 'border-[#3F8391] bg-[#3F8391]/30 text-white shadow-lg shadow-[#3F8391]/30'
-                                  : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
+                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-white'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
+                                  : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
                               }`}
                               whileHover={{ scale: 1.01 }}
                               whileTap={{ scale: 0.99 }}
@@ -845,7 +936,9 @@ const QuoteModal = ({ isOpen, onClose }) => {
                       </div>
                       
                       <div>
-                        <label className="block text-white font-medium mb-3">
+                        <label className={`block font-medium mb-3 transition-colors duration-500 ${
+                            isDarkMode ? 'text-white' : 'text-gray-800'
+                          }`}>
                           Souhaitez-vous proposer la livraison ?
                         </label>
                         <div className="flex gap-4">
@@ -856,8 +949,8 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               onClick={() => handleInputChange('deliveryNeeded', value)}
                               className={`px-6 py-3 rounded-xl border transition-all duration-300 ${
                                 formData.deliveryNeeded === value
-                                  ? 'border-[#3F8391] bg-[#3F8391]/30 text-white shadow-lg shadow-[#3F8391]/30'
-                                  : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
+                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-white'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
+                                  : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
                               }`}
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
@@ -882,26 +975,36 @@ const QuoteModal = ({ isOpen, onClose }) => {
                   className="space-y-4 sm:space-y-6"
                 >
                   <div>
-                    <h3 className="text-lg sm:text-xl font-semibold text-white mb-4 sm:mb-6 flex items-center gap-2">
+                    <h3 className={`text-lg sm:text-xl font-semibold mb-4 sm:mb-6 flex items-center gap-2 transition-colors duration-500 ${
+                      isDarkMode ? 'text-white' : 'text-gray-900'
+                    }`}>
                       <Clock size={24} className="text-[#3F8391]" />
                       Délais & Budget
                     </h3>
                     
                     <div className="space-y-4 sm:space-y-6">
                       <div>
-                        <label className="block text-white font-medium mb-3">
+                        <label className={`block font-medium mb-3 transition-colors duration-500 ${
+                            isDarkMode ? 'text-white' : 'text-gray-800'
+                          }`}>
                           Avez-vous une date idéale de mise en ligne ?
                         </label>
                         <input
                           type="date"
                           value={formData.idealLaunchDate}
                           onChange={(e) => handleInputChange('idealLaunchDate', e.target.value)}
-                          className="w-full px-4 py-3 rounded-2xl bg-white/10 border border-white/20 text-white focus:border-[#3F8391] focus:outline-none"
+                          className={`w-full px-4 py-3 rounded-2xl border focus:border-[#3F8391] focus:outline-none transition-all duration-300 ${
+                            isDarkMode 
+                              ? 'bg-white/10 border-white/20 text-white' 
+                              : 'bg-white/80 border-gray-300/40 text-gray-900'
+                          }`}
                         />
                       </div>
                       
                       <div>
-                        <label className="block text-white font-medium mb-3">
+                        <label className={`block font-medium mb-3 transition-colors duration-500 ${
+                            isDarkMode ? 'text-white' : 'text-gray-800'
+                          }`}>
                           Quel est votre budget approximatif ? (Un seul choix)
                         </label>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -919,8 +1022,8 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               onClick={() => handleInputChange('budgetRange', range)}
                               className={`p-3 rounded-xl border text-left transition-all duration-300 ${
                                 formData.budgetRange === range
-                                  ? 'border-[#3F8391] bg-[#3F8391]/30 text-white shadow-lg shadow-[#3F8391]/30'
-                                  : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
+                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-white'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
+                                  : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
                               }`}
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
@@ -963,7 +1066,11 @@ const QuoteModal = ({ isOpen, onClose }) => {
                     <textarea
                       value={formData.projectDescription}
                       onChange={(e) => handleInputChange('projectDescription', e.target.value)}
-                      className="w-full h-32 px-4 py-3 rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none resize-none"
+                      className={`w-full h-32 px-4 py-3 rounded-2xl border focus:border-[#3F8391] focus:outline-none resize-none transition-all duration-300 ${
+                            isDarkMode 
+                              ? 'bg-white/10 border-white/20 text-white placeholder-gray-400' 
+                              : 'bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500'
+                          }`}
                       placeholder="Décrivez vos besoins, objectifs et contraintes..."
                     />
                   </div>
@@ -982,7 +1089,9 @@ const QuoteModal = ({ isOpen, onClose }) => {
                   className="space-y-4 sm:space-y-6"
                 >
                   <div>
-                    <h3 className="text-lg sm:text-xl font-semibold text-white mb-4 sm:mb-6 flex items-center gap-2">
+                    <h3 className={`text-lg sm:text-xl font-semibold mb-4 sm:mb-6 flex items-center gap-2 transition-colors duration-500 ${
+                      isDarkMode ? 'text-white' : 'text-gray-900'
+                    }`}>
                       <User size={24} className="text-[#3F8391]" />
                       🧑‍💼 Infos de base
                     </h3>
@@ -990,7 +1099,9 @@ const QuoteModal = ({ isOpen, onClose }) => {
                     <div className="space-y-3 sm:space-y-4">
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                          <label className="block text-white font-medium mb-2">
+                          <label className={`block font-medium mb-2 transition-colors duration-500 ${
+                            isDarkMode ? 'text-white' : 'text-gray-800'
+                          }`}>
                             Prénom *
                           </label>
                           <input
@@ -998,12 +1109,18 @@ const QuoteModal = ({ isOpen, onClose }) => {
                             required
                             value={formData.firstName}
                             onChange={(e) => handleInputChange('firstName', e.target.value)}
-                            className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none text-sm sm:text-base"
+                            className={`w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none text-sm sm:text-base transition-all duration-300 ${
+                              isDarkMode 
+                                ? 'bg-white/10 border-white/20 text-white placeholder-gray-400' 
+                                : 'bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500'
+                            }`}
                             placeholder="Votre prénom"
                           />
                         </div>
                         <div>
-                          <label className="block text-white font-medium mb-2">
+                          <label className={`block font-medium mb-2 transition-colors duration-500 ${
+                            isDarkMode ? 'text-white' : 'text-gray-800'
+                          }`}>
                             Nom *
                           </label>
                           <input
@@ -1011,14 +1128,20 @@ const QuoteModal = ({ isOpen, onClose }) => {
                             required
                             value={formData.lastName}
                             onChange={(e) => handleInputChange('lastName', e.target.value)}
-                            className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none text-sm sm:text-base"
+                            className={`w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none text-sm sm:text-base transition-all duration-300 ${
+                              isDarkMode 
+                                ? 'bg-white/10 border-white/20 text-white placeholder-gray-400' 
+                                : 'bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500'
+                            }`}
                             placeholder="Votre nom"
                           />
                         </div>
                       </div>
                       
                       <div>
-                        <label className="block text-white font-medium mb-2">
+                        <label className={`block font-medium mb-2 transition-colors duration-500 ${
+                            isDarkMode ? 'text-white' : 'text-gray-800'
+                          }`}>
                           Email professionnel *
                         </label>
                         <input
@@ -1026,46 +1149,68 @@ const QuoteModal = ({ isOpen, onClose }) => {
                           required
                           value={formData.email}
                           onChange={(e) => handleInputChange('email', e.target.value)}
-                          className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none text-sm sm:text-base"
+                          className={`w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none text-sm sm:text-base transition-all duration-300 ${
+                              isDarkMode 
+                                ? 'bg-white/10 border-white/20 text-white placeholder-gray-400' 
+                                : 'bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500'
+                            }`}
                           placeholder="votre@email.com"
                         />
                       </div>
                       
                       <div>
-                        <label className="block text-white font-medium mb-2">
+                        <label className={`block font-medium mb-2 transition-colors duration-500 ${
+                            isDarkMode ? 'text-white' : 'text-gray-800'
+                          }`}>
                           Entreprise (facultatif)
                         </label>
                         <input
                           type="text"
                           value={formData.companyName}
                           onChange={(e) => handleInputChange('companyName', e.target.value)}
-                          className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none text-sm sm:text-base"
+                          className={`w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none text-sm sm:text-base transition-all duration-300 ${
+                              isDarkMode 
+                                ? 'bg-white/10 border-white/20 text-white placeholder-gray-400' 
+                                : 'bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500'
+                            }`}
                           placeholder="Nom de votre entreprise"
                         />
                       </div>
                       
                       <div>
-                        <label className="block text-white font-medium mb-2">
+                        <label className={`block font-medium mb-2 transition-colors duration-500 ${
+                            isDarkMode ? 'text-white' : 'text-gray-800'
+                          }`}>
                           Secteur d'activité
                         </label>
                         <input
                           type="text"
                           value={formData.businessSector}
                           onChange={(e) => handleInputChange('businessSector', e.target.value)}
-                          className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none text-sm sm:text-base"
+                          className={`w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none text-sm sm:text-base transition-all duration-300 ${
+                              isDarkMode 
+                                ? 'bg-white/10 border-white/20 text-white placeholder-gray-400' 
+                                : 'bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500'
+                            }`}
                           placeholder="Ex: E-commerce, Santé, Finance..."
                         />
                       </div>
                       
                       <div>
-                        <label className="block text-white font-medium mb-2">
+                        <label className={`block font-medium mb-2 transition-colors duration-500 ${
+                            isDarkMode ? 'text-white' : 'text-gray-800'
+                          }`}>
                           Décrivez brièvement votre besoin en IA (en une phrase) *
                         </label>
                         <textarea
                           required
                           value={formData.aiNeedDescription}
                           onChange={(e) => handleInputChange('aiNeedDescription', e.target.value)}
-                          className="w-full h-20 sm:h-24 px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none resize-none text-sm sm:text-base"
+                          className={`w-full h-20 sm:h-24 px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none resize-none text-sm sm:text-base transition-all duration-300 ${
+                              isDarkMode 
+                                ? 'bg-white/10 border-white/20 text-white placeholder-gray-400' 
+                                : 'bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500'
+                            }`}
                           placeholder="Ex: Automatiser le tri de mes emails clients par priorité..."
                         />
                       </div>
@@ -1084,14 +1229,18 @@ const QuoteModal = ({ isOpen, onClose }) => {
                   className="space-y-4 sm:space-y-6"
                 >
                   <div>
-                    <h3 className="text-lg sm:text-xl font-semibold text-white mb-4 sm:mb-6 flex items-center gap-2">
+                    <h3 className={`text-lg sm:text-xl font-semibold mb-4 sm:mb-6 flex items-center gap-2 transition-colors duration-500 ${
+                      isDarkMode ? 'text-white' : 'text-gray-900'
+                    }`}>
                       <Target size={24} className="text-[#3F8391]" />
                       🎯 Objectif du projet
                     </h3>
                     
                     <div className="space-y-4 sm:space-y-6">
                       <div>
-                        <label className="block text-white font-medium mb-3">
+                        <label className={`block font-medium mb-3 transition-colors duration-500 ${
+                            isDarkMode ? 'text-white' : 'text-gray-800'
+                          }`}>
                           Quel est le but principal de votre projet ? (Choix multiple)
                         </label>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -1109,8 +1258,8 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               onClick={() => handleArrayChange('aiProjectGoals', goal)}
                               className={`p-3 rounded-xl border text-left transition-all duration-300 ${
                                 formData.aiProjectGoals.includes(goal)
-                                  ? 'border-[#3F8391] bg-[#3F8391]/30 text-white shadow-lg shadow-[#3F8391]/30'
-                                  : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
+                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-white'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
+                                  : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
                               }`}
                               whileHover={{ scale: 1.01 }}
                               whileTap={{ scale: 0.99 }}
@@ -1140,14 +1289,20 @@ const QuoteModal = ({ isOpen, onClose }) => {
                           animate={{ opacity: 1, height: 'auto' }}
                           exit={{ opacity: 0, height: 0 }}
                         >
-                          <label className="block text-white font-medium mb-2">
+                          <label className={`block font-medium mb-2 transition-colors duration-500 ${
+                            isDarkMode ? 'text-white' : 'text-gray-800'
+                          }`}>
                             Précisez votre objectif :
                           </label>
                           <input
                             type="text"
                             value={formData.aiCustomGoal}
                             onChange={(e) => handleInputChange('aiCustomGoal', e.target.value)}
-                            className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none text-sm sm:text-base"
+                            className={`w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none text-sm sm:text-base transition-all duration-300 ${
+                              isDarkMode 
+                                ? 'bg-white/10 border-white/20 text-white placeholder-gray-400' 
+                                : 'bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500'
+                            }`}
                             placeholder="Décrivez votre objectif spécifique..."
                           />
                         </motion.div>
@@ -1167,14 +1322,18 @@ const QuoteModal = ({ isOpen, onClose }) => {
                   className="space-y-4 sm:space-y-6"
                 >
                   <div>
-                    <h3 className="text-lg sm:text-xl font-semibold text-white mb-4 sm:mb-6 flex items-center gap-2">
+                    <h3 className={`text-lg sm:text-xl font-semibold mb-4 sm:mb-6 flex items-center gap-2 transition-colors duration-500 ${
+                      isDarkMode ? 'text-white' : 'text-gray-900'
+                    }`}>
                       <Database size={24} className="text-[#3F8391]" />
                       📊 Données disponibles
                     </h3>
                     
                     <div className="space-y-4 sm:space-y-6">
                       <div>
-                        <label className="block text-white font-medium mb-3">
+                        <label className={`block font-medium mb-3 transition-colors duration-500 ${
+                            isDarkMode ? 'text-white' : 'text-gray-800'
+                          }`}>
                           Avez-vous déjà des données exploitables ?
                         </label>
                         <div className="flex gap-4">
@@ -1185,8 +1344,8 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               onClick={() => handleInputChange('hasDataAvailable', value)}
                               className={`px-6 py-3 rounded-xl border transition-all duration-300 ${
                                 formData.hasDataAvailable === value
-                                  ? 'border-[#3F8391] bg-[#3F8391]/30 text-white shadow-lg shadow-[#3F8391]/30'
-                                  : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
+                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-white'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
+                                  : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
                               }`}
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
@@ -1198,7 +1357,9 @@ const QuoteModal = ({ isOpen, onClose }) => {
                       </div>
                       
                       <div>
-                        <label className="block text-white font-medium mb-3">
+                        <label className={`block font-medium mb-3 transition-colors duration-500 ${
+                            isDarkMode ? 'text-white' : 'text-gray-800'
+                          }`}>
                           Quel type de données ? (Choix multiple)
                         </label>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -1216,8 +1377,8 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               onClick={() => handleArrayChange('dataTypes', dataType)}
                               className={`p-3 rounded-xl border text-left transition-all duration-300 ${
                                 formData.dataTypes.includes(dataType)
-                                  ? 'border-[#3F8391] bg-[#3F8391]/30 text-white shadow-lg shadow-[#3F8391]/30'
-                                  : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
+                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-white'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
+                                  : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
                               }`}
                               whileHover={{ scale: 1.01 }}
                               whileTap={{ scale: 0.99 }}
@@ -1242,7 +1403,9 @@ const QuoteModal = ({ isOpen, onClose }) => {
                       </div>
                       
                       <div>
-                        <label className="block text-white font-medium mb-3">
+                        <label className={`block font-medium mb-3 transition-colors duration-500 ${
+                            isDarkMode ? 'text-white' : 'text-gray-800'
+                          }`}>
                           Volume estimé :
                         </label>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -1258,8 +1421,8 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               onClick={() => handleInputChange('dataVolume', volume)}
                               className={`p-3 rounded-xl border text-center transition-all duration-300 ${
                                 formData.dataVolume === volume
-                                  ? 'border-[#3F8391] bg-[#3F8391]/30 text-white shadow-lg shadow-[#3F8391]/30'
-                                  : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
+                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-white'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
+                                  : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
                               }`}
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
@@ -1295,14 +1458,18 @@ const QuoteModal = ({ isOpen, onClose }) => {
                   className="space-y-4 sm:space-y-6"
                 >
                   <div>
-                    <h3 className="text-lg sm:text-xl font-semibold text-white mb-4 sm:mb-6 flex items-center gap-2">
+                    <h3 className={`text-lg sm:text-xl font-semibold mb-4 sm:mb-6 flex items-center gap-2 transition-colors duration-500 ${
+                      isDarkMode ? 'text-white' : 'text-gray-900'
+                    }`}>
                       <Settings size={24} className="text-[#3F8391]" />
                       ⚙️ Fonctionnalités souhaitées
                     </h3>
                     
                     <div className="space-y-4 sm:space-y-6">
                       <div>
-                        <label className="block text-white font-medium mb-3">
+                        <label className={`block font-medium mb-3 transition-colors duration-500 ${
+                            isDarkMode ? 'text-white' : 'text-gray-800'
+                          }`}>
                           Que souhaitez-vous pour votre projet ? (Choix multiple selon projet)
                         </label>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -1322,8 +1489,8 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               onClick={() => handleArrayChange('aiDesiredFeatures', feature)}
                               className={`p-3 rounded-xl border text-left transition-all duration-300 ${
                                 formData.aiDesiredFeatures.includes(feature)
-                                  ? 'border-[#3F8391] bg-[#3F8391]/30 text-white shadow-lg shadow-[#3F8391]/30'
-                                  : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
+                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-white'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
+                                  : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
                               }`}
                               whileHover={{ scale: 1.01 }}
                               whileTap={{ scale: 0.99 }}
@@ -1361,14 +1528,18 @@ const QuoteModal = ({ isOpen, onClose }) => {
                   className="space-y-4 sm:space-y-6"
                 >
                   <div>
-                    <h3 className="text-lg sm:text-xl font-semibold text-white mb-4 sm:mb-6 flex items-center gap-2">
+                    <h3 className={`text-lg sm:text-xl font-semibold mb-4 sm:mb-6 flex items-center gap-2 transition-colors duration-500 ${
+                      isDarkMode ? 'text-white' : 'text-gray-900'
+                    }`}>
                       <Clock size={24} className="text-[#3F8391]" />
                       ⏰ Délai et budget
                     </h3>
                     
                     <div className="space-y-4 sm:space-y-6">
                       <div>
-                        <label className="block text-white font-medium mb-3">
+                        <label className={`block font-medium mb-3 transition-colors duration-500 ${
+                            isDarkMode ? 'text-white' : 'text-gray-800'
+                          }`}>
                           Quand souhaitez-vous démarrer le projet ?
                         </label>
                         <div className="flex gap-4">
@@ -1379,8 +1550,8 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               onClick={() => handleInputChange('projectStartTimeline', timeline)}
                               className={`px-6 py-3 rounded-xl border transition-all duration-300 ${
                                 formData.projectStartTimeline === timeline
-                                  ? 'border-[#3F8391] bg-[#3F8391]/30 text-white shadow-lg shadow-[#3F8391]/30'
-                                  : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
+                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-white'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
+                                  : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
                               }`}
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
@@ -1392,7 +1563,9 @@ const QuoteModal = ({ isOpen, onClose }) => {
                       </div>
                       
                       <div>
-                        <label className="block text-white font-medium mb-3">
+                        <label className={`block font-medium mb-3 transition-colors duration-500 ${
+                            isDarkMode ? 'text-white' : 'text-gray-800'
+                          }`}>
                           Budget prévu (fourchette)
                         </label>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -1409,8 +1582,8 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               onClick={() => handleInputChange('aiBudgetRange', budget)}
                               className={`p-3 rounded-xl border text-center transition-all duration-300 ${
                                 formData.aiBudgetRange === budget
-                                  ? 'border-[#3F8391] bg-[#3F8391]/30 text-white shadow-lg shadow-[#3F8391]/30'
-                                  : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
+                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-white'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
+                                  : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
                               }`}
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
@@ -1446,14 +1619,18 @@ const QuoteModal = ({ isOpen, onClose }) => {
                   className="space-y-4 sm:space-y-6"
                 >
                   <div>
-                    <h3 className="text-lg sm:text-xl font-semibold text-white mb-4 sm:mb-6 flex items-center gap-2">
+                    <h3 className={`text-lg sm:text-xl font-semibold mb-4 sm:mb-6 flex items-center gap-2 transition-colors duration-500 ${
+                      isDarkMode ? 'text-white' : 'text-gray-900'
+                    }`}>
                       <MessageSquare size={24} className="text-[#3F8391]" />
                       📝 Complément
                     </h3>
                     
                     <div className="space-y-4 sm:space-y-6">
                       <div className="bg-white/5 p-4 rounded-2xl border border-white/10">
-                        <label className="block text-white font-medium mb-3">
+                        <label className={`block font-medium mb-3 transition-colors duration-500 ${
+                            isDarkMode ? 'text-white' : 'text-gray-800'
+                          }`}>
                           Souhaitez-vous être accompagné techniquement ou stratégiquement ?
                         </label>
                         <div className="flex gap-4">
@@ -1464,8 +1641,8 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               onClick={() => handleInputChange('needTechnicalSupport', support)}
                               className={`px-6 py-3 rounded-xl border transition-all duration-300 ${
                                 formData.needTechnicalSupport === support
-                                  ? 'border-[#3F8391] bg-[#3F8391]/30 text-white shadow-lg shadow-[#3F8391]/30'
-                                  : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
+                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-white'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
+                                  : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
                               }`}
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
@@ -1477,7 +1654,9 @@ const QuoteModal = ({ isOpen, onClose }) => {
                       </div>
                       
                       <div className="bg-white/5 p-4 rounded-2xl border border-white/10">
-                        <label className="block text-white font-medium mb-3">
+                        <label className={`block font-medium mb-3 transition-colors duration-500 ${
+                            isDarkMode ? 'text-white' : 'text-gray-800'
+                          }`}>
                           Souhaitez-vous une maintenance ou des évolutions après livraison ?
                         </label>
                         <div className="flex gap-4">
@@ -1488,8 +1667,8 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               onClick={() => handleInputChange('needFutureMaintenance', maintenance)}
                               className={`px-6 py-3 rounded-xl border transition-all duration-300 ${
                                 formData.needFutureMaintenance === maintenance
-                                  ? 'border-[#3F8391] bg-[#3F8391]/30 text-white shadow-lg shadow-[#3F8391]/30'
-                                  : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
+                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-white'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
+                                  : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
                               }`}
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
@@ -1501,13 +1680,19 @@ const QuoteModal = ({ isOpen, onClose }) => {
                       </div>
                       
                       <div>
-                        <label className="block text-white font-medium mb-3">
+                        <label className={`block font-medium mb-3 transition-colors duration-500 ${
+                            isDarkMode ? 'text-white' : 'text-gray-800'
+                          }`}>
                           Un dernier mot ou besoin spécifique ?
                         </label>
                         <textarea
                           value={formData.aiAdditionalNotes}
                           onChange={(e) => handleInputChange('aiAdditionalNotes', e.target.value)}
-                          className="w-full h-20 sm:h-24 px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none resize-none text-sm sm:text-base"
+                          className={`w-full h-20 sm:h-24 px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none resize-none text-sm sm:text-base transition-all duration-300 ${
+                              isDarkMode 
+                                ? 'bg-white/10 border-white/20 text-white placeholder-gray-400' 
+                                : 'bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500'
+                            }`}
                           placeholder="Contraintes techniques, inspirations, délais spécifiques, budget détaillé, questions..."
                         />
                       </div>
@@ -1526,14 +1711,18 @@ const QuoteModal = ({ isOpen, onClose }) => {
                   className="space-y-4 sm:space-y-6"
                 >
                   <div>
-                    <h3 className="text-lg sm:text-xl font-semibold text-white mb-4 sm:mb-6 flex items-center gap-2">
+                    <h3 className={`text-lg sm:text-xl font-semibold mb-4 sm:mb-6 flex items-center gap-2 transition-colors duration-500 ${
+                      isDarkMode ? 'text-white' : 'text-gray-900'
+                    }`}>
                       <Phone size={24} className="text-[#3F8391]" />
                       Préférence de contact
                     </h3>
                     
                     <div className="space-y-4 sm:space-y-6">
                       <div>
-                        <label className="block text-white font-medium mb-3">
+                        <label className={`block font-medium mb-3 transition-colors duration-500 ${
+                            isDarkMode ? 'text-white' : 'text-gray-800'
+                          }`}>
                           Comment souhaitez-vous être recontacté ? <span className="text-red-400">*</span>
                         </label>
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
@@ -1548,8 +1737,8 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               onClick={() => handleInputChange('preferredContact', contact.value)}
                               className={`p-3 sm:p-4 rounded-xl border text-center transition-all duration-300 text-sm sm:text-base ${
                                 formData.preferredContact === contact.value
-                                  ? 'border-[#3F8391] bg-[#3F8391]/30 text-white shadow-lg shadow-[#3F8391]/30'
-                                  : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
+                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-white'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
+                                  : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
                               }`}
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
@@ -1587,14 +1776,18 @@ const QuoteModal = ({ isOpen, onClose }) => {
                   className="space-y-4 sm:space-y-6"
                 >
                   <div>
-                    <h3 className="text-lg sm:text-xl font-semibold text-white mb-4 sm:mb-6 flex items-center gap-2">
+                    <h3 className={`text-lg sm:text-xl font-semibold mb-4 sm:mb-6 flex items-center gap-2 transition-colors duration-500 ${
+                      isDarkMode ? 'text-white' : 'text-gray-900'
+                    }`}>
                       <Wrench size={24} className="text-[#3F8391]" />
                       Maintenance & Suivi
                     </h3>
                     
                     <div className="space-y-8">
                       <div className="bg-white/5 p-4 rounded-2xl border border-white/10">
-                        <label className="block text-white font-medium mb-3">
+                        <label className={`block font-medium mb-3 transition-colors duration-500 ${
+                            isDarkMode ? 'text-white' : 'text-gray-800'
+                          }`}>
                           1. Souhaitez-vous une formation pour gérer votre site ?
                         </label>
                         <div className="flex flex-col sm:flex-row gap-3">
@@ -1605,8 +1798,8 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               onClick={() => handleInputChange('needTraining', value)}
                               className={`px-4 py-3 rounded-xl border text-left transition-all duration-300 ${
                                 formData.needTraining === value
-                                  ? 'border-[#3F8391] bg-[#3F8391]/30 text-white shadow-lg shadow-[#3F8391]/30'
-                                  : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
+                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-white'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
+                                  : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
                               }`}
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
@@ -1631,7 +1824,9 @@ const QuoteModal = ({ isOpen, onClose }) => {
                       </div>
                       
                       <div className="bg-white/5 p-4 rounded-2xl border border-white/10">
-                        <label className="block text-white font-medium mb-3">
+                        <label className={`block font-medium mb-3 transition-colors duration-500 ${
+                            isDarkMode ? 'text-white' : 'text-gray-800'
+                          }`}>
                           2. Souhaitez-vous que je m'occupe de la maintenance après livraison ?
                         </label>
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
@@ -1642,8 +1837,8 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               onClick={() => handleInputChange('needMaintenance', option)}
                               className={`p-3 rounded-xl border text-left transition-all duration-300 ${
                                 formData.needMaintenance === option
-                                  ? 'border-[#3F8391] bg-[#3F8391]/30 text-white shadow-lg shadow-[#3F8391]/30'
-                                  : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
+                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-white'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
+                                  : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
                               }`}
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
@@ -1682,19 +1877,27 @@ const QuoteModal = ({ isOpen, onClose }) => {
                   className="space-y-4 sm:space-y-6"
                 >
                   <div>
-                    <h3 className="text-lg sm:text-xl font-semibold text-white mb-4 sm:mb-6 flex items-center gap-2">
+                    <h3 className={`text-lg sm:text-xl font-semibold mb-4 sm:mb-6 flex items-center gap-2 transition-colors duration-500 ${
+                      isDarkMode ? 'text-white' : 'text-gray-900'
+                    }`}>
                       <MessageSquare size={24} className="text-[#3F8391]" />
                       Autres besoins ou remarques
                     </h3>
                     
                     <div>
-                      <label className="block text-white font-medium mb-3">
+                      <label className={`block font-medium mb-3 transition-colors duration-500 ${
+                            isDarkMode ? 'text-white' : 'text-gray-800'
+                          }`}>
                         Y a-t-il autre chose que je devrais savoir ?
                       </label>
                       <textarea
                         value={formData.additionalNotes}
                         onChange={(e) => handleInputChange('additionalNotes', e.target.value)}
-                        className="w-full h-32 px-4 py-3 rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none resize-none"
+                        className={`w-full h-32 px-4 py-3 rounded-2xl border focus:border-[#3F8391] focus:outline-none resize-none transition-all duration-300 ${
+                            isDarkMode 
+                              ? 'bg-white/10 border-white/20 text-white placeholder-gray-400' 
+                              : 'bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500'
+                          }`}
                         placeholder="Contraintes techniques, préférences de design, inspirations, délais spécifiques, budget détaillé..."
                       />
                     </div>
@@ -1712,14 +1915,18 @@ const QuoteModal = ({ isOpen, onClose }) => {
                   className="space-y-4 sm:space-y-6"
                 >
                   <div>
-                    <h3 className="text-lg sm:text-xl font-semibold text-white mb-4 sm:mb-6 flex items-center gap-2">
+                    <h3 className={`text-lg sm:text-xl font-semibold mb-4 sm:mb-6 flex items-center gap-2 transition-colors duration-500 ${
+                      isDarkMode ? 'text-white' : 'text-gray-900'
+                    }`}>
                       <Phone size={24} className="text-[#3F8391]" />
                       Préférence de contact
                     </h3>
                     
                     <div className="space-y-4 sm:space-y-6">
                       <div>
-                        <label className="block text-white font-medium mb-3">
+                        <label className={`block font-medium mb-3 transition-colors duration-500 ${
+                            isDarkMode ? 'text-white' : 'text-gray-800'
+                          }`}>
                           Comment souhaitez-vous être contacté : <span className="text-red-400">*</span>
                         </label>
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
@@ -1734,8 +1941,8 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               onClick={() => handleInputChange('preferredContact', contact.value)}
                               className={`p-3 sm:p-4 rounded-xl border text-center transition-all duration-300 text-sm sm:text-base ${
                                 formData.preferredContact === contact.value
-                                  ? 'border-[#3F8391] bg-[#3F8391]/30 text-white shadow-lg shadow-[#3F8391]/30'
-                                  : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
+                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-white'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
+                                  : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
                               }`}
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
@@ -1774,7 +1981,9 @@ const QuoteModal = ({ isOpen, onClose }) => {
                   className="space-y-4 sm:space-y-6"
                 >
                   <div>
-                    <h3 className="text-lg sm:text-xl font-semibold text-white mb-4 sm:mb-6 flex items-center gap-2">
+                    <h3 className={`text-lg sm:text-xl font-semibold mb-4 sm:mb-6 flex items-center gap-2 transition-colors duration-500 ${
+                      isDarkMode ? 'text-white' : 'text-gray-900'
+                    }`}>
                       <User size={24} className="text-[#3F8391]" />
                       🧑‍💼 Infos de base
                     </h3>
@@ -1782,7 +1991,9 @@ const QuoteModal = ({ isOpen, onClose }) => {
                     <div className="space-y-3 sm:space-y-4">
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                          <label className="block text-white font-medium mb-2">
+                          <label className={`block font-medium mb-2 transition-colors duration-500 ${
+                            isDarkMode ? 'text-white' : 'text-gray-800'
+                          }`}>
                             Prénom *
                           </label>
                           <input
@@ -1790,12 +2001,18 @@ const QuoteModal = ({ isOpen, onClose }) => {
                             required
                             value={formData.firstName}
                             onChange={(e) => handleInputChange('firstName', e.target.value)}
-                            className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none text-sm sm:text-base"
+                            className={`w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none text-sm sm:text-base transition-all duration-300 ${
+                              isDarkMode 
+                                ? 'bg-white/10 border-white/20 text-white placeholder-gray-400' 
+                                : 'bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500'
+                            }`}
                             placeholder="Votre prénom"
                           />
                         </div>
                         <div>
-                          <label className="block text-white font-medium mb-2">
+                          <label className={`block font-medium mb-2 transition-colors duration-500 ${
+                            isDarkMode ? 'text-white' : 'text-gray-800'
+                          }`}>
                             Nom *
                           </label>
                           <input
@@ -1803,14 +2020,20 @@ const QuoteModal = ({ isOpen, onClose }) => {
                             required
                             value={formData.lastName}
                             onChange={(e) => handleInputChange('lastName', e.target.value)}
-                            className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none text-sm sm:text-base"
+                            className={`w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none text-sm sm:text-base transition-all duration-300 ${
+                              isDarkMode 
+                                ? 'bg-white/10 border-white/20 text-white placeholder-gray-400' 
+                                : 'bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500'
+                            }`}
                             placeholder="Votre nom"
                           />
                         </div>
                       </div>
                       
                       <div>
-                        <label className="block text-white font-medium mb-2">
+                        <label className={`block font-medium mb-2 transition-colors duration-500 ${
+                            isDarkMode ? 'text-white' : 'text-gray-800'
+                          }`}>
                           Email professionnel *
                         </label>
                         <input
@@ -1818,40 +2041,58 @@ const QuoteModal = ({ isOpen, onClose }) => {
                           required
                           value={formData.email}
                           onChange={(e) => handleInputChange('email', e.target.value)}
-                          className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none text-sm sm:text-base"
+                          className={`w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none text-sm sm:text-base transition-all duration-300 ${
+                              isDarkMode 
+                                ? 'bg-white/10 border-white/20 text-white placeholder-gray-400' 
+                                : 'bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500'
+                            }`}
                           placeholder="votre.email@entreprise.com"
                         />
                       </div>
                       
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                          <label className="block text-white font-medium mb-2">
+                          <label className={`block font-medium mb-2 transition-colors duration-500 ${
+                            isDarkMode ? 'text-white' : 'text-gray-800'
+                          }`}>
                             Nom de l'entreprise
                           </label>
                           <input
                             type="text"
                             value={formData.companyName}
                             onChange={(e) => handleInputChange('companyName', e.target.value)}
-                            className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none text-sm sm:text-base"
+                            className={`w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none text-sm sm:text-base transition-all duration-300 ${
+                              isDarkMode 
+                                ? 'bg-white/10 border-white/20 text-white placeholder-gray-400' 
+                                : 'bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500'
+                            }`}
                             placeholder="Nom de votre entreprise"
                           />
                         </div>
                         <div>
-                          <label className="block text-white font-medium mb-2">
+                          <label className={`block font-medium mb-2 transition-colors duration-500 ${
+                            isDarkMode ? 'text-white' : 'text-gray-800'
+                          }`}>
                             Secteur d'activité
                           </label>
                           <input
                             type="text"
                             value={formData.businessSector}
                             onChange={(e) => handleInputChange('businessSector', e.target.value)}
-                            className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none text-sm sm:text-base"
+                            className={`w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none text-sm sm:text-base transition-all duration-300 ${
+                              isDarkMode 
+                                ? 'bg-white/10 border-white/20 text-white placeholder-gray-400' 
+                                : 'bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500'
+                            }`}
                             placeholder="Ex: E-commerce, SaaS, Services..."
                           />
                         </div>
                       </div>
 
                       <div>
-                        <label className="block text-white font-medium mb-3">
+                        <label className={`block font-medium mb-3 transition-colors duration-500 ${
+                            isDarkMode ? 'text-white' : 'text-gray-800'
+                          }`}>
                           Avez-vous un site ou une landing page ? *
                         </label>
                         <div className="flex gap-4">
@@ -1862,8 +2103,8 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               onClick={() => handleInputChange('hasExistingWebsite', option)}
                               className={`px-4 sm:px-6 py-2 sm:py-3 rounded-xl border transition-colors text-sm sm:text-base ${
                                 formData.hasExistingWebsite === option
-                                  ? 'border-[#3F8391] bg-[#3F8391]/30 text-white shadow-lg shadow-[#3F8391]/30'
-                                  : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
+                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-white'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
+                                  : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
                               }`}
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
@@ -1880,14 +2121,20 @@ const QuoteModal = ({ isOpen, onClose }) => {
                           animate={{ opacity: 1, height: 'auto' }}
                           exit={{ opacity: 0, height: 0 }}
                         >
-                          <label className="block text-white font-medium mb-2">
+                          <label className={`block font-medium mb-2 transition-colors duration-500 ${
+                            isDarkMode ? 'text-white' : 'text-gray-800'
+                          }`}>
                             Lien vers votre site
                           </label>
                           <input
                             type="url"
                             value={formData.existingWebsiteUrl}
                             onChange={(e) => handleInputChange('existingWebsiteUrl', e.target.value)}
-                            className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none text-sm sm:text-base"
+                            className={`w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none text-sm sm:text-base transition-all duration-300 ${
+                              isDarkMode 
+                                ? 'bg-white/10 border-white/20 text-white placeholder-gray-400' 
+                                : 'bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500'
+                            }`}
                             placeholder="https://votre-site.com"
                           />
                         </motion.div>
@@ -1907,14 +2154,18 @@ const QuoteModal = ({ isOpen, onClose }) => {
                   className="space-y-4 sm:space-y-6"
                 >
                   <div>
-                    <h3 className="text-lg sm:text-xl font-semibold text-white mb-4 sm:mb-6 flex items-center gap-2">
+                    <h3 className={`text-lg sm:text-xl font-semibold mb-4 sm:mb-6 flex items-center gap-2 transition-colors duration-500 ${
+                      isDarkMode ? 'text-white' : 'text-gray-900'
+                    }`}>
                       <Target size={24} className="text-[#3F8391]" />
                       🎯 Objectif de la mission
                     </h3>
                     
                     <div className="space-y-4 sm:space-y-6">
                       <div>
-                        <label className="block text-white font-medium mb-3">
+                        <label className={`block font-medium mb-3 transition-colors duration-500 ${
+                            isDarkMode ? 'text-white' : 'text-gray-800'
+                          }`}>
                           Quel est votre besoin principal ? (Choix multiple)
                         </label>
                         <div className="grid grid-cols-1 gap-3">
@@ -1941,8 +2192,8 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               }}
                               className={`p-3 sm:p-4 rounded-xl border text-left transition-all duration-300 text-sm sm:text-base ${
                                 formData.growthMainGoals.includes(goal)
-                                  ? 'border-[#3F8391] bg-[#3F8391]/30 text-white shadow-lg shadow-[#3F8391]/30'
-                                  : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
+                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-white'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
+                                  : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
                               }`}
                               whileHover={{ scale: 1.01 }}
                               whileTap={{ scale: 0.99 }}
@@ -1964,13 +2215,19 @@ const QuoteModal = ({ isOpen, onClose }) => {
                           animate={{ opacity: 1, height: 'auto' }}
                           exit={{ opacity: 0, height: 0 }}
                         >
-                          <label className="block text-white font-medium mb-2">
+                          <label className={`block font-medium mb-2 transition-colors duration-500 ${
+                            isDarkMode ? 'text-white' : 'text-gray-800'
+                          }`}>
                             Précisez votre besoin spécifique
                           </label>
                           <textarea
                             value={formData.growthCustomGoal}
                             onChange={(e) => handleInputChange('growthCustomGoal', e.target.value)}
-                            className="w-full h-20 sm:h-24 px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none resize-none text-sm sm:text-base"
+                            className={`w-full h-20 sm:h-24 px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none resize-none text-sm sm:text-base transition-all duration-300 ${
+                              isDarkMode 
+                                ? 'bg-white/10 border-white/20 text-white placeholder-gray-400' 
+                                : 'bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500'
+                            }`}
                             placeholder="Décrivez votre objectif spécifique..."
                           />
                         </motion.div>
@@ -1990,14 +2247,18 @@ const QuoteModal = ({ isOpen, onClose }) => {
                   className="space-y-4 sm:space-y-6"
                 >
                   <div>
-                    <h3 className="text-lg sm:text-xl font-semibold text-white mb-4 sm:mb-6 flex items-center gap-2">
+                    <h3 className={`text-lg sm:text-xl font-semibold mb-4 sm:mb-6 flex items-center gap-2 transition-colors duration-500 ${
+                      isDarkMode ? 'text-white' : 'text-gray-900'
+                    }`}>
                       <Settings size={24} className="text-[#3F8391]" />
                       🛠️ Services souhaités
                     </h3>
                     
                     <div className="space-y-4 sm:space-y-6">
                       <div>
-                        <label className="block text-white font-medium mb-3">
+                        <label className={`block font-medium mb-3 transition-colors duration-500 ${
+                            isDarkMode ? 'text-white' : 'text-gray-800'
+                          }`}>
                           Sélectionnez les services qui vous intéressent (Choix multiple)
                         </label>
                         <div className="grid grid-cols-1 gap-3">
@@ -2028,8 +2289,8 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               }}
                               className={`p-3 sm:p-4 rounded-xl border text-left transition-all duration-300 text-sm sm:text-base ${
                                 formData.growthDesiredServices.includes(service)
-                                  ? 'border-[#3F8391] bg-[#3F8391]/30 text-white shadow-lg shadow-[#3F8391]/30'
-                                  : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
+                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-white'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
+                                  : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
                               }`}
                               whileHover={{ scale: 1.01 }}
                               whileTap={{ scale: 0.99 }}
@@ -2051,13 +2312,19 @@ const QuoteModal = ({ isOpen, onClose }) => {
                           animate={{ opacity: 1, height: 'auto' }}
                           exit={{ opacity: 0, height: 0 }}
                         >
-                          <label className="block text-white font-medium mb-2">
+                          <label className={`block font-medium mb-2 transition-colors duration-500 ${
+                            isDarkMode ? 'text-white' : 'text-gray-800'
+                          }`}>
                             Précisez votre besoin spécifique
                           </label>
                           <textarea
                             value={formData.growthCustomService}
                             onChange={(e) => handleInputChange('growthCustomService', e.target.value)}
-                            className="w-full h-20 sm:h-24 px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none resize-none text-sm sm:text-base"
+                            className={`w-full h-20 sm:h-24 px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none resize-none text-sm sm:text-base transition-all duration-300 ${
+                              isDarkMode 
+                                ? 'bg-white/10 border-white/20 text-white placeholder-gray-400' 
+                                : 'bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500'
+                            }`}
                             placeholder="Décrivez le service dont vous avez besoin..."
                           />
                         </motion.div>
@@ -2077,26 +2344,36 @@ const QuoteModal = ({ isOpen, onClose }) => {
                   className="space-y-4 sm:space-y-6"
                 >
                   <div>
-                    <h3 className="text-lg sm:text-xl font-semibold text-white mb-4 sm:mb-6 flex items-center gap-2">
+                    <h3 className={`text-lg sm:text-xl font-semibold mb-4 sm:mb-6 flex items-center gap-2 transition-colors duration-500 ${
+                      isDarkMode ? 'text-white' : 'text-gray-900'
+                    }`}>
                       <Database size={24} className="text-[#3F8391]" />
                       🎯 Ciblage & données
                     </h3>
                     
                     <div className="space-y-4 sm:space-y-6">
                       <div>
-                        <label className="block text-white font-medium mb-2">
+                        <label className={`block font-medium mb-2 transition-colors duration-500 ${
+                            isDarkMode ? 'text-white' : 'text-gray-800'
+                          }`}>
                           Qui est votre cible idéale ?
                         </label>
                         <textarea
                           value={formData.targetAudience}
                           onChange={(e) => handleInputChange('targetAudience', e.target.value)}
-                          className="w-full h-24 sm:h-28 px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none resize-none text-sm sm:text-base"
+                          className={`w-full h-24 sm:h-28 px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none resize-none text-sm sm:text-base transition-all duration-300 ${
+                              isDarkMode 
+                                ? 'bg-white/10 border-white/20 text-white placeholder-gray-400' 
+                                : 'bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500'
+                            }`}
                           placeholder="Ex: PME françaises de 10-50 salariés dans le secteur technologique, dirigeants d'entreprise B2B, particuliers intéressés par le sport..."
                         />
                       </div>
 
                       <div>
-                        <label className="block text-white font-medium mb-3">
+                        <label className={`block font-medium mb-3 transition-colors duration-500 ${
+                            isDarkMode ? 'text-white' : 'text-gray-800'
+                          }`}>
                           Avez-vous une base de données existante ?
                         </label>
                         <div className="flex gap-4">
@@ -2107,8 +2384,8 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               onClick={() => handleInputChange('hasExistingDatabase', option)}
                               className={`px-4 sm:px-6 py-2 sm:py-3 rounded-xl border transition-colors text-sm sm:text-base ${
                                 formData.hasExistingDatabase === option
-                                  ? 'border-[#3F8391] bg-[#3F8391]/30 text-white shadow-lg shadow-[#3F8391]/30'
-                                  : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
+                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-white'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
+                                  : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
                               }`}
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
@@ -2120,7 +2397,9 @@ const QuoteModal = ({ isOpen, onClose }) => {
                       </div>
 
                       <div>
-                        <label className="block text-white font-medium mb-3">
+                        <label className={`block font-medium mb-3 transition-colors duration-500 ${
+                            isDarkMode ? 'text-white' : 'text-gray-800'
+                          }`}>
                           Souhaitez-vous extraire vos leads d'une source spécifique ? (Choix multiple)
                         </label>
                         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
@@ -2149,8 +2428,8 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               }}
                               className={`p-3 rounded-xl border text-center text-sm transition-all duration-300 ${
                                 formData.leadSources.includes(source)
-                                  ? 'border-[#3F8391] bg-[#3F8391]/30 text-white shadow-lg shadow-[#3F8391]/30'
-                                  : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
+                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-white'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
+                                  : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
                               }`}
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
@@ -2175,26 +2454,36 @@ const QuoteModal = ({ isOpen, onClose }) => {
                   className="space-y-4 sm:space-y-6"
                 >
                   <div>
-                    <h3 className="text-lg sm:text-xl font-semibold text-white mb-4 sm:mb-6 flex items-center gap-2">
+                    <h3 className={`text-lg sm:text-xl font-semibold mb-4 sm:mb-6 flex items-center gap-2 transition-colors duration-500 ${
+                      isDarkMode ? 'text-white' : 'text-gray-900'
+                    }`}>
                       <BarChart3 size={24} className="text-[#3F8391]" />
                       📊 KPI & ambitions
                     </h3>
                     
                     <div className="space-y-4 sm:space-y-6">
                       <div>
-                        <label className="block text-white font-medium mb-2">
+                        <label className={`block font-medium mb-2 transition-colors duration-500 ${
+                            isDarkMode ? 'text-white' : 'text-gray-800'
+                          }`}>
                           Quels sont vos objectifs ?
                         </label>
                         <textarea
                           value={formData.growthObjectives}
                           onChange={(e) => handleInputChange('growthObjectives', e.target.value)}
-                          className="w-full h-24 sm:h-28 px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none resize-none text-sm sm:text-base"
+                          className={`w-full h-24 sm:h-28 px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none resize-none text-sm sm:text-base transition-all duration-300 ${
+                              isDarkMode 
+                                ? 'bg-white/10 border-white/20 text-white placeholder-gray-400' 
+                                : 'bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500'
+                            }`}
                           placeholder="Ex: 100 leads qualifiés/mois, 1000 emails envoyés/semaine, 15% de taux de conversion, augmenter CA de 30%, etc."
                         />
                       </div>
 
                       <div>
-                        <label className="block text-white font-medium mb-3">
+                        <label className={`block font-medium mb-3 transition-colors duration-500 ${
+                            isDarkMode ? 'text-white' : 'text-gray-800'
+                          }`}>
                           Souhaitez-vous un reporting détaillé et automatisé ?
                         </label>
                         <div className="flex gap-4">
@@ -2205,8 +2494,8 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               onClick={() => handleInputChange('wantsDetailedReporting', option)}
                               className={`px-4 sm:px-6 py-2 sm:py-3 rounded-xl border transition-colors text-sm sm:text-base ${
                                 formData.wantsDetailedReporting === option
-                                  ? 'border-[#3F8391] bg-[#3F8391]/30 text-white shadow-lg shadow-[#3F8391]/30'
-                                  : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
+                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-white'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
+                                  : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
                               }`}
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
@@ -2218,7 +2507,9 @@ const QuoteModal = ({ isOpen, onClose }) => {
                       </div>
 
                       <div>
-                        <label className="block text-white font-medium mb-3">
+                        <label className={`block font-medium mb-3 transition-colors duration-500 ${
+                            isDarkMode ? 'text-white' : 'text-gray-800'
+                          }`}>
                           Avez-vous déjà testé des outils ou méthodes de growth ?
                         </label>
                         <div className="flex gap-4">
@@ -2229,8 +2520,8 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               onClick={() => handleInputChange('hasTestedGrowthTools', option)}
                               className={`px-4 sm:px-6 py-2 sm:py-3 rounded-xl border transition-colors text-sm sm:text-base ${
                                 formData.hasTestedGrowthTools === option
-                                  ? 'border-[#3F8391] bg-[#3F8391]/30 text-white shadow-lg shadow-[#3F8391]/30'
-                                  : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
+                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-white'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
+                                  : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
                               }`}
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
@@ -2247,13 +2538,19 @@ const QuoteModal = ({ isOpen, onClose }) => {
                           animate={{ opacity: 1, height: 'auto' }}
                           exit={{ opacity: 0, height: 0 }}
                         >
-                          <label className="block text-white font-medium mb-2">
+                          <label className={`block font-medium mb-2 transition-colors duration-500 ${
+                            isDarkMode ? 'text-white' : 'text-gray-800'
+                          }`}>
                             Lesquels ?
                           </label>
                           <textarea
                             value={formData.testedToolsDetails}
                             onChange={(e) => handleInputChange('testedToolsDetails', e.target.value)}
-                            className="w-full h-20 sm:h-24 px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none resize-none text-sm sm:text-base"
+                            className={`w-full h-20 sm:h-24 px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none resize-none text-sm sm:text-base transition-all duration-300 ${
+                              isDarkMode 
+                                ? 'bg-white/10 border-white/20 text-white placeholder-gray-400' 
+                                : 'bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500'
+                            }`}
                             placeholder="Ex: Mailchimp, HubSpot, LinkedIn Sales Navigator, Apollo, Lemlist, etc."
                           />
                         </motion.div>
@@ -2273,14 +2570,18 @@ const QuoteModal = ({ isOpen, onClose }) => {
                   className="space-y-4 sm:space-y-6"
                 >
                   <div>
-                    <h3 className="text-lg sm:text-xl font-semibold text-white mb-4 sm:mb-6 flex items-center gap-2">
+                    <h3 className={`text-lg sm:text-xl font-semibold mb-4 sm:mb-6 flex items-center gap-2 transition-colors duration-500 ${
+                      isDarkMode ? 'text-white' : 'text-gray-900'
+                    }`}>
                       <Clock size={24} className="text-[#3F8391]" />
                       ⏰ Délai & budget
                     </h3>
                     
                     <div className="space-y-4 sm:space-y-6">
                       <div>
-                        <label className="block text-white font-medium mb-3">
+                        <label className={`block font-medium mb-3 transition-colors duration-500 ${
+                            isDarkMode ? 'text-white' : 'text-gray-800'
+                          }`}>
                           Quand souhaitez-vous démarrer ?
                         </label>
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
@@ -2295,8 +2596,8 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               onClick={() => handleInputChange('projectStartTimeline', timing)}
                               className={`p-3 sm:p-4 rounded-xl border text-center transition-all duration-300 text-sm sm:text-base ${
                                 formData.projectStartTimeline === timing
-                                  ? 'border-[#3F8391] bg-[#3F8391]/30 text-white shadow-lg shadow-[#3F8391]/30'
-                                  : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
+                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-white'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
+                                  : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
                               }`}
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
@@ -2308,7 +2609,9 @@ const QuoteModal = ({ isOpen, onClose }) => {
                       </div>
 
                       <div>
-                        <label className="block text-white font-medium mb-3">
+                        <label className={`block font-medium mb-3 transition-colors duration-500 ${
+                            isDarkMode ? 'text-white' : 'text-gray-800'
+                          }`}>
                           Quel est votre budget ?
                         </label>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -2325,8 +2628,8 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               onClick={() => handleInputChange('growthBudgetRange', budget)}
                               className={`p-3 sm:p-4 rounded-xl border text-center transition-all duration-300 text-sm sm:text-base ${
                                 formData.growthBudgetRange === budget
-                                  ? 'border-[#3F8391] bg-[#3F8391]/30 text-white shadow-lg shadow-[#3F8391]/30'
-                                  : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
+                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-white'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
+                                  : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
                               }`}
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
@@ -2351,14 +2654,18 @@ const QuoteModal = ({ isOpen, onClose }) => {
                   className="space-y-4 sm:space-y-6"
                 >
                   <div>
-                    <h3 className="text-lg sm:text-xl font-semibold text-white mb-4 sm:mb-6 flex items-center gap-2">
+                    <h3 className={`text-lg sm:text-xl font-semibold mb-4 sm:mb-6 flex items-center gap-2 transition-colors duration-500 ${
+                      isDarkMode ? 'text-white' : 'text-gray-900'
+                    }`}>
                       <MessageSquare size={24} className="text-[#3F8391]" />
                       🧠 Autres besoins & Contact
                     </h3>
                     
                     <div className="space-y-4 sm:space-y-6">
                       <div>
-                        <label className="block text-white font-medium mb-3">
+                        <label className={`block font-medium mb-3 transition-colors duration-500 ${
+                            isDarkMode ? 'text-white' : 'text-gray-800'
+                          }`}>
                           Souhaitez-vous que je vous accompagne aussi sur : (Choix multiple)
                         </label>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -2385,8 +2692,8 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               }}
                               className={`p-3 rounded-xl border text-left text-sm transition-all duration-300 ${
                                 formData.additionalServices.includes(service)
-                                  ? 'border-[#3F8391] bg-[#3F8391]/30 text-white shadow-lg shadow-[#3F8391]/30'
-                                  : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
+                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-white'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
+                                  : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
                               }`}
                               whileHover={{ scale: 1.01 }}
                               whileTap={{ scale: 0.99 }}
@@ -2408,32 +2715,46 @@ const QuoteModal = ({ isOpen, onClose }) => {
                           animate={{ opacity: 1, height: 'auto' }}
                           exit={{ opacity: 0, height: 0 }}
                         >
-                          <label className="block text-white font-medium mb-2">
+                          <label className={`block font-medium mb-2 transition-colors duration-500 ${
+                            isDarkMode ? 'text-white' : 'text-gray-800'
+                          }`}>
                             Précisez votre besoin
                           </label>
                           <textarea
                             value={formData.growthCustomAdditional}
                             onChange={(e) => handleInputChange('growthCustomAdditional', e.target.value)}
-                            className="w-full h-16 sm:h-20 px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none resize-none text-sm sm:text-base"
+                            className={`w-full h-16 sm:h-20 px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none resize-none text-sm sm:text-base transition-all duration-300 ${
+                              isDarkMode 
+                                ? 'bg-white/10 border-white/20 text-white placeholder-gray-400' 
+                                : 'bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500'
+                            }`}
                             placeholder="Décrivez votre besoin supplémentaire..."
                           />
                         </motion.div>
                       )}
 
                       <div>
-                        <label className="block text-white font-medium mb-2">
+                        <label className={`block font-medium mb-2 transition-colors duration-500 ${
+                            isDarkMode ? 'text-white' : 'text-gray-800'
+                          }`}>
                           Un détail important à ajouter ?
                         </label>
                         <textarea
                           value={formData.growthAdditionalNotes}
                           onChange={(e) => handleInputChange('growthAdditionalNotes', e.target.value)}
-                          className="w-full h-20 sm:h-24 px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none resize-none text-sm sm:text-base"
+                          className={`w-full h-20 sm:h-24 px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none resize-none text-sm sm:text-base transition-all duration-300 ${
+                              isDarkMode 
+                                ? 'bg-white/10 border-white/20 text-white placeholder-gray-400' 
+                                : 'bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500'
+                            }`}
                           placeholder="Remarques, contexte particulier, contraintes spécifiques..."
                         />
                       </div>
 
                       <div>
-                        <label className="block text-white font-medium mb-3">
+                        <label className={`block font-medium mb-3 transition-colors duration-500 ${
+                            isDarkMode ? 'text-white' : 'text-gray-800'
+                          }`}>
                           Comment souhaitez-vous être contacté ? <span className="text-red-400">*</span>
                         </label>
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
@@ -2448,8 +2769,8 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               onClick={() => handleInputChange('preferredContact', contact.value)}
                               className={`p-3 sm:p-4 rounded-xl border text-center transition-all duration-300 text-sm sm:text-base ${
                                 formData.preferredContact === contact.value
-                                  ? 'border-[#3F8391] bg-[#3F8391]/30 text-white shadow-lg shadow-[#3F8391]/30'
-                                  : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
+                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-white'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
+                                  : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
                               }`}
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
@@ -2504,7 +2825,9 @@ const QuoteModal = ({ isOpen, onClose }) => {
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.3 }}
-                      className="text-3xl font-bold text-white mb-4"
+                      className={`text-3xl font-bold mb-4 transition-colors duration-500 ${
+                        isDarkMode ? 'text-white' : 'text-gray-900'
+                      }`}
                     >
                       Demande envoyée avec succès !
                     </motion.h3>
@@ -2522,11 +2845,15 @@ const QuoteModal = ({ isOpen, onClose }) => {
                       </p>
 
                       <div className="bg-[#3F8391]/10 border border-[#3F8391]/20 rounded-2xl p-6 text-left">
-                        <h4 className="text-white font-semibold mb-3 flex items-center gap-2">
+                        <h4 className={`font-semibold mb-3 flex items-center gap-2 transition-colors duration-500 ${
+                          isDarkMode ? 'text-white' : 'text-gray-800'
+                        }`}>
                           <Clock size={20} className="text-[#3F8391]" />
                           Prochaines étapes :
                         </h4>
-                        <ul className="text-gray-300 space-y-2 text-sm">
+                        <ul className={`space-y-2 text-sm transition-colors duration-500 ${
+                          isDarkMode ? 'text-gray-300' : 'text-gray-600'
+                        }`}>
                           <li className="flex items-start gap-2">
                             <span className="text-[#3F8391] mt-1">•</span>
                             <span>Analyse de votre demande sous <strong>24h</strong></span>

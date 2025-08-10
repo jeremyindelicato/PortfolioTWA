@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
-import { Code2, Database, Smartphone, Globe, Shield, Zap, Search, ShoppingCart } from 'lucide-react';
+import { Code2, Database, Smartphone, Shield, Search, ShoppingCart } from 'lucide-react';
+import { useTheme } from '../contexts/ThemeContext';
 
 // Import des logos technologies
 import reactLogo from '../assets/software/React-logo.png';
@@ -25,6 +26,7 @@ import analyticsLogo from '../assets/software/analytics-logo.png';
 import institutCorailMockup from '../assets/institut-corail/Mockup.png';
 
 const WebDevSection = ({ className = "" }) => {
+  const { isDarkMode } = useTheme();
   const features = [
     {
       icon: Code2,
@@ -65,7 +67,9 @@ const WebDevSection = ({ className = "" }) => {
         {/* Header */}
         <div className="text-center mb-8 sm:mb-12 lg:mb-16">
         <motion.h2 
-          className="text-4xl md:text-5xl font-bold text-white mb-4"
+          className={`text-4xl md:text-5xl font-bold mb-4 transition-colors duration-500 ${
+            isDarkMode ? 'text-white' : 'text-gray-900'
+          }`}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
@@ -74,7 +78,9 @@ const WebDevSection = ({ className = "" }) => {
           <span style={{ color: '#3F8391' }}>Web</span>
         </motion.h2>
         <motion.p 
-          className="text-xl text-gray-300 leading-relaxed max-w-4xl mx-auto"
+          className={`text-xl leading-relaxed max-w-4xl mx-auto transition-colors duration-500 ${
+            isDarkMode ? 'text-gray-300' : 'text-gray-600'
+          }`}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
@@ -97,19 +103,30 @@ const WebDevSection = ({ className = "" }) => {
         >
           {/* Main Image Container */}
           <div 
-            className="relative h-[500px] rounded-3xl overflow-hidden border border-white/10"
+            className={`relative h-[500px] rounded-3xl overflow-hidden border transition-all duration-500 ${
+              isDarkMode ? 'border-white/10' : 'border-gray-300/30'
+            }`}
             style={{
-              background: `
+              background: isDarkMode ? `
                 linear-gradient(135deg, 
                   rgba(255, 255, 255, 0.1) 0%, 
                   rgba(255, 255, 255, 0.05) 50%, 
                   rgba(0, 0, 0, 0.1) 100%
                 )
+              ` : `
+                linear-gradient(135deg, 
+                  rgba(255, 255, 255, 0.95) 0%, 
+                  rgba(255, 255, 255, 0.85) 50%, 
+                  rgba(255, 255, 255, 0.9) 100%
+                )
               `,
               backdropFilter: 'blur(20px)',
-              boxShadow: `
+              boxShadow: isDarkMode ? `
                 0 20px 50px rgba(0, 0, 0, 0.3),
                 inset 0 1px 0 rgba(255, 255, 255, 0.2)
+              ` : `
+                0 20px 50px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8)
               `
             }}
           >
@@ -156,18 +173,29 @@ const WebDevSection = ({ className = "" }) => {
             {features.map((feature, index) => (
               <motion.div
                 key={index}
-                className="p-4 rounded-2xl border border-white/10 backdrop-blur-md hover:border-white/20 transition-all duration-300 group cursor-pointer"
+                className={`p-4 rounded-2xl border backdrop-blur-md transition-all duration-300 group cursor-pointer ${
+                  isDarkMode ? 'border-white/10 hover:border-white/20' : 'border-gray-300/30 hover:border-gray-400/40'
+                }`}
                 style={{
-                  background: `
+                  background: isDarkMode ? `
                     linear-gradient(135deg, 
                       rgba(255, 255, 255, 0.1) 0%, 
                       rgba(255, 255, 255, 0.05) 50%, 
                       rgba(0, 0, 0, 0.1) 100%
                     )
+                  ` : `
+                    linear-gradient(135deg, 
+                      rgba(255, 255, 255, 0.9) 0%, 
+                      rgba(255, 255, 255, 0.8) 50%, 
+                      rgba(255, 255, 255, 0.85) 100%
+                    )
                   `,
-                  boxShadow: `
+                  boxShadow: isDarkMode ? `
                     0 4px 16px rgba(0, 0, 0, 0.2),
                     inset 0 1px 0 rgba(255, 255, 255, 0.2)
+                  ` : `
+                    0 4px 16px rgba(0, 0, 0, 0.1),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.8)
                   `
                 }}
                 initial={{ opacity: 0, y: 20 }}
@@ -201,10 +229,14 @@ const WebDevSection = ({ className = "" }) => {
                   >
                     <feature.icon size={20} color="#3F8391" />
                   </div>
-                  <h4 className="font-semibold text-white mb-1 text-sm">
+                  <h4 className={`font-semibold mb-1 text-sm transition-colors duration-500 ${
+                    isDarkMode ? 'text-white' : 'text-gray-800'
+                  }`}>
                     {feature.title}
                   </h4>
-                  <p className="text-gray-400 text-xs leading-relaxed">
+                  <p className={`text-xs leading-relaxed transition-colors duration-500 ${
+                    isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                  }`}>
                     {feature.description}
                   </p>
                 </div>
@@ -221,7 +253,9 @@ const WebDevSection = ({ className = "" }) => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.6 }}
       >
-        <h4 className="text-lg font-semibold text-white mb-6 text-center">
+        <h4 className={`text-lg font-semibold mb-6 text-center transition-colors duration-500 ${
+          isDarkMode ? 'text-white' : 'text-gray-800'
+        }`}>
           Technologies maîtrisées
         </h4>
         

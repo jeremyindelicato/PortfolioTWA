@@ -1,6 +1,8 @@
 import { motion } from 'framer-motion';
+import { useTheme } from '../contexts/ThemeContext';
 
 const Footer = () => {
+  const { isDarkMode } = useTheme();
   return (
     <motion.footer
       className="w-full py-16 mt-20"
@@ -14,13 +16,17 @@ const Footer = () => {
         <div 
           className="w-full h-px mb-8 mx-auto"
           style={{
-            background: 'linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.2) 50%, transparent 100%)'
+            background: isDarkMode ? 
+              'linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.2) 50%, transparent 100%)' :
+              'linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.2) 50%, transparent 100%)'
           }}
         />
 
         {/* Copyright */}
         <motion.p 
-          className="text-gray-300 text-sm leading-relaxed drop-shadow-md"
+          className={`text-sm leading-relaxed drop-shadow-md transition-colors duration-500 ${
+            isDarkMode ? 'text-gray-300' : 'text-gray-600'
+          }`}
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.2 }}

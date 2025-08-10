@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { useTheme } from '../contexts/ThemeContext';
 
 // Import des images d'inspiration
 import img1 from '../assets/inspirations/Adam-Scott-Severance.jpg';
@@ -11,6 +12,7 @@ import img7 from '../assets/inspirations/spderman.jpg';
 import img8 from '../assets/inspirations/zinedine-zidane.jpg';
 
 const InspirationMarquee = () => {
+  const { isDarkMode } = useTheme();
   // Structure du contenu avec alternance images/texte
   const content = [
     { type: 'image', content: img1 },
@@ -47,7 +49,9 @@ const InspirationMarquee = () => {
             <img
               src={item.content}
               alt="Inspiration"
-              className="w-24 h-16 md:w-32 md:h-20 lg:w-40 lg:h-28 object-cover rounded-xl border border-white/10 transition-all duration-300"
+              className={`w-24 h-16 md:w-32 md:h-20 lg:w-40 lg:h-28 object-cover rounded-xl border transition-all duration-300 ${
+                isDarkMode ? 'border-white/10' : 'border-gray-300/30'
+              }`}
             />
           </motion.div>
         );
@@ -55,7 +59,9 @@ const InspirationMarquee = () => {
         return (
           <div
             key={uniqueKey}
-            className="flex-shrink-0 text-white/90 text-xl md:text-2xl lg:text-3xl font-light italic tracking-wide mx-4"
+            className={`flex-shrink-0 text-xl md:text-2xl lg:text-3xl font-light italic tracking-wide mx-4 transition-colors duration-500 ${
+              isDarkMode ? 'text-white/90' : 'text-gray-800/90'
+            }`}
           >
             {item.content}
           </div>
@@ -75,24 +81,48 @@ const InspirationMarquee = () => {
 
       {/* Conteneur principal avec design liquid glass */}
       <div 
-        className="h-32 rounded-2xl border border-white/10 overflow-hidden relative mx-4"
+        className={`h-32 rounded-2xl border overflow-hidden relative mx-4 transition-all duration-500 ${
+          isDarkMode ? 'border-white/10' : 'border-gray-300/30'
+        }`}
         style={{
-          background: `
+          background: isDarkMode ? `
             linear-gradient(135deg, 
               rgba(255, 255, 255, 0.05) 0%, 
               rgba(255, 255, 255, 0.02) 100%
             )
+          ` : `
+            linear-gradient(135deg, 
+              rgba(255, 255, 255, 0.95) 0%, 
+              rgba(255, 255, 255, 0.85) 100%
+            )
           `,
           backdropFilter: 'blur(24px)',
-          boxShadow: `
+          boxShadow: isDarkMode ? `
             inset 0 1px 0 rgba(255, 255, 255, 0.1),
             0 10px 20px rgba(0, 0, 0, 0.2)
+          ` : `
+            inset 0 1px 0 rgba(255, 255, 255, 0.8),
+            0 10px 20px rgba(0, 0, 0, 0.1)
           `
         }}
       >
         {/* Effets de fade sur les bords */}
-        <div className="absolute left-0 top-0 w-16 h-full bg-gradient-to-r from-black/20 via-black/10 to-transparent z-10 pointer-events-none" />
-        <div className="absolute right-0 top-0 w-16 h-full bg-gradient-to-l from-black/20 via-black/10 to-transparent z-10 pointer-events-none" />
+        <div 
+          className="absolute left-0 top-0 w-16 h-full z-10 pointer-events-none"
+          style={{
+            background: isDarkMode ? 
+              'linear-gradient(to right, rgba(0,0,0,0.2), rgba(0,0,0,0.1), transparent)' :
+              'linear-gradient(to right, rgba(255,255,255,0.3), rgba(255,255,255,0.15), transparent)'
+          }}
+        />
+        <div 
+          className="absolute right-0 top-0 w-16 h-full z-10 pointer-events-none"
+          style={{
+            background: isDarkMode ? 
+              'linear-gradient(to left, rgba(0,0,0,0.2), rgba(0,0,0,0.1), transparent)' :
+              'linear-gradient(to left, rgba(255,255,255,0.3), rgba(255,255,255,0.15), transparent)'
+          }}
+        />
         
         {/* Animation marquee */}
         <div className="flex items-center h-full animate-infinite-scroll">

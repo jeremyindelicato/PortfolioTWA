@@ -1,0 +1,84 @@
+/* Transitions fluides pour le changement de thème */
+:root {
+  --transition-theme: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Classes pour les thèmes */
+.dark-mode {
+  color-scheme: dark;
+}
+
+.light-mode {
+  color-scheme: light;
+}
+
+/* Styles spécifiques pour le texte selon le thème */
+.theme-text-primary {
+  transition: color 0.5s ease;
+}
+
+.dark-mode .theme-text-primary {
+  color: white;
+}
+
+.light-mode .theme-text-primary {
+  color: rgb(17 24 39);
+}
+
+.theme-text-secondary {
+  transition: color 0.5s ease;
+}
+
+.dark-mode .theme-text-secondary {
+  color: rgb(209 213 219);
+}
+
+.light-mode .theme-text-secondary {
+  color: rgb(75 85 99);
+}
+
+.theme-text-muted {
+  transition: color 0.5s ease;
+}
+
+.dark-mode .theme-text-muted {
+  color: rgb(156 163 175);
+}
+
+.light-mode .theme-text-muted {
+  color: rgb(107 114 128);
+}
+
+/* Backgrounds adaptatifs */
+.theme-bg-card {
+  transition: background-color 0.5s ease;
+}
+
+.dark-mode .theme-bg-card {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.light-mode .theme-bg-card {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.theme-bg-input {
+  transition: background-color 0.5s ease, border-color 0.5s ease;
+}
+
+.dark-mode .theme-bg-input {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.light-mode .theme-bg-input {
+  background-color: rgba(0, 0, 0, 0.05);
+  border-color: rgb(209 213 219);
+}
+
+/* Préservation du bleu dans les deux thèmes */
+.theme-blue-preserve {
+  color: #3F8391 !important;
+  background-color: #3F8391 !important;
+  border-color: #3F8391 !important;
+}

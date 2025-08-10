@@ -1,7 +1,9 @@
 import { motion } from 'framer-motion';
 import { Globe, Brain, TrendingUp, ArrowRight } from 'lucide-react';
+import { useTheme } from '../contexts/ThemeContext';
 
 const ServicesCards = () => {
+  const { isDarkMode } = useTheme();
   const services = [
     {
       id: 1,
@@ -53,10 +55,14 @@ const ServicesCards = () => {
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.3 }}
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+          <h2 className={`text-4xl md:text-5xl font-bold mb-6 transition-colors duration-500 ${
+            isDarkMode ? 'text-white' : 'text-gray-900'
+          }`}>
             Mes <span style={{ color: '#3F8391' }}>Services</span>
           </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+          <p className={`text-xl max-w-3xl mx-auto transition-colors duration-500 ${
+            isDarkMode ? 'text-gray-300' : 'text-gray-600'
+          }`}>
             Des solutions digitales complètes pour propulser votre entreprise vers le succès
           </p>
         </motion.div>
@@ -87,9 +93,11 @@ const ServicesCards = () => {
             >
               {/* Glassmorphism Card */}
               <div 
-                className="relative h-full rounded-3xl p-8 backdrop-blur-xl border border-white/10 overflow-hidden"
+                className={`relative h-full rounded-3xl p-8 backdrop-blur-xl overflow-hidden transition-all duration-500 ${
+                  isDarkMode ? 'border-white/10' : 'border-gray-300/30'
+                }`}
                 style={{
-                  background: `
+                  background: isDarkMode ? `
                     linear-gradient(135deg, 
                       rgba(255, 255, 255, 0.1) 0%, 
                       rgba(255, 255, 255, 0.05) 50%, 
@@ -97,11 +105,23 @@ const ServicesCards = () => {
                     ),
                     radial-gradient(circle at 20% 20%, rgba(63, 131, 145, 0.15) 0%, transparent 50%),
                     radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%)
+                  ` : `
+                    linear-gradient(135deg, 
+                      rgba(255, 255, 255, 0.95) 0%, 
+                      rgba(255, 255, 255, 0.85) 50%, 
+                      rgba(255, 255, 255, 0.9) 100%
+                    ),
+                    radial-gradient(circle at 20% 20%, rgba(63, 131, 145, 0.1) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.8) 0%, transparent 50%)
                   `,
-                  boxShadow: `
+                  boxShadow: isDarkMode ? `
                     0 8px 32px rgba(0, 0, 0, 0.3),
                     inset 0 1px 0 rgba(255, 255, 255, 0.2),
                     inset 0 -1px 0 rgba(0, 0, 0, 0.1)
+                  ` : `
+                    0 8px 32px rgba(0, 0, 0, 0.1),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+                    inset 0 -1px 0 rgba(0, 0, 0, 0.05)
                   `
                 }}
               >
@@ -130,17 +150,27 @@ const ServicesCards = () => {
                   <div 
                     className="w-16 h-16 rounded-2xl flex items-center justify-center mb-4 relative"
                     style={{
-                      background: `
+                      background: isDarkMode ? `
                         linear-gradient(135deg, 
                           rgba(255, 255, 255, 0.2) 0%, 
                           rgba(255, 255, 255, 0.1) 50%, 
                           rgba(0, 0, 0, 0.1) 100%
                         )
+                      ` : `
+                        linear-gradient(135deg, 
+                          rgba(255, 255, 255, 0.9) 0%, 
+                          rgba(255, 255, 255, 0.8) 50%, 
+                          rgba(255, 255, 255, 0.85) 100%
+                        )
                       `,
-                      boxShadow: `
+                      boxShadow: isDarkMode ? `
                         0 4px 16px rgba(0, 0, 0, 0.2),
                         inset 0 1px 0 rgba(255, 255, 255, 0.3),
                         inset 0 -1px 0 rgba(0, 0, 0, 0.2)
+                      ` : `
+                        0 4px 16px rgba(0, 0, 0, 0.1),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.8),
+                        inset 0 -1px 0 rgba(0, 0, 0, 0.05)
                       `,
                       transform: 'translateZ(20px)'
                     }}
@@ -161,7 +191,9 @@ const ServicesCards = () => {
                 {/* Content */}
                 <div className="relative z-10">
                   <div className="mb-4">
-                    <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-white transition-colors duration-300">
+                    <h3 className={`text-2xl font-bold mb-2 transition-colors duration-300 ${
+                      isDarkMode ? 'text-white group-hover:text-white' : 'text-gray-800 group-hover:text-gray-800'
+                    }`}>
                       {service.title}
                     </h3>
                     <p className="text-sm font-medium opacity-70" style={{ color: '#3F8391' }}>
@@ -169,7 +201,9 @@ const ServicesCards = () => {
                     </p>
                   </div>
 
-                  <p className="text-gray-300 mb-6 leading-relaxed">
+                  <p className={`mb-6 leading-relaxed transition-colors duration-500 ${
+                    isDarkMode ? 'text-gray-300' : 'text-gray-600'
+                  }`}>
                     {service.description}
                   </p>
 
@@ -187,7 +221,9 @@ const ServicesCards = () => {
                           className="w-1.5 h-1.5 rounded-full" 
                           style={{ backgroundColor: '#3F8391' }}
                         />
-                        <span className="text-gray-300">{feature}</span>
+                        <span className={`transition-colors duration-500 ${
+                          isDarkMode ? 'text-gray-300' : 'text-gray-600'
+                        }`}>{feature}</span>
                       </motion.div>
                     ))}
                   </div>
@@ -196,16 +232,25 @@ const ServicesCards = () => {
                   <motion.button
                     className="group/btn relative w-full py-3 px-6 rounded-2xl font-semibold text-white overflow-hidden transition-all duration-300"
                     style={{
-                      background: `
+                      background: isDarkMode ? `
                         linear-gradient(135deg, 
                           rgba(63, 131, 145, 0.8) 0%, 
                           rgba(63, 131, 145, 0.6) 50%, 
                           rgba(63, 131, 145, 0.4) 100%
                         )
+                      ` : `
+                        linear-gradient(135deg, 
+                          rgba(63, 131, 145, 1) 0%, 
+                          rgba(63, 131, 145, 0.9) 50%, 
+                          rgba(63, 131, 145, 0.8) 100%
+                        )
                       `,
-                      boxShadow: `
+                      boxShadow: isDarkMode ? `
                         0 4px 16px rgba(63, 131, 145, 0.3),
                         inset 0 1px 0 rgba(255, 255, 255, 0.2)
+                      ` : `
+                        0 6px 20px rgba(63, 131, 145, 0.4),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.3)
                       `
                     }}
                     whileHover={{ 
@@ -258,20 +303,31 @@ const ServicesCards = () => {
           transition={{ duration: 0.6, delay: 0.8 }}
         >
           <motion.button
-            className="px-12 py-4 rounded-full font-semibold text-white relative overflow-hidden"
+            className={`px-12 py-4 rounded-full font-semibold relative overflow-hidden transition-colors duration-500 ${
+              isDarkMode ? 'text-white' : 'text-gray-800'
+            }`}
             style={{
-              background: `
+              background: isDarkMode ? `
                 linear-gradient(135deg, 
                   rgba(255, 255, 255, 0.1) 0%, 
                   rgba(255, 255, 255, 0.05) 50%, 
                   rgba(0, 0, 0, 0.1) 100%
                 )
+              ` : `
+                linear-gradient(135deg, 
+                  rgba(255, 255, 255, 0.95) 0%, 
+                  rgba(255, 255, 255, 0.85) 50%, 
+                  rgba(255, 255, 255, 0.9) 100%
+                )
               `,
               backdropFilter: 'blur(20px)',
-              border: '2px solid rgba(63, 131, 145, 0.5)',
-              boxShadow: `
+              border: isDarkMode ? '2px solid rgba(63, 131, 145, 0.5)' : '2px solid rgba(63, 131, 145, 0.8)',
+              boxShadow: isDarkMode ? `
                 0 8px 32px rgba(0, 0, 0, 0.3),
                 inset 0 1px 0 rgba(255, 255, 255, 0.2)
+              ` : `
+                0 8px 32px rgba(0, 0, 0, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8)
               `
             }}
             whileHover={{ 
