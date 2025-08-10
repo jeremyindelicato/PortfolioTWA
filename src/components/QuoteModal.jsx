@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Send, FileText, ChevronLeft, ChevronRight, User, Target, Settings, ShoppingCart, Clock, Wrench, MessageSquare, Phone, CheckCircle, AlertCircle, Brain, Database, Zap, Bot, BarChart3, Cpu } from 'lucide-react';
-import { submitQuoteRequest, submitAiQuoteRequest } from '../utils/supabase';
+import { submitQuoteRequest, submitAiQuoteRequest, submitGrowthQuoteRequest } from '../utils/supabase';
 
 const QuoteModal = ({ isOpen, onClose }) => {
   const [step, setStep] = useState(1);
@@ -70,7 +70,39 @@ const QuoteModal = ({ isOpen, onClose }) => {
     // 📝 6. Complément IA
     needTechnicalSupport: null,
     needFutureMaintenance: null,
-    aiAdditionalNotes: ''
+    aiAdditionalNotes: '',
+
+    // 🚀 CHAMPS SPÉCIFIQUES GROWTH
+    // 🧑‍💼 1. Infos de base (réutilise firstName, lastName, email, companyName, businessSector, hasExistingWebsite, existingWebsiteUrl)
+    
+    // 🎯 2. Objectif de la mission
+    growthMainGoals: [],
+    growthCustomGoal: '',
+    
+    // 🛠️ 3. Services souhaités
+    growthDesiredServices: [],
+    growthCustomService: '',
+    
+    // 🎯 4. Ciblage & données
+    targetAudience: '',
+    hasExistingDatabase: null,
+    leadSources: [],
+    
+    // 📊 5. KPI & ambitions
+    growthObjectives: '',
+    wantsDetailedReporting: null,
+    hasTestedGrowthTools: null,
+    testedToolsDetails: '',
+    
+    // ⏰ 6. Délai & budget (réutilise projectStartTimeline)
+    growthBudgetRange: '',
+    
+    // 🧠 7. Autres besoins
+    additionalServices: [],
+    growthCustomAdditional: '',
+    
+    // 📝 8. Remarques (réutilise aiAdditionalNotes comme growthAdditionalNotes)
+    growthAdditionalNotes: ''
   });
 
   const handleInputChange = (field, value) => {
@@ -146,8 +178,10 @@ const QuoteModal = ({ isOpen, onClose }) => {
       return hasEcommerce ? 9 : 8; // Skip e-commerce step if not selected
     } else if (formData.serviceType === 'Intelligence Artificielle') {
       return 8; // IA has 8 steps total
+    } else if (formData.serviceType === 'Growth Marketing') {
+      return 8; // Growth has 8 steps total
     }
-    return 3; // Default for other services (Growth)
+    return 3; // Default for other services
   };
 
   const getActualTotalSteps = () => {
@@ -198,9 +232,14 @@ const QuoteModal = ({ isOpen, onClose }) => {
       console.log('🚀 Envoi de la demande de devis:', formData);
       
       // Choisir la fonction appropriée selon le type de service
-      const result = formData.serviceType === 'Intelligence Artificielle' 
-        ? await submitAiQuoteRequest(formData)
-        : await submitQuoteRequest(formData);
+      let result;
+      if (formData.serviceType === 'Intelligence Artificielle') {
+        result = await submitAiQuoteRequest(formData);
+      } else if (formData.serviceType === 'Growth Marketing') {
+        result = await submitGrowthQuoteRequest(formData);
+      } else {
+        result = await submitQuoteRequest(formData);
+      }
       
       if (result.success) {
         setSubmitStatus('success');
@@ -257,7 +296,23 @@ const QuoteModal = ({ isOpen, onClose }) => {
       aiBudgetRange: '',
       needTechnicalSupport: null,
       needFutureMaintenance: null,
-      aiAdditionalNotes: ''
+      aiAdditionalNotes: '',
+      // 🚀 Reset des champs Growth
+      growthMainGoals: [],
+      growthCustomGoal: '',
+      growthDesiredServices: [],
+      growthCustomService: '',
+      targetAudience: '',
+      hasExistingDatabase: null,
+      leadSources: [],
+      growthObjectives: '',
+      wantsDetailedReporting: null,
+      hasTestedGrowthTools: null,
+      testedToolsDetails: '',
+      growthBudgetRange: '',
+      additionalServices: [],
+      growthCustomAdditional: '',
+      growthAdditionalNotes: ''
     });
   };
 
@@ -285,7 +340,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
 
         {/* Modal */}
         <motion.div
-          className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-3xl border border-white/20"
+          className="relative w-full max-w-sm sm:max-w-lg md:max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl sm:rounded-3xl border border-white/20"
           style={{
             background: `
               linear-gradient(135deg, 
@@ -336,7 +391,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
           </div>
 
           {/* Progress Bar */}
-          <div className="px-6 py-4">
+          <div className="px-4 sm:px-6 py-3 sm:py-4">
             <div className="flex gap-1">
               {Array.from({ length: getActualTotalSteps() }, (_, i) => i + 1).map((i) => (
                 <div
@@ -364,7 +419,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
           </div>
 
           {/* Form Content */}
-          <form onSubmit={handleSubmit} className="p-6">
+          <form onSubmit={handleSubmit} className="p-4 sm:p-6">
             <AnimatePresence mode="wait">
               {/* Étape 1: Type de service */}
               {step === 1 && (
@@ -373,14 +428,14 @@ const QuoteModal = ({ isOpen, onClose }) => {
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -20 }}
-                  className="space-y-6"
+                  className="space-y-4 sm:space-y-6"
                 >
                   <div>
                     <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
                       <Settings size={24} className="text-[#3F8391]" />
                       Quel service vous intéresse ?
                     </h3>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
                       {['Développement Web', 'Intelligence Artificielle', 'Growth Marketing'].map((service) => (
                         <motion.button
                           key={service}
@@ -394,27 +449,16 @@ const QuoteModal = ({ isOpen, onClose }) => {
                           }}
                           className={`p-4 rounded-2xl border text-center transition-all duration-300 ${
                             formData.serviceType === service
-                              ? 'border-[#3F8391] bg-[#3F8391]/20 text-white'
+                              ? 'border-[#3F8391] bg-[#3F8391]/30 text-white shadow-lg shadow-[#3F8391]/30'
                               : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
                           }`}
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
                         >
                           <div className="font-medium">{service}</div>
-                          {service === 'Développement Web' && (
-                            <div className="text-xs mt-1 text-gray-400">Questionnaire détaillé</div>
-                          )}
                         </motion.button>
                       ))}
                     </div>
-                    {formData.serviceType && !['Développement Web', 'Intelligence Artificielle'].includes(formData.serviceType) && (
-                      <div className="mt-4 p-4 rounded-xl bg-yellow-500/10 border border-yellow-500/20">
-                        <p className="text-yellow-200 text-sm">
-                          🚧 Le questionnaire détaillé pour "{formData.serviceType}" sera bientôt disponible. 
-                          Pour l'instant, veuillez utiliser le formulaire basique.
-                        </p>
-                      </div>
-                    )}
                   </div>
                 </motion.div>
               )}
@@ -426,16 +470,16 @@ const QuoteModal = ({ isOpen, onClose }) => {
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -20 }}
-                  className="space-y-6"
+                  className="space-y-4 sm:space-y-6"
                 >
                   <div>
-                    <h3 className="text-xl font-semibold text-white mb-6 flex items-center gap-2">
+                    <h3 className="text-lg sm:text-xl font-semibold text-white mb-4 sm:mb-6 flex items-center gap-2">
                       <User size={24} className="text-[#3F8391]" />
                       Informations générales
                     </h3>
                     
-                    <div className="space-y-4">
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-3 sm:space-y-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                           <label className="block text-white font-medium mb-2">
                             Prénom *
@@ -445,7 +489,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                             required
                             value={formData.firstName}
                             onChange={(e) => handleInputChange('firstName', e.target.value)}
-                            className="w-full px-4 py-3 rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none"
+                            className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none text-sm sm:text-base"
                             placeholder="Votre prénom"
                           />
                         </div>
@@ -458,7 +502,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                             required
                             value={formData.lastName}
                             onChange={(e) => handleInputChange('lastName', e.target.value)}
-                            className="w-full px-4 py-3 rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none"
+                            className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none text-sm sm:text-base"
                             placeholder="Votre nom"
                           />
                         </div>
@@ -473,7 +517,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                           required
                           value={formData.email}
                           onChange={(e) => handleInputChange('email', e.target.value)}
-                          className="w-full px-4 py-3 rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none"
+                          className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none text-sm sm:text-base"
                           placeholder="votre@email.com"
                         />
                       </div>
@@ -486,7 +530,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                           type="text"
                           value={formData.companyName}
                           onChange={(e) => handleInputChange('companyName', e.target.value)}
-                          className="w-full px-4 py-3 rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none"
+                          className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none text-sm sm:text-base"
                           placeholder="Nom de votre entreprise ou organisation"
                         />
                       </div>
@@ -499,7 +543,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                           type="text"
                           value={formData.businessSector}
                           onChange={(e) => handleInputChange('businessSector', e.target.value)}
-                          className="w-full px-4 py-3 rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none"
+                          className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none text-sm sm:text-base"
                           placeholder="Ex: Parfumerie, Santé, Éducation..."
                         />
                       </div>
@@ -516,7 +560,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               onClick={() => handleInputChange('hasExistingWebsite', value)}
                               className={`px-6 py-3 rounded-xl border transition-all duration-300 ${
                                 formData.hasExistingWebsite === value
-                                  ? 'border-[#3F8391] bg-[#3F8391]/20 text-white'
+                                  ? 'border-[#3F8391] bg-[#3F8391]/30 text-white shadow-lg shadow-[#3F8391]/30'
                                   : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
                               }`}
                               whileHover={{ scale: 1.02 }}
@@ -541,7 +585,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                             type="url"
                             value={formData.existingWebsiteUrl}
                             onChange={(e) => handleInputChange('existingWebsiteUrl', e.target.value)}
-                            className="w-full px-4 py-3 rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none"
+                            className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none text-sm sm:text-base"
                             placeholder="https://votre-site-actuel.com"
                           />
                         </motion.div>
@@ -558,20 +602,20 @@ const QuoteModal = ({ isOpen, onClose }) => {
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -20 }}
-                  className="space-y-6"
+                  className="space-y-4 sm:space-y-6"
                 >
                   <div>
-                    <h3 className="text-xl font-semibold text-white mb-6 flex items-center gap-2">
+                    <h3 className="text-lg sm:text-xl font-semibold text-white mb-4 sm:mb-6 flex items-center gap-2">
                       <Target size={24} className="text-[#3F8391]" />
                       Objectif du projet
                     </h3>
                     
-                    <div className="space-y-6">
+                    <div className="space-y-4 sm:space-y-6">
                       <div>
                         <label className="block text-white font-medium mb-3">
                           Quel est le but principal de votre futur site ? (Plusieurs choix possibles)
                         </label>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                           {[
                             'Présenter votre activité',
                             'Vendre en ligne (e-commerce)', 
@@ -586,7 +630,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               onClick={() => handleArrayChange('projectGoals', goal)}
                               className={`p-3 rounded-xl border text-left transition-all duration-300 ${
                                 formData.projectGoals.includes(goal)
-                                  ? 'border-[#3F8391] bg-[#3F8391]/20 text-white'
+                                  ? 'border-[#3F8391] bg-[#3F8391]/30 text-white shadow-lg shadow-[#3F8391]/30'
                                   : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
                               }`}
                               whileHover={{ scale: 1.01 }}
@@ -633,20 +677,20 @@ const QuoteModal = ({ isOpen, onClose }) => {
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -20 }}
-                  className="space-y-6"
+                  className="space-y-4 sm:space-y-6"
                 >
                   <div>
-                    <h3 className="text-xl font-semibold text-white mb-6 flex items-center gap-2">
+                    <h3 className="text-lg sm:text-xl font-semibold text-white mb-4 sm:mb-6 flex items-center gap-2">
                       <Settings size={24} className="text-[#3F8391]" />
                       Fonctionnalités souhaitées
                     </h3>
                     
-                    <div className="space-y-6">
+                    <div className="space-y-4 sm:space-y-6">
                       <div>
                         <label className="block text-white font-medium mb-3">
                           Quelles fonctionnalités souhaitez-vous ? (Plusieurs choix possibles)
                         </label>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                           {[
                             'Site vitrine',
                             'Boutique e-commerce',
@@ -667,7 +711,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               onClick={() => handleArrayChange('desiredFeatures', feature)}
                               className={`p-3 rounded-xl border text-left transition-all duration-300 ${
                                 formData.desiredFeatures.includes(feature)
-                                  ? 'border-[#3F8391] bg-[#3F8391]/20 text-white'
+                                  ? 'border-[#3F8391] bg-[#3F8391]/30 text-white shadow-lg shadow-[#3F8391]/30'
                                   : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
                               }`}
                               whileHover={{ scale: 1.01 }}
@@ -704,7 +748,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               onClick={() => handleInputChange('needDesign', value)}
                               className={`px-6 py-3 rounded-xl border transition-all duration-300 ${
                                 formData.needDesign === value
-                                  ? 'border-[#3F8391] bg-[#3F8391]/20 text-white'
+                                  ? 'border-[#3F8391] bg-[#3F8391]/30 text-white shadow-lg shadow-[#3F8391]/30'
                                   : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
                               }`}
                               whileHover={{ scale: 1.02 }}
@@ -727,15 +771,15 @@ const QuoteModal = ({ isOpen, onClose }) => {
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -20 }}
-                  className="space-y-6"
+                  className="space-y-4 sm:space-y-6"
                 >
                   <div>
-                    <h3 className="text-xl font-semibold text-white mb-6 flex items-center gap-2">
+                    <h3 className="text-lg sm:text-xl font-semibold text-white mb-4 sm:mb-6 flex items-center gap-2">
                       <ShoppingCart size={24} className="text-[#3F8391]" />
                       Spécificités E-commerce
                     </h3>
                     
-                    <div className="space-y-6">
+                    <div className="space-y-4 sm:space-y-6">
                       <div>
                         <label className="block text-white font-medium mb-3">
                           Combien de produits environ ?
@@ -758,7 +802,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                         <label className="block text-white font-medium mb-3">
                           Quels moyens de paiement souhaitez-vous proposer ? (Plusieurs choix possibles)
                         </label>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                           {[
                             'Carte bancaire',
                             'PayPal',
@@ -775,7 +819,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               onClick={() => handleArrayChange('paymentMethods', method)}
                               className={`p-3 rounded-xl border text-left transition-all duration-300 ${
                                 formData.paymentMethods.includes(method)
-                                  ? 'border-[#3F8391] bg-[#3F8391]/20 text-white'
+                                  ? 'border-[#3F8391] bg-[#3F8391]/30 text-white shadow-lg shadow-[#3F8391]/30'
                                   : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
                               }`}
                               whileHover={{ scale: 1.01 }}
@@ -812,7 +856,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               onClick={() => handleInputChange('deliveryNeeded', value)}
                               className={`px-6 py-3 rounded-xl border transition-all duration-300 ${
                                 formData.deliveryNeeded === value
-                                  ? 'border-[#3F8391] bg-[#3F8391]/20 text-white'
+                                  ? 'border-[#3F8391] bg-[#3F8391]/30 text-white shadow-lg shadow-[#3F8391]/30'
                                   : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
                               }`}
                               whileHover={{ scale: 1.02 }}
@@ -835,15 +879,15 @@ const QuoteModal = ({ isOpen, onClose }) => {
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -20 }}
-                  className="space-y-6"
+                  className="space-y-4 sm:space-y-6"
                 >
                   <div>
-                    <h3 className="text-xl font-semibold text-white mb-6 flex items-center gap-2">
+                    <h3 className="text-lg sm:text-xl font-semibold text-white mb-4 sm:mb-6 flex items-center gap-2">
                       <Clock size={24} className="text-[#3F8391]" />
                       Délais & Budget
                     </h3>
                     
-                    <div className="space-y-6">
+                    <div className="space-y-4 sm:space-y-6">
                       <div>
                         <label className="block text-white font-medium mb-3">
                           Avez-vous une date idéale de mise en ligne ?
@@ -860,7 +904,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                         <label className="block text-white font-medium mb-3">
                           Quel est votre budget approximatif ? (Un seul choix)
                         </label>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                           {[
                             'Moins de 1000€',
                             '1000€ - 2000€',
@@ -875,7 +919,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               onClick={() => handleInputChange('budgetRange', range)}
                               className={`p-3 rounded-xl border text-left transition-all duration-300 ${
                                 formData.budgetRange === range
-                                  ? 'border-[#3F8391] bg-[#3F8391]/20 text-white'
+                                  ? 'border-[#3F8391] bg-[#3F8391]/30 text-white shadow-lg shadow-[#3F8391]/30'
                                   : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
                               }`}
                               whileHover={{ scale: 1.02 }}
@@ -910,7 +954,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -20 }}
-                  className="space-y-6"
+                  className="space-y-4 sm:space-y-6"
                 >
                   <div>
                     <h3 className="text-xl font-semibold text-white mb-4">
@@ -935,16 +979,16 @@ const QuoteModal = ({ isOpen, onClose }) => {
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -20 }}
-                  className="space-y-6"
+                  className="space-y-4 sm:space-y-6"
                 >
                   <div>
-                    <h3 className="text-xl font-semibold text-white mb-6 flex items-center gap-2">
+                    <h3 className="text-lg sm:text-xl font-semibold text-white mb-4 sm:mb-6 flex items-center gap-2">
                       <User size={24} className="text-[#3F8391]" />
                       🧑‍💼 Infos de base
                     </h3>
                     
-                    <div className="space-y-4">
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-3 sm:space-y-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                           <label className="block text-white font-medium mb-2">
                             Prénom *
@@ -954,7 +998,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                             required
                             value={formData.firstName}
                             onChange={(e) => handleInputChange('firstName', e.target.value)}
-                            className="w-full px-4 py-3 rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none"
+                            className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none text-sm sm:text-base"
                             placeholder="Votre prénom"
                           />
                         </div>
@@ -967,7 +1011,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                             required
                             value={formData.lastName}
                             onChange={(e) => handleInputChange('lastName', e.target.value)}
-                            className="w-full px-4 py-3 rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none"
+                            className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none text-sm sm:text-base"
                             placeholder="Votre nom"
                           />
                         </div>
@@ -982,7 +1026,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                           required
                           value={formData.email}
                           onChange={(e) => handleInputChange('email', e.target.value)}
-                          className="w-full px-4 py-3 rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none"
+                          className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none text-sm sm:text-base"
                           placeholder="votre@email.com"
                         />
                       </div>
@@ -995,7 +1039,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                           type="text"
                           value={formData.companyName}
                           onChange={(e) => handleInputChange('companyName', e.target.value)}
-                          className="w-full px-4 py-3 rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none"
+                          className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none text-sm sm:text-base"
                           placeholder="Nom de votre entreprise"
                         />
                       </div>
@@ -1008,7 +1052,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                           type="text"
                           value={formData.businessSector}
                           onChange={(e) => handleInputChange('businessSector', e.target.value)}
-                          className="w-full px-4 py-3 rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none"
+                          className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none text-sm sm:text-base"
                           placeholder="Ex: E-commerce, Santé, Finance..."
                         />
                       </div>
@@ -1021,7 +1065,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                           required
                           value={formData.aiNeedDescription}
                           onChange={(e) => handleInputChange('aiNeedDescription', e.target.value)}
-                          className="w-full h-24 px-4 py-3 rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none resize-none"
+                          className="w-full h-20 sm:h-24 px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none resize-none text-sm sm:text-base"
                           placeholder="Ex: Automatiser le tri de mes emails clients par priorité..."
                         />
                       </div>
@@ -1037,20 +1081,20 @@ const QuoteModal = ({ isOpen, onClose }) => {
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -20 }}
-                  className="space-y-6"
+                  className="space-y-4 sm:space-y-6"
                 >
                   <div>
-                    <h3 className="text-xl font-semibold text-white mb-6 flex items-center gap-2">
+                    <h3 className="text-lg sm:text-xl font-semibold text-white mb-4 sm:mb-6 flex items-center gap-2">
                       <Target size={24} className="text-[#3F8391]" />
                       🎯 Objectif du projet
                     </h3>
                     
-                    <div className="space-y-6">
+                    <div className="space-y-4 sm:space-y-6">
                       <div>
                         <label className="block text-white font-medium mb-3">
                           Quel est le but principal de votre projet ? (Choix multiple)
                         </label>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                           {[
                             'Créer un chatbot (SAV, FAQ, assistant…)',
                             'Automatiser une tâche répétitive',
@@ -1065,7 +1109,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               onClick={() => handleArrayChange('aiProjectGoals', goal)}
                               className={`p-3 rounded-xl border text-left transition-all duration-300 ${
                                 formData.aiProjectGoals.includes(goal)
-                                  ? 'border-[#3F8391] bg-[#3F8391]/20 text-white'
+                                  ? 'border-[#3F8391] bg-[#3F8391]/30 text-white shadow-lg shadow-[#3F8391]/30'
                                   : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
                               }`}
                               whileHover={{ scale: 1.01 }}
@@ -1103,7 +1147,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                             type="text"
                             value={formData.aiCustomGoal}
                             onChange={(e) => handleInputChange('aiCustomGoal', e.target.value)}
-                            className="w-full px-4 py-3 rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none"
+                            className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none text-sm sm:text-base"
                             placeholder="Décrivez votre objectif spécifique..."
                           />
                         </motion.div>
@@ -1120,15 +1164,15 @@ const QuoteModal = ({ isOpen, onClose }) => {
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -20 }}
-                  className="space-y-6"
+                  className="space-y-4 sm:space-y-6"
                 >
                   <div>
-                    <h3 className="text-xl font-semibold text-white mb-6 flex items-center gap-2">
+                    <h3 className="text-lg sm:text-xl font-semibold text-white mb-4 sm:mb-6 flex items-center gap-2">
                       <Database size={24} className="text-[#3F8391]" />
                       📊 Données disponibles
                     </h3>
                     
-                    <div className="space-y-6">
+                    <div className="space-y-4 sm:space-y-6">
                       <div>
                         <label className="block text-white font-medium mb-3">
                           Avez-vous déjà des données exploitables ?
@@ -1141,7 +1185,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               onClick={() => handleInputChange('hasDataAvailable', value)}
                               className={`px-6 py-3 rounded-xl border transition-all duration-300 ${
                                 formData.hasDataAvailable === value
-                                  ? 'border-[#3F8391] bg-[#3F8391]/20 text-white'
+                                  ? 'border-[#3F8391] bg-[#3F8391]/30 text-white shadow-lg shadow-[#3F8391]/30'
                                   : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
                               }`}
                               whileHover={{ scale: 1.02 }}
@@ -1157,7 +1201,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                         <label className="block text-white font-medium mb-3">
                           Quel type de données ? (Choix multiple)
                         </label>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                           {[
                             'Textes',
                             'Images',
@@ -1172,7 +1216,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               onClick={() => handleArrayChange('dataTypes', dataType)}
                               className={`p-3 rounded-xl border text-left transition-all duration-300 ${
                                 formData.dataTypes.includes(dataType)
-                                  ? 'border-[#3F8391] bg-[#3F8391]/20 text-white'
+                                  ? 'border-[#3F8391] bg-[#3F8391]/30 text-white shadow-lg shadow-[#3F8391]/30'
                                   : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
                               }`}
                               whileHover={{ scale: 1.01 }}
@@ -1201,7 +1245,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                         <label className="block text-white font-medium mb-3">
                           Volume estimé :
                         </label>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                           {[
                             'Moins de 1 000 lignes',
                             '1k–100k',
@@ -1214,7 +1258,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               onClick={() => handleInputChange('dataVolume', volume)}
                               className={`p-3 rounded-xl border text-center transition-all duration-300 ${
                                 formData.dataVolume === volume
-                                  ? 'border-[#3F8391] bg-[#3F8391]/20 text-white'
+                                  ? 'border-[#3F8391] bg-[#3F8391]/30 text-white shadow-lg shadow-[#3F8391]/30'
                                   : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
                               }`}
                               whileHover={{ scale: 1.02 }}
@@ -1248,20 +1292,20 @@ const QuoteModal = ({ isOpen, onClose }) => {
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -20 }}
-                  className="space-y-6"
+                  className="space-y-4 sm:space-y-6"
                 >
                   <div>
-                    <h3 className="text-xl font-semibold text-white mb-6 flex items-center gap-2">
+                    <h3 className="text-lg sm:text-xl font-semibold text-white mb-4 sm:mb-6 flex items-center gap-2">
                       <Settings size={24} className="text-[#3F8391]" />
                       ⚙️ Fonctionnalités souhaitées
                     </h3>
                     
-                    <div className="space-y-6">
+                    <div className="space-y-4 sm:space-y-6">
                       <div>
                         <label className="block text-white font-medium mb-3">
                           Que souhaitez-vous pour votre projet ? (Choix multiple selon projet)
                         </label>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                           {[
                             'Intégration à un site / app',
                             'Interface simple d\'administration',
@@ -1278,7 +1322,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               onClick={() => handleArrayChange('aiDesiredFeatures', feature)}
                               className={`p-3 rounded-xl border text-left transition-all duration-300 ${
                                 formData.aiDesiredFeatures.includes(feature)
-                                  ? 'border-[#3F8391] bg-[#3F8391]/20 text-white'
+                                  ? 'border-[#3F8391] bg-[#3F8391]/30 text-white shadow-lg shadow-[#3F8391]/30'
                                   : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
                               }`}
                               whileHover={{ scale: 1.01 }}
@@ -1314,15 +1358,15 @@ const QuoteModal = ({ isOpen, onClose }) => {
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -20 }}
-                  className="space-y-6"
+                  className="space-y-4 sm:space-y-6"
                 >
                   <div>
-                    <h3 className="text-xl font-semibold text-white mb-6 flex items-center gap-2">
+                    <h3 className="text-lg sm:text-xl font-semibold text-white mb-4 sm:mb-6 flex items-center gap-2">
                       <Clock size={24} className="text-[#3F8391]" />
                       ⏰ Délai et budget
                     </h3>
                     
-                    <div className="space-y-6">
+                    <div className="space-y-4 sm:space-y-6">
                       <div>
                         <label className="block text-white font-medium mb-3">
                           Quand souhaitez-vous démarrer le projet ?
@@ -1335,7 +1379,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               onClick={() => handleInputChange('projectStartTimeline', timeline)}
                               className={`px-6 py-3 rounded-xl border transition-all duration-300 ${
                                 formData.projectStartTimeline === timeline
-                                  ? 'border-[#3F8391] bg-[#3F8391]/20 text-white'
+                                  ? 'border-[#3F8391] bg-[#3F8391]/30 text-white shadow-lg shadow-[#3F8391]/30'
                                   : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
                               }`}
                               whileHover={{ scale: 1.02 }}
@@ -1351,7 +1395,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                         <label className="block text-white font-medium mb-3">
                           Budget prévu (fourchette)
                         </label>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                           {[
                             'Moins de 1000€',
                             '1000–3000€',
@@ -1365,7 +1409,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               onClick={() => handleInputChange('aiBudgetRange', budget)}
                               className={`p-3 rounded-xl border text-center transition-all duration-300 ${
                                 formData.aiBudgetRange === budget
-                                  ? 'border-[#3F8391] bg-[#3F8391]/20 text-white'
+                                  ? 'border-[#3F8391] bg-[#3F8391]/30 text-white shadow-lg shadow-[#3F8391]/30'
                                   : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
                               }`}
                               whileHover={{ scale: 1.02 }}
@@ -1399,15 +1443,15 @@ const QuoteModal = ({ isOpen, onClose }) => {
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -20 }}
-                  className="space-y-6"
+                  className="space-y-4 sm:space-y-6"
                 >
                   <div>
-                    <h3 className="text-xl font-semibold text-white mb-6 flex items-center gap-2">
+                    <h3 className="text-lg sm:text-xl font-semibold text-white mb-4 sm:mb-6 flex items-center gap-2">
                       <MessageSquare size={24} className="text-[#3F8391]" />
                       📝 Complément
                     </h3>
                     
-                    <div className="space-y-6">
+                    <div className="space-y-4 sm:space-y-6">
                       <div className="bg-white/5 p-4 rounded-2xl border border-white/10">
                         <label className="block text-white font-medium mb-3">
                           Souhaitez-vous être accompagné techniquement ou stratégiquement ?
@@ -1420,7 +1464,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               onClick={() => handleInputChange('needTechnicalSupport', support)}
                               className={`px-6 py-3 rounded-xl border transition-all duration-300 ${
                                 formData.needTechnicalSupport === support
-                                  ? 'border-[#3F8391] bg-[#3F8391]/20 text-white'
+                                  ? 'border-[#3F8391] bg-[#3F8391]/30 text-white shadow-lg shadow-[#3F8391]/30'
                                   : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
                               }`}
                               whileHover={{ scale: 1.02 }}
@@ -1444,7 +1488,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               onClick={() => handleInputChange('needFutureMaintenance', maintenance)}
                               className={`px-6 py-3 rounded-xl border transition-all duration-300 ${
                                 formData.needFutureMaintenance === maintenance
-                                  ? 'border-[#3F8391] bg-[#3F8391]/20 text-white'
+                                  ? 'border-[#3F8391] bg-[#3F8391]/30 text-white shadow-lg shadow-[#3F8391]/30'
                                   : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
                               }`}
                               whileHover={{ scale: 1.02 }}
@@ -1463,7 +1507,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                         <textarea
                           value={formData.aiAdditionalNotes}
                           onChange={(e) => handleInputChange('aiAdditionalNotes', e.target.value)}
-                          className="w-full h-24 px-4 py-3 rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none resize-none"
+                          className="w-full h-20 sm:h-24 px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none resize-none text-sm sm:text-base"
                           placeholder="Contraintes techniques, inspirations, délais spécifiques, budget détaillé, questions..."
                         />
                       </div>
@@ -1479,20 +1523,20 @@ const QuoteModal = ({ isOpen, onClose }) => {
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -20 }}
-                  className="space-y-6"
+                  className="space-y-4 sm:space-y-6"
                 >
                   <div>
-                    <h3 className="text-xl font-semibold text-white mb-6 flex items-center gap-2">
+                    <h3 className="text-lg sm:text-xl font-semibold text-white mb-4 sm:mb-6 flex items-center gap-2">
                       <Phone size={24} className="text-[#3F8391]" />
                       Préférence de contact
                     </h3>
                     
-                    <div className="space-y-6">
+                    <div className="space-y-4 sm:space-y-6">
                       <div>
                         <label className="block text-white font-medium mb-3">
                           Comment souhaitez-vous être recontacté ? <span className="text-red-400">*</span>
                         </label>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
                           {[
                             { value: 'Email', icon: '📧', desc: 'Réponse sous 24h' },
                             { value: 'Téléphone', icon: '📞', desc: 'Appel direct' },
@@ -1502,9 +1546,9 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               key={contact.value}
                               type="button"
                               onClick={() => handleInputChange('preferredContact', contact.value)}
-                              className={`p-4 rounded-xl border text-center transition-all duration-300 ${
+                              className={`p-3 sm:p-4 rounded-xl border text-center transition-all duration-300 text-sm sm:text-base ${
                                 formData.preferredContact === contact.value
-                                  ? 'border-[#3F8391] bg-[#3F8391]/20 text-white'
+                                  ? 'border-[#3F8391] bg-[#3F8391]/30 text-white shadow-lg shadow-[#3F8391]/30'
                                   : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
                               }`}
                               whileHover={{ scale: 1.02 }}
@@ -1532,47 +1576,6 @@ const QuoteModal = ({ isOpen, onClose }) => {
                 </motion.div>
               )}
 
-              {formData.serviceType !== 'Développement Web' && formData.serviceType !== 'Intelligence Artificielle' && step === 3 && (
-                <motion.div
-                  key="step3-basic"
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
-                  className="space-y-6"
-                >
-                  <div>
-                    <h3 className="text-xl font-semibold text-white mb-4">
-                      Vos coordonnées
-                    </h3>
-                    <div className="space-y-4">
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <input
-                          type="text"
-                          placeholder="Prénom"
-                          value={formData.firstName}
-                          onChange={(e) => handleInputChange('firstName', e.target.value)}
-                          className="w-full px-4 py-3 rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none"
-                        />
-                        <input
-                          type="text"
-                          placeholder="Nom"
-                          value={formData.lastName}
-                          onChange={(e) => handleInputChange('lastName', e.target.value)}
-                          className="w-full px-4 py-3 rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none"
-                        />
-                      </div>
-                      <input
-                        type="email"
-                        required
-                        placeholder="Email"
-                        value={formData.email}
-                        onChange={(e) => handleInputChange('email', e.target.value)}
-                        className="w-full px-4 py-3 rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none"
-                      />
-                    </div>
-                  </div>
-                </motion.div>
-              )}
 
               {/* Étape 7: Maintenance & suivi */}
               {((step === 7 && formData.desiredFeatures.includes('Boutique e-commerce')) || (step === 6 && !formData.desiredFeatures.includes('Boutique e-commerce'))) && formData.serviceType === 'Développement Web' && (
@@ -1581,10 +1584,10 @@ const QuoteModal = ({ isOpen, onClose }) => {
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -20 }}
-                  className="space-y-6"
+                  className="space-y-4 sm:space-y-6"
                 >
                   <div>
-                    <h3 className="text-xl font-semibold text-white mb-6 flex items-center gap-2">
+                    <h3 className="text-lg sm:text-xl font-semibold text-white mb-4 sm:mb-6 flex items-center gap-2">
                       <Wrench size={24} className="text-[#3F8391]" />
                       Maintenance & Suivi
                     </h3>
@@ -1602,7 +1605,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               onClick={() => handleInputChange('needTraining', value)}
                               className={`px-4 py-3 rounded-xl border text-left transition-all duration-300 ${
                                 formData.needTraining === value
-                                  ? 'border-[#3F8391] bg-[#3F8391]/20 text-white'
+                                  ? 'border-[#3F8391] bg-[#3F8391]/30 text-white shadow-lg shadow-[#3F8391]/30'
                                   : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
                               }`}
                               whileHover={{ scale: 1.02 }}
@@ -1631,7 +1634,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                         <label className="block text-white font-medium mb-3">
                           2. Souhaitez-vous que je m'occupe de la maintenance après livraison ?
                         </label>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
                           {['Oui', 'Non', 'À discuter'].map((option) => (
                             <motion.button
                               key={option}
@@ -1639,7 +1642,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               onClick={() => handleInputChange('needMaintenance', option)}
                               className={`p-3 rounded-xl border text-left transition-all duration-300 ${
                                 formData.needMaintenance === option
-                                  ? 'border-[#3F8391] bg-[#3F8391]/20 text-white'
+                                  ? 'border-[#3F8391] bg-[#3F8391]/30 text-white shadow-lg shadow-[#3F8391]/30'
                                   : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
                               }`}
                               whileHover={{ scale: 1.02 }}
@@ -1676,10 +1679,10 @@ const QuoteModal = ({ isOpen, onClose }) => {
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -20 }}
-                  className="space-y-6"
+                  className="space-y-4 sm:space-y-6"
                 >
                   <div>
-                    <h3 className="text-xl font-semibold text-white mb-6 flex items-center gap-2">
+                    <h3 className="text-lg sm:text-xl font-semibold text-white mb-4 sm:mb-6 flex items-center gap-2">
                       <MessageSquare size={24} className="text-[#3F8391]" />
                       Autres besoins ou remarques
                     </h3>
@@ -1706,20 +1709,20 @@ const QuoteModal = ({ isOpen, onClose }) => {
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -20 }}
-                  className="space-y-6"
+                  className="space-y-4 sm:space-y-6"
                 >
                   <div>
-                    <h3 className="text-xl font-semibold text-white mb-6 flex items-center gap-2">
+                    <h3 className="text-lg sm:text-xl font-semibold text-white mb-4 sm:mb-6 flex items-center gap-2">
                       <Phone size={24} className="text-[#3F8391]" />
                       Préférence de contact
                     </h3>
                     
-                    <div className="space-y-6">
+                    <div className="space-y-4 sm:space-y-6">
                       <div>
                         <label className="block text-white font-medium mb-3">
                           Comment souhaitez-vous être contacté : <span className="text-red-400">*</span>
                         </label>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
                           {[
                             { value: 'Email', icon: '📧', desc: 'Réponse sous 24h' },
                             { value: 'Téléphone', icon: '📞', desc: 'Appel direct' },
@@ -1729,9 +1732,723 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               key={contact.value}
                               type="button"
                               onClick={() => handleInputChange('preferredContact', contact.value)}
-                              className={`p-4 rounded-xl border text-center transition-all duration-300 ${
+                              className={`p-3 sm:p-4 rounded-xl border text-center transition-all duration-300 text-sm sm:text-base ${
                                 formData.preferredContact === contact.value
-                                  ? 'border-[#3F8391] bg-[#3F8391]/20 text-white'
+                                  ? 'border-[#3F8391] bg-[#3F8391]/30 text-white shadow-lg shadow-[#3F8391]/30'
+                                  : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
+                              }`}
+                              whileHover={{ scale: 1.02 }}
+                              whileTap={{ scale: 0.98 }}
+                            >
+                              <div className="text-2xl mb-2">{contact.icon}</div>
+                              <div className="font-medium">{contact.value}</div>
+                              <div className="text-xs text-gray-400 mt-1">{contact.desc}</div>
+                            </motion.button>
+                          ))}
+                        </div>
+                        
+                        {/* Message d'aide */}
+                        {!formData.preferredContact && (
+                          <div className="mt-4 bg-yellow-500/10 border border-yellow-500/20 rounded-xl p-3">
+                            <p className="text-yellow-200 text-sm flex items-center gap-2">
+                              <span>💡</span>
+                              <span>Sélectionnez votre mode de contact préféré pour continuer</span>
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+
+              {/* 🚀 ÉTAPES GROWTH MARKETING */}
+              
+              {/* Étape 2 Growth: Infos de base */}
+              {step === 2 && formData.serviceType === 'Growth Marketing' && (
+                <motion.div
+                  key="growth-step2"
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  className="space-y-4 sm:space-y-6"
+                >
+                  <div>
+                    <h3 className="text-lg sm:text-xl font-semibold text-white mb-4 sm:mb-6 flex items-center gap-2">
+                      <User size={24} className="text-[#3F8391]" />
+                      🧑‍💼 Infos de base
+                    </h3>
+                    
+                    <div className="space-y-3 sm:space-y-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-white font-medium mb-2">
+                            Prénom *
+                          </label>
+                          <input
+                            type="text"
+                            required
+                            value={formData.firstName}
+                            onChange={(e) => handleInputChange('firstName', e.target.value)}
+                            className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none text-sm sm:text-base"
+                            placeholder="Votre prénom"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-white font-medium mb-2">
+                            Nom *
+                          </label>
+                          <input
+                            type="text"
+                            required
+                            value={formData.lastName}
+                            onChange={(e) => handleInputChange('lastName', e.target.value)}
+                            className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none text-sm sm:text-base"
+                            placeholder="Votre nom"
+                          />
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <label className="block text-white font-medium mb-2">
+                          Email professionnel *
+                        </label>
+                        <input
+                          type="email"
+                          required
+                          value={formData.email}
+                          onChange={(e) => handleInputChange('email', e.target.value)}
+                          className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none text-sm sm:text-base"
+                          placeholder="votre.email@entreprise.com"
+                        />
+                      </div>
+                      
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-white font-medium mb-2">
+                            Nom de l'entreprise
+                          </label>
+                          <input
+                            type="text"
+                            value={formData.companyName}
+                            onChange={(e) => handleInputChange('companyName', e.target.value)}
+                            className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none text-sm sm:text-base"
+                            placeholder="Nom de votre entreprise"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-white font-medium mb-2">
+                            Secteur d'activité
+                          </label>
+                          <input
+                            type="text"
+                            value={formData.businessSector}
+                            onChange={(e) => handleInputChange('businessSector', e.target.value)}
+                            className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none text-sm sm:text-base"
+                            placeholder="Ex: E-commerce, SaaS, Services..."
+                          />
+                        </div>
+                      </div>
+
+                      <div>
+                        <label className="block text-white font-medium mb-3">
+                          Avez-vous un site ou une landing page ? *
+                        </label>
+                        <div className="flex gap-4">
+                          {['Oui', 'Non'].map((option) => (
+                            <motion.button
+                              key={option}
+                              type="button"
+                              onClick={() => handleInputChange('hasExistingWebsite', option)}
+                              className={`px-4 sm:px-6 py-2 sm:py-3 rounded-xl border transition-colors text-sm sm:text-base ${
+                                formData.hasExistingWebsite === option
+                                  ? 'border-[#3F8391] bg-[#3F8391]/30 text-white shadow-lg shadow-[#3F8391]/30'
+                                  : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
+                              }`}
+                              whileHover={{ scale: 1.02 }}
+                              whileTap={{ scale: 0.98 }}
+                            >
+                              {option}
+                            </motion.button>
+                          ))}
+                        </div>
+                      </div>
+
+                      {formData.hasExistingWebsite === 'Oui' && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: 'auto' }}
+                          exit={{ opacity: 0, height: 0 }}
+                        >
+                          <label className="block text-white font-medium mb-2">
+                            Lien vers votre site
+                          </label>
+                          <input
+                            type="url"
+                            value={formData.existingWebsiteUrl}
+                            onChange={(e) => handleInputChange('existingWebsiteUrl', e.target.value)}
+                            className="w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none text-sm sm:text-base"
+                            placeholder="https://votre-site.com"
+                          />
+                        </motion.div>
+                      )}
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+
+              {/* Étape 3 Growth: Objectif de la mission */}
+              {step === 3 && formData.serviceType === 'Growth Marketing' && (
+                <motion.div
+                  key="growth-step3"
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  className="space-y-4 sm:space-y-6"
+                >
+                  <div>
+                    <h3 className="text-lg sm:text-xl font-semibold text-white mb-4 sm:mb-6 flex items-center gap-2">
+                      <Target size={24} className="text-[#3F8391]" />
+                      🎯 Objectif de la mission
+                    </h3>
+                    
+                    <div className="space-y-4 sm:space-y-6">
+                      <div>
+                        <label className="block text-white font-medium mb-3">
+                          Quel est votre besoin principal ? (Choix multiple)
+                        </label>
+                        <div className="grid grid-cols-1 gap-3">
+                          {[
+                            'Générer des leads qualifiés',
+                            'Lancer une campagne marketing ciblée',
+                            'Créer une stratégie digitale complète',
+                            'Automatiser des process de prospection',
+                            'Mieux comprendre vos clients (data / analytics)',
+                            'Autre'
+                          ].map((goal) => (
+                            <motion.button
+                              key={goal}
+                              type="button"
+                              onClick={() => {
+                                const currentGoals = [...formData.growthMainGoals];
+                                const goalIndex = currentGoals.indexOf(goal);
+                                if (goalIndex > -1) {
+                                  currentGoals.splice(goalIndex, 1);
+                                } else {
+                                  currentGoals.push(goal);
+                                }
+                                handleInputChange('growthMainGoals', currentGoals);
+                              }}
+                              className={`p-3 sm:p-4 rounded-xl border text-left transition-all duration-300 text-sm sm:text-base ${
+                                formData.growthMainGoals.includes(goal)
+                                  ? 'border-[#3F8391] bg-[#3F8391]/30 text-white shadow-lg shadow-[#3F8391]/30'
+                                  : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
+                              }`}
+                              whileHover={{ scale: 1.01 }}
+                              whileTap={{ scale: 0.99 }}
+                            >
+                              <div className="flex items-center justify-between">
+                                <span>{goal}</span>
+                                {formData.growthMainGoals.includes(goal) && (
+                                  <CheckCircle size={20} className="text-green-400 drop-shadow-md" />
+                                )}
+                              </div>
+                            </motion.button>
+                          ))}
+                        </div>
+                      </div>
+
+                      {formData.growthMainGoals.includes('Autre') && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: 'auto' }}
+                          exit={{ opacity: 0, height: 0 }}
+                        >
+                          <label className="block text-white font-medium mb-2">
+                            Précisez votre besoin spécifique
+                          </label>
+                          <textarea
+                            value={formData.growthCustomGoal}
+                            onChange={(e) => handleInputChange('growthCustomGoal', e.target.value)}
+                            className="w-full h-20 sm:h-24 px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none resize-none text-sm sm:text-base"
+                            placeholder="Décrivez votre objectif spécifique..."
+                          />
+                        </motion.div>
+                      )}
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+
+              {/* Étape 4 Growth: Services souhaités */}
+              {step === 4 && formData.serviceType === 'Growth Marketing' && (
+                <motion.div
+                  key="growth-step4"
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  className="space-y-4 sm:space-y-6"
+                >
+                  <div>
+                    <h3 className="text-lg sm:text-xl font-semibold text-white mb-4 sm:mb-6 flex items-center gap-2">
+                      <Settings size={24} className="text-[#3F8391]" />
+                      🛠️ Services souhaités
+                    </h3>
+                    
+                    <div className="space-y-4 sm:space-y-6">
+                      <div>
+                        <label className="block text-white font-medium mb-3">
+                          Sélectionnez les services qui vous intéressent (Choix multiple)
+                        </label>
+                        <div className="grid grid-cols-1 gap-3">
+                          {[
+                            'Scrapping de données (emails, LinkedIn, annuaires…)',
+                            'Génération automatisée de leads',
+                            'Campagne de cold email / LinkedIn automatisée',
+                            'Création de funnels marketing',
+                            'Automatisation (Zapier, Make, PhantomBuster, etc.)',
+                            'Étude de marché & veille concurrentielle',
+                            'Mapping du marché ou de la cible',
+                            'Stratégie globale de communication',
+                            'Audit marketing ou data analytics',
+                            'Autre besoin spécifique'
+                          ].map((service) => (
+                            <motion.button
+                              key={service}
+                              type="button"
+                              onClick={() => {
+                                const currentServices = [...formData.growthDesiredServices];
+                                const serviceIndex = currentServices.indexOf(service);
+                                if (serviceIndex > -1) {
+                                  currentServices.splice(serviceIndex, 1);
+                                } else {
+                                  currentServices.push(service);
+                                }
+                                handleInputChange('growthDesiredServices', currentServices);
+                              }}
+                              className={`p-3 sm:p-4 rounded-xl border text-left transition-all duration-300 text-sm sm:text-base ${
+                                formData.growthDesiredServices.includes(service)
+                                  ? 'border-[#3F8391] bg-[#3F8391]/30 text-white shadow-lg shadow-[#3F8391]/30'
+                                  : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
+                              }`}
+                              whileHover={{ scale: 1.01 }}
+                              whileTap={{ scale: 0.99 }}
+                            >
+                              <div className="flex items-center justify-between">
+                                <span className="text-sm">{service}</span>
+                                {formData.growthDesiredServices.includes(service) && (
+                                  <CheckCircle size={20} className="text-green-400 drop-shadow-md" />
+                                )}
+                              </div>
+                            </motion.button>
+                          ))}
+                        </div>
+                      </div>
+
+                      {formData.growthDesiredServices.includes('Autre besoin spécifique') && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: 'auto' }}
+                          exit={{ opacity: 0, height: 0 }}
+                        >
+                          <label className="block text-white font-medium mb-2">
+                            Précisez votre besoin spécifique
+                          </label>
+                          <textarea
+                            value={formData.growthCustomService}
+                            onChange={(e) => handleInputChange('growthCustomService', e.target.value)}
+                            className="w-full h-20 sm:h-24 px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none resize-none text-sm sm:text-base"
+                            placeholder="Décrivez le service dont vous avez besoin..."
+                          />
+                        </motion.div>
+                      )}
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+
+              {/* Étape 5 Growth: Ciblage & données */}
+              {step === 5 && formData.serviceType === 'Growth Marketing' && (
+                <motion.div
+                  key="growth-step5"
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  className="space-y-4 sm:space-y-6"
+                >
+                  <div>
+                    <h3 className="text-lg sm:text-xl font-semibold text-white mb-4 sm:mb-6 flex items-center gap-2">
+                      <Database size={24} className="text-[#3F8391]" />
+                      🎯 Ciblage & données
+                    </h3>
+                    
+                    <div className="space-y-4 sm:space-y-6">
+                      <div>
+                        <label className="block text-white font-medium mb-2">
+                          Qui est votre cible idéale ?
+                        </label>
+                        <textarea
+                          value={formData.targetAudience}
+                          onChange={(e) => handleInputChange('targetAudience', e.target.value)}
+                          className="w-full h-24 sm:h-28 px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none resize-none text-sm sm:text-base"
+                          placeholder="Ex: PME françaises de 10-50 salariés dans le secteur technologique, dirigeants d'entreprise B2B, particuliers intéressés par le sport..."
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-white font-medium mb-3">
+                          Avez-vous une base de données existante ?
+                        </label>
+                        <div className="flex gap-4">
+                          {['Oui', 'Non'].map((option) => (
+                            <motion.button
+                              key={option}
+                              type="button"
+                              onClick={() => handleInputChange('hasExistingDatabase', option)}
+                              className={`px-4 sm:px-6 py-2 sm:py-3 rounded-xl border transition-colors text-sm sm:text-base ${
+                                formData.hasExistingDatabase === option
+                                  ? 'border-[#3F8391] bg-[#3F8391]/30 text-white shadow-lg shadow-[#3F8391]/30'
+                                  : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
+                              }`}
+                              whileHover={{ scale: 1.02 }}
+                              whileTap={{ scale: 0.98 }}
+                            >
+                              {option}
+                            </motion.button>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div>
+                        <label className="block text-white font-medium mb-3">
+                          Souhaitez-vous extraire vos leads d'une source spécifique ? (Choix multiple)
+                        </label>
+                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                          {[
+                            'LinkedIn',
+                            'Google Maps',
+                            'Instagram',
+                            'Facebook',
+                            'Annuaires pro',
+                            'Sites web',
+                            'Autres réseaux',
+                            'Pas de préférence'
+                          ].map((source) => (
+                            <motion.button
+                              key={source}
+                              type="button"
+                              onClick={() => {
+                                const currentSources = [...formData.leadSources];
+                                const sourceIndex = currentSources.indexOf(source);
+                                if (sourceIndex > -1) {
+                                  currentSources.splice(sourceIndex, 1);
+                                } else {
+                                  currentSources.push(source);
+                                }
+                                handleInputChange('leadSources', currentSources);
+                              }}
+                              className={`p-3 rounded-xl border text-center text-sm transition-all duration-300 ${
+                                formData.leadSources.includes(source)
+                                  ? 'border-[#3F8391] bg-[#3F8391]/30 text-white shadow-lg shadow-[#3F8391]/30'
+                                  : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
+                              }`}
+                              whileHover={{ scale: 1.02 }}
+                              whileTap={{ scale: 0.98 }}
+                            >
+                              {source}
+                            </motion.button>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+
+              {/* Étape 6 Growth: KPI & ambitions */}
+              {step === 6 && formData.serviceType === 'Growth Marketing' && (
+                <motion.div
+                  key="growth-step6"
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  className="space-y-4 sm:space-y-6"
+                >
+                  <div>
+                    <h3 className="text-lg sm:text-xl font-semibold text-white mb-4 sm:mb-6 flex items-center gap-2">
+                      <BarChart3 size={24} className="text-[#3F8391]" />
+                      📊 KPI & ambitions
+                    </h3>
+                    
+                    <div className="space-y-4 sm:space-y-6">
+                      <div>
+                        <label className="block text-white font-medium mb-2">
+                          Quels sont vos objectifs ?
+                        </label>
+                        <textarea
+                          value={formData.growthObjectives}
+                          onChange={(e) => handleInputChange('growthObjectives', e.target.value)}
+                          className="w-full h-24 sm:h-28 px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none resize-none text-sm sm:text-base"
+                          placeholder="Ex: 100 leads qualifiés/mois, 1000 emails envoyés/semaine, 15% de taux de conversion, augmenter CA de 30%, etc."
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-white font-medium mb-3">
+                          Souhaitez-vous un reporting détaillé et automatisé ?
+                        </label>
+                        <div className="flex gap-4">
+                          {['Oui', 'Non'].map((option) => (
+                            <motion.button
+                              key={option}
+                              type="button"
+                              onClick={() => handleInputChange('wantsDetailedReporting', option)}
+                              className={`px-4 sm:px-6 py-2 sm:py-3 rounded-xl border transition-colors text-sm sm:text-base ${
+                                formData.wantsDetailedReporting === option
+                                  ? 'border-[#3F8391] bg-[#3F8391]/30 text-white shadow-lg shadow-[#3F8391]/30'
+                                  : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
+                              }`}
+                              whileHover={{ scale: 1.02 }}
+                              whileTap={{ scale: 0.98 }}
+                            >
+                              {option}
+                            </motion.button>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div>
+                        <label className="block text-white font-medium mb-3">
+                          Avez-vous déjà testé des outils ou méthodes de growth ?
+                        </label>
+                        <div className="flex gap-4">
+                          {['Oui', 'Non'].map((option) => (
+                            <motion.button
+                              key={option}
+                              type="button"
+                              onClick={() => handleInputChange('hasTestedGrowthTools', option)}
+                              className={`px-4 sm:px-6 py-2 sm:py-3 rounded-xl border transition-colors text-sm sm:text-base ${
+                                formData.hasTestedGrowthTools === option
+                                  ? 'border-[#3F8391] bg-[#3F8391]/30 text-white shadow-lg shadow-[#3F8391]/30'
+                                  : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
+                              }`}
+                              whileHover={{ scale: 1.02 }}
+                              whileTap={{ scale: 0.98 }}
+                            >
+                              {option}
+                            </motion.button>
+                          ))}
+                        </div>
+                      </div>
+
+                      {formData.hasTestedGrowthTools === 'Oui' && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: 'auto' }}
+                          exit={{ opacity: 0, height: 0 }}
+                        >
+                          <label className="block text-white font-medium mb-2">
+                            Lesquels ?
+                          </label>
+                          <textarea
+                            value={formData.testedToolsDetails}
+                            onChange={(e) => handleInputChange('testedToolsDetails', e.target.value)}
+                            className="w-full h-20 sm:h-24 px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none resize-none text-sm sm:text-base"
+                            placeholder="Ex: Mailchimp, HubSpot, LinkedIn Sales Navigator, Apollo, Lemlist, etc."
+                          />
+                        </motion.div>
+                      )}
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+
+              {/* Étape 7 Growth: Délai & budget */}
+              {step === 7 && formData.serviceType === 'Growth Marketing' && (
+                <motion.div
+                  key="growth-step7"
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  className="space-y-4 sm:space-y-6"
+                >
+                  <div>
+                    <h3 className="text-lg sm:text-xl font-semibold text-white mb-4 sm:mb-6 flex items-center gap-2">
+                      <Clock size={24} className="text-[#3F8391]" />
+                      ⏰ Délai & budget
+                    </h3>
+                    
+                    <div className="space-y-4 sm:space-y-6">
+                      <div>
+                        <label className="block text-white font-medium mb-3">
+                          Quand souhaitez-vous démarrer ?
+                        </label>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                          {[
+                            'Dès que possible',
+                            'Dans 1 mois',
+                            'Flexible'
+                          ].map((timing) => (
+                            <motion.button
+                              key={timing}
+                              type="button"
+                              onClick={() => handleInputChange('projectStartTimeline', timing)}
+                              className={`p-3 sm:p-4 rounded-xl border text-center transition-all duration-300 text-sm sm:text-base ${
+                                formData.projectStartTimeline === timing
+                                  ? 'border-[#3F8391] bg-[#3F8391]/30 text-white shadow-lg shadow-[#3F8391]/30'
+                                  : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
+                              }`}
+                              whileHover={{ scale: 1.02 }}
+                              whileTap={{ scale: 0.98 }}
+                            >
+                              {timing}
+                            </motion.button>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div>
+                        <label className="block text-white font-medium mb-3">
+                          Quel est votre budget ?
+                        </label>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                          {[
+                            'Moins de 500€',
+                            '500–1500€',
+                            '1500–3000€',
+                            '+3000€',
+                            'À discuter'
+                          ].map((budget) => (
+                            <motion.button
+                              key={budget}
+                              type="button"
+                              onClick={() => handleInputChange('growthBudgetRange', budget)}
+                              className={`p-3 sm:p-4 rounded-xl border text-center transition-all duration-300 text-sm sm:text-base ${
+                                formData.growthBudgetRange === budget
+                                  ? 'border-[#3F8391] bg-[#3F8391]/30 text-white shadow-lg shadow-[#3F8391]/30'
+                                  : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
+                              }`}
+                              whileHover={{ scale: 1.02 }}
+                              whileTap={{ scale: 0.98 }}
+                            >
+                              {budget}
+                            </motion.button>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+
+              {/* Étape 8 Growth: Autres besoins & Contact */}
+              {step === 8 && formData.serviceType === 'Growth Marketing' && !isSuccessScreen && (
+                <motion.div
+                  key="growth-step8"
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  className="space-y-4 sm:space-y-6"
+                >
+                  <div>
+                    <h3 className="text-lg sm:text-xl font-semibold text-white mb-4 sm:mb-6 flex items-center gap-2">
+                      <MessageSquare size={24} className="text-[#3F8391]" />
+                      🧠 Autres besoins & Contact
+                    </h3>
+                    
+                    <div className="space-y-4 sm:space-y-6">
+                      <div>
+                        <label className="block text-white font-medium mb-3">
+                          Souhaitez-vous que je vous accompagne aussi sur : (Choix multiple)
+                        </label>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                          {[
+                            'Design & branding',
+                            'Création d\'une landing page dédiée',
+                            'Mise en place d\'un CRM (Hubspot, Notion, etc.)',
+                            'Analyse de performance',
+                            'Formation aux outils',
+                            'Autre'
+                          ].map((service) => (
+                            <motion.button
+                              key={service}
+                              type="button"
+                              onClick={() => {
+                                const currentServices = [...formData.additionalServices];
+                                const serviceIndex = currentServices.indexOf(service);
+                                if (serviceIndex > -1) {
+                                  currentServices.splice(serviceIndex, 1);
+                                } else {
+                                  currentServices.push(service);
+                                }
+                                handleInputChange('additionalServices', currentServices);
+                              }}
+                              className={`p-3 rounded-xl border text-left text-sm transition-all duration-300 ${
+                                formData.additionalServices.includes(service)
+                                  ? 'border-[#3F8391] bg-[#3F8391]/30 text-white shadow-lg shadow-[#3F8391]/30'
+                                  : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
+                              }`}
+                              whileHover={{ scale: 1.01 }}
+                              whileTap={{ scale: 0.99 }}
+                            >
+                              <div className="flex items-center justify-between">
+                                <span>{service}</span>
+                                {formData.additionalServices.includes(service) && (
+                                  <CheckCircle size={16} className="text-green-400 drop-shadow-md" />
+                                )}
+                              </div>
+                            </motion.button>
+                          ))}
+                        </div>
+                      </div>
+
+                      {formData.additionalServices.includes('Autre') && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: 'auto' }}
+                          exit={{ opacity: 0, height: 0 }}
+                        >
+                          <label className="block text-white font-medium mb-2">
+                            Précisez votre besoin
+                          </label>
+                          <textarea
+                            value={formData.growthCustomAdditional}
+                            onChange={(e) => handleInputChange('growthCustomAdditional', e.target.value)}
+                            className="w-full h-16 sm:h-20 px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none resize-none text-sm sm:text-base"
+                            placeholder="Décrivez votre besoin supplémentaire..."
+                          />
+                        </motion.div>
+                      )}
+
+                      <div>
+                        <label className="block text-white font-medium mb-2">
+                          Un détail important à ajouter ?
+                        </label>
+                        <textarea
+                          value={formData.growthAdditionalNotes}
+                          onChange={(e) => handleInputChange('growthAdditionalNotes', e.target.value)}
+                          className="w-full h-20 sm:h-24 px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:border-[#3F8391] focus:outline-none resize-none text-sm sm:text-base"
+                          placeholder="Remarques, contexte particulier, contraintes spécifiques..."
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-white font-medium mb-3">
+                          Comment souhaitez-vous être contacté ? <span className="text-red-400">*</span>
+                        </label>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                          {[
+                            { value: 'Email', icon: '📧', desc: 'Réponse sous 24h' },
+                            { value: 'Téléphone', icon: '📞', desc: 'Appel direct' },
+                            { value: 'Visio', icon: '💻', desc: 'Réunion en ligne' }
+                          ].map((contact) => (
+                            <motion.button
+                              key={contact.value}
+                              type="button"
+                              onClick={() => handleInputChange('preferredContact', contact.value)}
+                              className={`p-3 sm:p-4 rounded-xl border text-center transition-all duration-300 text-sm sm:text-base ${
+                                formData.preferredContact === contact.value
+                                  ? 'border-[#3F8391] bg-[#3F8391]/30 text-white shadow-lg shadow-[#3F8391]/30'
                                   : 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40'
                               }`}
                               whileHover={{ scale: 1.02 }}
@@ -1861,7 +2578,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
 
             {/* Navigation Buttons - Masqués sur l'écran de succès */}
             {!isSuccessScreen && (
-            <div className="flex justify-between mt-8 pt-6 border-t border-white/10">
+            <div className="flex justify-between mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-white/10">
               <motion.button
                 type="button"
                 onClick={prevStep}

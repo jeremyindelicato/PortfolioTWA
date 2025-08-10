@@ -376,6 +376,192 @@ export async function submitAiQuoteRequest(formData) {
 }
 
 // ================================================
+// 🚀 FONCTIONS POUR LES DEMANDES DE DEVIS GROWTH
+// ================================================
+
+/**
+ * Sauvegarder une nouvelle demande de devis Growth
+ * @param {Object} growthQuoteData - Données du formulaire de devis Growth
+ * @returns {Promise<Object>} Résultat de l'insertion
+ */
+export async function saveGrowthQuoteRequest(growthQuoteData) {
+  try {
+    console.log('💾 Sauvegarde de la demande de devis Growth...', growthQuoteData);
+
+    // Préparer les données pour l'insertion
+    const dbData = {
+      // 🧑‍💼 1. Infos de base
+      first_name: growthQuoteData.firstName,
+      last_name: growthQuoteData.lastName,
+      email: growthQuoteData.email,
+      company_name: growthQuoteData.companyName || null,
+      business_sector: growthQuoteData.businessSector || null,
+      has_existing_website: growthQuoteData.hasExistingWebsite,
+      existing_website_url: growthQuoteData.existingWebsiteUrl || null,
+      
+      // 🎯 2. Objectif de la mission
+      growth_main_goals: growthQuoteData.growthMainGoals || [],
+      growth_custom_goal: growthQuoteData.growthCustomGoal || null,
+      
+      // 🛠️ 3. Services souhaités
+      growth_desired_services: growthQuoteData.growthDesiredServices || [],
+      growth_custom_service: growthQuoteData.growthCustomService || null,
+      
+      // 🎯 4. Ciblage & données
+      target_audience: growthQuoteData.targetAudience || null,
+      has_existing_database: growthQuoteData.hasExistingDatabase,
+      lead_sources: growthQuoteData.leadSources || [],
+      
+      // 📊 5. KPI & ambitions
+      growth_objectives: growthQuoteData.growthObjectives || null,
+      wants_detailed_reporting: growthQuoteData.wantsDetailedReporting,
+      has_tested_growth_tools: growthQuoteData.hasTestedGrowthTools,
+      tested_tools_details: growthQuoteData.testedToolsDetails || null,
+      
+      // ⏰ 6. Délai & budget
+      project_start_timeline: growthQuoteData.projectStartTimeline || null,
+      growth_budget_range: growthQuoteData.growthBudgetRange || null,
+      
+      // 🧠 7. Autres besoins
+      additional_services: growthQuoteData.additionalServices || [],
+      growth_custom_additional: growthQuoteData.growthCustomAdditional || null,
+      
+      // 📝 8. Remarques / Contexte
+      growth_additional_notes: growthQuoteData.growthAdditionalNotes || null,
+      preferred_contact: growthQuoteData.preferredContact,
+      
+      // Métadonnées
+      status: 'pending',
+      email_status: 'pending'
+    };
+
+    // Insérer dans la base de données
+    const { data, error } = await supabase
+      .from('growth_quote_requests')
+      .insert([dbData])
+      .select()
+      .single();
+
+    if (error) {
+      console.error('❌ Erreur lors de la sauvegarde Growth:', error);
+      throw new Error(`Erreur de sauvegarde Growth: ${error.message}`);
+    }
+
+    console.log('✅ Demande Growth sauvegardée avec succès:', data.id);
+    return { success: true, data };
+
+  } catch (error) {
+    console.error('❌ Erreur dans saveGrowthQuoteRequest:', error);
+    return { success: false, error: error.message };
+  }
+}
+
+/**
+ * Envoyer l'email de notification Growth via Edge Function
+ * @param {Object} growthQuoteData - Données de la demande de devis Growth
+ * @returns {Promise<Object>} Résultat de l'envoi
+ */
+export async function sendGrowthQuoteEmail(growthQuoteData) {
+  try {
+    console.log('📧 Envoi de l\'email de notification Growth...');
+
+    // Appeler l'Edge Function (réutilise la même fonction avec un flag Growth)
+    const { data, error } = await supabase.functions.invoke('send-quote-email', {
+      body: { ...growthQuoteData, isGrowth: true }
+    });
+
+    if (error) {
+      console.error('❌ Erreur lors de l\'envoi de l\'email Growth:', error);
+      throw new Error(`Erreur d'envoi email Growth: ${error.message}`);
+    }
+
+    console.log('✅ Email Growth envoyé avec succès');
+    return { success: true, data };
+
+  } catch (error) {
+    console.error('❌ Erreur dans sendGrowthQuoteEmail:', error);
+    return { success: false, error: error.message };
+  }
+}
+
+/**
+ * Mettre à jour le statut email d'une demande Growth
+ * @param {string} requestId - ID de la demande
+ * @param {string} status - Nouveau statut ('sent', 'failed', etc.)
+ * @returns {Promise<Object>} Résultat de la mise à jour
+ */
+export async function updateGrowthEmailStatus(requestId, status) {
+  try {
+    const { data, error } = await supabase
+      .from('growth_quote_requests')
+      .update({ 
+        email_status: status,
+        email_sent_at: status === 'sent' ? new Date().toISOString() : null
+      })
+      .eq('id', requestId);
+
+    if (error) throw error;
+
+    return { success: true, data };
+  } catch (error) {
+    console.error('❌ Erreur updateGrowthEmailStatus:', error);
+    return { success: false, error: error.message };
+  }
+}
+
+/**
+ * Processus complet Growth: sauvegarder + envoyer email
+ * @param {Object} formData - Données du formulaire Growth
+ * @returns {Promise<Object>} Résultat complet
+ */
+export async function submitGrowthQuoteRequest(formData) {
+  try {
+    console.log('🚀 Démarrage du processus complet de demande de devis Growth...');
+
+    // 1. Sauvegarder en base de données
+    const saveResult = await saveGrowthQuoteRequest(formData);
+    if (!saveResult.success) {
+      throw new Error(saveResult.error);
+    }
+
+    const savedRequest = saveResult.data;
+
+    // 2. Envoyer l'email de notification
+    const emailResult = await sendGrowthQuoteEmail(savedRequest);
+    
+    // 3. Mettre à jour le statut email
+    await updateGrowthEmailStatus(
+      savedRequest.id, 
+      emailResult.success ? 'sent' : 'failed'
+    );
+
+    if (!emailResult.success) {
+      console.warn('⚠️ Demande Growth sauvegardée mais email non envoyé:', emailResult.error);
+      // On ne lance pas d'erreur car la demande est sauvegardée
+    }
+
+    console.log('🎉 Processus Growth terminé avec succès!');
+    
+    return {
+      success: true,
+      data: savedRequest,
+      emailSent: emailResult.success,
+      message: emailResult.success 
+        ? 'Demande Growth envoyée avec succès ! Vous recevrez une réponse sous 24h.'
+        : 'Demande Growth enregistrée ! L\'email de confirmation suivra sous peu.'
+    };
+
+  } catch (error) {
+    console.error('❌ Erreur dans submitGrowthQuoteRequest:', error);
+    return {
+      success: false,
+      error: error.message,
+      message: 'Une erreur est survenue lors de l\'envoi. Veuillez réessayer.'
+    };
+  }
+}
+
+// ================================================
 // 📊 FONCTIONS UTILITAIRES
 // ================================================
 
@@ -404,6 +590,23 @@ export async function getAiQuoteStats() {
   try {
     const { data, error } = await supabase
       .from('ai_quote_stats')
+      .select('*');
+
+    if (error) throw error;
+    return { success: true, data };
+  } catch (error) {
+    return { success: false, error: error.message };
+  }
+}
+
+/**
+ * Récupérer les statistiques spécifiques Growth
+ * @returns {Promise<Object>} Statistiques Growth
+ */
+export async function getGrowthQuoteStats() {
+  try {
+    const { data, error } = await supabase
+      .from('growth_quote_stats')
       .select('*');
 
     if (error) throw error;
@@ -487,9 +690,15 @@ export default {
   saveAiQuoteRequest,
   sendAiQuoteEmail,
   updateAiEmailStatus,
+  // Fonctions Growth
+  submitGrowthQuoteRequest,
+  saveGrowthQuoteRequest,
+  sendGrowthQuoteEmail,
+  updateGrowthEmailStatus,
   // Fonctions utilitaires
   getQuoteStats,
   getAiQuoteStats,
+  getGrowthQuoteStats,
   getRecentQuotes,
   testSupabaseConnection,
   validateSupabaseConfig
