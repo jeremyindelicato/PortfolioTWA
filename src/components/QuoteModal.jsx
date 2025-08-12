@@ -330,7 +330,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
+      <div className="fixed inset-0 z-[99998] flex items-center justify-center p-4">
         {/* Backdrop */}
         <motion.div
           className="absolute inset-0 bg-black/60 backdrop-blur-sm"
@@ -401,15 +401,64 @@ const QuoteModal = ({ isOpen, onClose }) => {
             </div>
             <motion.button
               onClick={onClose}
-              className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
-                isDarkMode 
-                  ? 'bg-white/10 hover:bg-white/20 text-white' 
-                  : 'bg-gray-100/80 hover:bg-gray-200/90 text-gray-700 hover:text-gray-900'
-              }`}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
+              className="group"
+              style={{
+                width: '40px',
+                height: '40px',
+                backgroundColor: isDarkMode ? 'rgba(255, 255, 255, 0.1)' : '#ffffff',
+                border: isDarkMode ? '1px solid rgba(255, 255, 255, 0.2)' : '1px solid #e5e7eb',
+                borderRadius: '50%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease',
+                boxShadow: isDarkMode ? 'none' : '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+                position: 'relative'
+              }}
+              whileHover={{ 
+                scale: 1.02,
+                backgroundColor: '#ef4444',
+                transition: { duration: 0.2 }
+              }}
+              whileTap={{ 
+                scale: 0.98,
+                transition: { duration: 0.1 }
+              }}
             >
-              <X size={20} className="transition-colors duration-300" />
+              {/* Croix CSS */}
+              <div
+                style={{
+                  position: 'relative',
+                  width: '16px',
+                  height: '16px'
+                }}
+              >
+                <div
+                  style={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    width: '16px',
+                    height: '2px',
+                    backgroundColor: isDarkMode ? '#ffffff' : '#374151',
+                    transform: 'translate(-50%, -50%) rotate(45deg)',
+                    transition: 'background-color 0.2s ease'
+                  }}
+                />
+                <div
+                  style={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    width: '16px',
+                    height: '2px',
+                    backgroundColor: isDarkMode ? '#ffffff' : '#374151',
+                    transform: 'translate(-50%, -50%) rotate(-45deg)',
+                    transition: 'background-color 0.2s ease'
+                  }}
+                />
+              </div>
             </motion.button>
           </div>
 
@@ -435,7 +484,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
               ))}
             </div>
             <div className="mt-2 text-center">
-              <span className="text-xs text-gray-400">
+              <span className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-700'}`}>
                 {Math.round((step / getActualTotalSteps()) * 100)}% complété
               </span>
             </div>
@@ -472,15 +521,31 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               setTotalSteps(3);
                             }
                           }}
-                          className={`p-4 rounded-2xl border text-center transition-all duration-300 ${
-                            formData.serviceType === service
-                              ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-white'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
-                              : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
-                          }`}
+                          style={{
+                            padding: '16px',
+                            borderRadius: '16px',
+                            border: formData.serviceType === service
+                              ? `2px solid #3F8391`
+                              : isDarkMode 
+                                ? '1px solid rgba(255, 255, 255, 0.2)' 
+                                : '1px solid rgba(156, 163, 175, 0.4)',
+                            textAlign: 'center',
+                            transition: 'all 0.3s ease',
+                            backgroundColor: formData.serviceType === service
+                              ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
+                              : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
+                            color: formData.serviceType === service
+                              ? isDarkMode ? '#ffffff' : '#f3f4f6'
+                              : isDarkMode ? '#d1d5db' : '#374151',
+                            cursor: 'pointer',
+                            boxShadow: formData.serviceType === service
+                              ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
+                              : 'none'
+                          }}
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
                         >
-                          <div className="font-medium">{service}</div>
+                          <div style={{ fontWeight: '500' }}>{service}</div>
                         </motion.button>
                       ))}
                     </div>
@@ -617,11 +682,27 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               key={value}
                               type="button"
                               onClick={() => handleInputChange('hasExistingWebsite', value)}
-                              className={`px-6 py-3 rounded-xl border transition-all duration-300 ${
-                                formData.hasExistingWebsite === value
-                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-white'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
-                                  : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
-                              }`}
+                              style={{
+                                padding: '12px 24px',
+                                borderRadius: '12px',
+                                border: formData.hasExistingWebsite === value
+                                  ? `2px solid #3F8391`
+                                  : isDarkMode 
+                                    ? '1px solid rgba(255, 255, 255, 0.2)' 
+                                    : '1px solid rgba(156, 163, 175, 0.4)',
+                                textAlign: 'center',
+                                transition: 'all 0.3s ease',
+                                backgroundColor: formData.hasExistingWebsite === value
+                                  ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
+                                  : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
+                                color: formData.hasExistingWebsite === value
+                                  ? isDarkMode ? '#ffffff' : '#f3f4f6'
+                                  : isDarkMode ? '#d1d5db' : '#374151',
+                                cursor: 'pointer',
+                                boxShadow: formData.hasExistingWebsite === value
+                                  ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
+                                  : 'none'
+                              }}
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
                             >
@@ -697,27 +778,47 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               key={goal}
                               type="button"
                               onClick={() => handleArrayChange('projectGoals', goal)}
-                              className={`p-3 rounded-xl border text-left transition-all duration-300 ${
-                                formData.projectGoals.includes(goal)
-                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-white'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
-                                  : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
-                              }`}
+                              style={{
+                                padding: '12px',
+                                borderRadius: '12px',
+                                border: formData.projectGoals.includes(goal)
+                                  ? `2px solid #3F8391`
+                                  : isDarkMode 
+                                    ? '1px solid rgba(255, 255, 255, 0.2)' 
+                                    : '1px solid rgba(156, 163, 175, 0.4)',
+                                textAlign: 'left',
+                                transition: 'all 0.3s ease',
+                                backgroundColor: formData.projectGoals.includes(goal)
+                                  ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
+                                  : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
+                                color: formData.projectGoals.includes(goal)
+                                  ? isDarkMode ? '#ffffff' : '#f3f4f6'
+                                  : isDarkMode ? '#d1d5db' : '#374151',
+                                cursor: 'pointer',
+                                boxShadow: formData.projectGoals.includes(goal)
+                                  ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
+                                  : 'none'
+                              }}
                               whileHover={{ scale: 1.01 }}
                               whileTap={{ scale: 0.99 }}
                             >
-                              <div className="flex items-center gap-2">
-                                <div className={`w-4 h-4 rounded border-2 ${
-                                  formData.projectGoals.includes(goal)
-                                    ? 'bg-[#3F8391] border-[#3F8391]'
-                                    : 'border-white/40'
-                                }`}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                <div style={{
+                                  width: '16px',
+                                  height: '16px',
+                                  borderRadius: '4px',
+                                  border: formData.projectGoals.includes(goal)
+                                    ? '2px solid #3F8391'
+                                    : '2px solid rgba(255, 255, 255, 0.4)',
+                                  backgroundColor: formData.projectGoals.includes(goal) ? '#3F8391' : 'transparent'
+                                }}>
                                   {formData.projectGoals.includes(goal) && (
-                                    <div className="w-full h-full flex items-center justify-center">
-                                      <div className="w-1.5 h-1.5 bg-white rounded-full" />
+                                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                      <div style={{ width: '6px', height: '6px', backgroundColor: 'white', borderRadius: '50%' }} />
                                     </div>
                                   )}
                                 </div>
-                                <span className="text-sm">{goal}</span>
+                                <span style={{ fontSize: '14px' }}>{goal}</span>
                               </div>
                             </motion.button>
                           ))}
@@ -788,27 +889,47 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               key={feature}
                               type="button"
                               onClick={() => handleArrayChange('desiredFeatures', feature)}
-                              className={`p-3 rounded-xl border text-left transition-all duration-300 ${
-                                formData.desiredFeatures.includes(feature)
-                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-white'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
-                                  : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
-                              }`}
+                              style={{
+                                padding: '12px',
+                                borderRadius: '12px',
+                                border: formData.desiredFeatures.includes(feature)
+                                  ? `2px solid #3F8391`
+                                  : isDarkMode 
+                                    ? '1px solid rgba(255, 255, 255, 0.2)' 
+                                    : '1px solid rgba(156, 163, 175, 0.4)',
+                                textAlign: 'left',
+                                transition: 'all 0.3s ease',
+                                backgroundColor: formData.desiredFeatures.includes(feature)
+                                  ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
+                                  : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
+                                color: formData.desiredFeatures.includes(feature)
+                                  ? isDarkMode ? '#ffffff' : '#f3f4f6'
+                                  : isDarkMode ? '#d1d5db' : '#374151',
+                                cursor: 'pointer',
+                                boxShadow: formData.desiredFeatures.includes(feature)
+                                  ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
+                                  : 'none'
+                              }}
                               whileHover={{ scale: 1.01 }}
                               whileTap={{ scale: 0.99 }}
                             >
-                              <div className="flex items-center gap-2">
-                                <div className={`w-4 h-4 rounded border-2 ${
-                                  formData.desiredFeatures.includes(feature)
-                                    ? 'bg-[#3F8391] border-[#3F8391]'
-                                    : 'border-white/40'
-                                }`}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                <div style={{
+                                  width: '16px',
+                                  height: '16px',
+                                  borderRadius: '4px',
+                                  border: formData.desiredFeatures.includes(feature)
+                                    ? '2px solid #3F8391'
+                                    : '2px solid rgba(255, 255, 255, 0.4)',
+                                  backgroundColor: formData.desiredFeatures.includes(feature) ? '#3F8391' : 'transparent'
+                                }}>
                                   {formData.desiredFeatures.includes(feature) && (
-                                    <div className="w-full h-full flex items-center justify-center">
-                                      <div className="w-1.5 h-1.5 bg-white rounded-full" />
+                                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                      <div style={{ width: '6px', height: '6px', backgroundColor: 'white', borderRadius: '50%' }} />
                                     </div>
                                   )}
                                 </div>
-                                <span className="text-sm">{feature}</span>
+                                <span style={{ fontSize: '14px' }}>{feature}</span>
                               </div>
                             </motion.button>
                           ))}
@@ -827,11 +948,27 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               key={value}
                               type="button"
                               onClick={() => handleInputChange('needDesign', value)}
-                              className={`px-6 py-3 rounded-xl border transition-all duration-300 ${
-                                formData.needDesign === value
-                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-white'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
-                                  : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
-                              }`}
+                              style={{
+                                padding: '12px 24px',
+                                borderRadius: '12px',
+                                border: formData.needDesign === value
+                                  ? `2px solid #3F8391`
+                                  : isDarkMode 
+                                    ? '1px solid rgba(255, 255, 255, 0.2)' 
+                                    : '1px solid rgba(156, 163, 175, 0.4)',
+                                textAlign: 'center',
+                                transition: 'all 0.3s ease',
+                                backgroundColor: formData.needDesign === value
+                                  ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
+                                  : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
+                                color: formData.needDesign === value
+                                  ? isDarkMode ? '#ffffff' : '#f3f4f6'
+                                  : isDarkMode ? '#d1d5db' : '#374151',
+                                cursor: 'pointer',
+                                boxShadow: formData.needDesign === value
+                                  ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
+                                  : 'none'
+                              }}
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
                             >
@@ -908,27 +1045,50 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               key={method}
                               type="button"
                               onClick={() => handleArrayChange('paymentMethods', method)}
-                              className={`p-3 rounded-xl border text-left transition-all duration-300 ${
-                                formData.paymentMethods.includes(method)
-                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-white'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
-                                  : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
-                              }`}
+                              style={{
+                                padding: '12px',
+                                borderRadius: '12px',
+                                border: formData.paymentMethods.includes(method)
+                                  ? `2px solid #3F8391`
+                                  : isDarkMode 
+                                    ? '1px solid rgba(255, 255, 255, 0.2)' 
+                                    : '1px solid rgba(156, 163, 175, 0.4)',
+                                textAlign: 'left',
+                                transition: 'all 0.3s ease',
+                                backgroundColor: formData.paymentMethods.includes(method)
+                                  ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
+                                  : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
+                                color: formData.paymentMethods.includes(method)
+                                  ? isDarkMode ? '#ffffff' : '#f3f4f6'
+                                  : isDarkMode ? '#d1d5db' : '#374151',
+                                cursor: 'pointer',
+                                boxShadow: formData.paymentMethods.includes(method)
+                                  ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
+                                  : 'none'
+                              }}
                               whileHover={{ scale: 1.01 }}
                               whileTap={{ scale: 0.99 }}
                             >
-                              <div className="flex items-center gap-3">
-                                <div className={`w-5 h-5 rounded border-2 flex items-center justify-center ${
-                                  formData.paymentMethods.includes(method)
-                                    ? 'bg-[#3F8391] border-[#3F8391]'
-                                    : 'border-white/40'
-                                }`}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                <div style={{
+                                  width: '20px',
+                                  height: '20px',
+                                  borderRadius: '4px',
+                                  border: formData.paymentMethods.includes(method)
+                                    ? '2px solid #3F8391'
+                                    : '2px solid rgba(255, 255, 255, 0.4)',
+                                  backgroundColor: formData.paymentMethods.includes(method) ? '#3F8391' : 'transparent',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'center'
+                                }}>
                                   {formData.paymentMethods.includes(method) && (
-                                    <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                    <svg style={{ width: '12px', height: '12px', color: 'white' }} fill="currentColor" viewBox="0 0 20 20">
                                       <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                                     </svg>
                                   )}
                                 </div>
-                                <span className="text-sm">{method}</span>
+                                <span style={{ fontSize: '14px' }}>{method}</span>
                               </div>
                             </motion.button>
                           ))}
@@ -947,11 +1107,27 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               key={value}
                               type="button"
                               onClick={() => handleInputChange('deliveryNeeded', value)}
-                              className={`px-6 py-3 rounded-xl border transition-all duration-300 ${
-                                formData.deliveryNeeded === value
-                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-white'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
-                                  : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
-                              }`}
+                              style={{
+                                padding: '12px 24px',
+                                borderRadius: '12px',
+                                border: formData.deliveryNeeded === value
+                                  ? `2px solid #3F8391`
+                                  : isDarkMode 
+                                    ? '1px solid rgba(255, 255, 255, 0.2)' 
+                                    : '1px solid rgba(156, 163, 175, 0.4)',
+                                textAlign: 'center',
+                                transition: 'all 0.3s ease',
+                                backgroundColor: formData.deliveryNeeded === value
+                                  ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
+                                  : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
+                                color: formData.deliveryNeeded === value
+                                  ? isDarkMode ? '#ffffff' : '#f3f4f6'
+                                  : isDarkMode ? '#d1d5db' : '#374151',
+                                cursor: 'pointer',
+                                boxShadow: formData.deliveryNeeded === value
+                                  ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
+                                  : 'none'
+                              }}
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
                             >
@@ -1020,25 +1196,48 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               key={range}
                               type="button"
                               onClick={() => handleInputChange('budgetRange', range)}
-                              className={`p-3 rounded-xl border text-left transition-all duration-300 ${
-                                formData.budgetRange === range
-                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-white'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
-                                  : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
-                              }`}
+                              style={{
+                                padding: '12px',
+                                borderRadius: '12px',
+                                border: formData.budgetRange === range
+                                  ? `2px solid #3F8391`
+                                  : isDarkMode 
+                                    ? '1px solid rgba(255, 255, 255, 0.2)' 
+                                    : '1px solid rgba(156, 163, 175, 0.4)',
+                                textAlign: 'left',
+                                transition: 'all 0.3s ease',
+                                backgroundColor: formData.budgetRange === range
+                                  ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
+                                  : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
+                                color: formData.budgetRange === range
+                                  ? isDarkMode ? '#ffffff' : '#f3f4f6'
+                                  : isDarkMode ? '#d1d5db' : '#374151',
+                                cursor: 'pointer',
+                                boxShadow: formData.budgetRange === range
+                                  ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
+                                  : 'none'
+                              }}
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
                             >
-                              <div className="flex items-center gap-3">
-                                <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
-                                  formData.budgetRange === range
-                                    ? 'bg-[#3F8391] border-[#3F8391]'
-                                    : 'border-white/40'
-                                }`}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                <div style={{
+                                  width: '20px',
+                                  height: '20px',
+                                  borderRadius: '50%',
+                                  border: formData.budgetRange === range
+                                    ? '2px solid #3F8391'
+                                    : '2px solid rgba(255, 255, 255, 0.4)',
+                                  backgroundColor: formData.budgetRange === range ? '#3F8391' : 'transparent',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'center'
+                                }}>
                                   {formData.budgetRange === range && (
-                                    <div className="w-2 h-2 bg-white rounded-full" />
+                                    <div style={{ width: '8px', height: '8px', backgroundColor: 'white', borderRadius: '50%' }} />
                                   )}
                                 </div>
-                                <span className="text-sm">{range}</span>
+                                <span style={{ fontSize: '14px' }}>{range}</span>
                               </div>
                             </motion.button>
                           ))}
@@ -1256,27 +1455,47 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               key={goal}
                               type="button"
                               onClick={() => handleArrayChange('aiProjectGoals', goal)}
-                              className={`p-3 rounded-xl border text-left transition-all duration-300 ${
-                                formData.aiProjectGoals.includes(goal)
-                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-white'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
-                                  : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
-                              }`}
+                              style={{
+                                padding: '12px',
+                                borderRadius: '12px',
+                                border: formData.aiProjectGoals.includes(goal)
+                                  ? `2px solid #3F8391`
+                                  : isDarkMode 
+                                    ? '1px solid rgba(255, 255, 255, 0.2)' 
+                                    : '1px solid rgba(156, 163, 175, 0.4)',
+                                textAlign: 'left',
+                                transition: 'all 0.3s ease',
+                                backgroundColor: formData.aiProjectGoals.includes(goal)
+                                  ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
+                                  : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
+                                color: formData.aiProjectGoals.includes(goal)
+                                  ? isDarkMode ? '#ffffff' : '#f3f4f6'
+                                  : isDarkMode ? '#d1d5db' : '#374151',
+                                cursor: 'pointer',
+                                boxShadow: formData.aiProjectGoals.includes(goal)
+                                  ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
+                                  : 'none'
+                              }}
                               whileHover={{ scale: 1.01 }}
                               whileTap={{ scale: 0.99 }}
                             >
-                              <div className="flex items-center gap-2">
-                                <div className={`w-4 h-4 rounded border-2 ${
-                                  formData.aiProjectGoals.includes(goal)
-                                    ? 'bg-[#3F8391] border-[#3F8391]'
-                                    : 'border-white/40'
-                                }`}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                <div style={{
+                                  width: '16px',
+                                  height: '16px',
+                                  borderRadius: '4px',
+                                  border: formData.aiProjectGoals.includes(goal)
+                                    ? '2px solid #3F8391'
+                                    : '2px solid rgba(255, 255, 255, 0.4)',
+                                  backgroundColor: formData.aiProjectGoals.includes(goal) ? '#3F8391' : 'transparent'
+                                }}>
                                   {formData.aiProjectGoals.includes(goal) && (
-                                    <div className="w-full h-full flex items-center justify-center">
-                                      <div className="w-1.5 h-1.5 bg-white rounded-full" />
+                                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                      <div style={{ width: '6px', height: '6px', backgroundColor: 'white', borderRadius: '50%' }} />
                                     </div>
                                   )}
                                 </div>
-                                <span className="text-sm">{goal}</span>
+                                <span style={{ fontSize: '14px' }}>{goal}</span>
                               </div>
                             </motion.button>
                           ))}
@@ -1342,11 +1561,27 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               key={value}
                               type="button"
                               onClick={() => handleInputChange('hasDataAvailable', value)}
-                              className={`px-6 py-3 rounded-xl border transition-all duration-300 ${
-                                formData.hasDataAvailable === value
-                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-white'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
-                                  : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
-                              }`}
+                              style={{
+                                padding: '12px 24px',
+                                borderRadius: '12px',
+                                border: formData.hasDataAvailable === value
+                                  ? `2px solid #3F8391`
+                                  : isDarkMode 
+                                    ? '1px solid rgba(255, 255, 255, 0.2)' 
+                                    : '1px solid rgba(156, 163, 175, 0.4)',
+                                textAlign: 'center',
+                                transition: 'all 0.3s ease',
+                                backgroundColor: formData.hasDataAvailable === value
+                                  ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
+                                  : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
+                                color: formData.hasDataAvailable === value
+                                  ? isDarkMode ? '#ffffff' : '#f3f4f6'
+                                  : isDarkMode ? '#d1d5db' : '#374151',
+                                cursor: 'pointer',
+                                boxShadow: formData.hasDataAvailable === value
+                                  ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
+                                  : 'none'
+                              }}
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
                             >
@@ -1377,7 +1612,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               onClick={() => handleArrayChange('dataTypes', dataType)}
                               className={`p-3 rounded-xl border text-left transition-all duration-300 ${
                                 formData.dataTypes.includes(dataType)
-                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-white'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
+                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-gray-100'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
                                   : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
                               }`}
                               whileHover={{ scale: 1.01 }}
@@ -1421,7 +1656,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               onClick={() => handleInputChange('dataVolume', volume)}
                               className={`p-3 rounded-xl border text-center transition-all duration-300 ${
                                 formData.dataVolume === volume
-                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-white'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
+                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-gray-100'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
                                   : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
                               }`}
                               whileHover={{ scale: 1.02 }}
@@ -1487,27 +1722,47 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               key={feature}
                               type="button"
                               onClick={() => handleArrayChange('aiDesiredFeatures', feature)}
-                              className={`p-3 rounded-xl border text-left transition-all duration-300 ${
-                                formData.aiDesiredFeatures.includes(feature)
-                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-white'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
-                                  : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
-                              }`}
+                              style={{
+                                padding: '12px',
+                                borderRadius: '12px',
+                                border: formData.aiDesiredFeatures.includes(feature)
+                                  ? `2px solid #3F8391`
+                                  : isDarkMode 
+                                    ? '1px solid rgba(255, 255, 255, 0.2)' 
+                                    : '1px solid rgba(156, 163, 175, 0.4)',
+                                textAlign: 'left',
+                                transition: 'all 0.3s ease',
+                                backgroundColor: formData.aiDesiredFeatures.includes(feature)
+                                  ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
+                                  : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
+                                color: formData.aiDesiredFeatures.includes(feature)
+                                  ? isDarkMode ? '#ffffff' : '#f3f4f6'
+                                  : isDarkMode ? '#d1d5db' : '#374151',
+                                cursor: 'pointer',
+                                boxShadow: formData.aiDesiredFeatures.includes(feature)
+                                  ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
+                                  : 'none'
+                              }}
                               whileHover={{ scale: 1.01 }}
                               whileTap={{ scale: 0.99 }}
                             >
-                              <div className="flex items-center gap-2">
-                                <div className={`w-4 h-4 rounded border-2 ${
-                                  formData.aiDesiredFeatures.includes(feature)
-                                    ? 'bg-[#3F8391] border-[#3F8391]'
-                                    : 'border-white/40'
-                                }`}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                <div style={{
+                                  width: '16px',
+                                  height: '16px',
+                                  borderRadius: '4px',
+                                  border: formData.aiDesiredFeatures.includes(feature)
+                                    ? '2px solid #3F8391'
+                                    : '2px solid rgba(255, 255, 255, 0.4)',
+                                  backgroundColor: formData.aiDesiredFeatures.includes(feature) ? '#3F8391' : 'transparent'
+                                }}>
                                   {formData.aiDesiredFeatures.includes(feature) && (
-                                    <div className="w-full h-full flex items-center justify-center">
-                                      <div className="w-1.5 h-1.5 bg-white rounded-full" />
+                                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                      <div style={{ width: '6px', height: '6px', backgroundColor: 'white', borderRadius: '50%' }} />
                                     </div>
                                   )}
                                 </div>
-                                <span className="text-sm">{feature}</span>
+                                <span style={{ fontSize: '14px' }}>{feature}</span>
                               </div>
                             </motion.button>
                           ))}
@@ -1550,7 +1805,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               onClick={() => handleInputChange('projectStartTimeline', timeline)}
                               className={`px-6 py-3 rounded-xl border transition-all duration-300 ${
                                 formData.projectStartTimeline === timeline
-                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-white'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
+                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-gray-100'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
                                   : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
                               }`}
                               whileHover={{ scale: 1.02 }}
@@ -1580,25 +1835,48 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               key={budget}
                               type="button"
                               onClick={() => handleInputChange('aiBudgetRange', budget)}
-                              className={`p-3 rounded-xl border text-center transition-all duration-300 ${
-                                formData.aiBudgetRange === budget
-                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-white'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
-                                  : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
-                              }`}
+                              style={{
+                                padding: '12px',
+                                borderRadius: '12px',
+                                border: formData.aiBudgetRange === budget
+                                  ? `2px solid #3F8391`
+                                  : isDarkMode 
+                                    ? '1px solid rgba(255, 255, 255, 0.2)' 
+                                    : '1px solid rgba(156, 163, 175, 0.4)',
+                                textAlign: 'center',
+                                transition: 'all 0.3s ease',
+                                backgroundColor: formData.aiBudgetRange === budget
+                                  ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
+                                  : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
+                                color: formData.aiBudgetRange === budget
+                                  ? isDarkMode ? '#ffffff' : '#f3f4f6'
+                                  : isDarkMode ? '#d1d5db' : '#374151',
+                                cursor: 'pointer',
+                                boxShadow: formData.aiBudgetRange === budget
+                                  ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
+                                  : 'none'
+                              }}
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
                             >
-                              <div className="flex items-center justify-center gap-3">
-                                <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
-                                  formData.aiBudgetRange === budget
-                                    ? 'bg-[#3F8391] border-[#3F8391]'
-                                    : 'border-white/40'
-                                }`}>
+                              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px' }}>
+                                <div style={{
+                                  width: '20px',
+                                  height: '20px',
+                                  borderRadius: '50%',
+                                  border: formData.aiBudgetRange === budget
+                                    ? '2px solid #3F8391'
+                                    : '2px solid rgba(255, 255, 255, 0.4)',
+                                  backgroundColor: formData.aiBudgetRange === budget ? '#3F8391' : 'transparent',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'center'
+                                }}>
                                   {formData.aiBudgetRange === budget && (
-                                    <div className="w-2 h-2 bg-white rounded-full" />
+                                    <div style={{ width: '8px', height: '8px', backgroundColor: 'white', borderRadius: '50%' }} />
                                   )}
                                 </div>
-                                <span className="text-sm">{budget}</span>
+                                <span style={{ fontSize: '14px' }}>{budget}</span>
                               </div>
                             </motion.button>
                           ))}
@@ -1641,7 +1919,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               onClick={() => handleInputChange('needTechnicalSupport', support)}
                               className={`px-6 py-3 rounded-xl border transition-all duration-300 ${
                                 formData.needTechnicalSupport === support
-                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-white'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
+                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-gray-100'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
                                   : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
                               }`}
                               whileHover={{ scale: 1.02 }}
@@ -1665,11 +1943,27 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               key={maintenance}
                               type="button"
                               onClick={() => handleInputChange('needFutureMaintenance', maintenance)}
-                              className={`px-6 py-3 rounded-xl border transition-all duration-300 ${
-                                formData.needFutureMaintenance === maintenance
-                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-white'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
-                                  : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
-                              }`}
+                              style={{
+                                padding: '12px 24px',
+                                borderRadius: '12px',
+                                border: formData.needFutureMaintenance === maintenance
+                                  ? `2px solid #3F8391`
+                                  : isDarkMode 
+                                    ? '1px solid rgba(255, 255, 255, 0.2)' 
+                                    : '1px solid rgba(156, 163, 175, 0.4)',
+                                textAlign: 'center',
+                                transition: 'all 0.3s ease',
+                                backgroundColor: formData.needFutureMaintenance === maintenance
+                                  ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
+                                  : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
+                                color: formData.needFutureMaintenance === maintenance
+                                  ? isDarkMode ? '#ffffff' : '#f3f4f6'
+                                  : isDarkMode ? '#d1d5db' : '#374151',
+                                cursor: 'pointer',
+                                boxShadow: formData.needFutureMaintenance === maintenance
+                                  ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
+                                  : 'none'
+                              }}
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
                             >
@@ -1737,7 +2031,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               onClick={() => handleInputChange('preferredContact', contact.value)}
                               className={`p-3 sm:p-4 rounded-xl border text-center transition-all duration-300 text-sm sm:text-base ${
                                 formData.preferredContact === contact.value
-                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-white'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
+                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-gray-100'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
                                   : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
                               }`}
                               whileHover={{ scale: 1.02 }}
@@ -1796,25 +2090,48 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               key={value}
                               type="button"
                               onClick={() => handleInputChange('needTraining', value)}
-                              className={`px-4 py-3 rounded-xl border text-left transition-all duration-300 ${
-                                formData.needTraining === value
-                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-white'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
-                                  : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
-                              }`}
+                              style={{
+                                padding: '16px',
+                                borderRadius: '12px',
+                                border: formData.needTraining === value
+                                  ? `2px solid #3F8391`
+                                  : isDarkMode 
+                                    ? '1px solid rgba(255, 255, 255, 0.2)' 
+                                    : '1px solid rgba(156, 163, 175, 0.4)',
+                                textAlign: 'left',
+                                transition: 'all 0.3s ease',
+                                backgroundColor: formData.needTraining === value
+                                  ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
+                                  : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
+                                color: formData.needTraining === value
+                                  ? isDarkMode ? '#ffffff' : '#f3f4f6'
+                                  : isDarkMode ? '#d1d5db' : '#374151',
+                                cursor: 'pointer',
+                                boxShadow: formData.needTraining === value
+                                  ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
+                                  : 'none'
+                              }}
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
                             >
-                              <div className="flex items-center gap-3">
-                                <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
-                                  formData.needTraining === value
-                                    ? 'bg-[#3F8391] border-[#3F8391]'
-                                    : 'border-white/40'
-                                }`}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                <div style={{
+                                  width: '20px',
+                                  height: '20px',
+                                  borderRadius: '50%',
+                                  border: formData.needTraining === value
+                                    ? '2px solid #3F8391'
+                                    : '2px solid rgba(255, 255, 255, 0.4)',
+                                  backgroundColor: formData.needTraining === value ? '#3F8391' : 'transparent',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'center'
+                                }}>
                                   {formData.needTraining === value && (
-                                    <div className="w-2 h-2 bg-white rounded-full" />
+                                    <div style={{ width: '8px', height: '8px', backgroundColor: 'white', borderRadius: '50%' }} />
                                   )}
                                 </div>
-                                <span className="text-sm">
+                                <span style={{ fontSize: '14px' }}>
                                   {value ? 'Oui, j\'ai besoin d\'une formation' : 'Non, je maîtrise déjà'}
                                 </span>
                               </div>
@@ -1835,25 +2152,48 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               key={option}
                               type="button"
                               onClick={() => handleInputChange('needMaintenance', option)}
-                              className={`p-3 rounded-xl border text-left transition-all duration-300 ${
-                                formData.needMaintenance === option
-                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-white'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
-                                  : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
-                              }`}
+                              style={{
+                                padding: '12px',
+                                borderRadius: '12px',
+                                border: formData.needMaintenance === option
+                                  ? `2px solid #3F8391`
+                                  : isDarkMode 
+                                    ? '1px solid rgba(255, 255, 255, 0.2)' 
+                                    : '1px solid rgba(156, 163, 175, 0.4)',
+                                textAlign: 'left',
+                                transition: 'all 0.3s ease',
+                                backgroundColor: formData.needMaintenance === option
+                                  ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
+                                  : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
+                                color: formData.needMaintenance === option
+                                  ? isDarkMode ? '#ffffff' : '#f3f4f6'
+                                  : isDarkMode ? '#d1d5db' : '#374151',
+                                cursor: 'pointer',
+                                boxShadow: formData.needMaintenance === option
+                                  ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
+                                  : 'none'
+                              }}
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
                             >
-                              <div className="flex items-center gap-3">
-                                <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
-                                  formData.needMaintenance === option
-                                    ? 'bg-[#3F8391] border-[#3F8391]'
-                                    : 'border-white/40'
-                                }`}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                <div style={{
+                                  width: '20px',
+                                  height: '20px',
+                                  borderRadius: '50%',
+                                  border: formData.needMaintenance === option
+                                    ? '2px solid #3F8391'
+                                    : '2px solid rgba(255, 255, 255, 0.4)',
+                                  backgroundColor: formData.needMaintenance === option ? '#3F8391' : 'transparent',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'center'
+                                }}>
                                   {formData.needMaintenance === option && (
-                                    <div className="w-2 h-2 bg-white rounded-full" />
+                                    <div style={{ width: '8px', height: '8px', backgroundColor: 'white', borderRadius: '50%' }} />
                                   )}
                                 </div>
-                                <span className="text-sm">{option}</span>
+                                <span style={{ fontSize: '14px' }}>{option}</span>
                               </div>
                             </motion.button>
                           ))}
@@ -1941,7 +2281,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               onClick={() => handleInputChange('preferredContact', contact.value)}
                               className={`p-3 sm:p-4 rounded-xl border text-center transition-all duration-300 text-sm sm:text-base ${
                                 formData.preferredContact === contact.value
-                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-white'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
+                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-gray-100'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
                                   : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
                               }`}
                               whileHover={{ scale: 1.02 }}
@@ -2103,7 +2443,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               onClick={() => handleInputChange('hasExistingWebsite', option)}
                               className={`px-4 sm:px-6 py-2 sm:py-3 rounded-xl border transition-colors text-sm sm:text-base ${
                                 formData.hasExistingWebsite === option
-                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-white'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
+                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-gray-100'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
                                   : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
                               }`}
                               whileHover={{ scale: 1.02 }}
@@ -2190,18 +2530,35 @@ const QuoteModal = ({ isOpen, onClose }) => {
                                 }
                                 handleInputChange('growthMainGoals', currentGoals);
                               }}
-                              className={`p-3 sm:p-4 rounded-xl border text-left transition-all duration-300 text-sm sm:text-base ${
-                                formData.growthMainGoals.includes(goal)
-                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-white'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
-                                  : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
-                              }`}
+                              style={{
+                                padding: window.innerWidth >= 640 ? '16px' : '12px',
+                                borderRadius: '12px',
+                                border: formData.growthMainGoals.includes(goal)
+                                  ? `2px solid #3F8391`
+                                  : isDarkMode 
+                                    ? '1px solid rgba(255, 255, 255, 0.2)' 
+                                    : '1px solid rgba(156, 163, 175, 0.4)',
+                                textAlign: 'left',
+                                transition: 'all 0.3s ease',
+                                backgroundColor: formData.growthMainGoals.includes(goal)
+                                  ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
+                                  : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
+                                color: formData.growthMainGoals.includes(goal)
+                                  ? isDarkMode ? '#ffffff' : '#f3f4f6'
+                                  : isDarkMode ? '#d1d5db' : '#374151',
+                                cursor: 'pointer',
+                                boxShadow: formData.growthMainGoals.includes(goal)
+                                  ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
+                                  : 'none',
+                                fontSize: window.innerWidth >= 640 ? '16px' : '14px'
+                              }}
                               whileHover={{ scale: 1.01 }}
                               whileTap={{ scale: 0.99 }}
                             >
-                              <div className="flex items-center justify-between">
+                              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                                 <span>{goal}</span>
                                 {formData.growthMainGoals.includes(goal) && (
-                                  <CheckCircle size={20} className="text-green-400 drop-shadow-md" />
+                                  <CheckCircle size={20} style={{ color: '#4ade80', filter: 'drop-shadow(0 4px 3px rgba(0, 0, 0, 0.07))' }} />
                                 )}
                               </div>
                             </motion.button>
@@ -2287,18 +2644,35 @@ const QuoteModal = ({ isOpen, onClose }) => {
                                 }
                                 handleInputChange('growthDesiredServices', currentServices);
                               }}
-                              className={`p-3 sm:p-4 rounded-xl border text-left transition-all duration-300 text-sm sm:text-base ${
-                                formData.growthDesiredServices.includes(service)
-                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-white'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
-                                  : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
-                              }`}
+                              style={{
+                                padding: window.innerWidth >= 640 ? '16px' : '12px',
+                                borderRadius: '12px',
+                                border: formData.growthDesiredServices.includes(service)
+                                  ? `2px solid #3F8391`
+                                  : isDarkMode 
+                                    ? '1px solid rgba(255, 255, 255, 0.2)' 
+                                    : '1px solid rgba(156, 163, 175, 0.4)',
+                                textAlign: 'left',
+                                transition: 'all 0.3s ease',
+                                backgroundColor: formData.growthDesiredServices.includes(service)
+                                  ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
+                                  : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
+                                color: formData.growthDesiredServices.includes(service)
+                                  ? isDarkMode ? '#ffffff' : '#f3f4f6'
+                                  : isDarkMode ? '#d1d5db' : '#374151',
+                                cursor: 'pointer',
+                                boxShadow: formData.growthDesiredServices.includes(service)
+                                  ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
+                                  : 'none',
+                                fontSize: window.innerWidth >= 640 ? '16px' : '14px'
+                              }}
                               whileHover={{ scale: 1.01 }}
                               whileTap={{ scale: 0.99 }}
                             >
-                              <div className="flex items-center justify-between">
-                                <span className="text-sm">{service}</span>
+                              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                                <span style={{ fontSize: '14px' }}>{service}</span>
                                 {formData.growthDesiredServices.includes(service) && (
-                                  <CheckCircle size={20} className="text-green-400 drop-shadow-md" />
+                                  <CheckCircle size={20} style={{ color: '#4ade80', filter: 'drop-shadow(0 4px 3px rgba(0, 0, 0, 0.07))' }} />
                                 )}
                               </div>
                             </motion.button>
@@ -2384,7 +2758,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               onClick={() => handleInputChange('hasExistingDatabase', option)}
                               className={`px-4 sm:px-6 py-2 sm:py-3 rounded-xl border transition-colors text-sm sm:text-base ${
                                 formData.hasExistingDatabase === option
-                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-white'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
+                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-gray-100'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
                                   : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
                               }`}
                               whileHover={{ scale: 1.02 }}
@@ -2428,7 +2802,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               }}
                               className={`p-3 rounded-xl border text-center text-sm transition-all duration-300 ${
                                 formData.leadSources.includes(source)
-                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-white'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
+                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-gray-100'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
                                   : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
                               }`}
                               whileHover={{ scale: 1.02 }}
@@ -2492,11 +2866,28 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               key={option}
                               type="button"
                               onClick={() => handleInputChange('wantsDetailedReporting', option)}
-                              className={`px-4 sm:px-6 py-2 sm:py-3 rounded-xl border transition-colors text-sm sm:text-base ${
-                                formData.wantsDetailedReporting === option
-                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-white'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
-                                  : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
-                              }`}
+                              style={{
+                                padding: window.innerWidth >= 640 ? '12px 24px' : '8px 16px',
+                                borderRadius: '12px',
+                                border: formData.wantsDetailedReporting === option
+                                  ? `2px solid #3F8391`
+                                  : isDarkMode 
+                                    ? '1px solid rgba(255, 255, 255, 0.2)' 
+                                    : '1px solid rgba(156, 163, 175, 0.4)',
+                                textAlign: 'center',
+                                transition: 'all 0.3s ease',
+                                backgroundColor: formData.wantsDetailedReporting === option
+                                  ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
+                                  : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
+                                color: formData.wantsDetailedReporting === option
+                                  ? isDarkMode ? '#ffffff' : '#f3f4f6'
+                                  : isDarkMode ? '#d1d5db' : '#374151',
+                                cursor: 'pointer',
+                                boxShadow: formData.wantsDetailedReporting === option
+                                  ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
+                                  : 'none',
+                                fontSize: window.innerWidth >= 640 ? '16px' : '14px'
+                              }}
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
                             >
@@ -2520,7 +2911,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               onClick={() => handleInputChange('hasTestedGrowthTools', option)}
                               className={`px-4 sm:px-6 py-2 sm:py-3 rounded-xl border transition-colors text-sm sm:text-base ${
                                 formData.hasTestedGrowthTools === option
-                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-white'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
+                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-gray-100'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
                                   : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
                               }`}
                               whileHover={{ scale: 1.02 }}
@@ -2596,7 +2987,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               onClick={() => handleInputChange('projectStartTimeline', timing)}
                               className={`p-3 sm:p-4 rounded-xl border text-center transition-all duration-300 text-sm sm:text-base ${
                                 formData.projectStartTimeline === timing
-                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-white'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
+                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-gray-100'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
                                   : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
                               }`}
                               whileHover={{ scale: 1.02 }}
@@ -2628,7 +3019,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               onClick={() => handleInputChange('growthBudgetRange', budget)}
                               className={`p-3 sm:p-4 rounded-xl border text-center transition-all duration-300 text-sm sm:text-base ${
                                 formData.growthBudgetRange === budget
-                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-white'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
+                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-gray-100'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
                                   : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
                               }`}
                               whileHover={{ scale: 1.02 }}
@@ -2692,7 +3083,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               }}
                               className={`p-3 rounded-xl border text-left text-sm transition-all duration-300 ${
                                 formData.additionalServices.includes(service)
-                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-white'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
+                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-gray-100'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
                                   : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
                               }`}
                               whileHover={{ scale: 1.01 }}
@@ -2769,7 +3160,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               onClick={() => handleInputChange('preferredContact', contact.value)}
                               className={`p-3 sm:p-4 rounded-xl border text-center transition-all duration-300 text-sm sm:text-base ${
                                 formData.preferredContact === contact.value
-                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-white'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
+                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-gray-100'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
                                   : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
                               }`}
                               whileHover={{ scale: 1.02 }}
