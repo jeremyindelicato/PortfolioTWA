@@ -1259,7 +1259,9 @@ const QuoteModal = ({ isOpen, onClose }) => {
                   className="space-y-4 sm:space-y-6"
                 >
                   <div>
-                    <h3 className="text-xl font-semibold text-white mb-4">
+                    <h3 className={`text-xl font-semibold mb-4 transition-colors duration-500 ${
+                      isDarkMode ? 'text-white' : 'text-gray-900'
+                    }`}>
                       Décrivez votre projet
                     </h3>
                     <textarea
@@ -3261,7 +3263,9 @@ const QuoteModal = ({ isOpen, onClose }) => {
                       </div>
 
                       <div className="bg-blue-500/10 border border-blue-500/20 rounded-2xl p-4">
-                        <p className="text-blue-200 text-sm">
+                        <p className={`text-sm transition-colors duration-500 ${
+                          isDarkMode ? 'text-blue-200' : 'text-blue-800'
+                        }`}>
                           📧 Un email de confirmation a été envoyé à <strong>{formData.email}</strong>
                         </p>
                       </div>
