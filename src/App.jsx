@@ -1687,16 +1687,27 @@ function Contact() {
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="text-green-100 text-center p-4 rounded-2xl border border-green-400/30 backdrop-blur-xl"
+                    className={`text-center p-4 rounded-2xl border backdrop-blur-xl transition-colors duration-500 ${
+                      isDarkMode 
+                        ? 'text-green-100 border-green-400/30' 
+                        : 'text-green-800 border-green-400/50'
+                    }`}
                     style={{
-                      background: `
+                      background: isDarkMode ? `
                         linear-gradient(135deg, 
                           rgba(34, 197, 94, 0.15) 0%, 
                           rgba(34, 197, 94, 0.08) 100%
                         )
+                      ` : `
+                        linear-gradient(135deg, 
+                          rgba(34, 197, 94, 0.1) 0%, 
+                          rgba(34, 197, 94, 0.05) 100%
+                        )
                       `,
                       backdropFilter: 'blur(15px)',
-                      boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.2)'
+                      boxShadow: isDarkMode 
+                        ? 'inset 0 1px 0 rgba(255, 255, 255, 0.2)'
+                        : 'inset 0 1px 0 rgba(255, 255, 255, 0.8)'
                     }}
                   >
                     {submitMessage || 'Message envoyé avec succès ! Je vous répondrai bientôt.'}
