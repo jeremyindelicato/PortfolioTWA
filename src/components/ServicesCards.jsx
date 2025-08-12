@@ -1,9 +1,11 @@
 import { motion } from 'framer-motion';
 import { Globe, Brain, TrendingUp, ArrowRight } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
+import { useNavigate } from 'react-router-dom';
 
 const ServicesCards = () => {
   const { isDarkMode } = useTheme();
+  const navigate = useNavigate();
   const services = [
     {
       id: 1,
@@ -230,6 +232,7 @@ const ServicesCards = () => {
 
                   {/* CTA Button */}
                   <motion.button
+                    onClick={() => navigate('/services')}
                     className="group/btn relative w-full py-3 px-6 rounded-2xl font-semibold text-white overflow-hidden transition-all duration-300"
                     style={{
                       background: isDarkMode ? `
@@ -303,6 +306,7 @@ const ServicesCards = () => {
           transition={{ duration: 0.6, delay: 0.8 }}
         >
           <motion.button
+            onClick={() => navigate('/services')}
             className={`px-12 py-4 rounded-full font-semibold relative overflow-hidden transition-colors duration-500 ${
               isDarkMode ? 'text-white' : 'text-gray-800'
             }`}

@@ -3,7 +3,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import NavigationBar from './components/NavigationBar';
 import Pattern from './components/Pattern';
 import ThemeToggle from './components/ThemeToggle';
@@ -90,6 +90,7 @@ class LazyErrorBoundary extends Component {
 import { motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
 import { Mail, Phone, MapPin, Send, FileText, Download, ExternalLink } from 'lucide-react';
+import { submitContactForm } from './utils/supabase';
 import photoProfil from './assets/autre/photodeprofil.png';
 import epitechLogo from './assets/autre/epitech.svg';
 import strykerLogo from './assets/autre/stryker.svg';
@@ -199,6 +200,7 @@ function useInView(options = {}) {
 // Pages à créer ci-dessous
 function Accueil() {
   const { isDarkMode } = useTheme();
+  const navigate = useNavigate();
   const [servicesRef, servicesInView] = useInView();
   const [projectsRef, projectsInView] = useInView();
   const [credibilityRef, credibilityInView] = useInView();
@@ -353,6 +355,7 @@ function Accueil() {
 
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start mb-8 lg:mb-12">
             <motion.button 
+              onClick={() => navigate('/projects')}
               className={`px-6 py-4 sm:px-8 sm:py-4 lg:px-10 lg:py-5 font-semibold rounded-full transition-all duration-300 text-base lg:text-lg backdrop-blur-xl relative overflow-hidden group min-h-[48px] touch-manipulation ${
                 isDarkMode 
                   ? 'text-white border-white/20' 
@@ -393,6 +396,7 @@ function Accueil() {
               <span className="relative z-10">Voir mes projets</span>
             </motion.button>
             <motion.button 
+              onClick={() => navigate('/contact')}
               className={`px-6 py-4 sm:px-8 sm:py-4 lg:px-10 lg:py-5 font-semibold rounded-full transition-all duration-300 text-base lg:text-lg relative overflow-hidden group min-h-[48px] touch-manipulation ${
                 isDarkMode ? 'text-white' : 'text-white'
               }`}
@@ -1130,18 +1134,31 @@ function Contact() {
   const { register, handleSubmit, formState: { errors }, reset } = useForm();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null);
+  const [submitMessage, setSubmitMessage] = useState('');
   const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
 
   const onSubmit = async (data) => {
     setIsSubmitting(true);
     try {
-      // Simulation d'envoi (à remplacer par votre service d'email)
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      console.log('Form data:', data);
-      setSubmitStatus('success');
-      reset();
+      console.log('📧 Envoi du formulaire de contact...', data);
+      
+      // Utiliser la nouvelle fonction d'envoi d'email
+      const result = await submitContactForm(data);
+      
+      if (result.success) {
+        setSubmitStatus('success');
+        setSubmitMessage(result.message);
+        reset();
+        console.log('✅ Formulaire envoyé avec succès');
+      } else {
+        setSubmitStatus('error');
+        setSubmitMessage(result.message);
+        console.error('❌ Erreur lors de l\'envoi:', result.error);
+      }
     } catch (error) {
       setSubmitStatus('error');
+      setSubmitMessage('Une erreur inattendue est survenue. Veuillez réessayer.');
+      console.error('❌ Erreur inattendue:', error);
     }
     setIsSubmitting(false);
   };
@@ -1682,7 +1699,7 @@ function Contact() {
                       boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.2)'
                     }}
                   >
-                    Message envoyé avec succès ! Je vous répondrai bientôt.
+                    {submitMessage || 'Message envoyé avec succès ! Je vous répondrai bientôt.'}
                   </motion.div>
                 )}
 
@@ -1702,7 +1719,7 @@ function Contact() {
                       boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.2)'
                     }}
                   >
-                    Erreur lors de l'envoi. Veuillez réessayer.
+                    {submitMessage || 'Erreur lors de l\'envoi. Veuillez réessayer.'}
                   </motion.div>
                 )}
               </form>

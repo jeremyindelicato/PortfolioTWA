@@ -1,14 +1,39 @@
-# 🚀 Portfolio TWA - Jérémy Indelicato
+# 🚀 Portfolio TWA - Jérémy Indelicato | Taciturn Web Art
 
 Bienvenue dans mon portfolio interactif ! Un site qui mélange **développement web moderne**, **intelligence artificielle** et **growth marketing** - exactement comme moi ! 😄
 
 ## ✨ À propos
 
-Je suis **AI & Data Engineer** chez Stryker et freelance passionné. Ce portfolio présente mes services et réalisations dans trois domaines :
+Je suis **AI & Data Engineer** chez **Stryker** et fondateur de **Taciturn Web Art**, mon auto-entreprise spécialisée dans les solutions digitales sur-mesure. Ce portfolio présente mes services et réalisations dans trois domaines :
 
 - 🧠 **Intelligence Artificielle & Data** : Pipelines ML, chatbots, analyse de données
 - 💻 **Développement Web** : Applications React/Vue.js, sites e-commerce, solutions sur-mesure  
 - 📈 **Growth Marketing** : SEO, analytics, automatisation des ventes
+
+## 🎯 Services Taciturn Web Art
+
+En tant qu'auto-entrepreneur, je propose des **solutions digitales complètes** pour propulser votre entreprise :
+
+### 🌐 Développement Web
+- Sites vitrines modernes et responsive
+- E-commerce avec Shopify/WooCommerce
+- Applications web React/Vue.js
+- Optimisation SEO et performance
+- Maintenance et support technique
+
+### 🤖 Intelligence Artificielle
+- Chatbots conversationnels sur-mesure
+- Analyse et traitement de données
+- Automatisation de processus métier
+- Pipelines Machine Learning
+- Intégrations API IA (OpenAI, Mistral, etc.)
+
+### 📈 Growth Marketing
+- Stratégies d'acquisition client
+- Analytics et tracking avancé
+- Automatisation des campagnes
+- A/B testing et optimisation
+- Reporting et ROI
 
 ## 🎯 Projets présentés
 
@@ -93,14 +118,27 @@ src/
 - Le réseau de neurones réagit à vos interactions 🧠⚡
 - Les animations changent selon votre device 📱💻
 
-## 📞 Contact
+## 📞 Contact & Devis
 
-- **Email** : indelicatojeremy@gmail.com
+### 💼 Taciturn Web Art
+Besoin d'une solution digitale sur-mesure ? Contactez-moi pour discuter de votre projet !
+
+- **Email professionnel** : indelicatojeremy@gmail.com
 - **LinkedIn** : [Jérémy Indelicato](https://www.linkedin.com/in/jérémy-indelicato-1a3450290/)
 - **GitHub** : [jeremyindelicato](https://github.com/jeremyindelicato)
+- **Portfolio en ligne** : [Voir mes services](https://votre-site.com/services)
+
+### 💡 Pourquoi choisir Taciturn Web Art ?
+- **Double expertise** : AI & Data Engineer chez Stryker + Freelance passionné
+- **Solutions complètes** : Du concept à la mise en ligne
+- **Technologies modernes** : React, IA, APIs avancées
+- **Approche sur-mesure** : Chaque projet est unique
+- **Support continu** : Maintenance et évolutions
 
 ---
 
-*Fait avec ❤️ et beaucoup de ☕ par Jérémy*
+*Fait avec ❤️ et beaucoup de ☕ par Jérémy | **Taciturn Web Art***
 
 > "La technologie au service de la créativité, la créativité au service de la croissance" 🚀
+
+**Transformons vos idées en solutions digitales performantes !** 💻✨

@@ -562,6 +562,72 @@ export async function submitGrowthQuoteRequest(formData) {
 }
 
 // ================================================
+// 📧 FONCTIONS POUR LE FORMULAIRE DE CONTACT
+// ================================================
+
+/**
+ * Envoyer l'email de contact via Edge Function
+ * @param {Object} contactData - Données du formulaire de contact
+ * @returns {Promise<Object>} Résultat de l'envoi
+ */
+export async function sendContactEmail(contactData) {
+  try {
+    console.log('📧 Envoi de l\'email de contact...');
+
+    // Appeler l'Edge Function avec un flag contact
+    const { data, error } = await supabase.functions.invoke('send-quote-email', {
+      body: { ...contactData, isContact: true }
+    });
+
+    if (error) {
+      console.error('❌ Erreur lors de l\'envoi de l\'email de contact:', error);
+      throw new Error(`Erreur d'envoi email contact: ${error.message}`);
+    }
+
+    console.log('✅ Email de contact envoyé avec succès');
+    return { success: true, data };
+
+  } catch (error) {
+    console.error('❌ Erreur dans sendContactEmail:', error);
+    return { success: false, error: error.message };
+  }
+}
+
+/**
+ * Processus complet contact: envoyer email
+ * @param {Object} formData - Données du formulaire de contact
+ * @returns {Promise<Object>} Résultat complet
+ */
+export async function submitContactForm(formData) {
+  try {
+    console.log('🚀 Envoi du formulaire de contact...');
+
+    // Envoyer l'email de contact
+    const emailResult = await sendContactEmail(formData);
+    
+    if (!emailResult.success) {
+      throw new Error(emailResult.error);
+    }
+
+    console.log('🎉 Formulaire de contact envoyé avec succès!');
+    
+    return {
+      success: true,
+      emailSent: true,
+      message: 'Message envoyé avec succès ! Je vous répondrai dans les plus brefs délais.'
+    };
+
+  } catch (error) {
+    console.error('❌ Erreur dans submitContactForm:', error);
+    return {
+      success: false,
+      error: error.message,
+      message: 'Une erreur est survenue lors de l\'envoi. Veuillez réessayer.'
+    };
+  }
+}
+
+// ================================================
 // 📊 FONCTIONS UTILITAIRES
 // ================================================
 
@@ -695,6 +761,9 @@ export default {
   saveGrowthQuoteRequest,
   sendGrowthQuoteEmail,
   updateGrowthEmailStatus,
+  // Fonctions Contact
+  submitContactForm,
+  sendContactEmail,
   // Fonctions utilitaires
   getQuoteStats,
   getAiQuoteStats,
