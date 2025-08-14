@@ -3605,10 +3605,26 @@ const QuoteModal = ({ isOpen, onClose }) => {
                 disabled={step === 1}
                 className={`px-6 py-3 rounded-full font-medium transition-all duration-300 flex items-center gap-2 ${
                   step === 1
-                    ? 'bg-white/5 text-gray-500 cursor-not-allowed'
-                    : 'bg-white/10 text-white hover:bg-white/20'
+                    ? 'text-gray-500 cursor-not-allowed'
+                    : isDarkMode ? 'text-white' : 'text-gray-800'
                 }`}
-                whileHover={step > 1 ? { scale: 1.05 } : {}}
+                style={{
+                  background: step === 1 
+                    ? 'rgba(255, 255, 255, 0.05)' 
+                    : isDarkMode 
+                      ? 'rgba(255, 255, 255, 0.1)'
+                      : 'rgba(255, 255, 255, 0.7)',
+                  backdropFilter: step === 1 ? 'none' : 'blur(10px)',
+                  border: step === 1 
+                    ? 'none'
+                    : isDarkMode 
+                      ? '1px solid rgba(255, 255, 255, 0.2)'
+                      : '1px solid rgba(156, 163, 175, 0.3)'
+                }}
+                whileHover={step > 1 ? { 
+                  scale: 1.05,
+                  background: isDarkMode ? 'rgba(255, 255, 255, 0.15)' : 'rgba(255, 255, 255, 0.9)'
+                } : {}}
                 whileTap={step > 1 ? { scale: 0.95 } : {}}
               >
                 <ChevronLeft size={18} />

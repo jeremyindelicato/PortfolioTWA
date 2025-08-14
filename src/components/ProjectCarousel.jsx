@@ -172,10 +172,9 @@ const ProjectCarousel = () => {
               {projects.map((project, index) => (
                 <div
                   key={project.id}
-                  className="min-w-full h-full relative group cursor-pointer"
+                  className="min-w-full h-full relative group"
                   onMouseEnter={() => setHoveredProject(project.id)}
                   onMouseLeave={() => setHoveredProject(null)}
-                  onClick={() => handleProjectsPageClick()}
                 >
                   {/* Background Image */}
                   <div className="absolute inset-0 bg-gradient-to-br from-slate-800 to-slate-900 rounded-3xl overflow-hidden">

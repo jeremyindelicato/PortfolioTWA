@@ -137,7 +137,7 @@ Besoin d'une solution digitale sur-mesure ? Contactez-moi pour discuter de votre
 
 ---
 
-*Fait avec ❤️ et beaucoup de ☕ par Jérémy | **Taciturn Web Art***
+*Fait avec 🫶 par Jérémy | **Taciturn Web Art***
 
 > "La technologie au service de la créativité, la créativité au service de la croissance" 🚀
 

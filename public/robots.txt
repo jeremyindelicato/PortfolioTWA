@@ -1,0 +1,13 @@
+# Robots.txt pour Portfolio Jérémy Indelicato
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://indelicatojeremy.vercel.app/sitemap.xml
+
+# Crawl-delay (optionnel, évite la surcharge serveur)
+Crawl-delay: 1
+
+# Bloque certains dossiers si nécessaire
+Disallow: /api/
+Disallow: /_next/static/

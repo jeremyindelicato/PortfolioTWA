@@ -65,7 +65,7 @@ const ServicesCards = () => {
           <p className={`text-xl max-w-3xl mx-auto transition-colors duration-500 ${
             isDarkMode ? 'text-gray-300' : 'text-gray-600'
           }`}>
-            Des solutions digitales complètes pour propulser votre entreprise vers le succès
+            Des solutions sur mesure complètes pour propulser votre entreprise vers le succès 🚀
           </p>
         </motion.div>
 

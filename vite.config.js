@@ -16,21 +16,18 @@ export default defineConfig({
       output: {
         manualChunks: {
           // Séparer les gros packages
+          'vendor': ['react', 'react-dom'],
           'three': ['three', '@react-three/fiber', '@react-three/drei'],
           'animations': ['framer-motion', 'gsap'],
           'ui': ['lucide-react', 'react-hook-form'],
+          'supabase': ['@supabase/supabase-js'],
+          'router': ['react-router-dom']
         }
       }
     },
     
     // Compression optimisée
     minify: 'terser',
-    terserOptions: {
-      compress: {
-        drop_console: true, // Supprimer console.log en production
-        drop_debugger: true
-      }
-    },
     
     // Taille des chunks optimisée
     chunkSizeWarningLimit: 1000

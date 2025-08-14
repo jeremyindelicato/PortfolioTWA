@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, Suspense, lazy, Component } from 'react';
+import { motion } from 'framer-motion';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -87,7 +88,6 @@ class LazyErrorBoundary extends Component {
   }
 }
 
-import { motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
 import { Mail, Phone, MapPin, Send, FileText, Download, ExternalLink } from 'lucide-react';
 import { submitContactForm } from './utils/supabase';
@@ -337,8 +337,6 @@ function Accueil() {
                 />
               </div>
             </div>
-            {/* Effet de brillance */}
-            <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-transparent via-white/10 to-transparent animate-pulse"></div>
             
           </div>
         </div>

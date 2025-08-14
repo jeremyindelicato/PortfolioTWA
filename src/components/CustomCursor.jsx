@@ -88,21 +88,59 @@ const CustomCursor = () => {
     document.body.style.cursor = 'none';
     document.body.style.userSelect = 'none';
     
-    // Masquer le curseur sur tous les éléments
+    // Masquer le curseur sur tous les éléments (version renforcée)
     const hideDefaultCursor = () => {
       const style = document.createElement('style');
+      style.id = 'custom-cursor-style';
       style.innerHTML = `
-        *, *::before, *::after {
+        /* Force sur TOUS les éléments possibles */
+        *, *::before, *::after, *::backdrop {
           cursor: none !important;
         }
         
-        a, button, input, textarea, select, [role="button"], 
-        [tabindex], .cursor-pointer, [onclick] {
+        /* Ciblage spécifique des éléments interactifs */
+        html, body, div, span, p, h1, h2, h3, h4, h5, h6,
+        a, button, input, textarea, select, option, label,
+        form, fieldset, legend, table, tr, td, th,
+        ul, ol, li, dl, dt, dd, nav, header, footer,
+        section, article, aside, main, figure, figcaption,
+        img, svg, canvas, video, audio, iframe, embed, object,
+        [role="button"], [tabindex], [onclick], [onmouseover],
+        .cursor-pointer, .clickable, .interactive,
+        [data-cursor], [aria-expanded], [aria-controls] {
           cursor: none !important;
         }
         
+        /* États spéciaux */
+        :hover, :focus, :active, :visited, :link,
         input:focus, textarea:focus, select:focus,
-        button:hover, a:hover, [role="button"]:hover {
+        button:hover, a:hover, [role="button"]:hover,
+        button:active, a:active, [role="button"]:active,
+        button:focus, a:focus, [role="button"]:focus {
+          cursor: none !important;
+        }
+        
+        /* Pseudo-éléments et contenus générés */
+        ::before, ::after, ::first-letter, ::first-line,
+        ::selection, ::backdrop, ::placeholder {
+          cursor: none !important;
+        }
+        
+        /* Classes CSS courantes */
+        .btn, .button, .link, .nav-link, .menu-item,
+        .card, .modal, .dropdown, .tooltip, .popover {
+          cursor: none !important;
+        }
+        
+        /* Framework CSS (Bootstrap, etc.) */
+        .btn-primary, .btn-secondary, .btn-success,
+        .btn-danger, .btn-warning, .btn-info, .btn-light,
+        .btn-dark, .btn-outline-primary, .btn-outline-secondary {
+          cursor: none !important;
+        }
+        
+        /* Tailwind/DaisyUI classes */
+        .btn, .button, .link, .card, .modal, .dropdown {
           cursor: none !important;
         }
       `;
@@ -111,6 +149,50 @@ const CustomCursor = () => {
     };
     
     const styleElement = hideDefaultCursor();
+
+    // Observer les mutations DOM pour forcer cursor: none sur les nouveaux éléments
+    const observerCallback = (mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'childList') {
+          mutation.addedNodes.forEach((node) => {
+            if (node.nodeType === 1) { // Element node
+              // Forcer cursor: none sur le nouvel élément et ses enfants
+              node.style.cursor = 'none';
+              const children = node.querySelectorAll('*');
+              children.forEach(child => {
+                child.style.cursor = 'none';
+              });
+            }
+          });
+        }
+        if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+          // Réappliquer cursor: none si un style change
+          const target = mutation.target;
+          if (target && target.style) {
+            target.style.cursor = 'none';
+          }
+        }
+      });
+    };
+
+    const observer = new MutationObserver(observerCallback);
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ['style', 'class']
+    });
+
+    // Forcer cursor: none périodiquement (dernier recours)
+    const forceCursorInterval = setInterval(() => {
+      document.body.style.cursor = 'none';
+      const allElements = document.querySelectorAll('*');
+      allElements.forEach(el => {
+        if (el.style.cursor !== 'none') {
+          el.style.cursor = 'none';
+        }
+      });
+    }, 1000);
 
     // Surveiller les changements de taille d'écran (seulement sur desktop)
     const handleResize = () => {
@@ -129,8 +211,20 @@ const CustomCursor = () => {
       document.removeEventListener('mouseover', handleMouseEnter);
       document.removeEventListener('mouseout', handleMouseLeave);
       window.removeEventListener('resize', handleResize);
+      
+      // Nettoyer les observateurs et intervalles
+      observer.disconnect();
+      clearInterval(forceCursorInterval);
+      
+      // Restaurer le curseur par défaut
       document.body.style.cursor = 'auto';
       document.body.style.userSelect = 'auto';
+      
+      // Restaurer cursor: auto sur tous les éléments
+      const allElements = document.querySelectorAll('*');
+      allElements.forEach(el => {
+        el.style.cursor = 'auto';
+      });
       
       // Supprimer le style personnalisé
       if (styleElement && styleElement.parentNode) {
@@ -150,10 +244,10 @@ const CustomCursor = () => {
       <motion.img
         src={isHovering ? cursorHover : cursorDefault}
         alt="Curseur personnalisé"
-        className="absolute pointer-events-none w-8 h-8"
+        className="absolute pointer-events-none w-6 h-6"
         style={{
-          left: mousePosition.x - 16,
-          top: mousePosition.y - 16,
+          left: mousePosition.x - 12,
+          top: mousePosition.y - 12,
         }}
         animate={{
           scale: isClicking ? 0.8 : isHovering ? 1.1 : 1,
