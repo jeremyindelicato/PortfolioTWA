@@ -91,7 +91,7 @@ import { motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
 import { Mail, Phone, MapPin, Send, FileText, Download, ExternalLink } from 'lucide-react';
 import { submitContactForm } from './utils/supabase';
-import photoProfil from './assets/autre/photodeprofil.png';
+import photoProfil from './assets/autre/photo-de-profil.png';
 import epitechLogo from './assets/autre/epitech.svg';
 import strykerLogo from './assets/autre/stryker.svg';
 import cvPdf from './assets/autre/CV_JeremyIndelicato_Alternance.pdf';

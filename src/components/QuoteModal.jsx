@@ -535,12 +535,14 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
                               : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
                             color: formData.serviceType === service
-                              ? isDarkMode ? '#ffffff' : '#f3f4f6'
+                              ? isDarkMode ? '#ffffff' : '#ffffff'
                               : isDarkMode ? '#d1d5db' : '#374151',
                             cursor: 'pointer',
                             boxShadow: formData.serviceType === service
                               ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
-                              : 'none'
+                              : 'none',
+                            whiteSpace: 'nowrap',
+                            minWidth: 'fit-content'
                           }}
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
@@ -696,7 +698,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                                   ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
                                   : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
                                 color: formData.hasExistingWebsite === value
-                                  ? isDarkMode ? '#ffffff' : '#f3f4f6'
+                                  ? isDarkMode ? '#ffffff' : '#ffffff'
                                   : isDarkMode ? '#d1d5db' : '#374151',
                                 cursor: 'pointer',
                                 boxShadow: formData.hasExistingWebsite === value
@@ -792,7 +794,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                                   ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
                                   : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
                                 color: formData.projectGoals.includes(goal)
-                                  ? isDarkMode ? '#ffffff' : '#f3f4f6'
+                                  ? isDarkMode ? '#ffffff' : '#ffffff'
                                   : isDarkMode ? '#d1d5db' : '#374151',
                                 cursor: 'pointer',
                                 boxShadow: formData.projectGoals.includes(goal)
@@ -903,7 +905,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                                   ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
                                   : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
                                 color: formData.desiredFeatures.includes(feature)
-                                  ? isDarkMode ? '#ffffff' : '#f3f4f6'
+                                  ? isDarkMode ? '#ffffff' : '#ffffff'
                                   : isDarkMode ? '#d1d5db' : '#374151',
                                 cursor: 'pointer',
                                 boxShadow: formData.desiredFeatures.includes(feature)
@@ -962,7 +964,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                                   ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
                                   : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
                                 color: formData.needDesign === value
-                                  ? isDarkMode ? '#ffffff' : '#f3f4f6'
+                                  ? isDarkMode ? '#ffffff' : '#ffffff'
                                   : isDarkMode ? '#d1d5db' : '#374151',
                                 cursor: 'pointer',
                                 boxShadow: formData.needDesign === value
@@ -1059,7 +1061,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                                   ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
                                   : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
                                 color: formData.paymentMethods.includes(method)
-                                  ? isDarkMode ? '#ffffff' : '#f3f4f6'
+                                  ? isDarkMode ? '#ffffff' : '#ffffff'
                                   : isDarkMode ? '#d1d5db' : '#374151',
                                 cursor: 'pointer',
                                 boxShadow: formData.paymentMethods.includes(method)
@@ -1121,7 +1123,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                                   ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
                                   : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
                                 color: formData.deliveryNeeded === value
-                                  ? isDarkMode ? '#ffffff' : '#f3f4f6'
+                                  ? isDarkMode ? '#ffffff' : '#ffffff'
                                   : isDarkMode ? '#d1d5db' : '#374151',
                                 cursor: 'pointer',
                                 boxShadow: formData.deliveryNeeded === value
@@ -1210,7 +1212,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                                   ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
                                   : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
                                 color: formData.budgetRange === range
-                                  ? isDarkMode ? '#ffffff' : '#f3f4f6'
+                                  ? isDarkMode ? '#ffffff' : '#ffffff'
                                   : isDarkMode ? '#d1d5db' : '#374151',
                                 cursor: 'pointer',
                                 boxShadow: formData.budgetRange === range
@@ -1471,7 +1473,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                                   ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
                                   : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
                                 color: formData.aiProjectGoals.includes(goal)
-                                  ? isDarkMode ? '#ffffff' : '#f3f4f6'
+                                  ? isDarkMode ? '#ffffff' : '#ffffff'
                                   : isDarkMode ? '#d1d5db' : '#374151',
                                 cursor: 'pointer',
                                 boxShadow: formData.aiProjectGoals.includes(goal)
@@ -1577,7 +1579,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                                   ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
                                   : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
                                 color: formData.hasDataAvailable === value
-                                  ? isDarkMode ? '#ffffff' : '#f3f4f6'
+                                  ? isDarkMode ? '#ffffff' : '#ffffff'
                                   : isDarkMode ? '#d1d5db' : '#374151',
                                 cursor: 'pointer',
                                 boxShadow: formData.hasDataAvailable === value
@@ -1612,11 +1614,30 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               key={dataType}
                               type="button"
                               onClick={() => handleArrayChange('dataTypes', dataType)}
-                              className={`p-3 rounded-xl border text-left transition-all duration-300 ${
-                                formData.dataTypes.includes(dataType)
-                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-gray-100'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
-                                  : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
-                              }`}
+                              style={{
+                                padding: '12px',
+                                borderRadius: '12px',
+                                border: formData.dataTypes.includes(dataType)
+                                  ? '2px solid #3F8391'
+                                  : isDarkMode 
+                                    ? '1px solid rgba(255, 255, 255, 0.2)' 
+                                    : '1px solid rgba(156, 163, 175, 0.4)',
+                                textAlign: 'left',
+                                transition: 'all 0.3s ease',
+                                backgroundColor: formData.dataTypes.includes(dataType)
+                                  ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
+                                  : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
+                                color: formData.dataTypes.includes(dataType)
+                                  ? '#ffffff'
+                                  : isDarkMode ? '#d1d5db' : '#374151',
+                                cursor: 'pointer',
+                                boxShadow: formData.dataTypes.includes(dataType)
+                                  ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
+                                  : 'none',
+                                backdropFilter: formData.dataTypes.includes(dataType)
+                                  ? 'none'
+                                  : 'blur(10px)'
+                              }}
                               whileHover={{ scale: 1.01 }}
                               whileTap={{ scale: 0.99 }}
                             >
@@ -1656,11 +1677,30 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               key={volume}
                               type="button"
                               onClick={() => handleInputChange('dataVolume', volume)}
-                              className={`p-3 rounded-xl border text-center transition-all duration-300 ${
-                                formData.dataVolume === volume
-                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-gray-100'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
-                                  : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
-                              }`}
+                              style={{
+                                padding: '12px',
+                                borderRadius: '12px',
+                                border: formData.dataVolume === volume
+                                  ? '2px solid #3F8391'
+                                  : isDarkMode 
+                                    ? '1px solid rgba(255, 255, 255, 0.2)' 
+                                    : '1px solid rgba(156, 163, 175, 0.4)',
+                                textAlign: 'center',
+                                transition: 'all 0.3s ease',
+                                backgroundColor: formData.dataVolume === volume
+                                  ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
+                                  : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
+                                color: formData.dataVolume === volume
+                                  ? '#ffffff'
+                                  : isDarkMode ? '#d1d5db' : '#374151',
+                                cursor: 'pointer',
+                                boxShadow: formData.dataVolume === volume
+                                  ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
+                                  : 'none',
+                                backdropFilter: formData.dataVolume === volume
+                                  ? 'none'
+                                  : 'blur(10px)'
+                              }}
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
                             >
@@ -1738,7 +1778,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                                   ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
                                   : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
                                 color: formData.aiDesiredFeatures.includes(feature)
-                                  ? isDarkMode ? '#ffffff' : '#f3f4f6'
+                                  ? isDarkMode ? '#ffffff' : '#ffffff'
                                   : isDarkMode ? '#d1d5db' : '#374151',
                                 cursor: 'pointer',
                                 boxShadow: formData.aiDesiredFeatures.includes(feature)
@@ -1805,11 +1845,30 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               key={timeline}
                               type="button"
                               onClick={() => handleInputChange('projectStartTimeline', timeline)}
-                              className={`px-6 py-3 rounded-xl border transition-all duration-300 ${
-                                formData.projectStartTimeline === timeline
-                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-gray-100'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
-                                  : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
-                              }`}
+                              style={{
+                                padding: '12px 24px',
+                                borderRadius: '12px',
+                                border: formData.projectStartTimeline === timeline
+                                  ? '2px solid #3F8391'
+                                  : isDarkMode 
+                                    ? '1px solid rgba(255, 255, 255, 0.2)' 
+                                    : '1px solid rgba(156, 163, 175, 0.4)',
+                                textAlign: 'center',
+                                transition: 'all 0.3s ease',
+                                backgroundColor: formData.projectStartTimeline === timeline
+                                  ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
+                                  : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
+                                color: formData.projectStartTimeline === timeline
+                                  ? '#ffffff'
+                                  : isDarkMode ? '#d1d5db' : '#374151',
+                                cursor: 'pointer',
+                                boxShadow: formData.projectStartTimeline === timeline
+                                  ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
+                                  : 'none',
+                                backdropFilter: formData.projectStartTimeline === timeline
+                                  ? 'none'
+                                  : 'blur(10px)'
+                              }}
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
                             >
@@ -1851,7 +1910,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                                   ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
                                   : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
                                 color: formData.aiBudgetRange === budget
-                                  ? isDarkMode ? '#ffffff' : '#f3f4f6'
+                                  ? isDarkMode ? '#ffffff' : '#ffffff'
                                   : isDarkMode ? '#d1d5db' : '#374151',
                                 cursor: 'pointer',
                                 boxShadow: formData.aiBudgetRange === budget
@@ -1919,11 +1978,30 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               key={support}
                               type="button"
                               onClick={() => handleInputChange('needTechnicalSupport', support)}
-                              className={`px-6 py-3 rounded-xl border transition-all duration-300 ${
-                                formData.needTechnicalSupport === support
-                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-gray-100'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
-                                  : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
-                              }`}
+                              style={{
+                                padding: '12px 24px',
+                                borderRadius: '12px',
+                                border: formData.needTechnicalSupport === support
+                                  ? '2px solid #3F8391'
+                                  : isDarkMode 
+                                    ? '1px solid rgba(255, 255, 255, 0.2)' 
+                                    : '1px solid rgba(156, 163, 175, 0.4)',
+                                textAlign: 'center',
+                                transition: 'all 0.3s ease',
+                                backgroundColor: formData.needTechnicalSupport === support
+                                  ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
+                                  : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
+                                color: formData.needTechnicalSupport === support
+                                  ? '#ffffff'
+                                  : isDarkMode ? '#d1d5db' : '#374151',
+                                cursor: 'pointer',
+                                boxShadow: formData.needTechnicalSupport === support
+                                  ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
+                                  : 'none',
+                                backdropFilter: formData.needTechnicalSupport === support
+                                  ? 'none'
+                                  : 'blur(10px)'
+                              }}
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
                             >
@@ -1959,7 +2037,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                                   ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
                                   : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
                                 color: formData.needFutureMaintenance === maintenance
-                                  ? isDarkMode ? '#ffffff' : '#f3f4f6'
+                                  ? isDarkMode ? '#ffffff' : '#ffffff'
                                   : isDarkMode ? '#d1d5db' : '#374151',
                                 cursor: 'pointer',
                                 boxShadow: formData.needFutureMaintenance === maintenance
@@ -2031,17 +2109,41 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               key={contact.value}
                               type="button"
                               onClick={() => handleInputChange('preferredContact', contact.value)}
-                              className={`p-3 sm:p-4 rounded-xl border text-center transition-all duration-300 text-sm sm:text-base ${
-                                formData.preferredContact === contact.value
-                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-gray-100'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
-                                  : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
-                              }`}
+                              style={{
+                                padding: '12px 16px',
+                                borderRadius: '12px',
+                                border: formData.preferredContact === contact.value
+                                  ? '2px solid #3F8391'
+                                  : isDarkMode 
+                                    ? '1px solid rgba(255, 255, 255, 0.2)' 
+                                    : '1px solid rgba(156, 163, 175, 0.4)',
+                                textAlign: 'center',
+                                transition: 'all 0.3s ease',
+                                backgroundColor: formData.preferredContact === contact.value
+                                  ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
+                                  : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
+                                color: formData.preferredContact === contact.value
+                                  ? '#ffffff'
+                                  : isDarkMode ? '#d1d5db' : '#374151',
+                                cursor: 'pointer',
+                                boxShadow: formData.preferredContact === contact.value
+                                  ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
+                                  : 'none',
+                                backdropFilter: formData.preferredContact === contact.value
+                                  ? 'none'
+                                  : 'blur(10px)',
+                                fontSize: window.innerWidth >= 640 ? '16px' : '14px'
+                              }}
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
                             >
                               <div className="text-2xl mb-2">{contact.icon}</div>
                               <div className="font-medium">{contact.value}</div>
-                              <div className="text-xs text-gray-400 mt-1">{contact.desc}</div>
+                              <div className={`text-xs mt-1 ${
+                                formData.preferredContact === contact.value
+                                  ? isDarkMode ? 'text-gray-200' : 'text-gray-200'
+                                  : isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                              }`}>{contact.desc}</div>
                             </motion.button>
                           ))}
                         </div>
@@ -2049,7 +2151,9 @@ const QuoteModal = ({ isOpen, onClose }) => {
                         {/* Message d'aide */}
                         {!formData.preferredContact && (
                           <div className="mt-4 bg-yellow-500/10 border border-yellow-500/20 rounded-xl p-3">
-                            <p className="text-yellow-200 text-sm flex items-center gap-2">
+                            <p className={`text-sm flex items-center gap-2 transition-colors duration-500 ${
+                              isDarkMode ? 'text-yellow-200' : 'text-yellow-800'
+                            }`}>
                               <span>💡</span>
                               <span>Sélectionnez votre mode de contact préféré pour continuer</span>
                             </p>
@@ -2106,7 +2210,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                                   ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
                                   : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
                                 color: formData.needTraining === value
-                                  ? isDarkMode ? '#ffffff' : '#f3f4f6'
+                                  ? isDarkMode ? '#ffffff' : '#ffffff'
                                   : isDarkMode ? '#d1d5db' : '#374151',
                                 cursor: 'pointer',
                                 boxShadow: formData.needTraining === value
@@ -2168,7 +2272,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                                   ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
                                   : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
                                 color: formData.needMaintenance === option
-                                  ? isDarkMode ? '#ffffff' : '#f3f4f6'
+                                  ? isDarkMode ? '#ffffff' : '#ffffff'
                                   : isDarkMode ? '#d1d5db' : '#374151',
                                 cursor: 'pointer',
                                 boxShadow: formData.needMaintenance === option
@@ -2281,17 +2385,41 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               key={contact.value}
                               type="button"
                               onClick={() => handleInputChange('preferredContact', contact.value)}
-                              className={`p-3 sm:p-4 rounded-xl border text-center transition-all duration-300 text-sm sm:text-base ${
-                                formData.preferredContact === contact.value
-                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-gray-100'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
-                                  : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
-                              }`}
+                              style={{
+                                padding: '12px 16px',
+                                borderRadius: '12px',
+                                border: formData.preferredContact === contact.value
+                                  ? '2px solid #3F8391'
+                                  : isDarkMode 
+                                    ? '1px solid rgba(255, 255, 255, 0.2)' 
+                                    : '1px solid rgba(156, 163, 175, 0.4)',
+                                textAlign: 'center',
+                                transition: 'all 0.3s ease',
+                                backgroundColor: formData.preferredContact === contact.value
+                                  ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
+                                  : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
+                                color: formData.preferredContact === contact.value
+                                  ? '#ffffff'
+                                  : isDarkMode ? '#d1d5db' : '#374151',
+                                cursor: 'pointer',
+                                boxShadow: formData.preferredContact === contact.value
+                                  ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
+                                  : 'none',
+                                backdropFilter: formData.preferredContact === contact.value
+                                  ? 'none'
+                                  : 'blur(10px)',
+                                fontSize: window.innerWidth >= 640 ? '16px' : '14px'
+                              }}
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
                             >
                               <div className="text-2xl mb-2">{contact.icon}</div>
                               <div className="font-medium">{contact.value}</div>
-                              <div className="text-xs text-gray-400 mt-1">{contact.desc}</div>
+                              <div className={`text-xs mt-1 ${
+                                formData.preferredContact === contact.value
+                                  ? isDarkMode ? 'text-gray-200' : 'text-gray-200'
+                                  : isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                              }`}>{contact.desc}</div>
                             </motion.button>
                           ))}
                         </div>
@@ -2299,7 +2427,9 @@ const QuoteModal = ({ isOpen, onClose }) => {
                         {/* Message d'aide */}
                         {!formData.preferredContact && (
                           <div className="mt-4 bg-yellow-500/10 border border-yellow-500/20 rounded-xl p-3">
-                            <p className="text-yellow-200 text-sm flex items-center gap-2">
+                            <p className={`text-sm flex items-center gap-2 transition-colors duration-500 ${
+                              isDarkMode ? 'text-yellow-200' : 'text-yellow-800'
+                            }`}>
                               <span>💡</span>
                               <span>Sélectionnez votre mode de contact préféré pour continuer</span>
                             </p>
@@ -2443,11 +2573,31 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               key={option}
                               type="button"
                               onClick={() => handleInputChange('hasExistingWebsite', option)}
-                              className={`px-4 sm:px-6 py-2 sm:py-3 rounded-xl border transition-colors text-sm sm:text-base ${
-                                formData.hasExistingWebsite === option
-                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-gray-100'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
-                                  : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
-                              }`}
+                              style={{
+                                padding: '8px 24px',
+                                borderRadius: '12px',
+                                border: formData.hasExistingWebsite === option
+                                  ? '2px solid #3F8391'
+                                  : isDarkMode 
+                                    ? '1px solid rgba(255, 255, 255, 0.2)' 
+                                    : '1px solid rgba(156, 163, 175, 0.4)',
+                                textAlign: 'center',
+                                transition: 'all 0.3s ease',
+                                backgroundColor: formData.hasExistingWebsite === option
+                                  ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
+                                  : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
+                                color: formData.hasExistingWebsite === option
+                                  ? '#ffffff'
+                                  : isDarkMode ? '#d1d5db' : '#374151',
+                                cursor: 'pointer',
+                                boxShadow: formData.hasExistingWebsite === option
+                                  ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
+                                  : 'none',
+                                backdropFilter: formData.hasExistingWebsite === option
+                                  ? 'none'
+                                  : 'blur(10px)',
+                                fontSize: window.innerWidth >= 640 ? '16px' : '14px'
+                              }}
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
                             >
@@ -2546,7 +2696,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                                   ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
                                   : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
                                 color: formData.growthMainGoals.includes(goal)
-                                  ? isDarkMode ? '#ffffff' : '#f3f4f6'
+                                  ? isDarkMode ? '#ffffff' : '#ffffff'
                                   : isDarkMode ? '#d1d5db' : '#374151',
                                 cursor: 'pointer',
                                 boxShadow: formData.growthMainGoals.includes(goal)
@@ -2660,7 +2810,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                                   ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
                                   : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
                                 color: formData.growthDesiredServices.includes(service)
-                                  ? isDarkMode ? '#ffffff' : '#f3f4f6'
+                                  ? isDarkMode ? '#ffffff' : '#ffffff'
                                   : isDarkMode ? '#d1d5db' : '#374151',
                                 cursor: 'pointer',
                                 boxShadow: formData.growthDesiredServices.includes(service)
@@ -2758,11 +2908,31 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               key={option}
                               type="button"
                               onClick={() => handleInputChange('hasExistingDatabase', option)}
-                              className={`px-4 sm:px-6 py-2 sm:py-3 rounded-xl border transition-colors text-sm sm:text-base ${
-                                formData.hasExistingDatabase === option
-                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-gray-100'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
-                                  : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
-                              }`}
+                              style={{
+                                padding: '8px 24px',
+                                borderRadius: '12px',
+                                border: formData.hasExistingDatabase === option
+                                  ? '2px solid #3F8391'
+                                  : isDarkMode 
+                                    ? '1px solid rgba(255, 255, 255, 0.2)' 
+                                    : '1px solid rgba(156, 163, 175, 0.4)',
+                                textAlign: 'center',
+                                transition: 'all 0.3s ease',
+                                backgroundColor: formData.hasExistingDatabase === option
+                                  ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
+                                  : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
+                                color: formData.hasExistingDatabase === option
+                                  ? '#ffffff'
+                                  : isDarkMode ? '#d1d5db' : '#374151',
+                                cursor: 'pointer',
+                                boxShadow: formData.hasExistingDatabase === option
+                                  ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
+                                  : 'none',
+                                backdropFilter: formData.hasExistingDatabase === option
+                                  ? 'none'
+                                  : 'blur(10px)',
+                                fontSize: window.innerWidth >= 640 ? '16px' : '14px'
+                              }}
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
                             >
@@ -2802,11 +2972,31 @@ const QuoteModal = ({ isOpen, onClose }) => {
                                 }
                                 handleInputChange('leadSources', currentSources);
                               }}
-                              className={`p-3 rounded-xl border text-center text-sm transition-all duration-300 ${
-                                formData.leadSources.includes(source)
-                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-gray-100'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
-                                  : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
-                              }`}
+                              style={{
+                                padding: '12px',
+                                borderRadius: '12px',
+                                border: formData.leadSources.includes(source)
+                                  ? '2px solid #3F8391'
+                                  : isDarkMode 
+                                    ? '1px solid rgba(255, 255, 255, 0.2)' 
+                                    : '1px solid rgba(156, 163, 175, 0.4)',
+                                textAlign: 'center',
+                                transition: 'all 0.3s ease',
+                                backgroundColor: formData.leadSources.includes(source)
+                                  ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
+                                  : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
+                                color: formData.leadSources.includes(source)
+                                  ? '#ffffff'
+                                  : isDarkMode ? '#d1d5db' : '#374151',
+                                cursor: 'pointer',
+                                boxShadow: formData.leadSources.includes(source)
+                                  ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
+                                  : 'none',
+                                backdropFilter: formData.leadSources.includes(source)
+                                  ? 'none'
+                                  : 'blur(10px)',
+                                fontSize: '14px'
+                              }}
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
                             >
@@ -2882,7 +3072,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                                   ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
                                   : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
                                 color: formData.wantsDetailedReporting === option
-                                  ? isDarkMode ? '#ffffff' : '#f3f4f6'
+                                  ? isDarkMode ? '#ffffff' : '#ffffff'
                                   : isDarkMode ? '#d1d5db' : '#374151',
                                 cursor: 'pointer',
                                 boxShadow: formData.wantsDetailedReporting === option
@@ -2911,11 +3101,31 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               key={option}
                               type="button"
                               onClick={() => handleInputChange('hasTestedGrowthTools', option)}
-                              className={`px-4 sm:px-6 py-2 sm:py-3 rounded-xl border transition-colors text-sm sm:text-base ${
-                                formData.hasTestedGrowthTools === option
-                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-gray-100'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
-                                  : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
-                              }`}
+                              style={{
+                                padding: '8px 24px',
+                                borderRadius: '12px',
+                                border: formData.hasTestedGrowthTools === option
+                                  ? '2px solid #3F8391'
+                                  : isDarkMode 
+                                    ? '1px solid rgba(255, 255, 255, 0.2)' 
+                                    : '1px solid rgba(156, 163, 175, 0.4)',
+                                textAlign: 'center',
+                                transition: 'all 0.3s ease',
+                                backgroundColor: formData.hasTestedGrowthTools === option
+                                  ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
+                                  : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
+                                color: formData.hasTestedGrowthTools === option
+                                  ? '#ffffff'
+                                  : isDarkMode ? '#d1d5db' : '#374151',
+                                cursor: 'pointer',
+                                boxShadow: formData.hasTestedGrowthTools === option
+                                  ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
+                                  : 'none',
+                                backdropFilter: formData.hasTestedGrowthTools === option
+                                  ? 'none'
+                                  : 'blur(10px)',
+                                fontSize: window.innerWidth >= 640 ? '16px' : '14px'
+                              }}
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
                             >
@@ -2987,11 +3197,31 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               key={timing}
                               type="button"
                               onClick={() => handleInputChange('projectStartTimeline', timing)}
-                              className={`p-3 sm:p-4 rounded-xl border text-center transition-all duration-300 text-sm sm:text-base ${
-                                formData.projectStartTimeline === timing
-                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-gray-100'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
-                                  : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
-                              }`}
+                              style={{
+                                padding: '12px 16px',
+                                borderRadius: '12px',
+                                border: formData.projectStartTimeline === timing
+                                  ? '2px solid #3F8391'
+                                  : isDarkMode 
+                                    ? '1px solid rgba(255, 255, 255, 0.2)' 
+                                    : '1px solid rgba(156, 163, 175, 0.4)',
+                                textAlign: 'center',
+                                transition: 'all 0.3s ease',
+                                backgroundColor: formData.projectStartTimeline === timing
+                                  ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
+                                  : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
+                                color: formData.projectStartTimeline === timing
+                                  ? '#ffffff'
+                                  : isDarkMode ? '#d1d5db' : '#374151',
+                                cursor: 'pointer',
+                                boxShadow: formData.projectStartTimeline === timing
+                                  ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
+                                  : 'none',
+                                backdropFilter: formData.projectStartTimeline === timing
+                                  ? 'none'
+                                  : 'blur(10px)',
+                                fontSize: window.innerWidth >= 640 ? '16px' : '14px'
+                              }}
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
                             >
@@ -3019,11 +3249,31 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               key={budget}
                               type="button"
                               onClick={() => handleInputChange('growthBudgetRange', budget)}
-                              className={`p-3 sm:p-4 rounded-xl border text-center transition-all duration-300 text-sm sm:text-base ${
-                                formData.growthBudgetRange === budget
-                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-gray-100'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
-                                  : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
-                              }`}
+                              style={{
+                                padding: '12px 16px',
+                                borderRadius: '12px',
+                                border: formData.growthBudgetRange === budget
+                                  ? '2px solid #3F8391'
+                                  : isDarkMode 
+                                    ? '1px solid rgba(255, 255, 255, 0.2)' 
+                                    : '1px solid rgba(156, 163, 175, 0.4)',
+                                textAlign: 'center',
+                                transition: 'all 0.3s ease',
+                                backgroundColor: formData.growthBudgetRange === budget
+                                  ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
+                                  : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
+                                color: formData.growthBudgetRange === budget
+                                  ? '#ffffff'
+                                  : isDarkMode ? '#d1d5db' : '#374151',
+                                cursor: 'pointer',
+                                boxShadow: formData.growthBudgetRange === budget
+                                  ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
+                                  : 'none',
+                                backdropFilter: formData.growthBudgetRange === budget
+                                  ? 'none'
+                                  : 'blur(10px)',
+                                fontSize: window.innerWidth >= 640 ? '16px' : '14px'
+                              }}
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
                             >
@@ -3083,11 +3333,31 @@ const QuoteModal = ({ isOpen, onClose }) => {
                                 }
                                 handleInputChange('additionalServices', currentServices);
                               }}
-                              className={`p-3 rounded-xl border text-left text-sm transition-all duration-300 ${
-                                formData.additionalServices.includes(service)
-                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-gray-100'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
-                                  : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
-                              }`}
+                              style={{
+                                padding: '12px',
+                                borderRadius: '12px',
+                                border: formData.additionalServices.includes(service)
+                                  ? '2px solid #3F8391'
+                                  : isDarkMode 
+                                    ? '1px solid rgba(255, 255, 255, 0.2)' 
+                                    : '1px solid rgba(156, 163, 175, 0.4)',
+                                textAlign: 'left',
+                                transition: 'all 0.3s ease',
+                                backgroundColor: formData.additionalServices.includes(service)
+                                  ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
+                                  : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
+                                color: formData.additionalServices.includes(service)
+                                  ? '#ffffff'
+                                  : isDarkMode ? '#d1d5db' : '#374151',
+                                cursor: 'pointer',
+                                boxShadow: formData.additionalServices.includes(service)
+                                  ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
+                                  : 'none',
+                                backdropFilter: formData.additionalServices.includes(service)
+                                  ? 'none'
+                                  : 'blur(10px)',
+                                fontSize: '14px'
+                              }}
                               whileHover={{ scale: 1.01 }}
                               whileTap={{ scale: 0.99 }}
                             >
@@ -3160,17 +3430,41 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               key={contact.value}
                               type="button"
                               onClick={() => handleInputChange('preferredContact', contact.value)}
-                              className={`p-3 sm:p-4 rounded-xl border text-center transition-all duration-300 text-sm sm:text-base ${
-                                formData.preferredContact === contact.value
-                                  ? `border-[#3F8391] ${isDarkMode ? 'bg-[#3F8391]/40 text-white' : 'bg-[#3F8391] text-gray-100'} shadow-xl shadow-[#3F8391]/50 scale-105 ring-2 ring-[#3F8391]/60`
-                                  : `${isDarkMode ? 'border-white/20 bg-white/5 text-gray-300 hover:border-white/40' : 'border-gray-300/40 bg-white/70 text-gray-800 hover:border-gray-400/60 hover:bg-white/90 hover:text-gray-900'}`
-                              }`}
+                              style={{
+                                padding: '12px 16px',
+                                borderRadius: '12px',
+                                border: formData.preferredContact === contact.value
+                                  ? '2px solid #3F8391'
+                                  : isDarkMode 
+                                    ? '1px solid rgba(255, 255, 255, 0.2)' 
+                                    : '1px solid rgba(156, 163, 175, 0.4)',
+                                textAlign: 'center',
+                                transition: 'all 0.3s ease',
+                                backgroundColor: formData.preferredContact === contact.value
+                                  ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
+                                  : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
+                                color: formData.preferredContact === contact.value
+                                  ? '#ffffff'
+                                  : isDarkMode ? '#d1d5db' : '#374151',
+                                cursor: 'pointer',
+                                boxShadow: formData.preferredContact === contact.value
+                                  ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
+                                  : 'none',
+                                backdropFilter: formData.preferredContact === contact.value
+                                  ? 'none'
+                                  : 'blur(10px)',
+                                fontSize: window.innerWidth >= 640 ? '16px' : '14px'
+                              }}
                               whileHover={{ scale: 1.02 }}
                               whileTap={{ scale: 0.98 }}
                             >
                               <div className="text-2xl mb-2">{contact.icon}</div>
                               <div className="font-medium">{contact.value}</div>
-                              <div className="text-xs text-gray-400 mt-1">{contact.desc}</div>
+                              <div className={`text-xs mt-1 ${
+                                formData.preferredContact === contact.value
+                                  ? isDarkMode ? 'text-gray-200' : 'text-gray-200'
+                                  : isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                              }`}>{contact.desc}</div>
                             </motion.button>
                           ))}
                         </div>
@@ -3178,7 +3472,9 @@ const QuoteModal = ({ isOpen, onClose }) => {
                         {/* Message d'aide */}
                         {!formData.preferredContact && (
                           <div className="mt-4 bg-yellow-500/10 border border-yellow-500/20 rounded-xl p-3">
-                            <p className="text-yellow-200 text-sm flex items-center gap-2">
+                            <p className={`text-sm flex items-center gap-2 transition-colors duration-500 ${
+                              isDarkMode ? 'text-yellow-200' : 'text-yellow-800'
+                            }`}>
                               <span>💡</span>
                               <span>Sélectionnez votre mode de contact préféré pour continuer</span>
                             </p>
@@ -3232,7 +3528,9 @@ const QuoteModal = ({ isOpen, onClose }) => {
                       transition={{ delay: 0.4 }}
                       className="space-y-4"
                     >
-                      <p className="text-gray-300 text-lg mb-6">
+                      <p className={`text-lg mb-6 transition-colors duration-500 ${
+                        isDarkMode ? 'text-gray-300' : 'text-gray-700'
+                      }`}>
                         Merci {formData.firstName} ! Votre demande de devis pour 
                         <span className="text-[#3F8391] font-semibold"> {formData.serviceType}</span> a bien été reçue.
                       </p>
