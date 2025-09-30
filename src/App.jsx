@@ -346,9 +346,9 @@ function Accueil() {
           <p className={`text-lg sm:text-xl lg:text-2xl mb-6 lg:mb-8 leading-relaxed transition-colors duration-500 ${
             isDarkMode ? 'text-gray-400' : 'text-gray-600'
           }`}>
-            <span style={{ color: '#3F8391' }} className="font-semibold">AI & Data Engineer</span> chez <span style={{ color: '#3F8391' }} className="font-semibold">Stryker</span>, je vous accompagne de manière indépendante dans la création de <span style={{ color: '#3F8391' }} className="font-semibold">solutions web sur-mesure</span>, taillées pour vos objectifs.
+            <span style={{ color: '#3F8391' }} className="font-semibold">AI & Data Scientist</span> chez <span style={{ color: '#3F8391' }} className="font-semibold">Stryker</span>, je vous accompagne de manière indépendante dans la création de <span style={{ color: '#3F8391' }} className="font-semibold">solutions web sur-mesure</span>, taillées pour vos objectifs.
             <br />
-            Mêlant <span style={{ color: '#3F8391' }} className="font-semibold">développement web</span>, <span style={{ color: '#3F8391' }} className="font-semibold">data</span> et <span style={{ color: '#3F8391' }} className="font-semibold">IA</span>, je transforme vos idées en <span style={{ color: '#3F8391' }} className="font-semibold">leviers concrets de croissance</span>.
+            Mêlant <span style={{ color: '#3F8391' }} className="font-semibold">développement web</span>, <span style={{ color: '#3F8391' }} className="font-semibold">data</span> et <span style={{ color: '#3F8391' }} className="font-semibold">IA</span>, je transforme vos idées en <span style={{ color: '#3F8391' }} className="font-semibold">leviers concrets de croissance</span>. 👨‍💻
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start mb-8 lg:mb-12">
@@ -1012,7 +1012,7 @@ function MesServices() {
         <h1 className={`text-4xl md:text-6xl font-bold mb-6 transition-colors duration-500 ${
           isDarkMode ? 'text-white' : 'text-gray-900'
         }`}>
-          Mes <span style={{ color: '#3F8391' }}>Services</span>
+          MES <span style={{ color: '#3F8391' }}>SERVICES</span>
         </h1>
         <p className={`text-xl max-w-3xl mx-auto transition-colors duration-500 ${
           isDarkMode ? 'text-gray-300' : 'text-gray-600'
@@ -1231,7 +1231,7 @@ function Contact() {
         <h1 className={`text-4xl md:text-6xl font-bold mb-6 drop-shadow-lg transition-colors duration-500 ${
           isDarkMode ? 'text-white' : 'text-gray-900'
         }`}>
-          Me <span style={{ color: '#3F8391' }}>Contacter</span>
+          ME <span style={{ color: '#3F8391' }}>CONTACTER</span>
         </h1>
         <p className={`text-xl max-w-3xl mx-auto drop-shadow-md transition-colors duration-500 ${
           isDarkMode ? 'text-gray-100' : 'text-gray-700'
