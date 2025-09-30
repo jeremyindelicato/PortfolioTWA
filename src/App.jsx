@@ -322,8 +322,8 @@ function Accueil() {
         className="min-h-[80vh] flex flex-col lg:flex-row items-center justify-center gap-8 lg:gap-16 px-4 py-12 lg:py-20 max-w-6xl mx-auto"
       >
         {/* Photo de profil */}
-        <div className="relative profile-image">
-          <div className="relative w-48 h-48 sm:w-64 sm:h-64 lg:w-80 lg:h-80">
+        <div className="relative profile-image group">
+          <div className="relative w-48 h-48 sm:w-64 sm:h-64 lg:w-80 lg:h-80 transition-transform duration-300 hover:scale-105">
             <div className="absolute inset-0 rounded-full p-1" style={{
               background: 'radial-gradient(ellipse at center, #3C3C3D 0%, #040F11 100%)'
             }}>
@@ -434,8 +434,11 @@ function Accueil() {
 
           {/* Logos École et Entreprise */}
           <div className="flex items-center justify-center lg:justify-start gap-4 sm:gap-6 lg:gap-8">
-            <motion.div
-              className="flex flex-col items-center gap-3"
+            <motion.a
+              href="https://www.epitech.eu/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex flex-col items-center gap-3 cursor-pointer"
               whileHover={{ scale: 1.1, y: -5 }}
               transition={{ duration: 0.3 }}
             >
@@ -447,12 +450,15 @@ function Accueil() {
               <span className={`text-sm font-medium transition-colors duration-500 ${
                 isDarkMode ? 'text-gray-400' : 'text-gray-600'
               }`}>École</span>
-            </motion.div>
+            </motion.a>
             
             <div className="w-px h-12 sm:h-14 lg:h-16 bg-gradient-to-b from-transparent via-gray-600 to-transparent" />
             
-            <motion.div
-              className="flex flex-col items-center gap-3"
+            <motion.a
+              href="https://www.stryker.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex flex-col items-center gap-3 cursor-pointer"
               whileHover={{ scale: 1.1, y: -5 }}
               transition={{ duration: 0.3 }}
             >
@@ -464,7 +470,7 @@ function Accueil() {
               <span className={`text-sm font-medium transition-colors duration-500 ${
                 isDarkMode ? 'text-gray-400' : 'text-gray-600'
               }`}>Alternance</span>
-            </motion.div>
+            </motion.a>
           </div>
         </div>
       </div>
