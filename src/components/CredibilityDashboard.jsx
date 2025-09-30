@@ -572,11 +572,6 @@ const CredibilityDashboard = ({ className = "" }) => {
                 </div>
               </div>
               
-              <div className={`text-sm mt-4 text-center transition-colors duration-500 ${
-                isDarkMode ? 'text-gray-400' : 'text-gray-600'
-              }`}>
-                📈 Objectif 2024: +50% trafic • 🎯 Performance sur la bonne voie
-              </div>
             </motion.div>
 
 

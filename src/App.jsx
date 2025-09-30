@@ -111,7 +111,12 @@ import institutCorailMockup from './assets/institut-corail/grand-image-institut-
 import maisonlicLogo from './assets/maisonlic/logo.png';
 
 function AppContent() {
-  const [loading, setLoading] = useState(false);
+  // Loader uniquement si on arrive sur la page d'accueil ET qu'on n'a jamais visité
+  const [loading, setLoading] = useState(() => {
+    const currentPath = window.location.pathname;
+    const hasLoadedBefore = sessionStorage.getItem('hasLoadedBefore');
+    return currentPath === '/' && !hasLoadedBefore;
+  });
   const [isMobile, setIsMobile] = useState(false);
   const { isDarkMode } = useTheme();
 
@@ -158,15 +163,30 @@ function AppContent() {
 
 function LoaderController({ setLoading }) {
   const location = useLocation();
+  
   useEffect(() => {
     if (location) {
-      // Scroll vers le haut lors du changement de page
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      setLoading(true);
-      const timer = setTimeout(() => setLoading(false), 2000);
-      return () => clearTimeout(timer);
+      // Scroll vers le haut lors du changement de page (sauf au premier chargement)
+      if (location.pathname !== '/' || sessionStorage.getItem('hasLoadedBefore')) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      
+      // Afficher le loader uniquement sur la page d'accueil
+      if (location.pathname === '/') {
+        setLoading(true);
+        const timer = setTimeout(() => {
+          setLoading(false);
+          // Marquer que l'utilisateur a déjà vu le loader
+          sessionStorage.setItem('hasLoadedBefore', 'true');
+        }, 2000);
+        return () => clearTimeout(timer);
+      } else {
+        // S'assurer que le loader est caché sur les autres pages
+        setLoading(false);
+      }
     }
   }, [location, setLoading]);
+  
   return null;
 }
 
