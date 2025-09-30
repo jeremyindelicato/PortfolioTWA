@@ -592,7 +592,7 @@ const CredibilityDashboard = ({ className = "" }) => {
                 isDarkMode ? 'text-white' : 'text-gray-800'
               }`}>
                 <Bot size={20} color="#EF4444" />
-                Automatisations IA - Déploiements 2024
+                Automatisations IA - Déploiements 2025
               </h4>
               
               {/* Statistiques IA */}
