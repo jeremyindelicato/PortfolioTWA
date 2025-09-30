@@ -49,9 +49,9 @@ export const ThemeProvider = ({ children }) => {
       isDarkMode ? defaultDark : defaultLight,
     getBorderColor: (defaultDark = 'border-white/20', defaultLight = 'border-gray-200') => 
       isDarkMode ? defaultDark : defaultLight,
-    getVideoSource: () => isDarkMode 
-      ? 'src/assets/autre/background-video.mp4' 
-      : 'src/assets/autre/background-video-white.mp4'
+    getGifSource: () => isDarkMode 
+      ? 'src/assets/autre/backgrounddark.gif' 
+      : 'src/assets/autre/backgroundlight.gif'
   };
 
   return (
