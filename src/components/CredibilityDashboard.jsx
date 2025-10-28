@@ -162,19 +162,19 @@ const CredibilityDashboard = ({ className = "" }) => {
           }`}
           style={{
             background: isDarkMode ? `
-              linear-gradient(135deg, 
-                rgba(255, 255, 255, 0.1) 0%, 
-                rgba(255, 255, 255, 0.05) 50%, 
-                rgba(0, 0, 0, 0.1) 100%
+              linear-gradient(135deg,
+                rgba(255, 255, 255, 0.15) 0%,
+                rgba(255, 255, 255, 0.10) 50%,
+                rgba(0, 0, 0, 0.15) 100%
               ),
-              radial-gradient(circle at 20% 20%, rgba(63, 131, 145, 0.08) 0%, transparent 50%)
+              radial-gradient(circle at 20% 20%, rgba(63, 131, 145, 0.15) 0%, transparent 50%)
             ` : `
-              linear-gradient(135deg, 
-                rgba(255, 255, 255, 0.95) 0%, 
-                rgba(255, 255, 255, 0.85) 50%, 
-                rgba(255, 255, 255, 0.9) 100%
+              linear-gradient(135deg,
+                rgba(255, 255, 255, 1) 0%,
+                rgba(255, 255, 255, 0.95) 50%,
+                rgba(255, 255, 255, 0.98) 100%
               ),
-              radial-gradient(circle at 20% 20%, rgba(63, 131, 145, 0.1) 0%, transparent 50%)
+              radial-gradient(circle at 20% 20%, rgba(63, 131, 145, 0.15) 0%, transparent 50%)
             `,
             boxShadow: isDarkMode ? `
               0 20px 50px rgba(0, 0, 0, 0.3),
@@ -192,17 +192,17 @@ const CredibilityDashboard = ({ className = "" }) => {
             }`}
             style={{
               background: isDarkMode ? `
-                linear-gradient(135deg, 
-                  rgba(255, 255, 255, 0.08) 0%, 
-                  rgba(255, 255, 255, 0.02) 100%
+                linear-gradient(135deg,
+                  rgba(255, 255, 255, 0.12) 0%,
+                  rgba(255, 255, 255, 0.06) 100%
                 )
               ` : `
-                linear-gradient(135deg, 
-                  rgba(255, 255, 255, 0.9) 0%, 
-                  rgba(255, 255, 255, 0.8) 100%
+                linear-gradient(135deg,
+                  rgba(255, 255, 255, 1) 0%,
+                  rgba(255, 255, 255, 0.95) 100%
                 )
               `,
-              boxShadow: isDarkMode ? '0 4px 16px rgba(0, 0, 0, 0.1)' : '0 4px 16px rgba(0, 0, 0, 0.05)'
+              boxShadow: isDarkMode ? '0 4px 16px rgba(0, 0, 0, 0.2)' : '0 4px 16px rgba(0, 0, 0, 0.08)'
             }}
             initial={{ y: 30, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -329,7 +329,7 @@ const CredibilityDashboard = ({ className = "" }) => {
                 isDarkMode ? 'border-white/10' : 'border-gray-300/30'
               }`}
               style={{
-                background: isDarkMode ? `rgba(245, 158, 11, 0.05)` : `rgba(245, 158, 11, 0.1)`,
+                background: isDarkMode ? `rgba(245, 158, 11, 0.12)` : `rgba(245, 158, 11, 0.20)`,
                 borderColor: '#F59E0B'
               }}
               initial={{ y: 20, opacity: 0 }}
@@ -424,7 +424,7 @@ const CredibilityDashboard = ({ className = "" }) => {
                 isDarkMode ? 'border-white/10' : 'border-gray-300/30'
               }`}
               style={{
-                background: isDarkMode ? `rgba(239, 68, 68, 0.05)` : `rgba(239, 68, 68, 0.1)`,
+                background: isDarkMode ? `rgba(239, 68, 68, 0.12)` : `rgba(239, 68, 68, 0.20)`,
                 borderColor: '#EF4444'
               }}
               initial={{ y: 20, opacity: 0 }}
@@ -442,7 +442,7 @@ const CredibilityDashboard = ({ className = "" }) => {
               <div className="grid grid-cols-3 gap-3 mb-4">
                 <motion.div 
                   className={`text-center p-2 rounded-lg cursor-pointer group relative overflow-hidden ${
-                    isDarkMode ? 'bg-black/20' : 'bg-white/60'
+                    isDarkMode ? 'bg-black/30' : 'bg-white/80'
                   }`}
                   whileHover={{ 
                     scale: 1.05,
@@ -476,7 +476,7 @@ const CredibilityDashboard = ({ className = "" }) => {
                 </motion.div>
                 <motion.div 
                   className={`text-center p-2 rounded-lg cursor-pointer group relative overflow-hidden ${
-                    isDarkMode ? 'bg-black/20' : 'bg-white/60'
+                    isDarkMode ? 'bg-black/30' : 'bg-white/80'
                   }`}
                   whileHover={{ 
                     scale: 1.05,
@@ -510,7 +510,7 @@ const CredibilityDashboard = ({ className = "" }) => {
                 </motion.div>
                 <motion.div 
                   className={`text-center p-2 rounded-lg cursor-pointer group relative overflow-hidden ${
-                    isDarkMode ? 'bg-black/20' : 'bg-white/60'
+                    isDarkMode ? 'bg-black/30' : 'bg-white/80'
                   }`}
                   whileHover={{ 
                     scale: 1.05,
