@@ -362,7 +362,7 @@ const ProjectCarousel = () => {
           {/* Indicateur de swipe sur mobile */}
           {isMobile && (
             <motion.div
-              className="absolute bottom-16 left-1/2 -translate-x-1/2 flex items-center gap-2 px-3 py-2 rounded-full backdrop-blur-sm border border-white/10"
+              className="absolute bottom-16 left-1/2 -translate-x-1/2 flex items-center gap-2 px-2 py-2 rounded-full backdrop-blur-sm border border-white/10"
               style={{
                 background: 'rgba(255, 255, 255, 0.08)',
                 boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)'
@@ -371,9 +371,8 @@ const ProjectCarousel = () => {
               animate={{ opacity: 0.6, y: 0 }}
               transition={{ duration: 0.6, delay: 1 }}
             >
-              <ChevronLeft size={12} className="text-white/50" />
-              <span className="text-white/50 text-xs font-medium">Swipe</span>
-              <ChevronRight size={12} className="text-white/50" />
+              <ChevronLeft size={14} className="text-white/50" />
+              <ChevronRight size={14} className="text-white/50" />
             </motion.div>
           )}
 
