@@ -63,69 +63,6 @@ const CredibilityDashboard = ({ className = "" }) => {
     return () => clearTimeout(timeout);
   }, []);
 
-  const metrics = [
-    {
-      id: 'clients',
-      title: 'Clients servis',
-      value: animatedValues.clients,
-      suffix: '+',
-      icon: Users,
-      color: '#3F8391',
-      description: 'Projets livrés avec succès',
-      chartType: 'bar'
-    },
-    {
-      id: 'projects',
-      title: 'Sites & apps livrés',
-      value: animatedValues.websites + animatedValues.mobileApps,
-      suffix: ' projets',
-      icon: Monitor,
-      color: '#F59E0B',
-      description: 'Total sites & applications',
-      chartType: 'donut'
-    },
-    {
-      id: 'delivery',
-      title: 'Délai moyen',
-      value: animatedValues.deliveryTime,
-      suffix: ' jours',
-      icon: Clock,
-      color: '#10B981',
-      description: 'Temps de livraison',
-      chartType: 'radial'
-    },
-    {
-      id: 'growth',
-      title: 'Croissance client',
-      value: `+${animatedValues.trafficGrowth}% / x${animatedValues.leadsMultiplier}`,
-      suffix: '',
-      icon: TrendingUp,
-      color: '#8B5CF6',
-      description: 'Trafic / leads générés',
-      chartType: 'line'
-    },
-    {
-      id: 'rating',
-      title: 'Note moyenne',
-      value: animatedValues.rating,
-      suffix: ' / 5',
-      icon: Star,
-      color: '#F59E0B',
-      description: 'Évaluations clients',
-      chartType: 'stars'
-    },
-    {
-      id: 'ai',
-      title: 'IA déployées',
-      value: animatedValues.aiProjects,
-      suffix: ' sur-mesure',
-      icon: Bot,
-      color: '#EF4444',
-      description: 'Automatisations IA',
-      chartType: 'timeline'
-    }
-  ];
-
   const deliveryData = [5, 12, 8, 15, 6, 9, 11, 7];
 
   return (
