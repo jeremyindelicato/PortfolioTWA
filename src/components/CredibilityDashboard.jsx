@@ -1,16 +1,12 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
-import { 
-  TrendingUp, 
-  Users, 
-  Monitor, 
-  Clock, 
-  Star, 
-  Bot,
-  BarChart3,
-  PieChart,
-  Activity
+import {
+  Users,
+  Monitor,
+  Clock,
+  Star,
+  Bot
 } from 'lucide-react';
 
 const CredibilityDashboard = ({ className = "" }) => {
@@ -20,8 +16,6 @@ const CredibilityDashboard = ({ className = "" }) => {
     websites: 0,
     mobileApps: 0,
     deliveryTime: 0,
-    trafficGrowth: 0,
-    leadsMultiplier: 0,
     rating: 0,
     aiProjects: 0
   });
@@ -31,8 +25,6 @@ const CredibilityDashboard = ({ className = "" }) => {
     websites: 16,
     mobileApps: 2,
     deliveryTime: 9,
-    trafficGrowth: 43,
-    leadsMultiplier: 3,
     rating: 4.6,
     aiProjects: 6
   };
@@ -54,8 +46,6 @@ const CredibilityDashboard = ({ className = "" }) => {
           websites: Math.floor(finalValues.websites * easeProgress),
           mobileApps: Math.floor(finalValues.mobileApps * easeProgress),
           deliveryTime: Math.floor(finalValues.deliveryTime * easeProgress),
-          trafficGrowth: Math.floor(finalValues.trafficGrowth * easeProgress),
-          leadsMultiplier: Math.floor(finalValues.leadsMultiplier * easeProgress * 10) / 10,
           rating: Math.floor(finalValues.rating * easeProgress * 10) / 10,
           aiProjects: Math.floor(finalValues.aiProjects * easeProgress)
         });
@@ -137,10 +127,6 @@ const CredibilityDashboard = ({ className = "" }) => {
   ];
 
   const deliveryData = [5, 12, 8, 15, 6, 9, 11, 7];
-  const trafficData = [100, 115, 125, 132, 128, 143];
-  const leadsData = [10, 12, 18, 22, 28, 30];
-  const ratingsData = [0, 1, 0, 2, 9]; // Distribution des notes 1-5 étoiles
-  const aiTimelineData = [1, 0, 2, 1, 0, 2]; // Projets IA par mois
 
   return (
     <motion.section 
@@ -432,149 +418,6 @@ const CredibilityDashboard = ({ className = "" }) => {
 
           {/* Graphiques de performance */}
           <div className="grid grid-cols-1 gap-6 sm:gap-8 mt-6 sm:mt-8">
-            {/* Graphique linéaire - Croissance trafic/leads enrichi */}
-            <motion.div
-              className={`p-6 rounded-xl transition-all duration-500 ${
-                isDarkMode ? 'border-white/10' : 'border-gray-300/30'
-              }`}
-              style={{
-                background: isDarkMode ? `rgba(139, 92, 246, 0.05)` : `rgba(139, 92, 246, 0.1)`,
-                borderColor: '#8B5CF6'
-              }}
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.6, delay: 1.3 }}
-            >
-              <h4 className={`text-lg font-semibold mb-4 flex items-center gap-2 transition-colors duration-500 ${
-                isDarkMode ? 'text-white' : 'text-gray-800'
-              }`}>
-                <TrendingUp size={20} color="#8B5CF6" />
-                Croissance Marketing - 6 Derniers Mois
-              </h4>
-              
-              {/* Métriques principales */}
-              <div className="grid grid-cols-2 gap-4 mb-4">
-                <motion.div 
-                  className={`text-center p-3 rounded-lg cursor-pointer group relative overflow-hidden ${
-                    isDarkMode ? 'bg-black/20' : 'bg-white/60'
-                  }`}
-                  whileHover={{ 
-                    scale: 1.05,
-                    backgroundColor: "rgba(139, 92, 246, 0.1)" 
-                  }}
-                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                >
-                  <motion.div
-                    className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-transparent opacity-0 group-hover:opacity-100"
-                    initial={{ x: "-100%" }}
-                    whileHover={{ x: "100%" }}
-                    transition={{ duration: 0.6 }}
-                  />
-                  <motion.div 
-                    className="text-xl font-bold text-purple-400 relative z-10"
-                    animate={{ 
-                      scale: [1, 1.1, 1],
-                      textShadow: ["0 0 0px rgba(139, 92, 246, 0)", "0 0 10px rgba(139, 92, 246, 0.8)", "0 0 0px rgba(139, 92, 246, 0)"]
-                    }}
-                    transition={{ duration: 2, repeat: Infinity, delay: 1.5 }}
-                  >
-                    +43%
-                  </motion.div>
-                  <div className={`text-xs relative z-10 transition-colors duration-500 ${
-                    isDarkMode ? 'text-gray-300 group-hover:text-white' : 'text-gray-600 group-hover:text-gray-800'
-                  }`}>Trafic Web</div>
-                </motion.div>
-                <motion.div 
-                  className={`text-center p-3 rounded-lg cursor-pointer group relative overflow-hidden ${
-                    isDarkMode ? 'bg-black/20' : 'bg-white/60'
-                  }`}
-                  whileHover={{ 
-                    scale: 1.05,
-                    backgroundColor: "rgba(245, 158, 11, 0.1)" 
-                  }}
-                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                >
-                  <motion.div
-                    className="absolute inset-0 bg-gradient-to-r from-yellow-500/20 to-transparent opacity-0 group-hover:opacity-100"
-                    initial={{ x: "-100%" }}
-                    whileHover={{ x: "100%" }}
-                    transition={{ duration: 0.6 }}
-                  />
-                  <motion.div 
-                    className="text-xl font-bold text-yellow-400 relative z-10"
-                    animate={{ 
-                      scale: [1, 1.1, 1],
-                      textShadow: ["0 0 0px rgba(245, 158, 11, 0)", "0 0 10px rgba(245, 158, 11, 0.8)", "0 0 0px rgba(245, 158, 11, 0)"]
-                    }}
-                    transition={{ duration: 2, repeat: Infinity, delay: 1.7 }}
-                  >
-                    x3
-                  </motion.div>
-                  <div className={`text-xs relative z-10 transition-colors duration-500 ${
-                    isDarkMode ? 'text-gray-300 group-hover:text-white' : 'text-gray-600 group-hover:text-gray-800'
-                  }`}>Leads Générés</div>
-                </motion.div>
-              </div>
-              
-              {/* Graphique amélioré */}
-              <div className="relative h-20 mb-4">
-                <svg className="w-full h-full" viewBox="0 0 120 80">
-                  {/* Grille de fond */}
-                  <defs>
-                    <pattern id="grid-purple" width="20" height="16" patternUnits="userSpaceOnUse">
-                      <path d="M 20 0 L 0 0 0 16" fill="none" stroke="rgba(139, 92, 246, 0.1)" strokeWidth="0.5"/>
-                    </pattern>
-                  </defs>
-                  <rect width="100%" height="100%" fill="url(#grid-purple)" />
-                  
-                  {/* Ligne trafic */}
-                  <motion.polyline
-                    points="10,65 30,60 50,50 70,48 90,52 110,40"
-                    fill="none" stroke="#8B5CF6" strokeWidth="3" strokeLinecap="round"
-                    initial={{ pathLength: 0 }}
-                    animate={{ pathLength: 1 }}
-                    transition={{ duration: 1.5, delay: 1.5 }}
-                  />
-                  {/* Ligne leads */}
-                  <motion.polyline
-                    points="10,55 30,53 50,42 70,38 90,32 110,25"
-                    fill="none" stroke="#F59E0B" strokeWidth="3" strokeLinecap="round"
-                    initial={{ pathLength: 0 }}
-                    animate={{ pathLength: 1 }}
-                    transition={{ duration: 1.5, delay: 1.7 }}
-                  />
-                  
-                  {/* Points de données */}
-                  <motion.circle cx="110" cy="40" r="4" fill="#8B5CF6" initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 2.5 }} />
-                  <motion.circle cx="110" cy="25" r="4" fill="#F59E0B" initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 2.7 }} />
-                </svg>
-              </div>
-              
-              {/* Légende détaillée */}
-              <div className="space-y-2">
-                <div className="flex items-center justify-between text-sm">
-                  <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 rounded-full bg-purple-500"/>
-                    <span className={`transition-colors duration-500 ${
-                      isDarkMode ? 'text-gray-300' : 'text-gray-600'
-                    }`}>Trafic Organique</span>
-                  </div>
-                  <span className="text-purple-400 font-semibold">+43%</span>
-                </div>
-                <div className="flex items-center justify-between text-sm">
-                  <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 rounded-full bg-yellow-500"/>
-                    <span className={`transition-colors duration-500 ${
-                      isDarkMode ? 'text-gray-300' : 'text-gray-600'
-                    }`}>Leads Qualifiés</span>
-                  </div>
-                  <span className="text-yellow-400 font-semibold">300%</span>
-                </div>
-              </div>
-              
-            </motion.div>
-
-
             {/* Timeline IA - Enrichie avec détails */}
             <motion.div
               className={`p-6 rounded-xl transition-all duration-500 ${
