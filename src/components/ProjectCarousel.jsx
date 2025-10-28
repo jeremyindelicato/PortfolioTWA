@@ -19,6 +19,9 @@ const ProjectCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [hoveredProject, setHoveredProject] = useState(null);
+  const [isMobile, setIsMobile] = useState(false);
+  const [touchStart, setTouchStart] = useState(0);
+  const [touchEnd, setTouchEnd] = useState(0);
 
   const projects = [
     {
@@ -79,16 +82,54 @@ const ProjectCarousel = () => {
     }
   ];
 
-  // Auto-play functionality
+  // Détection mobile
   useEffect(() => {
-    if (!isAutoPlaying) return;
-    
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Auto-play functionality (désactivé sur mobile pour le swipe)
+  useEffect(() => {
+    if (!isAutoPlaying || isMobile) return;
+
     const interval = setInterval(() => {
       setCurrentIndex(prev => (prev + 1) % projects.length);
     }, 4000);
 
     return () => clearInterval(interval);
-  }, [isAutoPlaying, projects.length]);
+  }, [isAutoPlaying, isMobile, projects.length]);
+
+  // Gestion du swipe tactile
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e) => {
+    setTouchEnd(0); // Reset touchEnd
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (isLeftSwipe) {
+      nextSlide();
+    }
+    if (isRightSwipe) {
+      prevSlide();
+    }
+  };
 
   const nextSlide = () => {
     setCurrentIndex((prev) => (prev + 1) % projects.length);
@@ -136,13 +177,13 @@ const ProjectCarousel = () => {
         </motion.div>
 
         {/* Carousel Container */}
-        <motion.div 
+        <motion.div
           className="relative overflow-hidden rounded-3xl border border-white/10 max-w-4xl mx-auto"
           style={{
             background: `
-              linear-gradient(135deg, 
-                rgba(255, 255, 255, 0.1) 0%, 
-                rgba(255, 255, 255, 0.05) 50%, 
+              linear-gradient(135deg,
+                rgba(255, 255, 255, 0.1) 0%,
+                rgba(255, 255, 255, 0.05) 50%,
                 rgba(0, 0, 0, 0.1) 100%
               )
             `,
@@ -150,18 +191,22 @@ const ProjectCarousel = () => {
             boxShadow: `
               0 20px 50px rgba(0, 0, 0, 0.3),
               inset 0 1px 0 rgba(255, 255, 255, 0.2)
-            `
+            `,
+            touchAction: isMobile ? 'pan-x' : 'auto' // Optimisation tactile
           }}
-          onMouseEnter={() => setIsAutoPlaying(false)}
-          onMouseLeave={() => setIsAutoPlaying(true)}
+          onMouseEnter={() => !isMobile && setIsAutoPlaying(false)}
+          onMouseLeave={() => !isMobile && setIsAutoPlaying(true)}
+          onTouchStart={isMobile ? onTouchStart : undefined}
+          onTouchMove={isMobile ? onTouchMove : undefined}
+          onTouchEnd={isMobile ? onTouchEnd : undefined}
           initial={{ scale: 0.9, opacity: 0, y: 50 }}
           animate={{ scale: 1, opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          whileHover={{ 
+          whileHover={!isMobile ? {
             scale: 1.02,
             boxShadow: "0 25px 60px rgba(0, 0, 0, 0.4)",
             transition: { duration: 0.3 }
-          }}
+          } : undefined}
         >
           {/* Main Carousel */}
           <div className="relative h-64 sm:h-72 md:h-80">
@@ -269,46 +314,68 @@ const ProjectCarousel = () => {
             </div>
           </div>
 
-          {/* Navigation Arrows - Plus minimalistes */}
-          <motion.button
-            onClick={prevSlide}
-            className="absolute left-3 sm:left-2 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-6 sm:h-6 backdrop-blur-sm border border-white/10 rounded-full flex items-center justify-center text-white/70 transition-all duration-200 touch-manipulation"
-            style={{
-              background: 'rgba(255, 255, 255, 0.05)',
-              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)'
-            }}
-            whileHover={{ 
-              scale: 1.1,
-              backgroundColor: 'rgba(63, 131, 145, 0.1)',
-              color: '#3F8391'
-            }}
-            whileTap={{ scale: 0.95 }}
-            initial={{ x: -20, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-          >
-            <ChevronLeft size={14} />
-          </motion.button>
-          
-          <motion.button
-            onClick={nextSlide}
-            className="absolute right-3 sm:right-2 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-6 sm:h-6 backdrop-blur-sm border border-white/10 rounded-full flex items-center justify-center text-white/70 transition-all duration-200 touch-manipulation"
-            style={{
-              background: 'rgba(255, 255, 255, 0.05)',
-              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)'
-            }}
-            whileHover={{ 
-              scale: 1.1,
-              backgroundColor: 'rgba(63, 131, 145, 0.1)',
-              color: '#3F8391'
-            }}
-            whileTap={{ scale: 0.95 }}
-            initial={{ x: 20, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-          >
-            <ChevronRight size={14} />
-          </motion.button>
+          {/* Navigation Arrows - Cachées sur mobile (swipe disponible) */}
+          {!isMobile && (
+            <>
+              <motion.button
+                onClick={prevSlide}
+                className="absolute left-3 sm:left-2 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-6 sm:h-6 backdrop-blur-sm border border-white/10 rounded-full flex items-center justify-center text-white/70 transition-all duration-200"
+                style={{
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)'
+                }}
+                whileHover={{
+                  scale: 1.1,
+                  backgroundColor: 'rgba(63, 131, 145, 0.1)',
+                  color: '#3F8391'
+                }}
+                whileTap={{ scale: 0.95 }}
+                initial={{ x: -20, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ duration: 0.6, delay: 0.6 }}
+              >
+                <ChevronLeft size={14} />
+              </motion.button>
+
+              <motion.button
+                onClick={nextSlide}
+                className="absolute right-3 sm:right-2 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-6 sm:h-6 backdrop-blur-sm border border-white/10 rounded-full flex items-center justify-center text-white/70 transition-all duration-200"
+                style={{
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)'
+                }}
+                whileHover={{
+                  scale: 1.1,
+                  backgroundColor: 'rgba(63, 131, 145, 0.1)',
+                  color: '#3F8391'
+                }}
+                whileTap={{ scale: 0.95 }}
+                initial={{ x: 20, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ duration: 0.6, delay: 0.6 }}
+              >
+                <ChevronRight size={14} />
+              </motion.button>
+            </>
+          )}
+
+          {/* Indicateur de swipe sur mobile */}
+          {isMobile && (
+            <motion.div
+              className="absolute bottom-16 left-1/2 -translate-x-1/2 flex items-center gap-2 px-3 py-2 rounded-full backdrop-blur-sm border border-white/10"
+              style={{
+                background: 'rgba(255, 255, 255, 0.08)',
+                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)'
+              }}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 0.6, y: 0 }}
+              transition={{ duration: 0.6, delay: 1 }}
+            >
+              <ChevronLeft size={12} className="text-white/50" />
+              <span className="text-white/50 text-xs font-medium">Swipe</span>
+              <ChevronRight size={12} className="text-white/50" />
+            </motion.div>
+          )}
 
           {/* Dots Indicator */}
           <motion.div 
@@ -338,29 +405,31 @@ const ProjectCarousel = () => {
             ))}
           </motion.div>
 
-          {/* Auto-play Indicator */}
-          <motion.div 
-            className="absolute top-4 right-4"
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.4, delay: 1 }}
-          >
-            <motion.div 
-              className="w-2 h-2 rounded-full"
-              style={{
-                backgroundColor: isAutoPlaying ? '#10B981' : '#6B7280'
-              }}
-              animate={{
-                scale: isAutoPlaying ? [1, 1.2, 1] : 1,
-                opacity: isAutoPlaying ? [1, 0.5, 1] : 0.7
-              }}
-              transition={{
-                duration: 2,
-                repeat: isAutoPlaying ? Infinity : 0,
-                ease: "easeInOut"
-              }}
-            />
-          </motion.div>
+          {/* Auto-play Indicator - Desktop uniquement */}
+          {!isMobile && (
+            <motion.div
+              className="absolute top-4 right-4"
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.4, delay: 1 }}
+            >
+              <motion.div
+                className="w-2 h-2 rounded-full"
+                style={{
+                  backgroundColor: isAutoPlaying ? '#10B981' : '#6B7280'
+                }}
+                animate={{
+                  scale: isAutoPlaying ? [1, 1.2, 1] : 1,
+                  opacity: isAutoPlaying ? [1, 0.5, 1] : 0.7
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: isAutoPlaying ? Infinity : 0,
+                  ease: "easeInOut"
+                }}
+              />
+            </motion.div>
+          )}
         </motion.div>
 
         {/* Bouton Voir mes projets */}
