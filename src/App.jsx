@@ -295,10 +295,10 @@ function Accueil() {
           <div className="hero-main-text mb-8">
             <h1 className={`text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-4 leading-tight transition-colors duration-500 ${
               isDarkMode ? 'text-white' : 'text-gray-900'
-            }`}>
-              👋 , je suis{' '}
-              <span 
-                style={{ 
+            }`} style={{ fontFamily: 'LEMONMILK, sans-serif', fontWeight: 400 }}>
+              👋, je suis{' '}
+              <span
+                style={{
                   color: '#3F8391'
                 }}
               >
@@ -938,8 +938,8 @@ function ProjetsEtExperience() {
       >
         <h1 className={`text-4xl md:text-6xl font-bold mb-6 transition-colors duration-500 ${
           isDarkMode ? 'text-white' : 'text-gray-900'
-        }`}>
-          Projets & <span style={{ color: '#3F8391' }}>Expérience</span>
+        }`} style={{ fontFamily: 'LEMONMILK, sans-serif' }}>
+          PROJETS & <span style={{ color: '#3F8391' }}>EXPÉRIENCE</span>
         </h1>
         <p className={`text-xl max-w-3xl mx-auto transition-colors duration-500 ${
           isDarkMode ? 'text-gray-300' : 'text-gray-600'
@@ -1022,25 +1022,6 @@ function MesServices() {
 
   return (
     <div className="w-full min-h-screen py-16 pb-24">
-      {/* Header */}
-      <motion.div 
-        className="text-center mb-20 px-4 mx-auto max-w-6xl"
-        initial={{ y: 50, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.6 }}
-      >
-        <h1 className={`text-4xl md:text-6xl font-bold mb-6 transition-colors duration-500 ${
-          isDarkMode ? 'text-white' : 'text-gray-900'
-        }`}>
-          MES <span style={{ color: '#3F8391' }}>SERVICES</span>
-        </h1>
-        <p className={`text-xl max-w-3xl mx-auto transition-colors duration-500 ${
-          isDarkMode ? 'text-gray-300' : 'text-gray-600'
-        }`}>
-          Des solutions digitales complètes et sur-mesure pour propulser votre entreprise
-        </p>
-      </motion.div>
-
       <div className="max-w-6xl mx-auto px-4 space-y-20">
         {/* Section IA avec réseau de neurones 3D */}
         <section className="flex justify-center">
@@ -1250,7 +1231,7 @@ function Contact() {
       >
         <h1 className={`text-4xl md:text-6xl font-bold mb-6 drop-shadow-lg transition-colors duration-500 ${
           isDarkMode ? 'text-white' : 'text-gray-900'
-        }`}>
+        }`} style={{ fontFamily: 'LEMONMILK, sans-serif' }}>
           ME <span style={{ color: '#3F8391' }}>CONTACTER</span>
         </h1>
         <p className={`text-xl max-w-3xl mx-auto drop-shadow-md transition-colors duration-500 ${

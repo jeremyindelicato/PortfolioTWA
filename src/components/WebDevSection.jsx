@@ -66,16 +66,17 @@ const WebDevSection = ({ className = "" }) => {
       <div className="max-w-6xl mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-8 sm:mb-12 lg:mb-16">
-        <motion.h2 
+        <motion.h2
           className={`text-4xl md:text-5xl font-bold mb-4 transition-colors duration-500 ${
             isDarkMode ? 'text-white' : 'text-gray-900'
           }`}
+          style={{ fontFamily: 'LEMONMILK, sans-serif' }}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
         >
-          Développement{' '}
-          <span style={{ color: '#3F8391' }}>Web</span>
+          DÉVELOPPEMENT{' '}
+          <span style={{ color: '#3F8391' }}>WEB</span>
         </motion.h2>
         <motion.p 
           className={`text-xl leading-relaxed max-w-4xl mx-auto transition-colors duration-500 ${

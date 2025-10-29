@@ -3,6 +3,7 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { Text, OrbitControls, Sphere } from '@react-three/drei';
 import * as THREE from 'three';
 import { motion } from 'framer-motion';
+import { useTheme } from '../contexts/ThemeContext';
 
 // Composant pour un neurone individuel
 function Neuron({ position, skill, isActive, isSelected, onHover, onLeave, onSelect }) {
@@ -263,6 +264,7 @@ function NetworkScene({ hoveredSkill, setHoveredSkill, selectedSkill, setSelecte
 
 // Composant principal exporté
 const NeuralNetwork3D = ({ className = "" }) => {
+  const { isDarkMode } = useTheme();
   const [hoveredSkill, setHoveredSkill] = useState(null);
   const [selectedSkill, setSelectedSkill] = useState(null);
   const neuronClickedRef = useRef(false);
@@ -281,7 +283,7 @@ const NeuralNetwork3D = ({ className = "" }) => {
   const handleSkillSelect = (skill) => {
     console.log('Skill clicked:', skill.name, 'Currently selected:', selectedSkill?.name);
     neuronClickedRef.current = true; // Marquer qu'un neurone a été cliqué
-    
+
     if (selectedSkill && selectedSkill.name === skill.name) {
       console.log('Deselecting same skill');
       setSelectedSkill(null);
@@ -292,10 +294,39 @@ const NeuralNetwork3D = ({ className = "" }) => {
   };
 
   return (
-    <div 
-      className={`relative w-full h-[400px] sm:h-[500px] lg:h-[600px] rounded-3xl overflow-hidden ${className}`}
-      onClick={handleCanvasClick}
-    >
+    <div className={`relative w-full py-12 sm:py-16 lg:py-20 ${className}`}>
+      <div className="max-w-6xl mx-auto px-4">
+        {/* Header */}
+        <div className="text-center mb-8 sm:mb-12 lg:mb-16">
+          <motion.h2
+            className={`text-4xl md:text-5xl font-bold mb-4 transition-colors duration-500 ${
+              isDarkMode ? 'text-white' : 'text-gray-900'
+            }`}
+            style={{ fontFamily: 'LEMONMILK, sans-serif' }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+          >
+            INTELLIGENCE{' '}
+            <span style={{ color: '#3F8391' }}>ARTIFICIELLE</span>
+          </motion.h2>
+          <motion.p
+            className={`text-xl leading-relaxed max-w-4xl mx-auto transition-colors duration-500 ${
+              isDarkMode ? 'text-gray-300' : 'text-gray-600'
+            }`}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            Explorez mes compétences en IA et découvrez comment l'intelligence artificielle peut transformer votre entreprise
+          </motion.p>
+        </div>
+
+        {/* Canvas Container */}
+        <div
+          className="relative w-full h-[400px] sm:h-[500px] lg:h-[600px] rounded-3xl overflow-hidden"
+          onClick={handleCanvasClick}
+        >
       {/* Background glassmorphism */}
       <div 
         className="absolute inset-0 backdrop-blur-xl border border-white/10"
@@ -332,55 +363,39 @@ const NeuralNetwork3D = ({ className = "" }) => {
         />
       </Canvas>
       
-      {/* Interface overlay */}
-      <div className="absolute top-3 sm:top-6 left-3 sm:left-6 z-10" onClick={(e) => e.stopPropagation()}>
-        <motion.div
-          className="p-4 rounded-2xl backdrop-blur-md border border-white/20"
-          style={{
-            background: 'rgba(255, 255, 255, 0.1)'
-          }}
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          <h3 className="text-xl font-bold text-white mb-2">
-            Intelligence Artificielle
-          </h3>
-          <p className="text-gray-300 text-sm mb-3">
-            Explorez mes compétences en IA
-          </p>
-          {(hoveredSkill || selectedSkill) && (
-            <motion.div
-              className="px-4 py-3 rounded-lg border border-white/20 mt-3"
-              style={{
-                backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                backdropFilter: 'blur(10px)'
-              }}
-              initial={{ scale: 0.8, opacity: 0, y: -10 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.8, opacity: 0, y: -10 }}
-              transition={{ duration: 0.2 }}
-            >
-              <div className="text-white text-sm font-medium mb-1">
-                {(hoveredSkill || selectedSkill).name}
+      {/* Interface overlay - Affiche uniquement les compétences sélectionnées */}
+      {(hoveredSkill || selectedSkill) && (
+        <div className="absolute top-2 sm:top-6 left-2 sm:left-6 z-10 max-w-[90vw] sm:max-w-none" onClick={(e) => e.stopPropagation()}>
+          <motion.div
+            className="px-3 py-2 sm:px-4 sm:py-3 rounded-lg border border-white/20 backdrop-blur-md"
+            style={{
+              backgroundColor: 'rgba(255, 255, 255, 0.1)',
+              backdropFilter: 'blur(10px)'
+            }}
+            initial={{ scale: 0.8, opacity: 0, y: -10 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            exit={{ scale: 0.8, opacity: 0, y: -10 }}
+            transition={{ duration: 0.2 }}
+          >
+            <div className="text-white text-xs sm:text-sm font-medium mb-1">
+              {(hoveredSkill || selectedSkill).name}
+            </div>
+            <div className="text-white/80 text-xs leading-relaxed max-w-[250px] sm:max-w-xs">
+              {(hoveredSkill || selectedSkill).definition}
+            </div>
+            {selectedSkill && (
+              <div className="text-yellow-300 text-xs mt-1 sm:mt-2 font-medium">
+                ● Sélectionné
               </div>
-              <div className="text-white/80 text-xs leading-relaxed max-w-xs">
-                {(hoveredSkill || selectedSkill).definition}
-              </div>
-              {selectedSkill && (
-                <div className="text-yellow-300 text-xs mt-2 font-medium">
-                  ● Sélectionné
-                </div>
-              )}
-            </motion.div>
-          )}
-        </motion.div>
-      </div>
+            )}
+          </motion.div>
+        </div>
+      )}
       
-      {/* Instructions */}
-      <div className="absolute bottom-6 right-6 z-10" onClick={(e) => e.stopPropagation()}>
+      {/* Instructions - Caché sur mobile */}
+      <div className="absolute bottom-3 sm:bottom-6 right-2 sm:right-6 z-10 hidden sm:block" onClick={(e) => e.stopPropagation()}>
         <motion.div
-          className="p-3 rounded-xl backdrop-blur-md border border-white/10"
+          className="p-2 sm:p-3 rounded-xl backdrop-blur-md border border-white/10"
           style={{
             background: 'rgba(0, 0, 0, 0.2)'
           }}
@@ -394,10 +409,10 @@ const NeuralNetwork3D = ({ className = "" }) => {
         </motion.div>
       </div>
 
-      {/* Note importante */}
-      <div className="absolute bottom-6 left-6 z-10" onClick={(e) => e.stopPropagation()}>
+      {/* Note importante - Repositionné sur mobile */}
+      <div className="absolute bottom-2 sm:bottom-6 left-2 sm:left-6 z-10 max-w-[90vw] sm:max-w-xs" onClick={(e) => e.stopPropagation()}>
         <motion.div
-          className="p-4 rounded-xl backdrop-blur-md border border-white/10 max-w-xs"
+          className="p-2 sm:p-4 rounded-xl backdrop-blur-md border border-white/10"
           style={{
             background: 'rgba(0, 0, 0, 0.3)'
           }}
@@ -406,9 +421,11 @@ const NeuralNetwork3D = ({ className = "" }) => {
           transition={{ duration: 0.5, delay: 0.4 }}
         >
           <p className="text-gray-400 text-xs leading-relaxed">
-            ⚠️ Pour développer une intelligence artificielle sur mesure, il est plus favorable que l'entreprise dispose de jeux de données pertinents pour répondre à la demande.
+            ⚠️ Pour développer une IA sur mesure, l'entreprise doit disposer de jeux de données pertinents.
           </p>
         </motion.div>
+      </div>
+        </div>
       </div>
     </div>
   );

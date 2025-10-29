@@ -82,8 +82,8 @@ const CredibilityDashboard = ({ className = "" }) => {
         >
           <h2 className={`text-4xl md:text-5xl font-bold mb-6 transition-colors duration-500 ${
             isDarkMode ? 'text-white' : 'text-gray-900'
-          }`}>
-            Mes <span style={{ color: '#3F8391' }}>Résultats</span>
+          }`} style={{ fontFamily: 'LEMONMILK, sans-serif' }}>
+            MES <span style={{ color: '#3F8391' }}>RÉSULTATS</span>
           </h2>
           <p className={`text-xl max-w-3xl mx-auto transition-colors duration-500 ${
             isDarkMode ? 'text-gray-300' : 'text-gray-600'
@@ -158,9 +158,6 @@ const CredibilityDashboard = ({ className = "" }) => {
               >
                 <motion.div
                   className="text-3xl font-bold text-[#3F8391] mb-1 group-hover:text-[#5aa4b3]"
-                  animate={{
-                    textShadow: "0 0 10px rgba(63, 131, 145, 0.5)"
-                  }}
                 >
                   3 mois
                 </motion.div>
@@ -181,11 +178,8 @@ const CredibilityDashboard = ({ className = "" }) => {
                 whileHover={{ scale: 1.05, y: -5 }}
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
               >
-                <motion.div 
+                <motion.div
                   className="text-3xl font-bold text-[#F59E0B] mb-1 group-hover:text-[#fbbf24]"
-                  animate={{ 
-                    textShadow: (animatedValues.websites + animatedValues.mobileApps) > 0 ? "0 0 10px rgba(245, 158, 11, 0.5)" : "none"
-                  }}
                 >
                   {animatedValues.websites + animatedValues.mobileApps}
                 </motion.div>
@@ -206,11 +200,8 @@ const CredibilityDashboard = ({ className = "" }) => {
                 whileHover={{ scale: 1.05, y: -5 }}
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
               >
-                <motion.div 
+                <motion.div
                   className="text-3xl font-bold text-[#10B981] mb-1 group-hover:text-[#34d399]"
-                  animate={{ 
-                    textShadow: animatedValues.deliveryTime > 0 ? "0 0 10px rgba(16, 185, 129, 0.5)" : "none"
-                  }}
                 >
                   {animatedValues.deliveryTime}j
                 </motion.div>
@@ -233,9 +224,6 @@ const CredibilityDashboard = ({ className = "" }) => {
               >
                 <motion.div
                   className="text-3xl font-bold text-[#8B5CF6] mb-1 group-hover:text-[#a78bfa] flex items-center justify-center gap-1"
-                  animate={{
-                    textShadow: "0 0 10px rgba(139, 92, 246, 0.5)"
-                  }}
                 >
                   100%
                   <motion.div
@@ -437,14 +425,13 @@ const CredibilityDashboard = ({ className = "" }) => {
                     whileHover={{ x: "100%" }}
                     transition={{ duration: 0.6 }}
                   />
-                  <motion.div 
+                  <motion.div
                     className="text-lg font-bold text-orange-400 relative z-10"
-                    animate={{ 
-                      y: [0, -3, 0],
-                      textShadow: ["0 0 0px rgba(249, 115, 22, 0)", "0 0 8px rgba(249, 115, 22, 0.8)", "0 0 0px rgba(249, 115, 22, 0)"]
+                    animate={{
+                      y: [0, -3, 0]
                     }}
-                    transition={{ 
-                      duration: 2.5, 
+                    transition={{
+                      duration: 2.5,
                       repeat: Infinity,
                       delay: 1.8
                     }}
@@ -471,14 +458,13 @@ const CredibilityDashboard = ({ className = "" }) => {
                     whileHover={{ x: "100%" }}
                     transition={{ duration: 0.6 }}
                   />
-                  <motion.div 
+                  <motion.div
                     className="text-lg font-bold text-green-400 relative z-10 flex items-center justify-center gap-1"
-                    animate={{ 
-                      scale: [1, 1.1, 1],
-                      textShadow: ["0 0 0px rgba(34, 197, 94, 0)", "0 0 10px rgba(34, 197, 94, 0.8)", "0 0 0px rgba(34, 197, 94, 0)"]
+                    animate={{
+                      scale: [1, 1.1, 1]
                     }}
-                    transition={{ 
-                      duration: 2, 
+                    transition={{
+                      duration: 2,
                       repeat: Infinity,
                       delay: 2
                     }}

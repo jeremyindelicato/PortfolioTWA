@@ -69,8 +69,8 @@ const GrowthMarketingSection = () => {
           />
           <h2 className={`text-4xl md:text-5xl font-bold transition-colors duration-500 ${
             isDarkMode ? 'text-white' : 'text-gray-900'
-          }`}>
-            Growth <span style={{ color: '#3F8391' }}>Marketing</span>
+          }`} style={{ fontFamily: 'LEMONMILK, sans-serif' }}>
+            GROWTH <span style={{ color: '#3F8391' }}>MARKETING</span>
           </h2>
           <motion.img
             src={hoveredRocket === 'header-right' ? rocketFire : rocketSimple}

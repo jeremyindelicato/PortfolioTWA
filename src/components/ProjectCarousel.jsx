@@ -166,8 +166,8 @@ const ProjectCarousel = () => {
         >
           <h2 className={`text-4xl md:text-5xl font-bold mb-4 transition-colors duration-500 ${
             isDarkMode ? 'text-white' : 'text-gray-900'
-          }`}>
-            Mes <span style={{ color: '#3F8391' }}>Projets</span>
+          }`} style={{ fontFamily: 'LEMONMILK, sans-serif' }}>
+            MES <span style={{ color: '#3F8391' }}>PROJETS</span>
           </h2>
           <p className={`text-lg max-w-2xl mx-auto transition-colors duration-500 ${
             isDarkMode ? 'text-gray-300' : 'text-gray-600'

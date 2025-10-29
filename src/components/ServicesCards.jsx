@@ -59,8 +59,8 @@ const ServicesCards = () => {
         >
           <h2 className={`text-4xl md:text-5xl font-bold mb-6 transition-colors duration-500 ${
             isDarkMode ? 'text-white' : 'text-gray-900'
-          }`}>
-            Mes <span style={{ color: '#3F8391' }}>Services</span>
+          }`} style={{ fontFamily: 'LEMONMILK, sans-serif' }}>
+            MES <span style={{ color: '#3F8391' }}>SERVICES</span>
           </h2>
           <p className={`text-xl max-w-3xl mx-auto transition-colors duration-500 ${
             isDarkMode ? 'text-gray-300' : 'text-gray-600'
