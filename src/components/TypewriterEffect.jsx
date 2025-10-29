@@ -19,7 +19,7 @@ const TypewriterEffect = () => {
         'rédige vos mentions légales',
         'rédige votre conformité RGPD',
         'gère votre hébergement web',
-        'choisis votre nom de domaine',
+        'réserve votre nom de domaine',
         'booste votre croissance'
       ],
       typeSpeed: 60,
