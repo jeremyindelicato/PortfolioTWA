@@ -63,7 +63,7 @@ const CredibilityDashboard = ({ className = "" }) => {
     return () => clearTimeout(timeout);
   }, []);
 
-  const deliveryData = [5, 12, 8, 15, 6, 9, 11, 7];
+  const deliveryData = [5, 8, 6, 9, 7];
 
   return (
     <motion.section 
@@ -277,7 +277,7 @@ const CredibilityDashboard = ({ className = "" }) => {
                 isDarkMode ? 'text-white' : 'text-gray-800'
               }`}>
                 <Monitor size={20} color="#F59E0B" />
-                Délais de Livraison - 8 Derniers Projets
+                Délais de Livraison - 5 Derniers Projets
               </h4>
               <div className="flex items-end justify-between h-32 gap-2">
                 {deliveryData.map((days, index) => (
