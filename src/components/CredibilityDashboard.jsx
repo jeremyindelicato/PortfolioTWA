@@ -149,28 +149,28 @@ const CredibilityDashboard = ({ className = "" }) => {
               isDarkMode ? 'text-white' : 'text-gray-800'
             }`}>Vue d'Ensemble</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-              <motion.div 
-                className={`text-center p-4 rounded-xl cursor-pointer transition-all duration-300 group ${ 
+              <motion.div
+                className={`text-center p-4 rounded-xl cursor-pointer transition-all duration-300 group ${
                   isDarkMode ? 'hover:bg-white/5' : 'hover:bg-black/5'
                 }`}
                 whileHover={{ scale: 1.05, y: -5 }}
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
               >
-                <motion.div 
+                <motion.div
                   className="text-3xl font-bold text-[#3F8391] mb-1 group-hover:text-[#5aa4b3]"
-                  animate={{ 
-                    textShadow: animatedValues.clients > 0 ? "0 0 10px rgba(63, 131, 145, 0.5)" : "none"
+                  animate={{
+                    textShadow: "0 0 10px rgba(63, 131, 145, 0.5)"
                   }}
                 >
-                  +{animatedValues.clients}
+                  3 mois
                 </motion.div>
                 <div className={`text-sm transition-colors duration-500 ${
                   isDarkMode ? 'text-gray-300 group-hover:text-white' : 'text-gray-600 group-hover:text-gray-800'
-                }`}>Clients Servis</div>
-                <motion.div 
+                }`}>Maintenance Offerte</div>
+                <motion.div
                   className="mt-2 h-1 bg-gradient-to-r from-[#3F8391] to-transparent rounded-full"
                   initial={{ width: 0 }}
-                  animate={{ width: `${(animatedValues.clients / finalValues.clients) * 100}%` }}
+                  animate={{ width: '100%' }}
                   transition={{ duration: 1.5, delay: 0.5 }}
                 />
               </motion.div>
@@ -224,22 +224,22 @@ const CredibilityDashboard = ({ className = "" }) => {
                   transition={{ duration: 1.5, delay: 0.9 }}
                 />
               </motion.div>
-              <motion.div 
-                className={`text-center p-4 rounded-xl cursor-pointer transition-all duration-300 group ${ 
+              <motion.div
+                className={`text-center p-4 rounded-xl cursor-pointer transition-all duration-300 group ${
                   isDarkMode ? 'hover:bg-white/5' : 'hover:bg-black/5'
                 }`}
                 whileHover={{ scale: 1.05, y: -5 }}
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
               >
-                <motion.div 
+                <motion.div
                   className="text-3xl font-bold text-[#8B5CF6] mb-1 group-hover:text-[#a78bfa] flex items-center justify-center gap-1"
-                  animate={{ 
-                    textShadow: animatedValues.rating > 0 ? "0 0 10px rgba(139, 92, 246, 0.5)" : "none"
+                  animate={{
+                    textShadow: "0 0 10px rgba(139, 92, 246, 0.5)"
                   }}
                 >
-                  {animatedValues.rating}/5
+                  100%
                   <motion.div
-                    animate={{ rotate: animatedValues.rating > 4 ? [0, 15, -15, 0] : 0 }}
+                    animate={{ rotate: [0, 15, -15, 0] }}
                     transition={{ duration: 2, repeat: Infinity, delay: 1 }}
                   >
                     <Star size={20} fill="currentColor" />
@@ -247,11 +247,11 @@ const CredibilityDashboard = ({ className = "" }) => {
                 </motion.div>
                 <div className={`text-sm transition-colors duration-500 ${
                   isDarkMode ? 'text-gray-300 group-hover:text-white' : 'text-gray-600 group-hover:text-gray-800'
-                }`}>Note Moyenne</div>
-                <motion.div 
+                }`}>Clients Satisfaits</div>
+                <motion.div
                   className="mt-2 h-1 bg-gradient-to-r from-[#8B5CF6] to-transparent rounded-full"
                   initial={{ width: 0 }}
-                  animate={{ width: `${(animatedValues.rating / finalValues.rating) * 100}%` }}
+                  animate={{ width: '100%' }}
                   transition={{ duration: 1.5, delay: 1.1 }}
                 />
               </motion.div>
