@@ -279,31 +279,40 @@ const CredibilityDashboard = ({ className = "" }) => {
                 <Monitor size={20} color="#F59E0B" />
                 Délais de Livraison - 5 Derniers Projets
               </h4>
-              <div className="flex items-end justify-between h-32 gap-2">
-                {deliveryData.map((days, index) => (
-                  <motion.div 
-                    key={index} 
-                    className="flex-1 flex flex-col items-center group cursor-pointer"
-                    whileHover={{ scale: 1.1 }}
-                    transition={{ type: "spring", stiffness: 400, damping: 25 }}
-                  >
-                    <div className="flex-1 flex items-end w-full">
-                      <motion.div
-                        className="w-full rounded-t-lg shadow-lg relative overflow-hidden"
-                        style={{ 
-                          backgroundColor: days <= 9 ? '#F59E0B' : '#EF4444',
-                          boxShadow: `0 4px 12px ${days <= 9 ? 'rgba(245, 158, 11, 0.3)' : 'rgba(239, 68, 68, 0.3)'}`,
-                          minHeight: '20px'
-                        }}
-                        initial={{ height: '20px' }}
-                        animate={{ height: `${Math.max(20, (days / 15) * 120)}px` }}
-                        transition={{ duration: 0.8, delay: 1.2 + index * 0.1 }}
-                        title={`${days} jours`}
-                        whileHover={{ 
-                          boxShadow: `0 8px 24px ${days <= 9 ? 'rgba(245, 158, 11, 0.5)' : 'rgba(239, 68, 68, 0.5)'}`,
-                          y: -2
-                        }}
-                      >
+              <div className="flex items-end justify-center h-32 gap-6">
+                {deliveryData.map((days, index) => {
+                  // Palette de 2 couleurs alternées
+                  const colors = [
+                    { bg: '#3F8391', shadow: 'rgba(63, 131, 145, 0.3)', shadowHover: 'rgba(63, 131, 145, 0.5)' }, // Turquoise
+                    { bg: '#8B5CF6', shadow: 'rgba(139, 92, 246, 0.3)', shadowHover: 'rgba(139, 92, 246, 0.5)' }  // Violet
+                  ];
+                  const color = colors[index % 2];
+
+                  return (
+                    <motion.div
+                      key={index}
+                      className="flex flex-col items-center group cursor-pointer"
+                      whileHover={{ scale: 1.1 }}
+                      transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                    >
+                      <div className="flex-1 flex items-end" style={{ width: '40px' }}>
+                        <motion.div
+                          className="rounded-t-lg shadow-lg relative overflow-hidden"
+                          style={{
+                            backgroundColor: color.bg,
+                            boxShadow: `0 4px 12px ${color.shadow}`,
+                            minHeight: '20px',
+                            width: '40px'
+                          }}
+                          initial={{ height: '20px' }}
+                          animate={{ height: `${Math.max(20, (days / 15) * 120)}px` }}
+                          transition={{ duration: 0.8, delay: 1.2 + index * 0.1 }}
+                          title={`${days} jours`}
+                          whileHover={{
+                            boxShadow: `0 8px 24px ${color.shadowHover}`,
+                            y: -2
+                          }}
+                        >
                         <motion.div
                           className="absolute inset-0 bg-white/20"
                           initial={{ scaleY: 0 }}
@@ -333,7 +342,7 @@ const CredibilityDashboard = ({ className = "" }) => {
                     >
                       P{index + 1}
                     </motion.span>
-                    <motion.span 
+                    <motion.span
                       className={`text-xs font-bold transition-colors duration-500 ${
                         isDarkMode ? 'text-white group-hover:text-yellow-300' : 'text-gray-800 group-hover:text-yellow-600'
                       }`}
@@ -342,7 +351,8 @@ const CredibilityDashboard = ({ className = "" }) => {
                       {days}j
                     </motion.span>
                   </motion.div>
-                ))}
+                  );
+                })}
               </div>
               <div className={`text-sm mt-4 text-center transition-colors duration-500 ${
                 isDarkMode ? 'text-gray-400' : 'text-gray-600'
