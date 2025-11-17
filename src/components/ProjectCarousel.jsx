@@ -5,14 +5,14 @@ import { useNavigate } from 'react-router-dom';
 import { useTheme } from '../contexts/ThemeContext';
 
 // Import des images
-import institutCorailLogo from '../assets/institut-corail/logoinstitutcorail.png';
-import ascLogo from '../assets/asc/asclogo.png';
-import lxpLogo from '../assets/lxp/lxplogo.png';
-import irisLogo from '../assets/iris/irislogo.png';
-import spacedriverLogo from '../assets/spacedriver/spacedriverlogo.png';
-import iamcryptoLogo from '../assets/iamcrypto/mockup-mac.png';
-import maisonlicLogo from '../assets/maisonlic/logo.png';
-import orapiLogo from '../assets/orapi/orapilogo.png';
+import institutCorailLogo from '../assets/institut-corail/logoinstitutcorail.webp';
+import ascLogo from '../assets/asc/asclogo.webp';
+import lxpLogo from '../assets/lxp/lxplogo.webp';
+import irisLogo from '../assets/iris/irislogo.webp';
+import spacedriverLogo from '../assets/spacedriver/spacedriverlogo.webp';
+import iamcryptoLogo from '../assets/iamcrypto/mockup-mac.webp';
+import maisonlicLogo from '../assets/maisonlic/logo.webp';
+import orapiLogo from '../assets/orapi/orapilogo.webp';
 
 const ProjectCarousel = () => {
   const { isDarkMode } = useTheme();

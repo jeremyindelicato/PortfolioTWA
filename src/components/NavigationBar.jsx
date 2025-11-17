@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { useState, useEffect, memo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import backgroundImage from '../assets/autre/background.jpg';
+import backgroundImage from '../assets/autre/background.webp';
 import { useTheme } from '../contexts/ThemeContext';
 
 const NavigationBar = () => {

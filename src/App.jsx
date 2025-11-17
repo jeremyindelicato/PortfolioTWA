@@ -91,24 +91,24 @@ class LazyErrorBoundary extends Component {
 import { useForm } from 'react-hook-form';
 import { Mail, Phone, MapPin, Send, FileText, Download, ExternalLink } from 'lucide-react';
 import { submitContactForm } from './utils/supabase';
-import photoProfil from './assets/autre/photo-de-profil.png';
+import photoProfil from './assets/autre/photo-de-profil.webp';
 import epitechLogo from './assets/autre/epitech.svg';
 import strykerLogo from './assets/autre/stryker.svg';
 import cvPdf from './assets/autre/CV_JeremyIndelicato_Alternance.pdf';
 import irisTechnicalPdf from './assets/iris/Dossier_Technique_iris_pipeline.pdf';
 
 // Import des images pour les projets
-import irisLogo from './assets/iris/irislogo.png';
-import irisMockup from './assets/iris/mockup2.png';
-import lxpLogo from './assets/lxp/lxp-mini-logo.jpg';
-import lxpThumbnail from './assets/lxp/lxpthumbnail.png';
-import orapiLogo from './assets/orapi/petit-logo-orapi.jpg';
-import orapiChatbot from './assets/orapi/example_chatbot_ai.png';
-import ascLogo from './assets/asc/asc-mini-logo.jpg';
-import ascThumbnail from './assets/asc/asc-grandeimage.jpg';
-import institutCorailLogo from './assets/institut-corail/ petit-logo-institut-corail.jpg';
-import institutCorailMockup from './assets/institut-corail/grand-image-institut-corail.png';
-import maisonlicLogo from './assets/maisonlic/logo.png';
+import irisLogo from './assets/iris/irislogo.webp';
+import irisMockup from './assets/iris/mockup2.webp';
+import lxpLogo from './assets/lxp/lxp-mini-logo.webp';
+import lxpThumbnail from './assets/lxp/lxpthumbnail.webp';
+import orapiLogo from './assets/orapi/petit-logo-orapi.webp';
+import orapiChatbot from './assets/orapi/example_chatbot_ai.webp';
+import ascLogo from './assets/asc/asc-mini-logo.webp';
+import ascThumbnail from './assets/asc/asc-grandeimage.webp';
+import institutCorailLogo from './assets/institut-corail/ petit-logo-institut-corail.webp';
+import institutCorailMockup from './assets/institut-corail/grand-image-institut-corail.webp';
+import maisonlicLogo from './assets/maisonlic/logo.webp';
 
 function AppContent() {
   // Loader uniquement si on arrive sur la page d'accueil ET qu'on n'a jamais visité
@@ -295,7 +295,7 @@ function Accueil() {
           <div className="hero-main-text mb-8">
             <h1 className={`text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-4 leading-tight transition-colors duration-500 ${
               isDarkMode ? 'text-white' : 'text-gray-900'
-            }`} style={{ fontFamily: 'LEMONMILK, sans-serif', fontWeight: 400 }}>
+            }`}>
               👋, je suis{' '}
               <span
                 style={{

@@ -2,14 +2,14 @@ import { motion } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
 
 // Import des images d'inspiration
-import img1 from '../assets/inspirations/Adam-Scott-Severance.jpg';
-import img2 from '../assets/inspirations/Quand-la-machine-apprend.png';
-import img3 from '../assets/inspirations/elden-ring.jpg';
-import img4 from '../assets/inspirations/mbdtf.jpg';
-import img5 from '../assets/inspirations/miyamoto.jpg';
+import img1 from '../assets/inspirations/Adam-Scott-Severance.webp';
+import img2 from '../assets/inspirations/Quand-la-machine-apprend.webp';
+import img3 from '../assets/inspirations/elden-ring.webp';
+import img4 from '../assets/inspirations/mbdtf.webp';
+import img5 from '../assets/inspirations/miyamoto.webp';
 import img6 from '../assets/inspirations/sanji.webp';
-import img7 from '../assets/inspirations/spderman.jpg';
-import img8 from '../assets/inspirations/zinedine-zidane.jpg';
+import img7 from '../assets/inspirations/spderman.webp';
+import img8 from '../assets/inspirations/zinedine-zidane.webp';
 
 const InspirationMarquee = () => {
   const { isDarkMode } = useTheme();

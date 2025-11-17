@@ -6,14 +6,14 @@ import { Link } from 'react-router-dom';
 import { ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react';
 
 // Import des images des projets
-import irisLogo from '../assets/iris/irislogo.png';
-import iamcryptoLogo from '../assets/iamcrypto/iamcryptologo.png';
-import lxpLogo from '../assets/lxp/lxplogo.png';
-import maisonlicLogo from '../assets/maisonlic/logo.png';
-import spacedriverLogo from '../assets/spacedriver/spacedriverlogo.png';
-import ascLogo from '../assets/asc/asclogo.png';
-import orapiLogo from '../assets/orapi/orapilogo.png';
-import institutCorailLogo from '../assets/institut-corail/logoinstitutcorail.png';
+import irisLogo from '../assets/iris/irislogo.webp';
+import iamcryptoLogo from '../assets/iamcrypto/iamcryptologo.webp';
+import lxpLogo from '../assets/lxp/lxplogo.webp';
+import maisonlicLogo from '../assets/maisonlic/logo.webp';
+import spacedriverLogo from '../assets/spacedriver/spacedriverlogo.webp';
+import ascLogo from '../assets/asc/asclogo.webp';
+import orapiLogo from '../assets/orapi/orapilogo.webp';
+import institutCorailLogo from '../assets/institut-corail/logoinstitutcorail.webp';
 
 gsap.registerPlugin(ScrollTrigger);
 

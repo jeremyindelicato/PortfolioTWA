@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
-import rocketSimple from '../assets/rocket/rocket-simple.png';
-import rocketFire from '../assets/rocket/rocket-fire.png';
+import rocketSimple from '../assets/rocket/rocket-simple.webp';
+import rocketFire from '../assets/rocket/rocket-fire.webp';
 
 const RocketGrowthMarketing = () => {
   const [currentService, setCurrentService] = useState(0);

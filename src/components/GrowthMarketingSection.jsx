@@ -1,8 +1,8 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { useTheme } from '../contexts/ThemeContext';
-import rocketSimple from '../assets/rocket/rocket-simple.png';
-import rocketFire from '../assets/rocket/rocket-fire.png';
+import rocketSimple from '../assets/rocket/rocket-simple.webp';
+import rocketFire from '../assets/rocket/rocket-fire.webp';
 
 const GrowthMarketingSection = () => {
   const { isDarkMode } = useTheme();

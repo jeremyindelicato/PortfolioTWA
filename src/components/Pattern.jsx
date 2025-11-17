@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import backgroundDarkGif from '../assets/autre/backgrounddark.gif';
-import backgroundLightGif from '../assets/autre/backgroundlight.gif';
+import backgroundDarkVideo from '../assets/autre/backgrounddark-ezgif.com-gif-to-webm-converter.webm';
+import backgroundLightVideo from '../assets/autre/backgroundlight-ezgif.com-gif-to-webm-converter.webm';
 import { useTheme } from '../contexts/ThemeContext';
 
 const Pattern = () => {
@@ -100,11 +100,10 @@ const Pattern = () => {
   
   return (
     <div className="fixed top-0 left-0 w-full h-full pointer-events-none transition-all duration-700" style={{ zIndex: -1 }}>
-      {/* GIF d'arrière-plan responsive */}
-      <img
-        key={isDarkMode ? 'dark-gif' : 'light-gif'}
-        src={isDarkMode ? backgroundDarkGif : backgroundLightGif}
-        alt="Background animation"
+      {/* Vidéo WebM d'arrière-plan responsive - 100x plus léger que GIF */}
+      <video
+        key={isDarkMode ? 'dark-video' : 'light-video'}
+        src={isDarkMode ? backgroundDarkVideo : backgroundLightVideo}
         className="w-full h-full transition-opacity duration-700"
         style={{
           position: 'absolute',
@@ -114,8 +113,13 @@ const Pattern = () => {
           height: '100%',
           ...getResponsiveStyles(),
         }}
-        loading="eager" // Chargement prioritaire pour le background
-        decoding="async" // Décodage asynchrone pour la performance
+        autoPlay
+        loop
+        muted
+        playsInline
+        preload="auto"
+        disablePictureInPicture
+        disableRemotePlayback
       />
       
       {/* Overlay adaptatif responsive */}

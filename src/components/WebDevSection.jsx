@@ -3,27 +3,27 @@ import { Code2, Database, Smartphone, Shield, Search, ShoppingCart } from 'lucid
 import { useTheme } from '../contexts/ThemeContext';
 
 // Import des logos technologies
-import reactLogo from '../assets/software/React-logo.png';
-import pythonLogo from '../assets/software/python-logo.png';
-import htmlCssJsLogo from '../assets/software/HTML-CSS-JS-Logo.png';
-import vuejsLogo from '../assets/software/Logo-Vuejs.png';
-import sqlLogo from '../assets/software/sql-logo.png';
-import figmaLogo from '../assets/software/figma-logo.png';
-import gitLogo from '../assets/software/git-logo.png';
-import blenderLogo from '../assets/software/Blender-logo.png';
-import adobeLogo from '../assets/software/adobesuite-logo.png';
-import pandasLogo from '../assets/software/Pandas_logo.svg.png';
-import pytorchLogo from '../assets/software/Pytorch_logo.png';
-import scikitLearnLogo from '../assets/software/Scikit_learn_logo.png';
-import threejsLogo from '../assets/software/threejs.png';
-import supabaseLogo from '../assets/software/supabase-logo.png';
-import shopifyLogo from '../assets/software/shopify-logo.png';
-import powerBiLogo from '../assets/software/PowerBI-logo.png';
-import hostingerLogo from '../assets/software/hostinger-logo.png';
-import sageX3Logo from '../assets/software/logo-erp-sage-x3.png';
-import wordpressLogo from '../assets/software/wordpress-logo.png';
-import analyticsLogo from '../assets/software/analytics-logo.png';
-import institutCorailMockup from '../assets/institut-corail/Mockup.png';
+import reactLogo from '../assets/software/React-logo.webp';
+import pythonLogo from '../assets/software/python-logo.webp';
+import htmlCssJsLogo from '../assets/software/HTML-CSS-JS-Logo.webp';
+import vuejsLogo from '../assets/software/Logo-Vuejs.webp';
+import sqlLogo from '../assets/software/sql-logo.webp';
+import figmaLogo from '../assets/software/figma-logo.webp';
+import gitLogo from '../assets/software/git-logo.webp';
+import blenderLogo from '../assets/software/Blender-logo.webp';
+import adobeLogo from '../assets/software/adobesuite-logo.webp';
+import pandasLogo from '../assets/software/Pandas_logo.svg.webp';
+import pytorchLogo from '../assets/software/Pytorch_logo.webp';
+import scikitLearnLogo from '../assets/software/Scikit_learn_logo.webp';
+import threejsLogo from '../assets/software/threejs.webp';
+import supabaseLogo from '../assets/software/supabase-logo.webp';
+import shopifyLogo from '../assets/software/shopify-logo.webp';
+import powerBiLogo from '../assets/software/PowerBI-logo.webp';
+import hostingerLogo from '../assets/software/hostinger-logo.webp';
+import sageX3Logo from '../assets/software/logo-erp-sage-x3.webp';
+import wordpressLogo from '../assets/software/wordpress-logo.webp';
+import analyticsLogo from '../assets/software/analytics-logo.webp';
+import institutCorailMockup from '../assets/institut-corail/Mockup.webp';
 
 const WebDevSection = ({ className = "" }) => {
   const { isDarkMode } = useTheme();

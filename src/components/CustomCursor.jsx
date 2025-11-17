@@ -1,7 +1,7 @@
 import { useState, useEffect, memo } from 'react';
 import { motion } from 'framer-motion';
-import cursorDefault from '../assets/cursor/cursor.png';
-import cursorHover from '../assets/cursor/cursor-hover.png';
+import cursorDefault from '../assets/cursor/cursor.webp';
+import cursorHover from '../assets/cursor/cursor-hover.webp';
 
 const CustomCursor = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
