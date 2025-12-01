@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, Suspense, lazy, Component } from 'react';
+import { useState, useEffect, useRef, Suspense, lazy } from 'react';
 import { motion } from 'framer-motion';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -19,27 +19,18 @@ import ProjectModal from './components/ProjectModal';
 import InspirationMarquee from './components/InspirationMarquee';
 import Footer from './components/Footer';
 
-// Import direct temporaire pour déboguer NeuralNetwork3D
-import NeuralNetwork3DComponent from './components/NeuralNetwork3D';
+// Import direct de NeuralNetwork3D pour éviter les problèmes de contexte WebGL
+import NeuralNetwork3D from './components/NeuralNetwork3D';
 
-// Lazy loading des composants Three.js lourds
-const NeuralNetwork3D = NeuralNetwork3DComponent;
-// const NeuralNetwork3D = lazy(() => {
-//   console.log('Loading NeuralNetwork3D...');
-//   return import('./components/NeuralNetwork3D').catch(error => {
-//     console.error('Error loading NeuralNetwork3D:', error);
-//     throw error;
-//   });
-// });
+// Lazy loading des autres composants
 const WebDevSection = lazy(() => import('./components/WebDevSection'));
 const GrowthMarketingSection = lazy(() => import('./components/GrowthMarketingSection'));
 const QuoteModal = lazy(() => import('./components/QuoteModal'));
 
 // Composant de fallback pour le lazy loading
 const LoadingFallback = ({ height = "400px", componentName = "Composant" }) => {
-  console.log(`Loading fallback for ${componentName}`);
   return (
-    <div 
+    <div
       className="flex items-center justify-center"
       style={{ height }}
     >
@@ -51,42 +42,6 @@ const LoadingFallback = ({ height = "400px", componentName = "Composant" }) => {
   );
 };
 
-// Error Boundary simple pour les composants lazy
-class LazyErrorBoundary extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { hasError: false, error: null };
-  }
-
-  static getDerivedStateFromError(error) {
-    return { hasError: true, error };
-  }
-
-  componentDidCatch(error, errorInfo) {
-    console.error('LazyErrorBoundary caught an error:', error, errorInfo);
-  }
-
-  render() {
-    if (this.state.hasError) {
-      return (
-        <div className="flex items-center justify-center" style={{ height: this.props.height || "400px" }}>
-          <div className="flex flex-col items-center gap-4 text-red-400">
-            <div className="text-2xl">⚠️</div>
-            <p className="text-sm">Erreur de chargement du composant</p>
-            <button 
-              onClick={() => this.setState({ hasError: false, error: null })}
-              className="px-4 py-2 bg-red-500/20 rounded-lg text-xs hover:bg-red-500/30"
-            >
-              Réessayer
-            </button>
-          </div>
-        </div>
-      );
-    }
-
-    return this.props.children;
-  }
-}
 
 import { useForm } from 'react-hook-form';
 import { Mail, Phone, MapPin, Send, FileText, Download, ExternalLink } from 'lucide-react';
@@ -1026,9 +981,7 @@ function MesServices() {
         {/* Section IA avec réseau de neurones 3D */}
         <section className="flex justify-center">
           <div className="w-full max-w-6xl">
-            <LazyErrorBoundary height="600px">
-              <NeuralNetwork3D />
-            </LazyErrorBoundary>
+            <NeuralNetwork3D />
           </div>
         </section>
 
@@ -1145,25 +1098,19 @@ function Contact() {
   const onSubmit = async (data) => {
     setIsSubmitting(true);
     try {
-      console.log('📧 Envoi du formulaire de contact...', data);
-      
-      // Utiliser la nouvelle fonction d'envoi d'email
       const result = await submitContactForm(data);
-      
+
       if (result.success) {
         setSubmitStatus('success');
         setSubmitMessage(result.message);
         reset();
-        console.log('✅ Formulaire envoyé avec succès');
       } else {
         setSubmitStatus('error');
         setSubmitMessage(result.message);
-        console.error('❌ Erreur lors de l\'envoi:', result.error);
       }
     } catch (error) {
       setSubmitStatus('error');
       setSubmitMessage('Une erreur inattendue est survenue. Veuillez réessayer.');
-      console.error('❌ Erreur inattendue:', error);
     }
     setIsSubmitting(false);
   };

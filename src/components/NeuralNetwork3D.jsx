@@ -1,7 +1,7 @@
 import { useRef, useMemo, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Text, OrbitControls, Sphere } from '@react-three/drei';
-import * as THREE from 'three';
+import { Vector3 } from 'three';
 import { motion } from 'framer-motion';
 import { useTheme } from '../contexts/ThemeContext';
 
@@ -18,7 +18,7 @@ function Neuron({ position, skill, isActive, isSelected, onHover, onLeave, onSel
       
       // Effet de pulsation
       const scale = isSelected ? 1.5 : isActive || hovered ? 1.3 : 1;
-      meshRef.current.scale.lerp(new THREE.Vector3(scale, scale, scale), 0.1);
+      meshRef.current.scale.lerp(new Vector3(scale, scale, scale), 0.1);
     }
   });
 
@@ -37,7 +37,6 @@ function Neuron({ position, skill, isActive, isSelected, onHover, onLeave, onSel
   };
 
   const handleClick = (e) => {
-    console.log('Neuron clicked:', skill.name);
     e.stopPropagation();
     onSelect(skill);
   };
@@ -97,7 +96,7 @@ function Connection({ start, end, opacity = 0.5 }) {
   const lineRef = useRef();
   
   const points = useMemo(() => {
-    return [new THREE.Vector3(...start), new THREE.Vector3(...end)];
+    return [new Vector3(...start), new Vector3(...end)];
   }, [start, end]);
 
   useFrame((state) => {
@@ -179,8 +178,8 @@ function NetworkScene({ hoveredSkill, setHoveredSkill, selectedSkill, setSelecte
     const conns = [];
     for (let i = 0; i < skills.length; i++) {
       for (let j = i + 1; j < skills.length; j++) {
-        const distance = new THREE.Vector3(...skills[i].position)
-          .distanceTo(new THREE.Vector3(...skills[j].position));
+        const distance = new Vector3(...skills[i].position)
+          .distanceTo(new Vector3(...skills[j].position));
         if (distance < 5) {
           conns.push({
             start: skills[i].position,
@@ -270,10 +269,8 @@ const NeuralNetwork3D = ({ className = "" }) => {
   const neuronClickedRef = useRef(false);
 
   const handleCanvasClick = () => {
-    console.log('Canvas clicked, neuronClicked:', neuronClickedRef.current);
     // Si un neurone a été cliqué, ne pas désélectionner
     if (!neuronClickedRef.current) {
-      console.log('Canvas clicked - deselecting skill');
       setSelectedSkill(null);
     }
     // Reset le flag après traitement
@@ -281,14 +278,11 @@ const NeuralNetwork3D = ({ className = "" }) => {
   };
 
   const handleSkillSelect = (skill) => {
-    console.log('Skill clicked:', skill.name, 'Currently selected:', selectedSkill?.name);
     neuronClickedRef.current = true; // Marquer qu'un neurone a été cliqué
 
     if (selectedSkill && selectedSkill.name === skill.name) {
-      console.log('Deselecting same skill');
       setSelectedSkill(null);
     } else {
-      console.log('Selecting new skill');
       setSelectedSkill(skill);
     }
   };
