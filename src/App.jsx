@@ -64,6 +64,16 @@ import ascThumbnail from './assets/asc/asc-grandeimage.webp';
 import institutCorailLogo from './assets/institut-corail/ petit-logo-institut-corail.webp';
 import institutCorailMockup from './assets/institut-corail/grand-image-institut-corail.webp';
 import maisonlicLogo from './assets/maisonlic/logo.webp';
+import sntLogo from './assets/snt/LogoSnT.webp';
+import sntThumbnail from './assets/snt/snt grande image.webp';
+import sntPdf from './assets/snt/S&T Presentation.pdf';
+import hackatonLogo from './assets/hackatonelysee/hackatonelysee logo.webp';
+import hackatonThumbnail from './assets/hackatonelysee/hackatonelysee grande image.webp';
+import hackatonPdf from './assets/hackatonelysee/Hackaton 2025.pdf';
+import iamCryptoLogo from './assets/iamcrypto/iamcryptologo.webp';
+import iamCryptoThumbnail from './assets/iamcrypto/mockup-mac.webp';
+import strykerProjectLogo from './assets/stryker/logostryker.webp';
+import strykerProjectThumbnail from './assets/stryker/stryker grande image.webp';
 
 function AppContent() {
   // Loader uniquement si on arrive sur la page d'accueil ET qu'on n'a jamais visité
@@ -620,36 +630,91 @@ function ProjetsEtExperience() {
     },
     {
       id: 2,
-      name: "LinguaXplore",
+      name: "Start & Trade",
       category: "Projet d'étude",
-      shortDescription: "Jeu vidéo éducatif pour l'apprentissage des langues",
-      fullDescription: "Création d'une plateforme immersive d'apprentissage des langues à travers des jeux vidéo et des expériences interactives. Le projet inclut le développement d'un site web moderne, l'intégration de l'intelligence artificielle pour les interactions avec les personnages non-joueurs (PNJ), et un système de progression gamifié.\n\nL'objectif est de rendre l'apprentissage des langues plus engageant et efficace en combinant technologie et pédagogie.\n\n Nous avons développé un site web minimaliste et responsive, intégrant des éléments de design moderne et une interface utilisateur intuitive.",
-      image: lxpLogo,
-      date: "2024",
-      technologies: ["Unreal Engine", "Blender", "JavaScript", "OpenAI API", "Figma", "Illustrator"],
+      shortDescription: "Assistant IA pédagogique pour jeunes investisseurs avec données financières en temps réel",
+      fullDescription: "Développement d'un assistant IA pédagogique et gratuit, accessible 24h/24 et 7j/7, pour guider les jeunes investisseurs (18-30 ans) face à la complexité des informations financières. L'application permet d'accéder à des données financières en temps réel (Actions, ETF, Indices, Cryptos) et de s'éduquer de manière progressive.\n\nL'objectif est de proposer un système entièrement local et open-source, intégrant des règles strictes (guardrails) pour éviter de donner des conseils d'investissement personnalisés ou des prédictions de prix, tout en garantissant la protection de la vie privée des utilisateurs.\n\nL'architecture repose sur FastAPI comme orchestrateur, Ollama avec le modèle Qwen2.5:7b pour l'IA conversationnelle, et un système de scraping via yfinance pour extraire plus de 25 métriques financières en temps réel depuis Yahoo Finance.",
+      image: sntLogo,
+      date: "2026",
+      technologies: ["React", "Vite", "FastAPI", "Ollama", "Qwen2.5", "yfinance", "Tailwind CSS"],
       keyFeatures: [
-        "Quêtes linguistiques scénarisées en VR",
-        "Site Web : Design minimaliste et responsive",
-        "Intelligence artificielle pour les PNJ",
-        "Système de progression et de niveaux"
+        "Assistant IA 100% local avec modèle Qwen2.5:7b (7B paramètres, 32k contexte)",
+        "Données financières en temps réel (Actions, ETF, Indices, Cryptos)",
+        "Système de guardrails pour éviter conseils personnalisés et prédictions",
+        "Knowledge Base locale avec concepts financiers théoriques fiables"
       ],
       achievements: [
-        "Personnalisation du skin personnage",
-        "Chat de proximité",
-        "Interface web responsive et moderne"
+        "Zéro hallucination sur les données financières grâce à la contextualisation forcée",
+        "Protection des débutants via alertes automatiques sur les cryptomonnaies",
+        "Architecture 100% locale garantissant la vie privée (aucune donnée cloud)",
+        "Scraping optimisé : +25 métriques financières en ~500ms par ticker"
       ],
-      websiteUrl: "https://lavender-curlew-739021.hostingersite.com/",
       media: {
         type: "image",
-        src: lxpThumbnail
-      }
+        src: sntThumbnail
+      },
+      detailUrl: sntPdf
+    },
+    {
+      id: 3,
+      name: "Hackaton Élysée",
+      category: "Projet d'étude",
+      shortDescription: "Solution prédictive et interactive pour anticiper les épidémies de grippe en France",
+      fullDescription: "Développement d'une solution prédictive et interactive permettant de centraliser les données pour anticiper et comprendre les dynamiques épidémiques et hospitalières de la grippe en France. Le projet vise à dépasser les limites des outils de surveillance actuels (souvent statiques, non croisés ou complexes).\n\nLe système s'articule autour du traitement de données publiques (Météo France, Insee, Santé Publique France, data.gouv.fr) qui sont nettoyées, agrégées et croisées (densité de population, couverture vaccinale, syndromes grippaux et météo).\n\nL'équipe a mis en œuvre trois modèles complémentaires de Machine Learning : XGBoost pour la prédiction des foyers épidémiques, un modèle de régression pour les taux de passages aux urgences, et SARIMAX pour la prédiction des hospitalisations basée sur les séries temporelles.",
+      image: hackatonLogo,
+      date: "2025",
+      technologies: ["Python", "Streamlit", "XGBoost", "SARIMAX", "Plotly", "Pandas", "NumPy", "Scikit-learn"],
+      keyFeatures: [
+        "Dashboard interactif Streamlit avec visualisations dynamiques (Plotly, Matplotlib, Seaborn)",
+        "Modèle XGBoost pour détection des foyers épidémiques (35 features : météo, densité, âge)",
+        "Modèle de régression pour prédiction des passages aux urgences",
+        "Modèle SARIMAX pour prédiction saisonnière des hospitalisations"
+      ],
+      achievements: [
+        "Centralisation et croisement de multiples sources de données publiques",
+        "Système de prédiction multi-niveaux (foyers, urgences, hospitalisations)",
+        "Identification des zones d'alerte épidémique grâce aux patterns complexes",
+        "Perspectives d'amélioration : suivi temps réel pharmacies, déplacements SNCF, eaux usées"
+      ],
+      media: {
+        type: "image",
+        src: hackatonThumbnail
+      },
+      detailUrl: hackatonPdf
     }
   ];
 
   // Expériences professionnelles
   const experiences = [
     {
-      id: 3,
+      id: 4,
+      name: "Stryker - Data / AI Scientist",
+      category: "Expérience",
+      shortDescription: "Alternance en tant que Data/AI Scientist - Projets confidentiels en Data Science et IA",
+      fullDescription: "Actuellement en alternance chez Stryker, leader mondial des technologies médicales, en tant que Data/AI Scientist. L'intégralité de mes projets sont confidentiels.\n\nJe travaille sur des projets innovants mêlant Data Science, Intelligence Artificielle et automatisation, en utilisant les dernières technologies du domaine pour créer des solutions d'analyse et de traitement de données de santé publiques.\n\nMon rôle implique le développement de pipelines de données, l'implémentation de systèmes RAG avec des LLMs locaux, et la création d'outils d'analyse avancés pour supporter les décisions stratégiques de l'entreprise.",
+      image: strykerProjectLogo,
+      date: "2025 - Présent",
+      technologies: ["Python", "ChromaDB", "Ollama", "GitHub Actions", "Power BI", "DataGouv MCP", "Supabase"],
+      keyFeatures: [
+        "Développement de systèmes RAG (Retrieval-Augmented Generation) avec LLM",
+        "Création de pipelines de données automatisés",
+        "Implémentation de solutions MCP (Model Context Protocol)",
+        "Outils d'analyse et visualisation avec Power BI"
+      ],
+      achievements: [
+        "Scraping et traitement de données de santé publiques",
+        "Automatisation de processus métier via GitHub Actions",
+        "Développement de modèles de Machine Learning pour l'analyse prédictive",
+        "Architecture de solutions IA scalables et sécurisées"
+      ],
+      media: {
+        type: "image",
+        src: strykerProjectThumbnail
+      },
+      detailUrl: "https://www.linkedin.com/company/stryker/posts/?feedView=all"
+    },
+    {
+      id: 5,
       name: "Orapi - Data Engineering",
       category: "Expérience",
       shortDescription: "Alternance en tant que Data Engineer - Développement de ChatBot et gestion de données",
@@ -675,7 +740,7 @@ function ProjetsEtExperience() {
       detailUrl: "https://huggingface.co/taciturn999/OrapAI"
     },
     {
-      id: 4,
+      id: 6,
       name: "ASC - Growth Marketing",
       category: "Expérience",
       shortDescription: "Stage en Growth Marketing - Développement web et design & croissance",
@@ -705,7 +770,7 @@ function ProjetsEtExperience() {
   // Clients freelance
   const freelanceProjects = [
     {
-      id: 5,
+      id: 7,
       name: "Institut Corail",
       category: "Client freelance",
       shortDescription: "Institut de beauté et soins - Développement web, design, SEO et e-commerce",
@@ -731,7 +796,7 @@ function ProjetsEtExperience() {
       }
     },
     {
-      id: 6,
+      id: 8,
       name: "Maison L.I.C",
       category: "Client freelance",
       shortDescription: "Création d'art floral - Développement web, design, SEO et e-commerce",
@@ -758,24 +823,90 @@ function ProjetsEtExperience() {
     }
   ];
 
-  const ProjectCard = ({ project, index, isDarkMode }) => (
+  // Jeux vidéos
+  const videoGames = [
+    {
+      id: 9,
+      name: "LinguaXplore",
+      category: "Jeu vidéo",
+      shortDescription: "Jeu vidéo éducatif pour l'apprentissage des langues",
+      fullDescription: "Création d'une plateforme immersive d'apprentissage des langues à travers des jeux vidéo et des expériences interactives. Le projet inclut le développement d'un site web moderne, l'intégration de l'intelligence artificielle pour les interactions avec les personnages non-joueurs (PNJ), et un système de progression gamifié.\n\nL'objectif est de rendre l'apprentissage des langues plus engageant et efficace en combinant technologie et pédagogie.\n\nNous avons développé un site web minimaliste et responsive, intégrant des éléments de design moderne et une interface utilisateur intuitive.",
+      image: lxpLogo,
+      date: "2024",
+      technologies: ["Unreal Engine", "Blender", "JavaScript", "OpenAI API", "Figma", "Illustrator"],
+      keyFeatures: [
+        "Quêtes linguistiques scénarisées en VR",
+        "Site Web : Design minimaliste et responsive",
+        "Intelligence artificielle pour les PNJ",
+        "Système de progression et de niveaux"
+      ],
+      achievements: [
+        "Personnalisation du skin personnage",
+        "Chat de proximité",
+        "Interface web responsive et moderne"
+      ],
+      websiteUrl: "https://lavender-curlew-739021.hostingersite.com/",
+      media: {
+        type: "image",
+        src: lxpThumbnail
+      }
+    },
+    {
+      id: 10,
+      name: "IAM CRYPTO",
+      category: "Jeu vidéo",
+      shortDescription: "Jeu rétro dédié à l'univers de Playboi Carti - Collectez un maximum de cryptomonnaies",
+      fullDescription: "Un jeu vidéo rétro dédié à l'univers de Playboi Carti, sans réellement de sens mais avec beaucoup de fun ! L'objectif est simple : acquérir un maximum de cryptomonnaies dans cet univers pixel art inspiré de la culture hip-hop et crypto.\n\nDéveloppé en pur HTML, CSS et JavaScript vanilla, ce projet combine l'esthétique rétro des jeux arcade avec la culture moderne de la crypto et du rap. Plongez dans une expérience de jeu nostalgique et addictive.\n\nUn projet fun et décalé qui mixe passion pour le développement web et culture pop contemporaine.",
+      image: iamCryptoLogo,
+      date: "2025",
+      technologies: ["HTML", "CSS", "JavaScript"],
+      keyFeatures: [
+        "Gameplay rétro inspiré des jeux arcade classiques",
+        "Univers graphique pixel art dédié à Playboi Carti",
+        "Système de collecte de cryptomonnaies (Bitcoin, Ethereum, Pi Network)",
+        "Développement vanilla sans framework pour performance optimale"
+      ],
+      achievements: [
+        "Expérience de jeu fluide et addictive",
+        "Design rétro authentique avec palette de couleurs vintage",
+        "Code optimisé pour des performances maximales",
+        "Accessible directement depuis le navigateur"
+      ],
+      gameUrl: "https://cartigame.indelicatojeremy.com/index.html",
+      media: {
+        type: "image",
+        src: iamCryptoThumbnail
+      }
+    }
+  ];
+
+  const ProjectCard = ({ project, index, isDarkMode }) => {
+    const handleCardClick = () => {
+      if (project.gameUrl) {
+        window.open(project.gameUrl, '_blank');
+      } else {
+        openProjectModal(project);
+      }
+    };
+
+    return (
     <motion.div
       className={`group relative overflow-hidden rounded-3xl backdrop-blur-sm transition-all duration-300 cursor-pointer ${
-        isDarkMode 
-          ? 'border-white/10 hover:border-white/20' 
+        isDarkMode
+          ? 'border-white/10 hover:border-white/20'
           : 'border-gray-300/30 hover:border-gray-400/50'
       }`}
       style={{
         background: isDarkMode ? `
-          linear-gradient(135deg, 
-            rgba(255, 255, 255, 0.1) 0%, 
-            rgba(255, 255, 255, 0.05) 50%, 
+          linear-gradient(135deg,
+            rgba(255, 255, 255, 0.1) 0%,
+            rgba(255, 255, 255, 0.05) 50%,
             rgba(0, 0, 0, 0.1) 100%
           )
         ` : `
-          linear-gradient(135deg, 
-            rgba(255, 255, 255, 0.9) 0%, 
-            rgba(255, 255, 255, 0.8) 50%, 
+          linear-gradient(135deg,
+            rgba(255, 255, 255, 0.9) 0%,
+            rgba(255, 255, 255, 0.8) 50%,
             rgba(255, 255, 255, 0.85) 100%
           )
         `,
@@ -792,7 +923,7 @@ function ProjetsEtExperience() {
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, delay: index * 0.1 }}
       whileHover={{ scale: 1.02, y: -5 }}
-      onClick={() => openProjectModal(project)}
+      onClick={handleCardClick}
     >
       <div className="p-6">
         {/* Project Image */}
@@ -876,11 +1007,12 @@ function ProjetsEtExperience() {
           }}
           whileTap={{ scale: 0.95 }}
         >
-          Voir les détails
+          {project.gameUrl ? 'Jouer' : 'Voir les détails'}
         </motion.button>
       </div>
     </motion.div>
-  );
+    );
+  };
 
   return (
     <div className="w-full min-h-screen py-16 pb-24">
@@ -953,6 +1085,24 @@ function ProjetsEtExperience() {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {freelanceProjects.map((project, index) => (
+              <ProjectCard key={project.id} project={project} index={index} isDarkMode={isDarkMode} />
+            ))}
+          </div>
+        </motion.section>
+
+        {/* Jeux vidéos */}
+        <motion.section
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.8 }}
+        >
+          <h2 className={`text-3xl font-bold mb-8 text-left transition-colors duration-500 ${
+            isDarkMode ? 'text-white' : 'text-gray-900'
+          }`}>
+            Jeux <span style={{ color: '#3F8391' }}>Vidéos</span>
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {videoGames.map((project, index) => (
               <ProjectCard key={project.id} project={project} index={index} isDarkMode={isDarkMode} />
             ))}
           </div>
@@ -1087,6 +1237,12 @@ const LinkedInIcon = ({ size = 20, ...props }) => (
   </svg>
 );
 
+const YouTubeIcon = ({ size = 20, ...props }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" {...props}>
+    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+  </svg>
+);
+
 function Contact() {
   const { isDarkMode } = useTheme();
   const { register, handleSubmit, formState: { errors }, reset } = useForm();
@@ -1144,10 +1300,16 @@ function Contact() {
       icon: GitHubIcon
     },
     {
-      name: "LinkedIn", 
+      name: "LinkedIn",
       url: "https://www.linkedin.com/in/j%C3%A9r%C3%A9my-indelicato-1a3450290/",
       color: "#0077B5",
       icon: LinkedInIcon
+    },
+    {
+      name: "YouTube",
+      url: "https://www.youtube.com/@taciturn999",
+      color: "#FF0000",
+      icon: YouTubeIcon
     },
     {
       name: "Hugging Face",

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import backgroundDarkVideo from '../assets/autre/backgrounddark-ezgif.com-gif-to-webm-converter.webm';
-import backgroundLightVideo from '../assets/autre/backgroundlight-ezgif.com-gif-to-webm-converter.webm';
 import { useTheme } from '../contexts/ThemeContext';
+import DataScienceBackground from './DataScienceBackground';
+import DataScienceBackgroundDark from './DataScienceBackgroundDark';
 
 const Pattern = () => {
   const { isDarkMode } = useTheme();
@@ -100,27 +100,18 @@ const Pattern = () => {
   
   return (
     <div className="fixed top-0 left-0 w-full h-full pointer-events-none transition-all duration-700" style={{ zIndex: -1 }}>
-      {/* Vidéo WebM d'arrière-plan responsive - 100x plus léger que GIF */}
-      <video
-        key={isDarkMode ? 'dark-video' : 'light-video'}
-        src={isDarkMode ? backgroundDarkVideo : backgroundLightVideo}
-        className="w-full h-full transition-opacity duration-700"
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          ...getResponsiveStyles(),
-        }}
-        autoPlay
-        loop
-        muted
-        playsInline
-        preload="auto"
-        disablePictureInPicture
-        disableRemotePlayback
-      />
+      {/* Background adaptatif selon le mode */}
+      {isDarkMode ? (
+        /* Background DataScience animé pour le mode sombre */
+        <div className="absolute top-0 left-0 w-full h-full bg-[#0a0a0a]">
+          <DataScienceBackgroundDark />
+        </div>
+      ) : (
+        /* Background DataScience animé pour le mode clair */
+        <div className="absolute top-0 left-0 w-full h-full bg-[#fdfdfd]">
+          <DataScienceBackground />
+        </div>
+      )}
       
       {/* Overlay adaptatif responsive */}
       <div 

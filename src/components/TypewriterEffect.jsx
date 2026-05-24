@@ -9,9 +9,9 @@ const TypewriterEffect = () => {
     const options = {
       strings: [
         'développe des sites web',
-        'crée des applications mobiles', 
+        'développe des modèles de machine learning', 
         'conçois des solutions IA',
-        'perfectionne votre SEO',
+        'migre vos bases de données',
         'gère vos bases de données',
         'design vos interfaces',
         'donne vie à votre marque',

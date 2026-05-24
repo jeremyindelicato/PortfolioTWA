@@ -9,7 +9,6 @@ import institutCorailLogo from '../assets/institut-corail/logoinstitutcorail.web
 import ascLogo from '../assets/asc/asclogo.webp';
 import lxpLogo from '../assets/lxp/lxplogo.webp';
 import irisLogo from '../assets/iris/irislogo.webp';
-import spacedriverLogo from '../assets/spacedriver/spacedriverlogo.webp';
 import iamcryptoLogo from '../assets/iamcrypto/mockup-mac.webp';
 import maisonlicLogo from '../assets/maisonlic/logo.webp';
 import orapiLogo from '../assets/orapi/orapilogo.webp';
@@ -54,27 +53,20 @@ const ProjectCarousel = () => {
     },
     {
       id: 5,
-      name: "Space Driver",
-      image: spacedriverLogo,
-      description: "Simulateur de conduite spatiale",
-      category: "Jeu Vidéo"
-    },
-    {
-      id: 6,
       name: "I AM CRYPTO",
       image: iamcryptoLogo,
       description: "Récolte les cryptomonnaies en jouant Playboi Carti",
       category: "Jeu Vidéo"
     },
     {
-      id: 7,
+      id: 6,
       name: "Maison L.I.C",
       image: maisonlicLogo,
       description: "Art floral et décoration d'intérieur",
       category: "Site Web & SEO"
     },
     {
-      id: 8,
+      id: 7,
       name: "Orapi",
       image: orapiLogo,
       description: "Gestion de données et ChatBot intelligent pour le support client",
