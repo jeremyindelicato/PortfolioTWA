@@ -1,19 +1,13 @@
 import { motion } from 'framer-motion';
 import { useState, useEffect, memo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import backgroundImage from '../assets/autre/background.webp';
-import { useTheme } from '../contexts/ThemeContext';
-
 const NavigationBar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const location = useLocation();
-  const { isDarkMode } = useTheme();
-  
   const navItems = [
     { name: 'À propos de moi', path: '/' },
-    { name: 'Mes services', path: '/services' },
     { name: 'Projets & Expérience', path: '/projects' },
     { name: 'Contact', path: '/contact' }
   ];
@@ -31,18 +25,13 @@ const NavigationBar = () => {
   return (
     <>
       {/* Desktop Navigation */}
-      <motion.nav 
-        className="hidden md:block mx-auto max-w-4xl rounded-full px-6 py-3 shadow-xl fixed bottom-8 left-1/2 -translate-x-1/2 z-40 transition-all duration-500"
+      <motion.nav
+        className="hidden md:block mx-auto max-w-4xl rounded-full px-6 py-3 shadow-xl fixed top-8 left-1/2 -translate-x-1/2 z-40 transition-all duration-500"
         style={{
-          backgroundImage: `
-            linear-gradient(
-              rgba(0, 0, 0, ${isScrolled && !isHovered ? 0.6 : 0.7}),
-              rgba(0, 0, 0, ${isScrolled && !isHovered ? 0.6 : 0.7})
-            ),
-            url(${backgroundImage})
-          `,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center center',
+          background: `linear-gradient(135deg,
+            rgba(63, 131, 145, ${isScrolled && !isHovered ? 0.85 : 0.9}) 0%,
+            rgba(42, 92, 104, ${isScrolled && !isHovered ? 0.9 : 0.95}) 100%
+          )`,
           backgroundRepeat: 'no-repeat',
           backgroundOrigin: 'border-box',
           backgroundClip: 'border-box',
@@ -71,8 +60,8 @@ const NavigationBar = () => {
                   to={item.path}
                   className={`relative font-medium text-sm px-5 py-2.5 rounded-full transition-all duration-300 whitespace-nowrap block ${
                     location.pathname === item.path 
-                      ? `${isDarkMode ? 'text-white bg-white/20' : 'text-gray-900 bg-black/20'}`
-                      : `${isDarkMode ? 'text-white hover:bg-white/10 hover:text-white' : 'text-gray-900 hover:bg-black/10 hover:text-gray-900'}`
+                      ? `text-gray-900 bg-black/20`
+                      : `text-gray-900 hover:bg-black/10 hover:text-gray-900`
                   }`}
                 >
                   {item.name}
@@ -100,7 +89,7 @@ const NavigationBar = () => {
         <motion.button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           className={`fixed top-4 right-4 z-50 p-3 rounded-full shadow-lg transition-colors duration-300 ${
-            isDarkMode ? 'text-white' : 'text-gray-900'
+            'text-gray-900'
           }`}
           style={{
             background: `rgba(0, 0, 0, ${isScrolled ? 0.8 : 0.9})`,
@@ -181,8 +170,8 @@ const NavigationBar = () => {
                 to={item.path}
                 className={`block font-medium text-base px-6 py-4 sm:px-4 sm:py-3 rounded-lg mb-2 last:mb-0 transition-colors duration-300 min-h-[48px] flex items-center touch-manipulation ${
                   location.pathname === item.path 
-                    ? `${isDarkMode ? 'text-white bg-white/10' : 'text-gray-900 bg-black/10'}`
-                    : `${isDarkMode ? 'text-white hover:text-[#FFFFFF]' : 'text-gray-900 hover:text-gray-900'}`
+                    ? `text-gray-900 bg-black/10`
+                    : `text-gray-900 hover:text-gray-900`
                 }`}
                 variants={{
                   open: {

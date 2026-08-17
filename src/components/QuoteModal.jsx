@@ -1,11 +1,9 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Send, FileText, ChevronLeft, ChevronRight, User, Target, Settings, ShoppingCart, Clock, Wrench, MessageSquare, Phone, CheckCircle, AlertCircle, Brain, Database, Zap, Bot, BarChart3, Cpu } from 'lucide-react';
-import { useTheme } from '../contexts/ThemeContext';
 import { submitQuoteRequest, submitAiQuoteRequest, submitGrowthQuoteRequest } from '../utils/supabase';
 
 const QuoteModal = ({ isOpen, onClose }) => {
-  const { isDarkMode } = useTheme();
   const [step, setStep] = useState(1);
   const [totalSteps, setTotalSteps] = useState(3); // Will be updated based on service type
   const [isSuccessScreen, setIsSuccessScreen] = useState(false); // New state for success screen
@@ -49,61 +47,61 @@ const QuoteModal = ({ isOpen, onClose }) => {
     // Contact préféré (étape 9)
     preferredContact: '',
 
-    // 🤖 CHAMPS SPÉCIFIQUES IA
-    // 🧑‍💼 1. Infos de base IA
+    //  CHAMPS SPÉCIFIQUES IA
+    //  1. Infos de base IA
     aiNeedDescription: '',
     
-    // 🎯 2. Objectif du projet IA
+    //  2. Objectif du projet IA
     aiProjectGoals: [],
     aiCustomGoal: '',
     
-    // 📊 3. Données disponibles
+    //  3. Données disponibles
     hasDataAvailable: null,
     dataTypes: [],
     dataVolume: '',
     
-    // ⚙️ 4. Fonctionnalités souhaitées IA
+    //  4. Fonctionnalités souhaitées IA
     aiDesiredFeatures: [],
     
-    // ⏰ 5. Délai et budget IA
+    //  5. Délai et budget IA
     projectStartTimeline: '',
     aiBudgetRange: '',
     
-    // 📝 6. Complément IA
+    //  6. Complément IA
     needTechnicalSupport: null,
     needFutureMaintenance: null,
     aiAdditionalNotes: '',
 
-    // 🚀 CHAMPS SPÉCIFIQUES GROWTH
-    // 🧑‍💼 1. Infos de base (réutilise firstName, lastName, email, companyName, businessSector, hasExistingWebsite, existingWebsiteUrl)
+    //  CHAMPS SPÉCIFIQUES GROWTH
+    //  1. Infos de base (réutilise firstName, lastName, email, companyName, businessSector, hasExistingWebsite, existingWebsiteUrl)
     
-    // 🎯 2. Objectif de la mission
+    //  2. Objectif de la mission
     growthMainGoals: [],
     growthCustomGoal: '',
     
-    // 🛠️ 3. Services souhaités
+    //  3. Services souhaités
     growthDesiredServices: [],
     growthCustomService: '',
     
-    // 🎯 4. Ciblage & données
+    //  4. Ciblage & données
     targetAudience: '',
     hasExistingDatabase: null,
     leadSources: [],
     
-    // 📊 5. KPI & ambitions
+    //  5. KPI & ambitions
     growthObjectives: '',
     wantsDetailedReporting: null,
     hasTestedGrowthTools: null,
     testedToolsDetails: '',
     
-    // ⏰ 6. Délai & budget (réutilise projectStartTimeline)
+    //  6. Délai & budget (réutilise projectStartTimeline)
     growthBudgetRange: '',
     
-    // 🧠 7. Autres besoins
+    //  7. Autres besoins
     additionalServices: [],
     growthCustomAdditional: '',
     
-    // 📝 8. Remarques (réutilise aiAdditionalNotes comme growthAdditionalNotes)
+    //  8. Remarques (réutilise aiAdditionalNotes comme growthAdditionalNotes)
     growthAdditionalNotes: ''
   });
 
@@ -231,7 +229,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
     setSubmitStatus(null);
     
     try {
-      console.log('🚀 Envoi de la demande de devis:', formData);
+      console.log(' Envoi de la demande de devis:', formData);
       
       // Choisir la fonction appropriée selon le type de service
       let result;
@@ -252,7 +250,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
       }
       
     } catch (error) {
-      console.error('❌ Erreur lors de l\'envoi:', error);
+      console.error(' Erreur lors de l\'envoi:', error);
       setSubmitStatus('error');
       setSubmitMessage(error.message || 'Une erreur est survenue. Veuillez réessayer.');
     } finally {
@@ -286,7 +284,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
       needMaintenance: '',
       additionalNotes: '',
       preferredContact: '',
-      // 🤖 Reset des champs IA
+      //  Reset des champs IA
       aiNeedDescription: '',
       aiProjectGoals: [],
       aiCustomGoal: '',
@@ -299,7 +297,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
       needTechnicalSupport: null,
       needFutureMaintenance: null,
       aiAdditionalNotes: '',
-      // 🚀 Reset des champs Growth
+      //  Reset des champs Growth
       growthMainGoals: [],
       growthCustomGoal: '',
       growthDesiredServices: [],
@@ -343,27 +341,16 @@ const QuoteModal = ({ isOpen, onClose }) => {
         {/* Modal */}
         <motion.div
           className={`relative w-full max-w-sm sm:max-w-lg md:max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl sm:rounded-3xl border transition-all duration-500 ${
-            isDarkMode ? 'border-white/20' : 'border-gray-300/30'
+            'border-gray-300/30'
           }`}
           style={{
-            background: isDarkMode ? `
-              linear-gradient(135deg, 
-                rgba(255, 255, 255, 0.15) 0%, 
-                rgba(255, 255, 255, 0.05) 50%, 
-                rgba(0, 0, 0, 0.2) 100%
-              )
-            ` : `
-              linear-gradient(135deg, 
+            background: `linear-gradient(135deg, 
                 rgba(255, 255, 255, 0.98) 0%, 
                 rgba(255, 255, 255, 0.95) 50%, 
                 rgba(255, 255, 255, 0.97) 100%
-              )
-            `,
+              )`,
             backdropFilter: 'blur(25px)',
-            boxShadow: isDarkMode ? `
-              0 25px 60px rgba(0, 0, 0, 0.5),
-              inset 0 1px 0 rgba(255, 255, 255, 0.3)
-            ` : `
+            boxShadow: `
               0 25px 60px rgba(0, 0, 0, 0.15),
               inset 0 1px 0 rgba(255, 255, 255, 0.8)
             `
@@ -374,9 +361,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
           transition={{ duration: 0.3, ease: "easeOut" }}
         >
           {/* Header */}
-          <div className={`flex items-center justify-between p-6 border-b transition-colors duration-500 ${
-            isDarkMode ? 'border-white/10' : 'border-gray-300/30'
-          }`}>
+          <div className={`flex items-center justify-between p-6 border-b transition-colors duration-500 border-gray-300/30`}>
             <div className="flex items-center gap-3">
               <div 
                 className="w-10 h-10 rounded-xl flex items-center justify-center"
@@ -388,12 +373,12 @@ const QuoteModal = ({ isOpen, onClose }) => {
               </div>
               <div>
                 <h2 className={`text-2xl font-bold transition-colors duration-500 ${
-                  isDarkMode ? 'text-white' : 'text-gray-900'
+                  'text-gray-900'
                 }`}>
                   Demande de Devis
                 </h2>
                 <p className={`text-sm transition-colors duration-500 ${
-                  isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                  'text-gray-600'
                 }`}>
                   {isSuccessScreen ? 'Demande envoyée !' : `${getStepTitle(step)} - Étape ${step} sur ${getActualTotalSteps()}`}
                 </p>
@@ -405,15 +390,15 @@ const QuoteModal = ({ isOpen, onClose }) => {
               style={{
                 width: '40px',
                 height: '40px',
-                backgroundColor: isDarkMode ? 'rgba(255, 255, 255, 0.1)' : '#ffffff',
-                border: isDarkMode ? '1px solid rgba(255, 255, 255, 0.2)' : '1px solid #e5e7eb',
+                backgroundColor: '#ffffff',
+                border: '1px solid #e5e7eb',
                 borderRadius: '50%',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 cursor: 'pointer',
                 transition: 'all 0.2s ease',
-                boxShadow: isDarkMode ? 'none' : '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+                boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
                 position: 'relative'
               }}
               whileHover={{ 
@@ -441,7 +426,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                     left: '50%',
                     width: '16px',
                     height: '2px',
-                    backgroundColor: isDarkMode ? '#ffffff' : '#374151',
+                    backgroundColor: '#374151',
                     transform: 'translate(-50%, -50%) rotate(45deg)',
                     transition: 'background-color 0.2s ease'
                   }}
@@ -453,7 +438,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                     left: '50%',
                     width: '16px',
                     height: '2px',
-                    backgroundColor: isDarkMode ? '#ffffff' : '#374151',
+                    backgroundColor: '#374151',
                     transform: 'translate(-50%, -50%) rotate(-45deg)',
                     transition: 'background-color 0.2s ease'
                   }}
@@ -484,7 +469,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
               ))}
             </div>
             <div className="mt-2 text-center">
-              <span className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-700'}`}>
+              <span className={`text-xs text-gray-700`}>
                 {Math.round((step / getActualTotalSteps()) * 100)}% complété
               </span>
             </div>
@@ -504,7 +489,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                 >
                   <div>
                     <h3 className={`text-xl font-semibold mb-4 flex items-center gap-2 transition-colors duration-500 ${
-                      isDarkMode ? 'text-white' : 'text-gray-900'
+                      'text-gray-900'
                     }`}>
                       <Settings size={24} className="text-[#3F8391]" />
                       Quel service vous intéresse ?
@@ -526,17 +511,15 @@ const QuoteModal = ({ isOpen, onClose }) => {
                             borderRadius: '16px',
                             border: formData.serviceType === service
                               ? `2px solid #3F8391`
-                              : isDarkMode 
-                                ? '1px solid rgba(255, 255, 255, 0.2)' 
-                                : '1px solid rgba(156, 163, 175, 0.4)',
+                              : '1px solid rgba(156, 163, 175, 0.4)',
                             textAlign: 'center',
                             transition: 'all 0.3s ease',
                             backgroundColor: formData.serviceType === service
-                              ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
-                              : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
+                              ? '#3F8391'
+                              : 'rgba(255, 255, 255, 0.7)',
                             color: formData.serviceType === service
-                              ? isDarkMode ? '#ffffff' : '#ffffff'
-                              : isDarkMode ? '#d1d5db' : '#374151',
+                              ? '#ffffff'
+                              : '#374151',
                             cursor: 'pointer',
                             boxShadow: formData.serviceType === service
                               ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
@@ -566,7 +549,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                 >
                   <div>
                     <h3 className={`text-lg sm:text-xl font-semibold mb-4 sm:mb-6 flex items-center gap-2 transition-colors duration-500 ${
-                      isDarkMode ? 'text-white' : 'text-gray-900'
+                      'text-gray-900'
                     }`}>
                       <User size={24} className="text-[#3F8391]" />
                       Informations générales
@@ -576,7 +559,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                           <label className={`block font-medium mb-2 transition-colors duration-500 ${
-                            isDarkMode ? 'text-white' : 'text-gray-800'
+                            'text-gray-800'
                           }`}>
                             Prénom *
                           </label>
@@ -585,17 +568,13 @@ const QuoteModal = ({ isOpen, onClose }) => {
                             required
                             value={formData.firstName}
                             onChange={(e) => handleInputChange('firstName', e.target.value)}
-                            className={`w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none text-sm sm:text-base transition-all duration-300 ${
-                              isDarkMode 
-                                ? 'bg-white/10 border-white/20 text-white placeholder-gray-400' 
-                                : 'bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500'
-                            }`}
+                            className={`w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none text-sm sm:text-base transition-all duration-300 bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500`}
                             placeholder="Votre prénom"
                           />
                         </div>
                         <div>
                           <label className={`block font-medium mb-2 transition-colors duration-500 ${
-                            isDarkMode ? 'text-white' : 'text-gray-800'
+                            'text-gray-800'
                           }`}>
                             Nom *
                           </label>
@@ -604,11 +583,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                             required
                             value={formData.lastName}
                             onChange={(e) => handleInputChange('lastName', e.target.value)}
-                            className={`w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none text-sm sm:text-base transition-all duration-300 ${
-                              isDarkMode 
-                                ? 'bg-white/10 border-white/20 text-white placeholder-gray-400' 
-                                : 'bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500'
-                            }`}
+                            className={`w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none text-sm sm:text-base transition-all duration-300 bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500`}
                             placeholder="Votre nom"
                           />
                         </div>
@@ -616,7 +591,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                       
                       <div>
                         <label className={`block font-medium mb-2 transition-colors duration-500 ${
-                            isDarkMode ? 'text-white' : 'text-gray-800'
+                            'text-gray-800'
                           }`}>
                           Email *
                         </label>
@@ -625,18 +600,14 @@ const QuoteModal = ({ isOpen, onClose }) => {
                           required
                           value={formData.email}
                           onChange={(e) => handleInputChange('email', e.target.value)}
-                          className={`w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none text-sm sm:text-base transition-all duration-300 ${
-                              isDarkMode 
-                                ? 'bg-white/10 border-white/20 text-white placeholder-gray-400' 
-                                : 'bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500'
-                            }`}
+                          className={`w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none text-sm sm:text-base transition-all duration-300 bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500`}
                           placeholder="votre@email.com"
                         />
                       </div>
                       
                       <div>
                         <label className={`block font-medium mb-2 transition-colors duration-500 ${
-                            isDarkMode ? 'text-white' : 'text-gray-800'
+                            'text-gray-800'
                           }`}>
                           Nom de l'entreprise (si applicable)
                         </label>
@@ -644,18 +615,14 @@ const QuoteModal = ({ isOpen, onClose }) => {
                           type="text"
                           value={formData.companyName}
                           onChange={(e) => handleInputChange('companyName', e.target.value)}
-                          className={`w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none text-sm sm:text-base transition-all duration-300 ${
-                              isDarkMode 
-                                ? 'bg-white/10 border-white/20 text-white placeholder-gray-400' 
-                                : 'bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500'
-                            }`}
+                          className={`w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none text-sm sm:text-base transition-all duration-300 bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500`}
                           placeholder="Nom de votre entreprise ou organisation"
                         />
                       </div>
                       
                       <div>
                         <label className={`block font-medium mb-2 transition-colors duration-500 ${
-                            isDarkMode ? 'text-white' : 'text-gray-800'
+                            'text-gray-800'
                           }`}>
                           Secteur d'activité
                         </label>
@@ -663,18 +630,14 @@ const QuoteModal = ({ isOpen, onClose }) => {
                           type="text"
                           value={formData.businessSector}
                           onChange={(e) => handleInputChange('businessSector', e.target.value)}
-                          className={`w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none text-sm sm:text-base transition-all duration-300 ${
-                              isDarkMode 
-                                ? 'bg-white/10 border-white/20 text-white placeholder-gray-400' 
-                                : 'bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500'
-                            }`}
+                          className={`w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none text-sm sm:text-base transition-all duration-300 bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500`}
                           placeholder="Ex: Parfumerie, Santé, Éducation..."
                         />
                       </div>
                       
                       <div>
                         <label className={`block font-medium mb-3 transition-colors duration-500 ${
-                            isDarkMode ? 'text-white' : 'text-gray-800'
+                            'text-gray-800'
                           }`}>
                           Avez-vous déjà un site web ?
                         </label>
@@ -689,17 +652,15 @@ const QuoteModal = ({ isOpen, onClose }) => {
                                 borderRadius: '12px',
                                 border: formData.hasExistingWebsite === value
                                   ? `2px solid #3F8391`
-                                  : isDarkMode 
-                                    ? '1px solid rgba(255, 255, 255, 0.2)' 
-                                    : '1px solid rgba(156, 163, 175, 0.4)',
+                                  : '1px solid rgba(156, 163, 175, 0.4)',
                                 textAlign: 'center',
                                 transition: 'all 0.3s ease',
                                 backgroundColor: formData.hasExistingWebsite === value
-                                  ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
-                                  : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
+                                  ? '#3F8391'
+                                  : 'rgba(255, 255, 255, 0.7)',
                                 color: formData.hasExistingWebsite === value
-                                  ? isDarkMode ? '#ffffff' : '#ffffff'
-                                  : isDarkMode ? '#d1d5db' : '#374151',
+                                  ? '#ffffff'
+                                  : '#374151',
                                 cursor: 'pointer',
                                 boxShadow: formData.hasExistingWebsite === value
                                   ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
@@ -721,7 +682,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                           exit={{ opacity: 0, height: 0 }}
                         >
                           <label className={`block font-medium mb-2 transition-colors duration-500 ${
-                            isDarkMode ? 'text-white' : 'text-gray-800'
+                            'text-gray-800'
                           }`}>
                             Quel est le lien de votre site actuel ?
                           </label>
@@ -729,11 +690,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                             type="url"
                             value={formData.existingWebsiteUrl}
                             onChange={(e) => handleInputChange('existingWebsiteUrl', e.target.value)}
-                            className={`w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none text-sm sm:text-base transition-all duration-300 ${
-                              isDarkMode 
-                                ? 'bg-white/10 border-white/20 text-white placeholder-gray-400' 
-                                : 'bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500'
-                            }`}
+                            className={`w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none text-sm sm:text-base transition-all duration-300 bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500`}
                             placeholder="https://votre-site-actuel.com"
                           />
                         </motion.div>
@@ -754,7 +711,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                 >
                   <div>
                     <h3 className={`text-lg sm:text-xl font-semibold mb-4 sm:mb-6 flex items-center gap-2 transition-colors duration-500 ${
-                      isDarkMode ? 'text-white' : 'text-gray-900'
+                      'text-gray-900'
                     }`}>
                       <Target size={24} className="text-[#3F8391]" />
                       Objectif du projet
@@ -763,7 +720,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                     <div className="space-y-4 sm:space-y-6">
                       <div>
                         <label className={`block font-medium mb-3 transition-colors duration-500 ${
-                            isDarkMode ? 'text-white' : 'text-gray-800'
+                            'text-gray-800'
                           }`}>
                           Quel est le but principal de votre futur site ? (Plusieurs choix possibles)
                         </label>
@@ -785,17 +742,15 @@ const QuoteModal = ({ isOpen, onClose }) => {
                                 borderRadius: '12px',
                                 border: formData.projectGoals.includes(goal)
                                   ? `2px solid #3F8391`
-                                  : isDarkMode 
-                                    ? '1px solid rgba(255, 255, 255, 0.2)' 
-                                    : '1px solid rgba(156, 163, 175, 0.4)',
+                                  : '1px solid rgba(156, 163, 175, 0.4)',
                                 textAlign: 'left',
                                 transition: 'all 0.3s ease',
                                 backgroundColor: formData.projectGoals.includes(goal)
-                                  ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
-                                  : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
+                                  ? '#3F8391'
+                                  : 'rgba(255, 255, 255, 0.7)',
                                 color: formData.projectGoals.includes(goal)
-                                  ? isDarkMode ? '#ffffff' : '#ffffff'
-                                  : isDarkMode ? '#d1d5db' : '#374151',
+                                  ? '#ffffff'
+                                  : '#374151',
                                 cursor: 'pointer',
                                 boxShadow: formData.projectGoals.includes(goal)
                                   ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
@@ -829,18 +784,14 @@ const QuoteModal = ({ isOpen, onClose }) => {
                       
                       <div>
                         <label className={`block font-medium mb-3 transition-colors duration-500 ${
-                            isDarkMode ? 'text-white' : 'text-gray-800'
+                            'text-gray-800'
                           }`}>
                           Décrivez brièvement votre projet
                         </label>
                         <textarea
                           value={formData.projectDescription}
                           onChange={(e) => handleInputChange('projectDescription', e.target.value)}
-                          className={`w-full h-32 px-4 py-3 rounded-2xl border focus:border-[#3F8391] focus:outline-none resize-none transition-all duration-300 ${
-                            isDarkMode 
-                              ? 'bg-white/10 border-white/20 text-white placeholder-gray-400' 
-                              : 'bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500'
-                          }`}
+                          className={`w-full h-32 px-4 py-3 rounded-2xl border focus:border-[#3F8391] focus:outline-none resize-none transition-all duration-300 bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500`}
                           placeholder="Expliquez votre vision, vos objectifs spécifiques, votre public cible..."
                         />
                       </div>
@@ -859,7 +810,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                 >
                   <div>
                     <h3 className={`text-lg sm:text-xl font-semibold mb-4 sm:mb-6 flex items-center gap-2 transition-colors duration-500 ${
-                      isDarkMode ? 'text-white' : 'text-gray-900'
+                      'text-gray-900'
                     }`}>
                       <Settings size={24} className="text-[#3F8391]" />
                       Fonctionnalités souhaitées
@@ -868,7 +819,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                     <div className="space-y-4 sm:space-y-6">
                       <div>
                         <label className={`block font-medium mb-3 transition-colors duration-500 ${
-                            isDarkMode ? 'text-white' : 'text-gray-800'
+                            'text-gray-800'
                           }`}>
                           Quelles fonctionnalités souhaitez-vous ? (Plusieurs choix possibles)
                         </label>
@@ -896,17 +847,15 @@ const QuoteModal = ({ isOpen, onClose }) => {
                                 borderRadius: '12px',
                                 border: formData.desiredFeatures.includes(feature)
                                   ? `2px solid #3F8391`
-                                  : isDarkMode 
-                                    ? '1px solid rgba(255, 255, 255, 0.2)' 
-                                    : '1px solid rgba(156, 163, 175, 0.4)',
+                                  : '1px solid rgba(156, 163, 175, 0.4)',
                                 textAlign: 'left',
                                 transition: 'all 0.3s ease',
                                 backgroundColor: formData.desiredFeatures.includes(feature)
-                                  ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
-                                  : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
+                                  ? '#3F8391'
+                                  : 'rgba(255, 255, 255, 0.7)',
                                 color: formData.desiredFeatures.includes(feature)
-                                  ? isDarkMode ? '#ffffff' : '#ffffff'
-                                  : isDarkMode ? '#d1d5db' : '#374151',
+                                  ? '#ffffff'
+                                  : '#374151',
                                 cursor: 'pointer',
                                 boxShadow: formData.desiredFeatures.includes(feature)
                                   ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
@@ -940,7 +889,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                       
                       <div>
                         <label className={`block font-medium mb-3 transition-colors duration-500 ${
-                            isDarkMode ? 'text-white' : 'text-gray-800'
+                            'text-gray-800'
                           }`}>
                           Souhaitez-vous que je réalise le design ?
                         </label>
@@ -955,17 +904,15 @@ const QuoteModal = ({ isOpen, onClose }) => {
                                 borderRadius: '12px',
                                 border: formData.needDesign === value
                                   ? `2px solid #3F8391`
-                                  : isDarkMode 
-                                    ? '1px solid rgba(255, 255, 255, 0.2)' 
-                                    : '1px solid rgba(156, 163, 175, 0.4)',
+                                  : '1px solid rgba(156, 163, 175, 0.4)',
                                 textAlign: 'center',
                                 transition: 'all 0.3s ease',
                                 backgroundColor: formData.needDesign === value
-                                  ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
-                                  : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
+                                  ? '#3F8391'
+                                  : 'rgba(255, 255, 255, 0.7)',
                                 color: formData.needDesign === value
-                                  ? isDarkMode ? '#ffffff' : '#ffffff'
-                                  : isDarkMode ? '#d1d5db' : '#374151',
+                                  ? '#ffffff'
+                                  : '#374151',
                                 cursor: 'pointer',
                                 boxShadow: formData.needDesign === value
                                   ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
@@ -995,7 +942,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                 >
                   <div>
                     <h3 className={`text-lg sm:text-xl font-semibold mb-4 sm:mb-6 flex items-center gap-2 transition-colors duration-500 ${
-                      isDarkMode ? 'text-white' : 'text-gray-900'
+                      'text-gray-900'
                     }`}>
                       <ShoppingCart size={24} className="text-[#3F8391]" />
                       Spécificités E-commerce
@@ -1004,18 +951,14 @@ const QuoteModal = ({ isOpen, onClose }) => {
                     <div className="space-y-4 sm:space-y-6">
                       <div>
                         <label className={`block font-medium mb-3 transition-colors duration-500 ${
-                            isDarkMode ? 'text-white' : 'text-gray-800'
+                            'text-gray-800'
                           }`}>
                           Combien de produits environ ?
                         </label>
                         <select
                           value={formData.productCount}
                           onChange={(e) => handleInputChange('productCount', e.target.value)}
-                          className={`w-full px-4 py-3 rounded-2xl border focus:border-[#3F8391] focus:outline-none transition-all duration-300 ${
-                            isDarkMode 
-                              ? 'bg-white/10 border-white/20 text-white' 
-                              : 'bg-white/80 border-gray-300/40 text-gray-900'
-                          }`}
+                          className={`w-full px-4 py-3 rounded-2xl border focus:border-[#3F8391] focus:outline-none transition-all duration-300 bg-white/80 border-gray-300/40 text-gray-900`}
                         >
                           <option value="">Sélectionnez une fourchette</option>
                           <option value="1-10">1 à 10 produits</option>
@@ -1028,7 +971,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                       
                       <div>
                         <label className={`block font-medium mb-3 transition-colors duration-500 ${
-                            isDarkMode ? 'text-white' : 'text-gray-800'
+                            'text-gray-800'
                           }`}>
                           Quels moyens de paiement souhaitez-vous proposer ? (Plusieurs choix possibles)
                         </label>
@@ -1052,17 +995,15 @@ const QuoteModal = ({ isOpen, onClose }) => {
                                 borderRadius: '12px',
                                 border: formData.paymentMethods.includes(method)
                                   ? `2px solid #3F8391`
-                                  : isDarkMode 
-                                    ? '1px solid rgba(255, 255, 255, 0.2)' 
-                                    : '1px solid rgba(156, 163, 175, 0.4)',
+                                  : '1px solid rgba(156, 163, 175, 0.4)',
                                 textAlign: 'left',
                                 transition: 'all 0.3s ease',
                                 backgroundColor: formData.paymentMethods.includes(method)
-                                  ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
-                                  : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
+                                  ? '#3F8391'
+                                  : 'rgba(255, 255, 255, 0.7)',
                                 color: formData.paymentMethods.includes(method)
-                                  ? isDarkMode ? '#ffffff' : '#ffffff'
-                                  : isDarkMode ? '#d1d5db' : '#374151',
+                                  ? '#ffffff'
+                                  : '#374151',
                                 cursor: 'pointer',
                                 boxShadow: formData.paymentMethods.includes(method)
                                   ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
@@ -1099,7 +1040,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                       
                       <div>
                         <label className={`block font-medium mb-3 transition-colors duration-500 ${
-                            isDarkMode ? 'text-white' : 'text-gray-800'
+                            'text-gray-800'
                           }`}>
                           Souhaitez-vous proposer la livraison ?
                         </label>
@@ -1114,17 +1055,15 @@ const QuoteModal = ({ isOpen, onClose }) => {
                                 borderRadius: '12px',
                                 border: formData.deliveryNeeded === value
                                   ? `2px solid #3F8391`
-                                  : isDarkMode 
-                                    ? '1px solid rgba(255, 255, 255, 0.2)' 
-                                    : '1px solid rgba(156, 163, 175, 0.4)',
+                                  : '1px solid rgba(156, 163, 175, 0.4)',
                                 textAlign: 'center',
                                 transition: 'all 0.3s ease',
                                 backgroundColor: formData.deliveryNeeded === value
-                                  ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
-                                  : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
+                                  ? '#3F8391'
+                                  : 'rgba(255, 255, 255, 0.7)',
                                 color: formData.deliveryNeeded === value
-                                  ? isDarkMode ? '#ffffff' : '#ffffff'
-                                  : isDarkMode ? '#d1d5db' : '#374151',
+                                  ? '#ffffff'
+                                  : '#374151',
                                 cursor: 'pointer',
                                 boxShadow: formData.deliveryNeeded === value
                                   ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
@@ -1154,7 +1093,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                 >
                   <div>
                     <h3 className={`text-lg sm:text-xl font-semibold mb-4 sm:mb-6 flex items-center gap-2 transition-colors duration-500 ${
-                      isDarkMode ? 'text-white' : 'text-gray-900'
+                      'text-gray-900'
                     }`}>
                       <Clock size={24} className="text-[#3F8391]" />
                       Délais & Budget
@@ -1163,7 +1102,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                     <div className="space-y-4 sm:space-y-6">
                       <div>
                         <label className={`block font-medium mb-3 transition-colors duration-500 ${
-                            isDarkMode ? 'text-white' : 'text-gray-800'
+                            'text-gray-800'
                           }`}>
                           Avez-vous une date idéale de mise en ligne ?
                         </label>
@@ -1171,17 +1110,13 @@ const QuoteModal = ({ isOpen, onClose }) => {
                           type="date"
                           value={formData.idealLaunchDate}
                           onChange={(e) => handleInputChange('idealLaunchDate', e.target.value)}
-                          className={`w-full px-4 py-3 rounded-2xl border focus:border-[#3F8391] focus:outline-none transition-all duration-300 ${
-                            isDarkMode 
-                              ? 'bg-white/10 border-white/20 text-white' 
-                              : 'bg-white/80 border-gray-300/40 text-gray-900'
-                          }`}
+                          className={`w-full px-4 py-3 rounded-2xl border focus:border-[#3F8391] focus:outline-none transition-all duration-300 bg-white/80 border-gray-300/40 text-gray-900`}
                         />
                       </div>
                       
                       <div>
                         <label className={`block font-medium mb-3 transition-colors duration-500 ${
-                            isDarkMode ? 'text-white' : 'text-gray-800'
+                            'text-gray-800'
                           }`}>
                           Quel est votre budget approximatif ? (Un seul choix)
                         </label>
@@ -1203,17 +1138,15 @@ const QuoteModal = ({ isOpen, onClose }) => {
                                 borderRadius: '12px',
                                 border: formData.budgetRange === range
                                   ? `2px solid #3F8391`
-                                  : isDarkMode 
-                                    ? '1px solid rgba(255, 255, 255, 0.2)' 
-                                    : '1px solid rgba(156, 163, 175, 0.4)',
+                                  : '1px solid rgba(156, 163, 175, 0.4)',
                                 textAlign: 'left',
                                 transition: 'all 0.3s ease',
                                 backgroundColor: formData.budgetRange === range
-                                  ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
-                                  : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
+                                  ? '#3F8391'
+                                  : 'rgba(255, 255, 255, 0.7)',
                                 color: formData.budgetRange === range
-                                  ? isDarkMode ? '#ffffff' : '#ffffff'
-                                  : isDarkMode ? '#d1d5db' : '#374151',
+                                  ? '#ffffff'
+                                  : '#374151',
                                 cursor: 'pointer',
                                 boxShadow: formData.budgetRange === range
                                   ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
@@ -1262,25 +1195,21 @@ const QuoteModal = ({ isOpen, onClose }) => {
                 >
                   <div>
                     <h3 className={`text-xl font-semibold mb-4 transition-colors duration-500 ${
-                      isDarkMode ? 'text-white' : 'text-gray-900'
+                      'text-gray-900'
                     }`}>
                       Décrivez votre projet
                     </h3>
                     <textarea
                       value={formData.projectDescription}
                       onChange={(e) => handleInputChange('projectDescription', e.target.value)}
-                      className={`w-full h-32 px-4 py-3 rounded-2xl border focus:border-[#3F8391] focus:outline-none resize-none transition-all duration-300 ${
-                            isDarkMode 
-                              ? 'bg-white/10 border-white/20 text-white placeholder-gray-400' 
-                              : 'bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500'
-                          }`}
+                      className={`w-full h-32 px-4 py-3 rounded-2xl border focus:border-[#3F8391] focus:outline-none resize-none transition-all duration-300 bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500`}
                       placeholder="Décrivez vos besoins, objectifs et contraintes..."
                     />
                   </div>
                 </motion.div>
               )}
 
-              {/* 🤖 ÉTAPES INTELLIGENCE ARTIFICIELLE */}
+              {/*  ÉTAPES INTELLIGENCE ARTIFICIELLE */}
               
               {/* Étape 2 IA: Infos de base */}
               {step === 2 && formData.serviceType === 'Intelligence Artificielle' && (
@@ -1293,17 +1222,17 @@ const QuoteModal = ({ isOpen, onClose }) => {
                 >
                   <div>
                     <h3 className={`text-lg sm:text-xl font-semibold mb-4 sm:mb-6 flex items-center gap-2 transition-colors duration-500 ${
-                      isDarkMode ? 'text-white' : 'text-gray-900'
+                      'text-gray-900'
                     }`}>
                       <User size={24} className="text-[#3F8391]" />
-                      🧑‍💼 Infos de base
+                       Infos de base
                     </h3>
                     
                     <div className="space-y-3 sm:space-y-4">
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                           <label className={`block font-medium mb-2 transition-colors duration-500 ${
-                            isDarkMode ? 'text-white' : 'text-gray-800'
+                            'text-gray-800'
                           }`}>
                             Prénom *
                           </label>
@@ -1312,17 +1241,13 @@ const QuoteModal = ({ isOpen, onClose }) => {
                             required
                             value={formData.firstName}
                             onChange={(e) => handleInputChange('firstName', e.target.value)}
-                            className={`w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none text-sm sm:text-base transition-all duration-300 ${
-                              isDarkMode 
-                                ? 'bg-white/10 border-white/20 text-white placeholder-gray-400' 
-                                : 'bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500'
-                            }`}
+                            className={`w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none text-sm sm:text-base transition-all duration-300 bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500`}
                             placeholder="Votre prénom"
                           />
                         </div>
                         <div>
                           <label className={`block font-medium mb-2 transition-colors duration-500 ${
-                            isDarkMode ? 'text-white' : 'text-gray-800'
+                            'text-gray-800'
                           }`}>
                             Nom *
                           </label>
@@ -1331,11 +1256,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                             required
                             value={formData.lastName}
                             onChange={(e) => handleInputChange('lastName', e.target.value)}
-                            className={`w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none text-sm sm:text-base transition-all duration-300 ${
-                              isDarkMode 
-                                ? 'bg-white/10 border-white/20 text-white placeholder-gray-400' 
-                                : 'bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500'
-                            }`}
+                            className={`w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none text-sm sm:text-base transition-all duration-300 bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500`}
                             placeholder="Votre nom"
                           />
                         </div>
@@ -1343,7 +1264,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                       
                       <div>
                         <label className={`block font-medium mb-2 transition-colors duration-500 ${
-                            isDarkMode ? 'text-white' : 'text-gray-800'
+                            'text-gray-800'
                           }`}>
                           Email professionnel *
                         </label>
@@ -1352,18 +1273,14 @@ const QuoteModal = ({ isOpen, onClose }) => {
                           required
                           value={formData.email}
                           onChange={(e) => handleInputChange('email', e.target.value)}
-                          className={`w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none text-sm sm:text-base transition-all duration-300 ${
-                              isDarkMode 
-                                ? 'bg-white/10 border-white/20 text-white placeholder-gray-400' 
-                                : 'bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500'
-                            }`}
+                          className={`w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none text-sm sm:text-base transition-all duration-300 bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500`}
                           placeholder="votre@email.com"
                         />
                       </div>
                       
                       <div>
                         <label className={`block font-medium mb-2 transition-colors duration-500 ${
-                            isDarkMode ? 'text-white' : 'text-gray-800'
+                            'text-gray-800'
                           }`}>
                           Entreprise (facultatif)
                         </label>
@@ -1371,18 +1288,14 @@ const QuoteModal = ({ isOpen, onClose }) => {
                           type="text"
                           value={formData.companyName}
                           onChange={(e) => handleInputChange('companyName', e.target.value)}
-                          className={`w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none text-sm sm:text-base transition-all duration-300 ${
-                              isDarkMode 
-                                ? 'bg-white/10 border-white/20 text-white placeholder-gray-400' 
-                                : 'bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500'
-                            }`}
+                          className={`w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none text-sm sm:text-base transition-all duration-300 bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500`}
                           placeholder="Nom de votre entreprise"
                         />
                       </div>
                       
                       <div>
                         <label className={`block font-medium mb-2 transition-colors duration-500 ${
-                            isDarkMode ? 'text-white' : 'text-gray-800'
+                            'text-gray-800'
                           }`}>
                           Secteur d'activité
                         </label>
@@ -1390,18 +1303,14 @@ const QuoteModal = ({ isOpen, onClose }) => {
                           type="text"
                           value={formData.businessSector}
                           onChange={(e) => handleInputChange('businessSector', e.target.value)}
-                          className={`w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none text-sm sm:text-base transition-all duration-300 ${
-                              isDarkMode 
-                                ? 'bg-white/10 border-white/20 text-white placeholder-gray-400' 
-                                : 'bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500'
-                            }`}
+                          className={`w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none text-sm sm:text-base transition-all duration-300 bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500`}
                           placeholder="Ex: E-commerce, Santé, Finance..."
                         />
                       </div>
                       
                       <div>
                         <label className={`block font-medium mb-2 transition-colors duration-500 ${
-                            isDarkMode ? 'text-white' : 'text-gray-800'
+                            'text-gray-800'
                           }`}>
                           Décrivez brièvement votre besoin en IA (en une phrase) *
                         </label>
@@ -1409,11 +1318,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                           required
                           value={formData.aiNeedDescription}
                           onChange={(e) => handleInputChange('aiNeedDescription', e.target.value)}
-                          className={`w-full h-20 sm:h-24 px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none resize-none text-sm sm:text-base transition-all duration-300 ${
-                              isDarkMode 
-                                ? 'bg-white/10 border-white/20 text-white placeholder-gray-400' 
-                                : 'bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500'
-                            }`}
+                          className={`w-full h-20 sm:h-24 px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none resize-none text-sm sm:text-base transition-all duration-300 bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500`}
                           placeholder="Ex: Automatiser le tri de mes emails clients par priorité..."
                         />
                       </div>
@@ -1433,16 +1338,16 @@ const QuoteModal = ({ isOpen, onClose }) => {
                 >
                   <div>
                     <h3 className={`text-lg sm:text-xl font-semibold mb-4 sm:mb-6 flex items-center gap-2 transition-colors duration-500 ${
-                      isDarkMode ? 'text-white' : 'text-gray-900'
+                      'text-gray-900'
                     }`}>
                       <Target size={24} className="text-[#3F8391]" />
-                      🎯 Objectif du projet
+                       Objectif du projet
                     </h3>
                     
                     <div className="space-y-4 sm:space-y-6">
                       <div>
                         <label className={`block font-medium mb-3 transition-colors duration-500 ${
-                            isDarkMode ? 'text-white' : 'text-gray-800'
+                            'text-gray-800'
                           }`}>
                           Quel est le but principal de votre projet ? (Choix multiple)
                         </label>
@@ -1464,17 +1369,15 @@ const QuoteModal = ({ isOpen, onClose }) => {
                                 borderRadius: '12px',
                                 border: formData.aiProjectGoals.includes(goal)
                                   ? `2px solid #3F8391`
-                                  : isDarkMode 
-                                    ? '1px solid rgba(255, 255, 255, 0.2)' 
-                                    : '1px solid rgba(156, 163, 175, 0.4)',
+                                  : '1px solid rgba(156, 163, 175, 0.4)',
                                 textAlign: 'left',
                                 transition: 'all 0.3s ease',
                                 backgroundColor: formData.aiProjectGoals.includes(goal)
-                                  ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
-                                  : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
+                                  ? '#3F8391'
+                                  : 'rgba(255, 255, 255, 0.7)',
                                 color: formData.aiProjectGoals.includes(goal)
-                                  ? isDarkMode ? '#ffffff' : '#ffffff'
-                                  : isDarkMode ? '#d1d5db' : '#374151',
+                                  ? '#ffffff'
+                                  : '#374151',
                                 cursor: 'pointer',
                                 boxShadow: formData.aiProjectGoals.includes(goal)
                                   ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
@@ -1513,7 +1416,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                           exit={{ opacity: 0, height: 0 }}
                         >
                           <label className={`block font-medium mb-2 transition-colors duration-500 ${
-                            isDarkMode ? 'text-white' : 'text-gray-800'
+                            'text-gray-800'
                           }`}>
                             Précisez votre objectif :
                           </label>
@@ -1521,11 +1424,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                             type="text"
                             value={formData.aiCustomGoal}
                             onChange={(e) => handleInputChange('aiCustomGoal', e.target.value)}
-                            className={`w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none text-sm sm:text-base transition-all duration-300 ${
-                              isDarkMode 
-                                ? 'bg-white/10 border-white/20 text-white placeholder-gray-400' 
-                                : 'bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500'
-                            }`}
+                            className={`w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none text-sm sm:text-base transition-all duration-300 bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500`}
                             placeholder="Décrivez votre objectif spécifique..."
                           />
                         </motion.div>
@@ -1546,16 +1445,16 @@ const QuoteModal = ({ isOpen, onClose }) => {
                 >
                   <div>
                     <h3 className={`text-lg sm:text-xl font-semibold mb-4 sm:mb-6 flex items-center gap-2 transition-colors duration-500 ${
-                      isDarkMode ? 'text-white' : 'text-gray-900'
+                      'text-gray-900'
                     }`}>
                       <Database size={24} className="text-[#3F8391]" />
-                      📊 Données disponibles
+                       Données disponibles
                     </h3>
                     
                     <div className="space-y-4 sm:space-y-6">
                       <div>
                         <label className={`block font-medium mb-3 transition-colors duration-500 ${
-                            isDarkMode ? 'text-white' : 'text-gray-800'
+                            'text-gray-800'
                           }`}>
                           Avez-vous déjà des données exploitables ?
                         </label>
@@ -1570,17 +1469,15 @@ const QuoteModal = ({ isOpen, onClose }) => {
                                 borderRadius: '12px',
                                 border: formData.hasDataAvailable === value
                                   ? `2px solid #3F8391`
-                                  : isDarkMode 
-                                    ? '1px solid rgba(255, 255, 255, 0.2)' 
-                                    : '1px solid rgba(156, 163, 175, 0.4)',
+                                  : '1px solid rgba(156, 163, 175, 0.4)',
                                 textAlign: 'center',
                                 transition: 'all 0.3s ease',
                                 backgroundColor: formData.hasDataAvailable === value
-                                  ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
-                                  : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
+                                  ? '#3F8391'
+                                  : 'rgba(255, 255, 255, 0.7)',
                                 color: formData.hasDataAvailable === value
-                                  ? isDarkMode ? '#ffffff' : '#ffffff'
-                                  : isDarkMode ? '#d1d5db' : '#374151',
+                                  ? '#ffffff'
+                                  : '#374151',
                                 cursor: 'pointer',
                                 boxShadow: formData.hasDataAvailable === value
                                   ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
@@ -1597,7 +1494,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                       
                       <div>
                         <label className={`block font-medium mb-3 transition-colors duration-500 ${
-                            isDarkMode ? 'text-white' : 'text-gray-800'
+                            'text-gray-800'
                           }`}>
                           Quel type de données ? (Choix multiple)
                         </label>
@@ -1619,17 +1516,15 @@ const QuoteModal = ({ isOpen, onClose }) => {
                                 borderRadius: '12px',
                                 border: formData.dataTypes.includes(dataType)
                                   ? '2px solid #3F8391'
-                                  : isDarkMode 
-                                    ? '1px solid rgba(255, 255, 255, 0.2)' 
-                                    : '1px solid rgba(156, 163, 175, 0.4)',
+                                  : '1px solid rgba(156, 163, 175, 0.4)',
                                 textAlign: 'left',
                                 transition: 'all 0.3s ease',
                                 backgroundColor: formData.dataTypes.includes(dataType)
-                                  ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
-                                  : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
+                                  ? '#3F8391'
+                                  : 'rgba(255, 255, 255, 0.7)',
                                 color: formData.dataTypes.includes(dataType)
                                   ? '#ffffff'
-                                  : isDarkMode ? '#d1d5db' : '#374151',
+                                  : '#374151',
                                 cursor: 'pointer',
                                 boxShadow: formData.dataTypes.includes(dataType)
                                   ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
@@ -1662,7 +1557,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                       
                       <div>
                         <label className={`block font-medium mb-3 transition-colors duration-500 ${
-                            isDarkMode ? 'text-white' : 'text-gray-800'
+                            'text-gray-800'
                           }`}>
                           Volume estimé :
                         </label>
@@ -1682,17 +1577,15 @@ const QuoteModal = ({ isOpen, onClose }) => {
                                 borderRadius: '12px',
                                 border: formData.dataVolume === volume
                                   ? '2px solid #3F8391'
-                                  : isDarkMode 
-                                    ? '1px solid rgba(255, 255, 255, 0.2)' 
-                                    : '1px solid rgba(156, 163, 175, 0.4)',
+                                  : '1px solid rgba(156, 163, 175, 0.4)',
                                 textAlign: 'center',
                                 transition: 'all 0.3s ease',
                                 backgroundColor: formData.dataVolume === volume
-                                  ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
-                                  : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
+                                  ? '#3F8391'
+                                  : 'rgba(255, 255, 255, 0.7)',
                                 color: formData.dataVolume === volume
                                   ? '#ffffff'
-                                  : isDarkMode ? '#d1d5db' : '#374151',
+                                  : '#374151',
                                 cursor: 'pointer',
                                 boxShadow: formData.dataVolume === volume
                                   ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
@@ -1736,16 +1629,16 @@ const QuoteModal = ({ isOpen, onClose }) => {
                 >
                   <div>
                     <h3 className={`text-lg sm:text-xl font-semibold mb-4 sm:mb-6 flex items-center gap-2 transition-colors duration-500 ${
-                      isDarkMode ? 'text-white' : 'text-gray-900'
+                      'text-gray-900'
                     }`}>
                       <Settings size={24} className="text-[#3F8391]" />
-                      ⚙️ Fonctionnalités souhaitées
+                       Fonctionnalités souhaitées
                     </h3>
                     
                     <div className="space-y-4 sm:space-y-6">
                       <div>
                         <label className={`block font-medium mb-3 transition-colors duration-500 ${
-                            isDarkMode ? 'text-white' : 'text-gray-800'
+                            'text-gray-800'
                           }`}>
                           Que souhaitez-vous pour votre projet ? (Choix multiple selon projet)
                         </label>
@@ -1769,17 +1662,15 @@ const QuoteModal = ({ isOpen, onClose }) => {
                                 borderRadius: '12px',
                                 border: formData.aiDesiredFeatures.includes(feature)
                                   ? `2px solid #3F8391`
-                                  : isDarkMode 
-                                    ? '1px solid rgba(255, 255, 255, 0.2)' 
-                                    : '1px solid rgba(156, 163, 175, 0.4)',
+                                  : '1px solid rgba(156, 163, 175, 0.4)',
                                 textAlign: 'left',
                                 transition: 'all 0.3s ease',
                                 backgroundColor: formData.aiDesiredFeatures.includes(feature)
-                                  ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
-                                  : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
+                                  ? '#3F8391'
+                                  : 'rgba(255, 255, 255, 0.7)',
                                 color: formData.aiDesiredFeatures.includes(feature)
-                                  ? isDarkMode ? '#ffffff' : '#ffffff'
-                                  : isDarkMode ? '#d1d5db' : '#374151',
+                                  ? '#ffffff'
+                                  : '#374151',
                                 cursor: 'pointer',
                                 boxShadow: formData.aiDesiredFeatures.includes(feature)
                                   ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
@@ -1826,16 +1717,16 @@ const QuoteModal = ({ isOpen, onClose }) => {
                 >
                   <div>
                     <h3 className={`text-lg sm:text-xl font-semibold mb-4 sm:mb-6 flex items-center gap-2 transition-colors duration-500 ${
-                      isDarkMode ? 'text-white' : 'text-gray-900'
+                      'text-gray-900'
                     }`}>
                       <Clock size={24} className="text-[#3F8391]" />
-                      ⏰ Délai et budget
+                       Délai et budget
                     </h3>
                     
                     <div className="space-y-4 sm:space-y-6">
                       <div>
                         <label className={`block font-medium mb-3 transition-colors duration-500 ${
-                            isDarkMode ? 'text-white' : 'text-gray-800'
+                            'text-gray-800'
                           }`}>
                           Quand souhaitez-vous démarrer le projet ?
                         </label>
@@ -1850,17 +1741,15 @@ const QuoteModal = ({ isOpen, onClose }) => {
                                 borderRadius: '12px',
                                 border: formData.projectStartTimeline === timeline
                                   ? '2px solid #3F8391'
-                                  : isDarkMode 
-                                    ? '1px solid rgba(255, 255, 255, 0.2)' 
-                                    : '1px solid rgba(156, 163, 175, 0.4)',
+                                  : '1px solid rgba(156, 163, 175, 0.4)',
                                 textAlign: 'center',
                                 transition: 'all 0.3s ease',
                                 backgroundColor: formData.projectStartTimeline === timeline
-                                  ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
-                                  : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
+                                  ? '#3F8391'
+                                  : 'rgba(255, 255, 255, 0.7)',
                                 color: formData.projectStartTimeline === timeline
                                   ? '#ffffff'
-                                  : isDarkMode ? '#d1d5db' : '#374151',
+                                  : '#374151',
                                 cursor: 'pointer',
                                 boxShadow: formData.projectStartTimeline === timeline
                                   ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
@@ -1880,7 +1769,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                       
                       <div>
                         <label className={`block font-medium mb-3 transition-colors duration-500 ${
-                            isDarkMode ? 'text-white' : 'text-gray-800'
+                            'text-gray-800'
                           }`}>
                           Budget prévu (fourchette)
                         </label>
@@ -1901,17 +1790,15 @@ const QuoteModal = ({ isOpen, onClose }) => {
                                 borderRadius: '12px',
                                 border: formData.aiBudgetRange === budget
                                   ? `2px solid #3F8391`
-                                  : isDarkMode 
-                                    ? '1px solid rgba(255, 255, 255, 0.2)' 
-                                    : '1px solid rgba(156, 163, 175, 0.4)',
+                                  : '1px solid rgba(156, 163, 175, 0.4)',
                                 textAlign: 'center',
                                 transition: 'all 0.3s ease',
                                 backgroundColor: formData.aiBudgetRange === budget
-                                  ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
-                                  : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
+                                  ? '#3F8391'
+                                  : 'rgba(255, 255, 255, 0.7)',
                                 color: formData.aiBudgetRange === budget
-                                  ? isDarkMode ? '#ffffff' : '#ffffff'
-                                  : isDarkMode ? '#d1d5db' : '#374151',
+                                  ? '#ffffff'
+                                  : '#374151',
                                 cursor: 'pointer',
                                 boxShadow: formData.aiBudgetRange === budget
                                   ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
@@ -1959,16 +1846,16 @@ const QuoteModal = ({ isOpen, onClose }) => {
                 >
                   <div>
                     <h3 className={`text-lg sm:text-xl font-semibold mb-4 sm:mb-6 flex items-center gap-2 transition-colors duration-500 ${
-                      isDarkMode ? 'text-white' : 'text-gray-900'
+                      'text-gray-900'
                     }`}>
                       <MessageSquare size={24} className="text-[#3F8391]" />
-                      📝 Complément
+                       Complément
                     </h3>
                     
                     <div className="space-y-4 sm:space-y-6">
                       <div className="bg-white/5 p-4 rounded-2xl border border-white/10">
                         <label className={`block font-medium mb-3 transition-colors duration-500 ${
-                            isDarkMode ? 'text-white' : 'text-gray-800'
+                            'text-gray-800'
                           }`}>
                           Souhaitez-vous être accompagné techniquement ou stratégiquement ?
                         </label>
@@ -1983,17 +1870,15 @@ const QuoteModal = ({ isOpen, onClose }) => {
                                 borderRadius: '12px',
                                 border: formData.needTechnicalSupport === support
                                   ? '2px solid #3F8391'
-                                  : isDarkMode 
-                                    ? '1px solid rgba(255, 255, 255, 0.2)' 
-                                    : '1px solid rgba(156, 163, 175, 0.4)',
+                                  : '1px solid rgba(156, 163, 175, 0.4)',
                                 textAlign: 'center',
                                 transition: 'all 0.3s ease',
                                 backgroundColor: formData.needTechnicalSupport === support
-                                  ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
-                                  : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
+                                  ? '#3F8391'
+                                  : 'rgba(255, 255, 255, 0.7)',
                                 color: formData.needTechnicalSupport === support
                                   ? '#ffffff'
-                                  : isDarkMode ? '#d1d5db' : '#374151',
+                                  : '#374151',
                                 cursor: 'pointer',
                                 boxShadow: formData.needTechnicalSupport === support
                                   ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
@@ -2013,7 +1898,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                       
                       <div className="bg-white/5 p-4 rounded-2xl border border-white/10">
                         <label className={`block font-medium mb-3 transition-colors duration-500 ${
-                            isDarkMode ? 'text-white' : 'text-gray-800'
+                            'text-gray-800'
                           }`}>
                           Souhaitez-vous une maintenance ou des évolutions après livraison ?
                         </label>
@@ -2028,17 +1913,15 @@ const QuoteModal = ({ isOpen, onClose }) => {
                                 borderRadius: '12px',
                                 border: formData.needFutureMaintenance === maintenance
                                   ? `2px solid #3F8391`
-                                  : isDarkMode 
-                                    ? '1px solid rgba(255, 255, 255, 0.2)' 
-                                    : '1px solid rgba(156, 163, 175, 0.4)',
+                                  : '1px solid rgba(156, 163, 175, 0.4)',
                                 textAlign: 'center',
                                 transition: 'all 0.3s ease',
                                 backgroundColor: formData.needFutureMaintenance === maintenance
-                                  ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
-                                  : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
+                                  ? '#3F8391'
+                                  : 'rgba(255, 255, 255, 0.7)',
                                 color: formData.needFutureMaintenance === maintenance
-                                  ? isDarkMode ? '#ffffff' : '#ffffff'
-                                  : isDarkMode ? '#d1d5db' : '#374151',
+                                  ? '#ffffff'
+                                  : '#374151',
                                 cursor: 'pointer',
                                 boxShadow: formData.needFutureMaintenance === maintenance
                                   ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
@@ -2055,18 +1938,14 @@ const QuoteModal = ({ isOpen, onClose }) => {
                       
                       <div>
                         <label className={`block font-medium mb-3 transition-colors duration-500 ${
-                            isDarkMode ? 'text-white' : 'text-gray-800'
+                            'text-gray-800'
                           }`}>
                           Un dernier mot ou besoin spécifique ?
                         </label>
                         <textarea
                           value={formData.aiAdditionalNotes}
                           onChange={(e) => handleInputChange('aiAdditionalNotes', e.target.value)}
-                          className={`w-full h-20 sm:h-24 px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none resize-none text-sm sm:text-base transition-all duration-300 ${
-                              isDarkMode 
-                                ? 'bg-white/10 border-white/20 text-white placeholder-gray-400' 
-                                : 'bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500'
-                            }`}
+                          className={`w-full h-20 sm:h-24 px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none resize-none text-sm sm:text-base transition-all duration-300 bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500`}
                           placeholder="Contraintes techniques, inspirations, délais spécifiques, budget détaillé, questions..."
                         />
                       </div>
@@ -2086,7 +1965,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                 >
                   <div>
                     <h3 className={`text-lg sm:text-xl font-semibold mb-4 sm:mb-6 flex items-center gap-2 transition-colors duration-500 ${
-                      isDarkMode ? 'text-white' : 'text-gray-900'
+                      'text-gray-900'
                     }`}>
                       <Phone size={24} className="text-[#3F8391]" />
                       Préférence de contact
@@ -2095,15 +1974,15 @@ const QuoteModal = ({ isOpen, onClose }) => {
                     <div className="space-y-4 sm:space-y-6">
                       <div>
                         <label className={`block font-medium mb-3 transition-colors duration-500 ${
-                            isDarkMode ? 'text-white' : 'text-gray-800'
+                            'text-gray-800'
                           }`}>
                           Comment souhaitez-vous être recontacté ? <span className="text-red-400">*</span>
                         </label>
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
                           {[
-                            { value: 'Email', icon: '📧', desc: 'Réponse sous 24h' },
-                            { value: 'Téléphone', icon: '📞', desc: 'Appel direct' },
-                            { value: 'Visio', icon: '💻', desc: 'Réunion en ligne' }
+                            { value: 'Email', icon: '', desc: 'Réponse sous 24h' },
+                            { value: 'Téléphone', icon: '', desc: 'Appel direct' },
+                            { value: 'Visio', icon: '', desc: 'Réunion en ligne' }
                           ].map((contact) => (
                             <motion.button
                               key={contact.value}
@@ -2114,17 +1993,15 @@ const QuoteModal = ({ isOpen, onClose }) => {
                                 borderRadius: '12px',
                                 border: formData.preferredContact === contact.value
                                   ? '2px solid #3F8391'
-                                  : isDarkMode 
-                                    ? '1px solid rgba(255, 255, 255, 0.2)' 
-                                    : '1px solid rgba(156, 163, 175, 0.4)',
+                                  : '1px solid rgba(156, 163, 175, 0.4)',
                                 textAlign: 'center',
                                 transition: 'all 0.3s ease',
                                 backgroundColor: formData.preferredContact === contact.value
-                                  ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
-                                  : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
+                                  ? '#3F8391'
+                                  : 'rgba(255, 255, 255, 0.7)',
                                 color: formData.preferredContact === contact.value
                                   ? '#ffffff'
-                                  : isDarkMode ? '#d1d5db' : '#374151',
+                                  : '#374151',
                                 cursor: 'pointer',
                                 boxShadow: formData.preferredContact === contact.value
                                   ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
@@ -2141,8 +2018,8 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               <div className="font-medium">{contact.value}</div>
                               <div className={`text-xs mt-1 ${
                                 formData.preferredContact === contact.value
-                                  ? isDarkMode ? 'text-gray-200' : 'text-gray-200'
-                                  : isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                                  ? 'text-gray-200'
+                                  : 'text-gray-600'
                               }`}>{contact.desc}</div>
                             </motion.button>
                           ))}
@@ -2151,10 +2028,8 @@ const QuoteModal = ({ isOpen, onClose }) => {
                         {/* Message d'aide */}
                         {!formData.preferredContact && (
                           <div className="mt-4 bg-yellow-500/10 border border-yellow-500/20 rounded-xl p-3">
-                            <p className={`text-sm flex items-center gap-2 transition-colors duration-500 ${
-                              isDarkMode ? 'text-yellow-200' : 'text-yellow-800'
-                            }`}>
-                              <span>💡</span>
+                            <p className={`text-sm flex items-center gap-2 transition-colors duration-500 text-yellow-800`}>
+                              <span></span>
                               <span>Sélectionnez votre mode de contact préféré pour continuer</span>
                             </p>
                           </div>
@@ -2177,7 +2052,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                 >
                   <div>
                     <h3 className={`text-lg sm:text-xl font-semibold mb-4 sm:mb-6 flex items-center gap-2 transition-colors duration-500 ${
-                      isDarkMode ? 'text-white' : 'text-gray-900'
+                      'text-gray-900'
                     }`}>
                       <Wrench size={24} className="text-[#3F8391]" />
                       Maintenance & Suivi
@@ -2186,7 +2061,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                     <div className="space-y-8">
                       <div className="bg-white/5 p-4 rounded-2xl border border-white/10">
                         <label className={`block font-medium mb-3 transition-colors duration-500 ${
-                            isDarkMode ? 'text-white' : 'text-gray-800'
+                            'text-gray-800'
                           }`}>
                           1. Souhaitez-vous une formation pour gérer votre site ?
                         </label>
@@ -2201,17 +2076,15 @@ const QuoteModal = ({ isOpen, onClose }) => {
                                 borderRadius: '12px',
                                 border: formData.needTraining === value
                                   ? `2px solid #3F8391`
-                                  : isDarkMode 
-                                    ? '1px solid rgba(255, 255, 255, 0.2)' 
-                                    : '1px solid rgba(156, 163, 175, 0.4)',
+                                  : '1px solid rgba(156, 163, 175, 0.4)',
                                 textAlign: 'left',
                                 transition: 'all 0.3s ease',
                                 backgroundColor: formData.needTraining === value
-                                  ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
-                                  : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
+                                  ? '#3F8391'
+                                  : 'rgba(255, 255, 255, 0.7)',
                                 color: formData.needTraining === value
-                                  ? isDarkMode ? '#ffffff' : '#ffffff'
-                                  : isDarkMode ? '#d1d5db' : '#374151',
+                                  ? '#ffffff'
+                                  : '#374151',
                                 cursor: 'pointer',
                                 boxShadow: formData.needTraining === value
                                   ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
@@ -2248,7 +2121,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                       
                       <div className="bg-white/5 p-4 rounded-2xl border border-white/10">
                         <label className={`block font-medium mb-3 transition-colors duration-500 ${
-                            isDarkMode ? 'text-white' : 'text-gray-800'
+                            'text-gray-800'
                           }`}>
                           2. Souhaitez-vous que je m'occupe de la maintenance après livraison ?
                         </label>
@@ -2263,17 +2136,15 @@ const QuoteModal = ({ isOpen, onClose }) => {
                                 borderRadius: '12px',
                                 border: formData.needMaintenance === option
                                   ? `2px solid #3F8391`
-                                  : isDarkMode 
-                                    ? '1px solid rgba(255, 255, 255, 0.2)' 
-                                    : '1px solid rgba(156, 163, 175, 0.4)',
+                                  : '1px solid rgba(156, 163, 175, 0.4)',
                                 textAlign: 'left',
                                 transition: 'all 0.3s ease',
                                 backgroundColor: formData.needMaintenance === option
-                                  ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
-                                  : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
+                                  ? '#3F8391'
+                                  : 'rgba(255, 255, 255, 0.7)',
                                 color: formData.needMaintenance === option
-                                  ? isDarkMode ? '#ffffff' : '#ffffff'
-                                  : isDarkMode ? '#d1d5db' : '#374151',
+                                  ? '#ffffff'
+                                  : '#374151',
                                 cursor: 'pointer',
                                 boxShadow: formData.needMaintenance === option
                                   ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
@@ -2324,7 +2195,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                 >
                   <div>
                     <h3 className={`text-lg sm:text-xl font-semibold mb-4 sm:mb-6 flex items-center gap-2 transition-colors duration-500 ${
-                      isDarkMode ? 'text-white' : 'text-gray-900'
+                      'text-gray-900'
                     }`}>
                       <MessageSquare size={24} className="text-[#3F8391]" />
                       Autres besoins ou remarques
@@ -2332,18 +2203,14 @@ const QuoteModal = ({ isOpen, onClose }) => {
                     
                     <div>
                       <label className={`block font-medium mb-3 transition-colors duration-500 ${
-                            isDarkMode ? 'text-white' : 'text-gray-800'
+                            'text-gray-800'
                           }`}>
                         Y a-t-il autre chose que je devrais savoir ?
                       </label>
                       <textarea
                         value={formData.additionalNotes}
                         onChange={(e) => handleInputChange('additionalNotes', e.target.value)}
-                        className={`w-full h-32 px-4 py-3 rounded-2xl border focus:border-[#3F8391] focus:outline-none resize-none transition-all duration-300 ${
-                            isDarkMode 
-                              ? 'bg-white/10 border-white/20 text-white placeholder-gray-400' 
-                              : 'bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500'
-                          }`}
+                        className={`w-full h-32 px-4 py-3 rounded-2xl border focus:border-[#3F8391] focus:outline-none resize-none transition-all duration-300 bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500`}
                         placeholder="Contraintes techniques, préférences de design, inspirations, délais spécifiques, budget détaillé..."
                       />
                     </div>
@@ -2362,7 +2229,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                 >
                   <div>
                     <h3 className={`text-lg sm:text-xl font-semibold mb-4 sm:mb-6 flex items-center gap-2 transition-colors duration-500 ${
-                      isDarkMode ? 'text-white' : 'text-gray-900'
+                      'text-gray-900'
                     }`}>
                       <Phone size={24} className="text-[#3F8391]" />
                       Préférence de contact
@@ -2371,15 +2238,15 @@ const QuoteModal = ({ isOpen, onClose }) => {
                     <div className="space-y-4 sm:space-y-6">
                       <div>
                         <label className={`block font-medium mb-3 transition-colors duration-500 ${
-                            isDarkMode ? 'text-white' : 'text-gray-800'
+                            'text-gray-800'
                           }`}>
                           Comment souhaitez-vous être contacté : <span className="text-red-400">*</span>
                         </label>
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
                           {[
-                            { value: 'Email', icon: '📧', desc: 'Réponse sous 24h' },
-                            { value: 'Téléphone', icon: '📞', desc: 'Appel direct' },
-                            { value: 'Visio', icon: '💻', desc: 'Réunion en ligne' }
+                            { value: 'Email', icon: '', desc: 'Réponse sous 24h' },
+                            { value: 'Téléphone', icon: '', desc: 'Appel direct' },
+                            { value: 'Visio', icon: '', desc: 'Réunion en ligne' }
                           ].map((contact) => (
                             <motion.button
                               key={contact.value}
@@ -2390,17 +2257,15 @@ const QuoteModal = ({ isOpen, onClose }) => {
                                 borderRadius: '12px',
                                 border: formData.preferredContact === contact.value
                                   ? '2px solid #3F8391'
-                                  : isDarkMode 
-                                    ? '1px solid rgba(255, 255, 255, 0.2)' 
-                                    : '1px solid rgba(156, 163, 175, 0.4)',
+                                  : '1px solid rgba(156, 163, 175, 0.4)',
                                 textAlign: 'center',
                                 transition: 'all 0.3s ease',
                                 backgroundColor: formData.preferredContact === contact.value
-                                  ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
-                                  : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
+                                  ? '#3F8391'
+                                  : 'rgba(255, 255, 255, 0.7)',
                                 color: formData.preferredContact === contact.value
                                   ? '#ffffff'
-                                  : isDarkMode ? '#d1d5db' : '#374151',
+                                  : '#374151',
                                 cursor: 'pointer',
                                 boxShadow: formData.preferredContact === contact.value
                                   ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
@@ -2417,8 +2282,8 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               <div className="font-medium">{contact.value}</div>
                               <div className={`text-xs mt-1 ${
                                 formData.preferredContact === contact.value
-                                  ? isDarkMode ? 'text-gray-200' : 'text-gray-200'
-                                  : isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                                  ? 'text-gray-200'
+                                  : 'text-gray-600'
                               }`}>{contact.desc}</div>
                             </motion.button>
                           ))}
@@ -2427,10 +2292,8 @@ const QuoteModal = ({ isOpen, onClose }) => {
                         {/* Message d'aide */}
                         {!formData.preferredContact && (
                           <div className="mt-4 bg-yellow-500/10 border border-yellow-500/20 rounded-xl p-3">
-                            <p className={`text-sm flex items-center gap-2 transition-colors duration-500 ${
-                              isDarkMode ? 'text-yellow-200' : 'text-yellow-800'
-                            }`}>
-                              <span>💡</span>
+                            <p className={`text-sm flex items-center gap-2 transition-colors duration-500 text-yellow-800`}>
+                              <span></span>
                               <span>Sélectionnez votre mode de contact préféré pour continuer</span>
                             </p>
                           </div>
@@ -2441,7 +2304,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                 </motion.div>
               )}
 
-              {/* 🚀 ÉTAPES GROWTH MARKETING */}
+              {/*  ÉTAPES GROWTH MARKETING */}
               
               {/* Étape 2 Growth: Infos de base */}
               {step === 2 && formData.serviceType === 'Growth Marketing' && (
@@ -2454,17 +2317,17 @@ const QuoteModal = ({ isOpen, onClose }) => {
                 >
                   <div>
                     <h3 className={`text-lg sm:text-xl font-semibold mb-4 sm:mb-6 flex items-center gap-2 transition-colors duration-500 ${
-                      isDarkMode ? 'text-white' : 'text-gray-900'
+                      'text-gray-900'
                     }`}>
                       <User size={24} className="text-[#3F8391]" />
-                      🧑‍💼 Infos de base
+                       Infos de base
                     </h3>
                     
                     <div className="space-y-3 sm:space-y-4">
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                           <label className={`block font-medium mb-2 transition-colors duration-500 ${
-                            isDarkMode ? 'text-white' : 'text-gray-800'
+                            'text-gray-800'
                           }`}>
                             Prénom *
                           </label>
@@ -2473,17 +2336,13 @@ const QuoteModal = ({ isOpen, onClose }) => {
                             required
                             value={formData.firstName}
                             onChange={(e) => handleInputChange('firstName', e.target.value)}
-                            className={`w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none text-sm sm:text-base transition-all duration-300 ${
-                              isDarkMode 
-                                ? 'bg-white/10 border-white/20 text-white placeholder-gray-400' 
-                                : 'bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500'
-                            }`}
+                            className={`w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none text-sm sm:text-base transition-all duration-300 bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500`}
                             placeholder="Votre prénom"
                           />
                         </div>
                         <div>
                           <label className={`block font-medium mb-2 transition-colors duration-500 ${
-                            isDarkMode ? 'text-white' : 'text-gray-800'
+                            'text-gray-800'
                           }`}>
                             Nom *
                           </label>
@@ -2492,11 +2351,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                             required
                             value={formData.lastName}
                             onChange={(e) => handleInputChange('lastName', e.target.value)}
-                            className={`w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none text-sm sm:text-base transition-all duration-300 ${
-                              isDarkMode 
-                                ? 'bg-white/10 border-white/20 text-white placeholder-gray-400' 
-                                : 'bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500'
-                            }`}
+                            className={`w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none text-sm sm:text-base transition-all duration-300 bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500`}
                             placeholder="Votre nom"
                           />
                         </div>
@@ -2504,7 +2359,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                       
                       <div>
                         <label className={`block font-medium mb-2 transition-colors duration-500 ${
-                            isDarkMode ? 'text-white' : 'text-gray-800'
+                            'text-gray-800'
                           }`}>
                           Email professionnel *
                         </label>
@@ -2513,11 +2368,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                           required
                           value={formData.email}
                           onChange={(e) => handleInputChange('email', e.target.value)}
-                          className={`w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none text-sm sm:text-base transition-all duration-300 ${
-                              isDarkMode 
-                                ? 'bg-white/10 border-white/20 text-white placeholder-gray-400' 
-                                : 'bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500'
-                            }`}
+                          className={`w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none text-sm sm:text-base transition-all duration-300 bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500`}
                           placeholder="votre.email@entreprise.com"
                         />
                       </div>
@@ -2525,7 +2376,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                           <label className={`block font-medium mb-2 transition-colors duration-500 ${
-                            isDarkMode ? 'text-white' : 'text-gray-800'
+                            'text-gray-800'
                           }`}>
                             Nom de l'entreprise
                           </label>
@@ -2533,17 +2384,13 @@ const QuoteModal = ({ isOpen, onClose }) => {
                             type="text"
                             value={formData.companyName}
                             onChange={(e) => handleInputChange('companyName', e.target.value)}
-                            className={`w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none text-sm sm:text-base transition-all duration-300 ${
-                              isDarkMode 
-                                ? 'bg-white/10 border-white/20 text-white placeholder-gray-400' 
-                                : 'bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500'
-                            }`}
+                            className={`w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none text-sm sm:text-base transition-all duration-300 bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500`}
                             placeholder="Nom de votre entreprise"
                           />
                         </div>
                         <div>
                           <label className={`block font-medium mb-2 transition-colors duration-500 ${
-                            isDarkMode ? 'text-white' : 'text-gray-800'
+                            'text-gray-800'
                           }`}>
                             Secteur d'activité
                           </label>
@@ -2551,11 +2398,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                             type="text"
                             value={formData.businessSector}
                             onChange={(e) => handleInputChange('businessSector', e.target.value)}
-                            className={`w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none text-sm sm:text-base transition-all duration-300 ${
-                              isDarkMode 
-                                ? 'bg-white/10 border-white/20 text-white placeholder-gray-400' 
-                                : 'bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500'
-                            }`}
+                            className={`w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none text-sm sm:text-base transition-all duration-300 bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500`}
                             placeholder="Ex: E-commerce, SaaS, Services..."
                           />
                         </div>
@@ -2563,7 +2406,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
 
                       <div>
                         <label className={`block font-medium mb-3 transition-colors duration-500 ${
-                            isDarkMode ? 'text-white' : 'text-gray-800'
+                            'text-gray-800'
                           }`}>
                           Avez-vous un site ou une landing page ? *
                         </label>
@@ -2578,17 +2421,15 @@ const QuoteModal = ({ isOpen, onClose }) => {
                                 borderRadius: '12px',
                                 border: formData.hasExistingWebsite === option
                                   ? '2px solid #3F8391'
-                                  : isDarkMode 
-                                    ? '1px solid rgba(255, 255, 255, 0.2)' 
-                                    : '1px solid rgba(156, 163, 175, 0.4)',
+                                  : '1px solid rgba(156, 163, 175, 0.4)',
                                 textAlign: 'center',
                                 transition: 'all 0.3s ease',
                                 backgroundColor: formData.hasExistingWebsite === option
-                                  ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
-                                  : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
+                                  ? '#3F8391'
+                                  : 'rgba(255, 255, 255, 0.7)',
                                 color: formData.hasExistingWebsite === option
                                   ? '#ffffff'
-                                  : isDarkMode ? '#d1d5db' : '#374151',
+                                  : '#374151',
                                 cursor: 'pointer',
                                 boxShadow: formData.hasExistingWebsite === option
                                   ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
@@ -2614,7 +2455,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                           exit={{ opacity: 0, height: 0 }}
                         >
                           <label className={`block font-medium mb-2 transition-colors duration-500 ${
-                            isDarkMode ? 'text-white' : 'text-gray-800'
+                            'text-gray-800'
                           }`}>
                             Lien vers votre site
                           </label>
@@ -2622,11 +2463,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                             type="url"
                             value={formData.existingWebsiteUrl}
                             onChange={(e) => handleInputChange('existingWebsiteUrl', e.target.value)}
-                            className={`w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none text-sm sm:text-base transition-all duration-300 ${
-                              isDarkMode 
-                                ? 'bg-white/10 border-white/20 text-white placeholder-gray-400' 
-                                : 'bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500'
-                            }`}
+                            className={`w-full px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none text-sm sm:text-base transition-all duration-300 bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500`}
                             placeholder="https://votre-site.com"
                           />
                         </motion.div>
@@ -2647,16 +2484,16 @@ const QuoteModal = ({ isOpen, onClose }) => {
                 >
                   <div>
                     <h3 className={`text-lg sm:text-xl font-semibold mb-4 sm:mb-6 flex items-center gap-2 transition-colors duration-500 ${
-                      isDarkMode ? 'text-white' : 'text-gray-900'
+                      'text-gray-900'
                     }`}>
                       <Target size={24} className="text-[#3F8391]" />
-                      🎯 Objectif de la mission
+                       Objectif de la mission
                     </h3>
                     
                     <div className="space-y-4 sm:space-y-6">
                       <div>
                         <label className={`block font-medium mb-3 transition-colors duration-500 ${
-                            isDarkMode ? 'text-white' : 'text-gray-800'
+                            'text-gray-800'
                           }`}>
                           Quel est votre besoin principal ? (Choix multiple)
                         </label>
@@ -2687,17 +2524,15 @@ const QuoteModal = ({ isOpen, onClose }) => {
                                 borderRadius: '12px',
                                 border: formData.growthMainGoals.includes(goal)
                                   ? `2px solid #3F8391`
-                                  : isDarkMode 
-                                    ? '1px solid rgba(255, 255, 255, 0.2)' 
-                                    : '1px solid rgba(156, 163, 175, 0.4)',
+                                  : '1px solid rgba(156, 163, 175, 0.4)',
                                 textAlign: 'left',
                                 transition: 'all 0.3s ease',
                                 backgroundColor: formData.growthMainGoals.includes(goal)
-                                  ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
-                                  : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
+                                  ? '#3F8391'
+                                  : 'rgba(255, 255, 255, 0.7)',
                                 color: formData.growthMainGoals.includes(goal)
-                                  ? isDarkMode ? '#ffffff' : '#ffffff'
-                                  : isDarkMode ? '#d1d5db' : '#374151',
+                                  ? '#ffffff'
+                                  : '#374151',
                                 cursor: 'pointer',
                                 boxShadow: formData.growthMainGoals.includes(goal)
                                   ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
@@ -2725,18 +2560,14 @@ const QuoteModal = ({ isOpen, onClose }) => {
                           exit={{ opacity: 0, height: 0 }}
                         >
                           <label className={`block font-medium mb-2 transition-colors duration-500 ${
-                            isDarkMode ? 'text-white' : 'text-gray-800'
+                            'text-gray-800'
                           }`}>
                             Précisez votre besoin spécifique
                           </label>
                           <textarea
                             value={formData.growthCustomGoal}
                             onChange={(e) => handleInputChange('growthCustomGoal', e.target.value)}
-                            className={`w-full h-20 sm:h-24 px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none resize-none text-sm sm:text-base transition-all duration-300 ${
-                              isDarkMode 
-                                ? 'bg-white/10 border-white/20 text-white placeholder-gray-400' 
-                                : 'bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500'
-                            }`}
+                            className={`w-full h-20 sm:h-24 px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none resize-none text-sm sm:text-base transition-all duration-300 bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500`}
                             placeholder="Décrivez votre objectif spécifique..."
                           />
                         </motion.div>
@@ -2757,16 +2588,16 @@ const QuoteModal = ({ isOpen, onClose }) => {
                 >
                   <div>
                     <h3 className={`text-lg sm:text-xl font-semibold mb-4 sm:mb-6 flex items-center gap-2 transition-colors duration-500 ${
-                      isDarkMode ? 'text-white' : 'text-gray-900'
+                      'text-gray-900'
                     }`}>
                       <Settings size={24} className="text-[#3F8391]" />
-                      🛠️ Services souhaités
+                       Services souhaités
                     </h3>
                     
                     <div className="space-y-4 sm:space-y-6">
                       <div>
                         <label className={`block font-medium mb-3 transition-colors duration-500 ${
-                            isDarkMode ? 'text-white' : 'text-gray-800'
+                            'text-gray-800'
                           }`}>
                           Sélectionnez les services qui vous intéressent (Choix multiple)
                         </label>
@@ -2801,17 +2632,15 @@ const QuoteModal = ({ isOpen, onClose }) => {
                                 borderRadius: '12px',
                                 border: formData.growthDesiredServices.includes(service)
                                   ? `2px solid #3F8391`
-                                  : isDarkMode 
-                                    ? '1px solid rgba(255, 255, 255, 0.2)' 
-                                    : '1px solid rgba(156, 163, 175, 0.4)',
+                                  : '1px solid rgba(156, 163, 175, 0.4)',
                                 textAlign: 'left',
                                 transition: 'all 0.3s ease',
                                 backgroundColor: formData.growthDesiredServices.includes(service)
-                                  ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
-                                  : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
+                                  ? '#3F8391'
+                                  : 'rgba(255, 255, 255, 0.7)',
                                 color: formData.growthDesiredServices.includes(service)
-                                  ? isDarkMode ? '#ffffff' : '#ffffff'
-                                  : isDarkMode ? '#d1d5db' : '#374151',
+                                  ? '#ffffff'
+                                  : '#374151',
                                 cursor: 'pointer',
                                 boxShadow: formData.growthDesiredServices.includes(service)
                                   ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
@@ -2839,18 +2668,14 @@ const QuoteModal = ({ isOpen, onClose }) => {
                           exit={{ opacity: 0, height: 0 }}
                         >
                           <label className={`block font-medium mb-2 transition-colors duration-500 ${
-                            isDarkMode ? 'text-white' : 'text-gray-800'
+                            'text-gray-800'
                           }`}>
                             Précisez votre besoin spécifique
                           </label>
                           <textarea
                             value={formData.growthCustomService}
                             onChange={(e) => handleInputChange('growthCustomService', e.target.value)}
-                            className={`w-full h-20 sm:h-24 px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none resize-none text-sm sm:text-base transition-all duration-300 ${
-                              isDarkMode 
-                                ? 'bg-white/10 border-white/20 text-white placeholder-gray-400' 
-                                : 'bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500'
-                            }`}
+                            className={`w-full h-20 sm:h-24 px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none resize-none text-sm sm:text-base transition-all duration-300 bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500`}
                             placeholder="Décrivez le service dont vous avez besoin..."
                           />
                         </motion.div>
@@ -2871,34 +2696,30 @@ const QuoteModal = ({ isOpen, onClose }) => {
                 >
                   <div>
                     <h3 className={`text-lg sm:text-xl font-semibold mb-4 sm:mb-6 flex items-center gap-2 transition-colors duration-500 ${
-                      isDarkMode ? 'text-white' : 'text-gray-900'
+                      'text-gray-900'
                     }`}>
                       <Database size={24} className="text-[#3F8391]" />
-                      🎯 Ciblage & données
+                       Ciblage & données
                     </h3>
                     
                     <div className="space-y-4 sm:space-y-6">
                       <div>
                         <label className={`block font-medium mb-2 transition-colors duration-500 ${
-                            isDarkMode ? 'text-white' : 'text-gray-800'
+                            'text-gray-800'
                           }`}>
                           Qui est votre cible idéale ?
                         </label>
                         <textarea
                           value={formData.targetAudience}
                           onChange={(e) => handleInputChange('targetAudience', e.target.value)}
-                          className={`w-full h-24 sm:h-28 px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none resize-none text-sm sm:text-base transition-all duration-300 ${
-                              isDarkMode 
-                                ? 'bg-white/10 border-white/20 text-white placeholder-gray-400' 
-                                : 'bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500'
-                            }`}
+                          className={`w-full h-24 sm:h-28 px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none resize-none text-sm sm:text-base transition-all duration-300 bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500`}
                           placeholder="Ex: PME françaises de 10-50 salariés dans le secteur technologique, dirigeants d'entreprise B2B, particuliers intéressés par le sport..."
                         />
                       </div>
 
                       <div>
                         <label className={`block font-medium mb-3 transition-colors duration-500 ${
-                            isDarkMode ? 'text-white' : 'text-gray-800'
+                            'text-gray-800'
                           }`}>
                           Avez-vous une base de données existante ?
                         </label>
@@ -2913,17 +2734,15 @@ const QuoteModal = ({ isOpen, onClose }) => {
                                 borderRadius: '12px',
                                 border: formData.hasExistingDatabase === option
                                   ? '2px solid #3F8391'
-                                  : isDarkMode 
-                                    ? '1px solid rgba(255, 255, 255, 0.2)' 
-                                    : '1px solid rgba(156, 163, 175, 0.4)',
+                                  : '1px solid rgba(156, 163, 175, 0.4)',
                                 textAlign: 'center',
                                 transition: 'all 0.3s ease',
                                 backgroundColor: formData.hasExistingDatabase === option
-                                  ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
-                                  : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
+                                  ? '#3F8391'
+                                  : 'rgba(255, 255, 255, 0.7)',
                                 color: formData.hasExistingDatabase === option
                                   ? '#ffffff'
-                                  : isDarkMode ? '#d1d5db' : '#374151',
+                                  : '#374151',
                                 cursor: 'pointer',
                                 boxShadow: formData.hasExistingDatabase === option
                                   ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
@@ -2944,7 +2763,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
 
                       <div>
                         <label className={`block font-medium mb-3 transition-colors duration-500 ${
-                            isDarkMode ? 'text-white' : 'text-gray-800'
+                            'text-gray-800'
                           }`}>
                           Souhaitez-vous extraire vos leads d'une source spécifique ? (Choix multiple)
                         </label>
@@ -2977,17 +2796,15 @@ const QuoteModal = ({ isOpen, onClose }) => {
                                 borderRadius: '12px',
                                 border: formData.leadSources.includes(source)
                                   ? '2px solid #3F8391'
-                                  : isDarkMode 
-                                    ? '1px solid rgba(255, 255, 255, 0.2)' 
-                                    : '1px solid rgba(156, 163, 175, 0.4)',
+                                  : '1px solid rgba(156, 163, 175, 0.4)',
                                 textAlign: 'center',
                                 transition: 'all 0.3s ease',
                                 backgroundColor: formData.leadSources.includes(source)
-                                  ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
-                                  : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
+                                  ? '#3F8391'
+                                  : 'rgba(255, 255, 255, 0.7)',
                                 color: formData.leadSources.includes(source)
                                   ? '#ffffff'
-                                  : isDarkMode ? '#d1d5db' : '#374151',
+                                  : '#374151',
                                 cursor: 'pointer',
                                 boxShadow: formData.leadSources.includes(source)
                                   ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
@@ -3021,34 +2838,30 @@ const QuoteModal = ({ isOpen, onClose }) => {
                 >
                   <div>
                     <h3 className={`text-lg sm:text-xl font-semibold mb-4 sm:mb-6 flex items-center gap-2 transition-colors duration-500 ${
-                      isDarkMode ? 'text-white' : 'text-gray-900'
+                      'text-gray-900'
                     }`}>
                       <BarChart3 size={24} className="text-[#3F8391]" />
-                      📊 KPI & ambitions
+                       KPI & ambitions
                     </h3>
                     
                     <div className="space-y-4 sm:space-y-6">
                       <div>
                         <label className={`block font-medium mb-2 transition-colors duration-500 ${
-                            isDarkMode ? 'text-white' : 'text-gray-800'
+                            'text-gray-800'
                           }`}>
                           Quels sont vos objectifs ?
                         </label>
                         <textarea
                           value={formData.growthObjectives}
                           onChange={(e) => handleInputChange('growthObjectives', e.target.value)}
-                          className={`w-full h-24 sm:h-28 px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none resize-none text-sm sm:text-base transition-all duration-300 ${
-                              isDarkMode 
-                                ? 'bg-white/10 border-white/20 text-white placeholder-gray-400' 
-                                : 'bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500'
-                            }`}
+                          className={`w-full h-24 sm:h-28 px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none resize-none text-sm sm:text-base transition-all duration-300 bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500`}
                           placeholder="Ex: 100 leads qualifiés/mois, 1000 emails envoyés/semaine, 15% de taux de conversion, augmenter CA de 30%, etc."
                         />
                       </div>
 
                       <div>
                         <label className={`block font-medium mb-3 transition-colors duration-500 ${
-                            isDarkMode ? 'text-white' : 'text-gray-800'
+                            'text-gray-800'
                           }`}>
                           Souhaitez-vous un reporting détaillé et automatisé ?
                         </label>
@@ -3063,17 +2876,15 @@ const QuoteModal = ({ isOpen, onClose }) => {
                                 borderRadius: '12px',
                                 border: formData.wantsDetailedReporting === option
                                   ? `2px solid #3F8391`
-                                  : isDarkMode 
-                                    ? '1px solid rgba(255, 255, 255, 0.2)' 
-                                    : '1px solid rgba(156, 163, 175, 0.4)',
+                                  : '1px solid rgba(156, 163, 175, 0.4)',
                                 textAlign: 'center',
                                 transition: 'all 0.3s ease',
                                 backgroundColor: formData.wantsDetailedReporting === option
-                                  ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
-                                  : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
+                                  ? '#3F8391'
+                                  : 'rgba(255, 255, 255, 0.7)',
                                 color: formData.wantsDetailedReporting === option
-                                  ? isDarkMode ? '#ffffff' : '#ffffff'
-                                  : isDarkMode ? '#d1d5db' : '#374151',
+                                  ? '#ffffff'
+                                  : '#374151',
                                 cursor: 'pointer',
                                 boxShadow: formData.wantsDetailedReporting === option
                                   ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
@@ -3091,7 +2902,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
 
                       <div>
                         <label className={`block font-medium mb-3 transition-colors duration-500 ${
-                            isDarkMode ? 'text-white' : 'text-gray-800'
+                            'text-gray-800'
                           }`}>
                           Avez-vous déjà testé des outils ou méthodes de growth ?
                         </label>
@@ -3106,17 +2917,15 @@ const QuoteModal = ({ isOpen, onClose }) => {
                                 borderRadius: '12px',
                                 border: formData.hasTestedGrowthTools === option
                                   ? '2px solid #3F8391'
-                                  : isDarkMode 
-                                    ? '1px solid rgba(255, 255, 255, 0.2)' 
-                                    : '1px solid rgba(156, 163, 175, 0.4)',
+                                  : '1px solid rgba(156, 163, 175, 0.4)',
                                 textAlign: 'center',
                                 transition: 'all 0.3s ease',
                                 backgroundColor: formData.hasTestedGrowthTools === option
-                                  ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
-                                  : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
+                                  ? '#3F8391'
+                                  : 'rgba(255, 255, 255, 0.7)',
                                 color: formData.hasTestedGrowthTools === option
                                   ? '#ffffff'
-                                  : isDarkMode ? '#d1d5db' : '#374151',
+                                  : '#374151',
                                 cursor: 'pointer',
                                 boxShadow: formData.hasTestedGrowthTools === option
                                   ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
@@ -3142,18 +2951,14 @@ const QuoteModal = ({ isOpen, onClose }) => {
                           exit={{ opacity: 0, height: 0 }}
                         >
                           <label className={`block font-medium mb-2 transition-colors duration-500 ${
-                            isDarkMode ? 'text-white' : 'text-gray-800'
+                            'text-gray-800'
                           }`}>
                             Lesquels ?
                           </label>
                           <textarea
                             value={formData.testedToolsDetails}
                             onChange={(e) => handleInputChange('testedToolsDetails', e.target.value)}
-                            className={`w-full h-20 sm:h-24 px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none resize-none text-sm sm:text-base transition-all duration-300 ${
-                              isDarkMode 
-                                ? 'bg-white/10 border-white/20 text-white placeholder-gray-400' 
-                                : 'bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500'
-                            }`}
+                            className={`w-full h-20 sm:h-24 px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none resize-none text-sm sm:text-base transition-all duration-300 bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500`}
                             placeholder="Ex: Mailchimp, HubSpot, LinkedIn Sales Navigator, Apollo, Lemlist, etc."
                           />
                         </motion.div>
@@ -3174,16 +2979,16 @@ const QuoteModal = ({ isOpen, onClose }) => {
                 >
                   <div>
                     <h3 className={`text-lg sm:text-xl font-semibold mb-4 sm:mb-6 flex items-center gap-2 transition-colors duration-500 ${
-                      isDarkMode ? 'text-white' : 'text-gray-900'
+                      'text-gray-900'
                     }`}>
                       <Clock size={24} className="text-[#3F8391]" />
-                      ⏰ Délai & budget
+                       Délai & budget
                     </h3>
                     
                     <div className="space-y-4 sm:space-y-6">
                       <div>
                         <label className={`block font-medium mb-3 transition-colors duration-500 ${
-                            isDarkMode ? 'text-white' : 'text-gray-800'
+                            'text-gray-800'
                           }`}>
                           Quand souhaitez-vous démarrer ?
                         </label>
@@ -3202,17 +3007,15 @@ const QuoteModal = ({ isOpen, onClose }) => {
                                 borderRadius: '12px',
                                 border: formData.projectStartTimeline === timing
                                   ? '2px solid #3F8391'
-                                  : isDarkMode 
-                                    ? '1px solid rgba(255, 255, 255, 0.2)' 
-                                    : '1px solid rgba(156, 163, 175, 0.4)',
+                                  : '1px solid rgba(156, 163, 175, 0.4)',
                                 textAlign: 'center',
                                 transition: 'all 0.3s ease',
                                 backgroundColor: formData.projectStartTimeline === timing
-                                  ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
-                                  : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
+                                  ? '#3F8391'
+                                  : 'rgba(255, 255, 255, 0.7)',
                                 color: formData.projectStartTimeline === timing
                                   ? '#ffffff'
-                                  : isDarkMode ? '#d1d5db' : '#374151',
+                                  : '#374151',
                                 cursor: 'pointer',
                                 boxShadow: formData.projectStartTimeline === timing
                                   ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
@@ -3233,7 +3036,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
 
                       <div>
                         <label className={`block font-medium mb-3 transition-colors duration-500 ${
-                            isDarkMode ? 'text-white' : 'text-gray-800'
+                            'text-gray-800'
                           }`}>
                           Quel est votre budget ?
                         </label>
@@ -3254,17 +3057,15 @@ const QuoteModal = ({ isOpen, onClose }) => {
                                 borderRadius: '12px',
                                 border: formData.growthBudgetRange === budget
                                   ? '2px solid #3F8391'
-                                  : isDarkMode 
-                                    ? '1px solid rgba(255, 255, 255, 0.2)' 
-                                    : '1px solid rgba(156, 163, 175, 0.4)',
+                                  : '1px solid rgba(156, 163, 175, 0.4)',
                                 textAlign: 'center',
                                 transition: 'all 0.3s ease',
                                 backgroundColor: formData.growthBudgetRange === budget
-                                  ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
-                                  : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
+                                  ? '#3F8391'
+                                  : 'rgba(255, 255, 255, 0.7)',
                                 color: formData.growthBudgetRange === budget
                                   ? '#ffffff'
-                                  : isDarkMode ? '#d1d5db' : '#374151',
+                                  : '#374151',
                                 cursor: 'pointer',
                                 boxShadow: formData.growthBudgetRange === budget
                                   ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
@@ -3298,16 +3099,16 @@ const QuoteModal = ({ isOpen, onClose }) => {
                 >
                   <div>
                     <h3 className={`text-lg sm:text-xl font-semibold mb-4 sm:mb-6 flex items-center gap-2 transition-colors duration-500 ${
-                      isDarkMode ? 'text-white' : 'text-gray-900'
+                      'text-gray-900'
                     }`}>
                       <MessageSquare size={24} className="text-[#3F8391]" />
-                      🧠 Autres besoins & Contact
+                       Autres besoins & Contact
                     </h3>
                     
                     <div className="space-y-4 sm:space-y-6">
                       <div>
                         <label className={`block font-medium mb-3 transition-colors duration-500 ${
-                            isDarkMode ? 'text-white' : 'text-gray-800'
+                            'text-gray-800'
                           }`}>
                           Souhaitez-vous que je vous accompagne aussi sur : (Choix multiple)
                         </label>
@@ -3338,17 +3139,15 @@ const QuoteModal = ({ isOpen, onClose }) => {
                                 borderRadius: '12px',
                                 border: formData.additionalServices.includes(service)
                                   ? '2px solid #3F8391'
-                                  : isDarkMode 
-                                    ? '1px solid rgba(255, 255, 255, 0.2)' 
-                                    : '1px solid rgba(156, 163, 175, 0.4)',
+                                  : '1px solid rgba(156, 163, 175, 0.4)',
                                 textAlign: 'left',
                                 transition: 'all 0.3s ease',
                                 backgroundColor: formData.additionalServices.includes(service)
-                                  ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
-                                  : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
+                                  ? '#3F8391'
+                                  : 'rgba(255, 255, 255, 0.7)',
                                 color: formData.additionalServices.includes(service)
                                   ? '#ffffff'
-                                  : isDarkMode ? '#d1d5db' : '#374151',
+                                  : '#374151',
                                 cursor: 'pointer',
                                 boxShadow: formData.additionalServices.includes(service)
                                   ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
@@ -3379,18 +3178,14 @@ const QuoteModal = ({ isOpen, onClose }) => {
                           exit={{ opacity: 0, height: 0 }}
                         >
                           <label className={`block font-medium mb-2 transition-colors duration-500 ${
-                            isDarkMode ? 'text-white' : 'text-gray-800'
+                            'text-gray-800'
                           }`}>
                             Précisez votre besoin
                           </label>
                           <textarea
                             value={formData.growthCustomAdditional}
                             onChange={(e) => handleInputChange('growthCustomAdditional', e.target.value)}
-                            className={`w-full h-16 sm:h-20 px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none resize-none text-sm sm:text-base transition-all duration-300 ${
-                              isDarkMode 
-                                ? 'bg-white/10 border-white/20 text-white placeholder-gray-400' 
-                                : 'bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500'
-                            }`}
+                            className={`w-full h-16 sm:h-20 px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none resize-none text-sm sm:text-base transition-all duration-300 bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500`}
                             placeholder="Décrivez votre besoin supplémentaire..."
                           />
                         </motion.div>
@@ -3398,33 +3193,29 @@ const QuoteModal = ({ isOpen, onClose }) => {
 
                       <div>
                         <label className={`block font-medium mb-2 transition-colors duration-500 ${
-                            isDarkMode ? 'text-white' : 'text-gray-800'
+                            'text-gray-800'
                           }`}>
                           Un détail important à ajouter ?
                         </label>
                         <textarea
                           value={formData.growthAdditionalNotes}
                           onChange={(e) => handleInputChange('growthAdditionalNotes', e.target.value)}
-                          className={`w-full h-20 sm:h-24 px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none resize-none text-sm sm:text-base transition-all duration-300 ${
-                              isDarkMode 
-                                ? 'bg-white/10 border-white/20 text-white placeholder-gray-400' 
-                                : 'bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500'
-                            }`}
+                          className={`w-full h-20 sm:h-24 px-3 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl border focus:border-[#3F8391] focus:outline-none resize-none text-sm sm:text-base transition-all duration-300 bg-white/80 border-gray-300/40 text-gray-900 placeholder-gray-500`}
                           placeholder="Remarques, contexte particulier, contraintes spécifiques..."
                         />
                       </div>
 
                       <div>
                         <label className={`block font-medium mb-3 transition-colors duration-500 ${
-                            isDarkMode ? 'text-white' : 'text-gray-800'
+                            'text-gray-800'
                           }`}>
                           Comment souhaitez-vous être contacté ? <span className="text-red-400">*</span>
                         </label>
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
                           {[
-                            { value: 'Email', icon: '📧', desc: 'Réponse sous 24h' },
-                            { value: 'Téléphone', icon: '📞', desc: 'Appel direct' },
-                            { value: 'Visio', icon: '💻', desc: 'Réunion en ligne' }
+                            { value: 'Email', icon: '', desc: 'Réponse sous 24h' },
+                            { value: 'Téléphone', icon: '', desc: 'Appel direct' },
+                            { value: 'Visio', icon: '', desc: 'Réunion en ligne' }
                           ].map((contact) => (
                             <motion.button
                               key={contact.value}
@@ -3435,17 +3226,15 @@ const QuoteModal = ({ isOpen, onClose }) => {
                                 borderRadius: '12px',
                                 border: formData.preferredContact === contact.value
                                   ? '2px solid #3F8391'
-                                  : isDarkMode 
-                                    ? '1px solid rgba(255, 255, 255, 0.2)' 
-                                    : '1px solid rgba(156, 163, 175, 0.4)',
+                                  : '1px solid rgba(156, 163, 175, 0.4)',
                                 textAlign: 'center',
                                 transition: 'all 0.3s ease',
                                 backgroundColor: formData.preferredContact === contact.value
-                                  ? isDarkMode ? 'rgba(63, 131, 145, 0.4)' : '#3F8391'
-                                  : isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.7)',
+                                  ? '#3F8391'
+                                  : 'rgba(255, 255, 255, 0.7)',
                                 color: formData.preferredContact === contact.value
                                   ? '#ffffff'
-                                  : isDarkMode ? '#d1d5db' : '#374151',
+                                  : '#374151',
                                 cursor: 'pointer',
                                 boxShadow: formData.preferredContact === contact.value
                                   ? '0 25px 50px -12px rgba(63, 131, 145, 0.5)'
@@ -3462,8 +3251,8 @@ const QuoteModal = ({ isOpen, onClose }) => {
                               <div className="font-medium">{contact.value}</div>
                               <div className={`text-xs mt-1 ${
                                 formData.preferredContact === contact.value
-                                  ? isDarkMode ? 'text-gray-200' : 'text-gray-200'
-                                  : isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                                  ? 'text-gray-200'
+                                  : 'text-gray-600'
                               }`}>{contact.desc}</div>
                             </motion.button>
                           ))}
@@ -3472,10 +3261,8 @@ const QuoteModal = ({ isOpen, onClose }) => {
                         {/* Message d'aide */}
                         {!formData.preferredContact && (
                           <div className="mt-4 bg-yellow-500/10 border border-yellow-500/20 rounded-xl p-3">
-                            <p className={`text-sm flex items-center gap-2 transition-colors duration-500 ${
-                              isDarkMode ? 'text-yellow-200' : 'text-yellow-800'
-                            }`}>
-                              <span>💡</span>
+                            <p className={`text-sm flex items-center gap-2 transition-colors duration-500 text-yellow-800`}>
+                              <span></span>
                               <span>Sélectionnez votre mode de contact préféré pour continuer</span>
                             </p>
                           </div>
@@ -3515,7 +3302,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.3 }}
                       className={`text-3xl font-bold mb-4 transition-colors duration-500 ${
-                        isDarkMode ? 'text-white' : 'text-gray-900'
+                        'text-gray-900'
                       }`}
                     >
                       Demande envoyée avec succès !
@@ -3528,22 +3315,20 @@ const QuoteModal = ({ isOpen, onClose }) => {
                       transition={{ delay: 0.4 }}
                       className="space-y-4"
                     >
-                      <p className={`text-lg mb-6 transition-colors duration-500 ${
-                        isDarkMode ? 'text-gray-300' : 'text-gray-700'
-                      }`}>
+                      <p className={`text-lg mb-6 transition-colors duration-500 text-gray-700`}>
                         Merci {formData.firstName} ! Votre demande de devis pour 
                         <span className="text-[#3F8391] font-semibold"> {formData.serviceType}</span> a bien été reçue.
                       </p>
 
                       <div className="bg-[#3F8391]/10 border border-[#3F8391]/20 rounded-2xl p-6 text-left">
                         <h4 className={`font-semibold mb-3 flex items-center gap-2 transition-colors duration-500 ${
-                          isDarkMode ? 'text-white' : 'text-gray-800'
+                          'text-gray-800'
                         }`}>
                           <Clock size={20} className="text-[#3F8391]" />
                           Prochaines étapes :
                         </h4>
                         <ul className={`space-y-2 text-sm transition-colors duration-500 ${
-                          isDarkMode ? 'text-gray-300' : 'text-gray-600'
+                          'text-gray-600'
                         }`}>
                           <li className="flex items-start gap-2">
                             <span className="text-[#3F8391] mt-1">•</span>
@@ -3561,10 +3346,8 @@ const QuoteModal = ({ isOpen, onClose }) => {
                       </div>
 
                       <div className="bg-blue-500/10 border border-blue-500/20 rounded-2xl p-4">
-                        <p className={`text-sm transition-colors duration-500 ${
-                          isDarkMode ? 'text-blue-200' : 'text-blue-800'
-                        }`}>
-                          📧 Un email de confirmation a été envoyé à <strong>{formData.email}</strong>
+                        <p className={`text-sm transition-colors duration-500 text-blue-800`}>
+                           Un email de confirmation a été envoyé à <strong>{formData.email}</strong>
                         </p>
                       </div>
                     </motion.div>
@@ -3606,24 +3389,20 @@ const QuoteModal = ({ isOpen, onClose }) => {
                 className={`px-6 py-3 rounded-full font-medium transition-all duration-300 flex items-center gap-2 ${
                   step === 1
                     ? 'text-gray-500 cursor-not-allowed'
-                    : isDarkMode ? 'text-white' : 'text-gray-800'
+                    : 'text-gray-800'
                 }`}
                 style={{
                   background: step === 1 
                     ? 'rgba(255, 255, 255, 0.05)' 
-                    : isDarkMode 
-                      ? 'rgba(255, 255, 255, 0.1)'
-                      : 'rgba(255, 255, 255, 0.7)',
+                    : 'rgba(255, 255, 255, 0.7)',
                   backdropFilter: step === 1 ? 'none' : 'blur(10px)',
                   border: step === 1 
                     ? 'none'
-                    : isDarkMode 
-                      ? '1px solid rgba(255, 255, 255, 0.2)'
-                      : '1px solid rgba(156, 163, 175, 0.3)'
+                    : '1px solid rgba(156, 163, 175, 0.3)'
                 }}
                 whileHover={step > 1 ? { 
                   scale: 1.05,
-                  background: isDarkMode ? 'rgba(255, 255, 255, 0.15)' : 'rgba(255, 255, 255, 0.9)'
+                  background: 'rgba(255, 255, 255, 0.9)'
                 } : {}}
                 whileTap={step > 1 ? { scale: 0.95 } : {}}
               >
@@ -3704,7 +3483,7 @@ const QuoteModal = ({ isOpen, onClose }) => {
                   )}
                   <div>
                     <div className="font-semibold mb-1">
-                      {submitStatus === 'success' ? '✅ Demande envoyée !' : '❌ Erreur d\'envoi'}
+                      {submitStatus === 'success' ? ' Demande envoyée !' : ' Erreur d\'envoi'}
                     </div>
                     <div className="text-sm opacity-90">{submitMessage}</div>
                     {submitStatus === 'success' && (

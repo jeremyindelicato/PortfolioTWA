@@ -1,42 +1,40 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
-import { useTheme } from '../contexts/ThemeContext';
 import rocketSimple from '../assets/rocket/rocket-simple.webp';
 import rocketFire from '../assets/rocket/rocket-fire.webp';
 
 const GrowthMarketingSection = () => {
-  const { isDarkMode } = useTheme();
   const [hoveredRocket, setHoveredRocket] = useState(null);
   const competences = [
     {
       title: "Analytics Avancée",
       description: "Analyse approfondie des données pour optimiser les performances",
-      icon: "📊"
+      icon: ""
     },
     {
       title: "Ciblage Précis", 
       description: "Identification et segmentation des audiences cibles",
-      icon: "🎯"
+      icon: ""
     },
     {
       title: "Communication",
       description: "Stratégies de communication multicanales engageantes",
-      icon: "💬"
+      icon: ""
     },
     {
       title: "Automatisation",
       description: "Automatisation des processus marketing et workflows",
-      icon: "⚡"
+      icon: ""
     },
     {
       title: "Scrapping",
       description: "Extraction intelligente de données pour la veille concurrentielle",
-      icon: "🔍"
+      icon: ""
     },
     {
       title: "Génération de Leads",
       description: "Acquisition et nurturing de prospects qualifiés",
-      icon: "🎪"
+      icon: ""
     },
   ];
 
@@ -68,7 +66,7 @@ const GrowthMarketingSection = () => {
             onMouseLeave={() => setHoveredRocket(null)}
           />
           <h2 className={`text-4xl md:text-5xl font-bold transition-colors duration-500 ${
-            isDarkMode ? 'text-white' : 'text-gray-900'
+            'text-gray-900'
           }`} style={{ fontFamily: 'LEMONMILK, sans-serif' }}>
             GROWTH <span style={{ color: '#3F8391' }}>MARKETING</span>
           </h2>
@@ -92,7 +90,7 @@ const GrowthMarketingSection = () => {
         </div>
         
         <p className={`text-xl max-w-3xl mx-auto leading-relaxed transition-colors duration-500 ${
-          isDarkMode ? 'text-gray-300' : 'text-gray-600'
+          'text-gray-600'
         }`}>
           Propulsez votre croissance avec des stratégies marketing data-driven 
           et des outils d'automatisation avancés
@@ -111,28 +109,18 @@ const GrowthMarketingSection = () => {
             viewport={{ once: true }}
             whileHover={{ y: -5 }}
           >
-            <div 
-              className={`relative rounded-2xl p-6 h-full overflow-hidden border transition-all duration-300 group-hover:border-[#3F8391]/50 ${
-                isDarkMode ? '' : 'border-gray-300/30'
-              }`}
+            <div
+              className="relative rounded-2xl p-6 h-full overflow-hidden border transition-all duration-300 group-hover:border-[#3F8391]/50 border-gray-300/30"
               style={{
-                background: isDarkMode ? `
-                  linear-gradient(135deg, 
-                    rgba(255, 255, 255, 0.08) 0%, 
-                    rgba(255, 255, 255, 0.02) 50%, 
-                    rgba(63, 131, 145, 0.05) 100%
-                  )
-                ` : `
-                  linear-gradient(135deg, 
-                    rgba(255, 255, 255, 0.95) 0%, 
-                    rgba(255, 255, 255, 0.85) 50%, 
+                background: `linear-gradient(135deg,
+                    rgba(255, 255, 255, 0.95) 0%,
+                    rgba(255, 255, 255, 0.85) 50%,
                     rgba(63, 131, 145, 0.1) 100%
-                  )
-                `,
+                  )`,
                 backdropFilter: 'blur(20px)',
                 WebkitBackdropFilter: 'blur(20px)',
-                border: isDarkMode ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid rgba(0, 0, 0, 0.1)',
-                boxShadow: isDarkMode ? '0 8px 32px rgba(0, 0, 0, 0.2)' : '0 8px 32px rgba(0, 0, 0, 0.1)'
+                border: '1px solid rgba(0, 0, 0, 0.1)',
+                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
               }}
             >
               {/* Effet de brillance au hover */}
@@ -160,14 +148,14 @@ const GrowthMarketingSection = () => {
                 
                 {/* Titre */}
                 <h3 className={`text-xl font-semibold mb-3 group-hover:text-[#3F8391] transition-colors duration-300 ${
-                  isDarkMode ? 'text-white' : 'text-gray-800'
+                  'text-gray-800'
                 }`}>
                   {competence.title}
                 </h3>
                 
                 {/* Description */}
                 <p className={`text-sm leading-relaxed transition-colors duration-500 ${
-                  isDarkMode ? 'text-gray-300' : 'text-gray-600'
+                  'text-gray-600'
                 }`}>
                   {competence.description}
                 </p>

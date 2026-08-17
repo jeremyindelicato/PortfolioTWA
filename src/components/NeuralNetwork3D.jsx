@@ -3,8 +3,6 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { Text, OrbitControls, Sphere } from '@react-three/drei';
 import { Vector3 } from 'three';
 import { motion } from 'framer-motion';
-import { useTheme } from '../contexts/ThemeContext';
-
 // Composant pour un neurone individuel
 function Neuron({ position, skill, isActive, isSelected, onHover, onLeave, onSelect }) {
   const meshRef = useRef();
@@ -263,7 +261,6 @@ function NetworkScene({ hoveredSkill, setHoveredSkill, selectedSkill, setSelecte
 
 // Composant principal exporté
 const NeuralNetwork3D = ({ className = "" }) => {
-  const { isDarkMode } = useTheme();
   const [hoveredSkill, setHoveredSkill] = useState(null);
   const [selectedSkill, setSelectedSkill] = useState(null);
   const neuronClickedRef = useRef(false);
@@ -294,7 +291,7 @@ const NeuralNetwork3D = ({ className = "" }) => {
         <div className="text-center mb-8 sm:mb-12 lg:mb-16">
           <motion.h2
             className={`text-4xl md:text-5xl font-bold mb-4 transition-colors duration-500 ${
-              isDarkMode ? 'text-white' : 'text-gray-900'
+              'text-gray-900'
             }`}
             style={{ fontFamily: 'LEMONMILK, sans-serif' }}
             initial={{ opacity: 0, y: 20 }}
@@ -306,7 +303,7 @@ const NeuralNetwork3D = ({ className = "" }) => {
           </motion.h2>
           <motion.p
             className={`text-xl leading-relaxed max-w-4xl mx-auto transition-colors duration-500 ${
-              isDarkMode ? 'text-gray-300' : 'text-gray-600'
+              'text-gray-600'
             }`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -398,7 +395,7 @@ const NeuralNetwork3D = ({ className = "" }) => {
           transition={{ duration: 0.5, delay: 0.3 }}
         >
           <p className="text-gray-300 text-xs">
-            🖱️ Survolez les neurones • 🔄 Rotation automatique
+             Survolez les neurones •  Rotation automatique
           </p>
         </motion.div>
       </div>
@@ -415,7 +412,7 @@ const NeuralNetwork3D = ({ className = "" }) => {
           transition={{ duration: 0.5, delay: 0.4 }}
         >
           <p className="text-gray-400 text-xs leading-relaxed">
-            ⚠️ Pour développer une IA sur mesure, l'entreprise doit disposer de jeux de données pertinents.
+             Pour développer une IA sur mesure, l'entreprise doit disposer de jeux de données pertinents.
           </p>
         </motion.div>
       </div>

@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, Eye } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { useTheme } from '../contexts/ThemeContext';
-
 // Import des images
 import institutCorailLogo from '../assets/institut-corail/logoinstitutcorail.webp';
 import ascLogo from '../assets/asc/asclogo.webp';
@@ -14,7 +12,6 @@ import maisonlicLogo from '../assets/maisonlic/logo.webp';
 import orapiLogo from '../assets/orapi/orapilogo.webp';
 
 const ProjectCarousel = () => {
-  const { isDarkMode } = useTheme();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [hoveredProject, setHoveredProject] = useState(null);
@@ -157,12 +154,12 @@ const ProjectCarousel = () => {
           transition={{ duration: 0.6, delay: 0.2 }}
         >
           <h2 className={`text-4xl md:text-5xl font-bold mb-4 transition-colors duration-500 ${
-            isDarkMode ? 'text-white' : 'text-gray-900'
+            'text-gray-900'
           }`} style={{ fontFamily: 'LEMONMILK, sans-serif' }}>
             MES <span style={{ color: '#3F8391' }}>PROJETS</span>
           </h2>
           <p className={`text-lg max-w-2xl mx-auto transition-colors duration-500 ${
-            isDarkMode ? 'text-gray-300' : 'text-gray-600'
+            'text-gray-600'
           }`}>
             Découvrez une sélection de projets que j'ai réalisé au cours de ma carrière.
           </p>

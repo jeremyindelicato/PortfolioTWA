@@ -21,7 +21,7 @@ const Loader = () => {
             <div className="terminal_promt">
               <span className="terminal_user">TaciturnWebArt:</span>
               <span className="terminal_location">~</span>
-              <span className="terminal_bling">$ Bienvenue sur mon portfolio 👨‍💻</span>
+              <span className="terminal_bling">$ Bienvenue sur mon portfolio</span>
               <span className="terminal_cursor" />
             </div>
           </div>

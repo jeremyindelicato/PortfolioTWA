@@ -1,5 +1,5 @@
 // ================================================
-// 🗄️ SUPABASE CLIENT - CONFIGURATION
+// SUPABASE CLIENT - CONFIGURATION
 // Utilitaires pour interagir avec Supabase
 // ================================================
 
@@ -13,7 +13,7 @@ const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'YOUR_SUPABASE
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 // ================================================
-// 📋 FONCTIONS POUR LES DEMANDES DE DEVIS
+// FONCTIONS POUR LES DEMANDES DE DEVIS
 // ================================================
 
 /**
@@ -23,7 +23,7 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey);
  */
 export async function saveQuoteRequest(quoteData) {
   try {
-    console.log('💾 Sauvegarde de la demande de devis...', quoteData);
+    console.log('Sauvegarde de la demande de devis...', quoteData);
 
     // Préparer les données pour l'insertion
     const dbData = {
@@ -79,15 +79,15 @@ export async function saveQuoteRequest(quoteData) {
       .single();
 
     if (error) {
-      console.error('❌ Erreur lors de la sauvegarde:', error);
+      console.error('Erreur lors de la sauvegarde:', error);
       throw new Error(`Erreur de sauvegarde: ${error.message}`);
     }
 
-    console.log('✅ Demande sauvegardée avec succès:', data.id);
+    console.log('Demande sauvegardée avec succès:', data.id);
     return { success: true, data };
 
   } catch (error) {
-    console.error('❌ Erreur dans saveQuoteRequest:', error);
+    console.error('Erreur dans saveQuoteRequest:', error);
     return { success: false, error: error.message };
   }
 }
@@ -99,7 +99,7 @@ export async function saveQuoteRequest(quoteData) {
  */
 export async function sendQuoteEmail(quoteData) {
   try {
-    console.log('📧 Envoi de l\'email de notification...');
+    console.log('Envoi de l\'email de notification...');
 
     // Appeler l'Edge Function
     const { data, error } = await supabase.functions.invoke('send-quote-email', {
@@ -107,15 +107,15 @@ export async function sendQuoteEmail(quoteData) {
     });
 
     if (error) {
-      console.error('❌ Erreur lors de l\'envoi de l\'email:', error);
+      console.error('Erreur lors de l\'envoi de l\'email:', error);
       throw new Error(`Erreur d'envoi email: ${error.message}`);
     }
 
-    console.log('✅ Email envoyé avec succès');
+    console.log('Email envoyé avec succès');
     return { success: true, data };
 
   } catch (error) {
-    console.error('❌ Erreur dans sendQuoteEmail:', error);
+    console.error('Erreur dans sendQuoteEmail:', error);
     return { success: false, error: error.message };
   }
 }
@@ -140,7 +140,7 @@ export async function updateEmailStatus(requestId, status) {
 
     return { success: true, data };
   } catch (error) {
-    console.error('❌ Erreur updateEmailStatus:', error);
+    console.error('Erreur updateEmailStatus:', error);
     return { success: false, error: error.message };
   }
 }
@@ -152,7 +152,7 @@ export async function updateEmailStatus(requestId, status) {
  */
 export async function submitQuoteRequest(formData) {
   try {
-    console.log('🚀 Démarrage du processus complet de demande de devis...');
+    console.log('Démarrage du processus complet de demande de devis...');
 
     // 1. Sauvegarder en base de données
     const saveResult = await saveQuoteRequest(formData);
@@ -172,11 +172,11 @@ export async function submitQuoteRequest(formData) {
     );
 
     if (!emailResult.success) {
-      console.warn('⚠️ Demande sauvegardée mais email non envoyé:', emailResult.error);
+      console.warn('Demande sauvegardée mais email non envoyé:', emailResult.error);
       // On ne lance pas d'erreur car la demande est sauvegardée
     }
 
-    console.log('🎉 Processus terminé avec succès!');
+    console.log('Processus terminé avec succès!');
     
     return {
       success: true,
@@ -188,7 +188,7 @@ export async function submitQuoteRequest(formData) {
     };
 
   } catch (error) {
-    console.error('❌ Erreur dans submitQuoteRequest:', error);
+    console.error('Erreur dans submitQuoteRequest:', error);
     return {
       success: false,
       error: error.message,
@@ -198,7 +198,7 @@ export async function submitQuoteRequest(formData) {
 }
 
 // ================================================
-// 🤖 FONCTIONS POUR LES DEMANDES DE DEVIS IA
+// FONCTIONS POUR LES DEMANDES DE DEVIS IA
 // ================================================
 
 /**
@@ -208,11 +208,11 @@ export async function submitQuoteRequest(formData) {
  */
 export async function saveAiQuoteRequest(aiQuoteData) {
   try {
-    console.log('💾 Sauvegarde de la demande de devis IA...', aiQuoteData);
+    console.log('Sauvegarde de la demande de devis IA...', aiQuoteData);
 
     // Préparer les données pour l'insertion
     const dbData = {
-      // 🧑‍💼 1. Infos de base
+      // 1. Infos de base
       first_name: aiQuoteData.firstName,
       last_name: aiQuoteData.lastName,
       email: aiQuoteData.email,
@@ -220,23 +220,23 @@ export async function saveAiQuoteRequest(aiQuoteData) {
       business_sector: aiQuoteData.businessSector || null,
       ai_need_description: aiQuoteData.aiNeedDescription,
       
-      // 🎯 2. Objectif du projet  
+      // 2. Objectif du projet
       ai_project_goals: aiQuoteData.aiProjectGoals || [],
       ai_custom_goal: aiQuoteData.aiCustomGoal || null,
       
-      // 📊 3. Données disponibles
+      // 3. Données disponibles
       has_data_available: aiQuoteData.hasDataAvailable,
       data_types: aiQuoteData.dataTypes || [],
       data_volume: aiQuoteData.dataVolume || null,
       
-      // ⚙️ 4. Fonctionnalités souhaitées
+      // 4. Fonctionnalités souhaitées
       ai_desired_features: aiQuoteData.aiDesiredFeatures || [],
       
-      // ⏰ 5. Délai et budget
+      // 5. Délai et budget
       project_start_timeline: aiQuoteData.projectStartTimeline || null,
       ai_budget_range: aiQuoteData.aiBudgetRange || null,
       
-      // 📝 6. Complément
+      // 6. Complément
       need_technical_support: aiQuoteData.needTechnicalSupport,
       need_future_maintenance: aiQuoteData.needFutureMaintenance,
       ai_additional_notes: aiQuoteData.aiAdditionalNotes || null,
@@ -257,15 +257,15 @@ export async function saveAiQuoteRequest(aiQuoteData) {
       .single();
 
     if (error) {
-      console.error('❌ Erreur lors de la sauvegarde IA:', error);
+      console.error('Erreur lors de la sauvegarde IA:', error);
       throw new Error(`Erreur de sauvegarde IA: ${error.message}`);
     }
 
-    console.log('✅ Demande IA sauvegardée avec succès:', data.id);
+    console.log('Demande IA sauvegardée avec succès:', data.id);
     return { success: true, data };
 
   } catch (error) {
-    console.error('❌ Erreur dans saveAiQuoteRequest:', error);
+    console.error('Erreur dans saveAiQuoteRequest:', error);
     return { success: false, error: error.message };
   }
 }
@@ -277,7 +277,7 @@ export async function saveAiQuoteRequest(aiQuoteData) {
  */
 export async function sendAiQuoteEmail(aiQuoteData) {
   try {
-    console.log('📧 Envoi de l\'email de notification IA...');
+    console.log('Envoi de l\'email de notification IA...');
 
     // Appeler l'Edge Function (réutilise la même fonction avec un flag IA)
     const { data, error } = await supabase.functions.invoke('send-quote-email', {
@@ -285,15 +285,15 @@ export async function sendAiQuoteEmail(aiQuoteData) {
     });
 
     if (error) {
-      console.error('❌ Erreur lors de l\'envoi de l\'email IA:', error);
+      console.error('Erreur lors de l\'envoi de l\'email IA:', error);
       throw new Error(`Erreur d'envoi email IA: ${error.message}`);
     }
 
-    console.log('✅ Email IA envoyé avec succès');
+    console.log('Email IA envoyé avec succès');
     return { success: true, data };
 
   } catch (error) {
-    console.error('❌ Erreur dans sendAiQuoteEmail:', error);
+    console.error('Erreur dans sendAiQuoteEmail:', error);
     return { success: false, error: error.message };
   }
 }
@@ -318,7 +318,7 @@ export async function updateAiEmailStatus(requestId, status) {
 
     return { success: true, data };
   } catch (error) {
-    console.error('❌ Erreur updateAiEmailStatus:', error);
+    console.error('Erreur updateAiEmailStatus:', error);
     return { success: false, error: error.message };
   }
 }
@@ -330,7 +330,7 @@ export async function updateAiEmailStatus(requestId, status) {
  */
 export async function submitAiQuoteRequest(formData) {
   try {
-    console.log('🚀 Démarrage du processus complet de demande de devis IA...');
+    console.log('Démarrage du processus complet de demande de devis IA...');
 
     // 1. Sauvegarder en base de données
     const saveResult = await saveAiQuoteRequest(formData);
@@ -350,11 +350,11 @@ export async function submitAiQuoteRequest(formData) {
     );
 
     if (!emailResult.success) {
-      console.warn('⚠️ Demande IA sauvegardée mais email non envoyé:', emailResult.error);
+      console.warn('Demande IA sauvegardée mais email non envoyé:', emailResult.error);
       // On ne lance pas d'erreur car la demande est sauvegardée
     }
 
-    console.log('🎉 Processus IA terminé avec succès!');
+    console.log('Processus IA terminé avec succès!');
     
     return {
       success: true,
@@ -366,7 +366,7 @@ export async function submitAiQuoteRequest(formData) {
     };
 
   } catch (error) {
-    console.error('❌ Erreur dans submitAiQuoteRequest:', error);
+    console.error('Erreur dans submitAiQuoteRequest:', error);
     return {
       success: false,
       error: error.message,
@@ -376,7 +376,7 @@ export async function submitAiQuoteRequest(formData) {
 }
 
 // ================================================
-// 🚀 FONCTIONS POUR LES DEMANDES DE DEVIS GROWTH
+// FONCTIONS POUR LES DEMANDES DE DEVIS GROWTH
 // ================================================
 
 /**
@@ -386,11 +386,11 @@ export async function submitAiQuoteRequest(formData) {
  */
 export async function saveGrowthQuoteRequest(growthQuoteData) {
   try {
-    console.log('💾 Sauvegarde de la demande de devis Growth...', growthQuoteData);
+    console.log('Sauvegarde de la demande de devis Growth...', growthQuoteData);
 
     // Préparer les données pour l'insertion
     const dbData = {
-      // 🧑‍💼 1. Infos de base
+      // 1. Infos de base
       first_name: growthQuoteData.firstName,
       last_name: growthQuoteData.lastName,
       email: growthQuoteData.email,
@@ -398,35 +398,35 @@ export async function saveGrowthQuoteRequest(growthQuoteData) {
       business_sector: growthQuoteData.businessSector || null,
       has_existing_website: growthQuoteData.hasExistingWebsite,
       existing_website_url: growthQuoteData.existingWebsiteUrl || null,
-      
-      // 🎯 2. Objectif de la mission
+
+      // 2. Objectif de la mission
       growth_main_goals: growthQuoteData.growthMainGoals || [],
       growth_custom_goal: growthQuoteData.growthCustomGoal || null,
-      
-      // 🛠️ 3. Services souhaités
+
+      // 3. Services souhaités
       growth_desired_services: growthQuoteData.growthDesiredServices || [],
       growth_custom_service: growthQuoteData.growthCustomService || null,
-      
-      // 🎯 4. Ciblage & données
+
+      // 4. Ciblage & données
       target_audience: growthQuoteData.targetAudience || null,
       has_existing_database: growthQuoteData.hasExistingDatabase,
       lead_sources: growthQuoteData.leadSources || [],
-      
-      // 📊 5. KPI & ambitions
+
+      // 5. KPI & ambitions
       growth_objectives: growthQuoteData.growthObjectives || null,
       wants_detailed_reporting: growthQuoteData.wantsDetailedReporting,
       has_tested_growth_tools: growthQuoteData.hasTestedGrowthTools,
       tested_tools_details: growthQuoteData.testedToolsDetails || null,
-      
-      // ⏰ 6. Délai & budget
+
+      // 6. Délai & budget
       project_start_timeline: growthQuoteData.projectStartTimeline || null,
       growth_budget_range: growthQuoteData.growthBudgetRange || null,
-      
-      // 🧠 7. Autres besoins
+
+      // 7. Autres besoins
       additional_services: growthQuoteData.additionalServices || [],
       growth_custom_additional: growthQuoteData.growthCustomAdditional || null,
-      
-      // 📝 8. Remarques / Contexte
+
+      // 8. Remarques / Contexte
       growth_additional_notes: growthQuoteData.growthAdditionalNotes || null,
       preferred_contact: growthQuoteData.preferredContact,
       
@@ -443,15 +443,15 @@ export async function saveGrowthQuoteRequest(growthQuoteData) {
       .single();
 
     if (error) {
-      console.error('❌ Erreur lors de la sauvegarde Growth:', error);
+      console.error('Erreur lors de la sauvegarde Growth:', error);
       throw new Error(`Erreur de sauvegarde Growth: ${error.message}`);
     }
 
-    console.log('✅ Demande Growth sauvegardée avec succès:', data.id);
+    console.log('Demande Growth sauvegardée avec succès:', data.id);
     return { success: true, data };
 
   } catch (error) {
-    console.error('❌ Erreur dans saveGrowthQuoteRequest:', error);
+    console.error('Erreur dans saveGrowthQuoteRequest:', error);
     return { success: false, error: error.message };
   }
 }
@@ -463,7 +463,7 @@ export async function saveGrowthQuoteRequest(growthQuoteData) {
  */
 export async function sendGrowthQuoteEmail(growthQuoteData) {
   try {
-    console.log('📧 Envoi de l\'email de notification Growth...');
+    console.log('Envoi de l\'email de notification Growth...');
 
     // Appeler l'Edge Function (réutilise la même fonction avec un flag Growth)
     const { data, error } = await supabase.functions.invoke('send-quote-email', {
@@ -471,15 +471,15 @@ export async function sendGrowthQuoteEmail(growthQuoteData) {
     });
 
     if (error) {
-      console.error('❌ Erreur lors de l\'envoi de l\'email Growth:', error);
+      console.error('Erreur lors de l\'envoi de l\'email Growth:', error);
       throw new Error(`Erreur d'envoi email Growth: ${error.message}`);
     }
 
-    console.log('✅ Email Growth envoyé avec succès');
+    console.log('Email Growth envoyé avec succès');
     return { success: true, data };
 
   } catch (error) {
-    console.error('❌ Erreur dans sendGrowthQuoteEmail:', error);
+    console.error('Erreur dans sendGrowthQuoteEmail:', error);
     return { success: false, error: error.message };
   }
 }
@@ -504,7 +504,7 @@ export async function updateGrowthEmailStatus(requestId, status) {
 
     return { success: true, data };
   } catch (error) {
-    console.error('❌ Erreur updateGrowthEmailStatus:', error);
+    console.error('Erreur updateGrowthEmailStatus:', error);
     return { success: false, error: error.message };
   }
 }
@@ -516,7 +516,7 @@ export async function updateGrowthEmailStatus(requestId, status) {
  */
 export async function submitGrowthQuoteRequest(formData) {
   try {
-    console.log('🚀 Démarrage du processus complet de demande de devis Growth...');
+    console.log('Démarrage du processus complet de demande de devis Growth...');
 
     // 1. Sauvegarder en base de données
     const saveResult = await saveGrowthQuoteRequest(formData);
@@ -536,11 +536,11 @@ export async function submitGrowthQuoteRequest(formData) {
     );
 
     if (!emailResult.success) {
-      console.warn('⚠️ Demande Growth sauvegardée mais email non envoyé:', emailResult.error);
+      console.warn('Demande Growth sauvegardée mais email non envoyé:', emailResult.error);
       // On ne lance pas d'erreur car la demande est sauvegardée
     }
 
-    console.log('🎉 Processus Growth terminé avec succès!');
+    console.log('Processus Growth terminé avec succès!');
     
     return {
       success: true,
@@ -552,7 +552,7 @@ export async function submitGrowthQuoteRequest(formData) {
     };
 
   } catch (error) {
-    console.error('❌ Erreur dans submitGrowthQuoteRequest:', error);
+    console.error('Erreur dans submitGrowthQuoteRequest:', error);
     return {
       success: false,
       error: error.message,
@@ -562,7 +562,7 @@ export async function submitGrowthQuoteRequest(formData) {
 }
 
 // ================================================
-// 📧 FONCTIONS POUR LE FORMULAIRE DE CONTACT
+// FONCTIONS POUR LE FORMULAIRE DE CONTACT
 // ================================================
 
 /**
@@ -572,7 +572,7 @@ export async function submitGrowthQuoteRequest(formData) {
  */
 export async function sendContactEmail(contactData) {
   try {
-    console.log('📧 Envoi de l\'email de contact...');
+    console.log('Envoi de l\'email de contact...');
 
     // Appeler l'Edge Function avec un flag contact
     const { data, error } = await supabase.functions.invoke('send-quote-email', {
@@ -580,15 +580,15 @@ export async function sendContactEmail(contactData) {
     });
 
     if (error) {
-      console.error('❌ Erreur lors de l\'envoi de l\'email de contact:', error);
+      console.error('Erreur lors de l\'envoi de l\'email de contact:', error);
       throw new Error(`Erreur d'envoi email contact: ${error.message}`);
     }
 
-    console.log('✅ Email de contact envoyé avec succès');
+    console.log('Email de contact envoyé avec succès');
     return { success: true, data };
 
   } catch (error) {
-    console.error('❌ Erreur dans sendContactEmail:', error);
+    console.error('Erreur dans sendContactEmail:', error);
     return { success: false, error: error.message };
   }
 }
@@ -600,7 +600,7 @@ export async function sendContactEmail(contactData) {
  */
 export async function submitContactForm(formData) {
   try {
-    console.log('🚀 Envoi du formulaire de contact...');
+    console.log('Envoi du formulaire de contact...');
 
     // Envoyer l'email de contact
     const emailResult = await sendContactEmail(formData);
@@ -609,7 +609,7 @@ export async function submitContactForm(formData) {
       throw new Error(emailResult.error);
     }
 
-    console.log('🎉 Formulaire de contact envoyé avec succès!');
+    console.log('Formulaire de contact envoyé avec succès!');
     
     return {
       success: true,
@@ -618,7 +618,7 @@ export async function submitContactForm(formData) {
     };
 
   } catch (error) {
-    console.error('❌ Erreur dans submitContactForm:', error);
+    console.error('Erreur dans submitContactForm:', error);
     return {
       success: false,
       error: error.message,
@@ -628,7 +628,7 @@ export async function submitContactForm(formData) {
 }
 
 // ================================================
-// 📊 FONCTIONS UTILITAIRES
+// FONCTIONS UTILITAIRES
 // ================================================
 
 /**
@@ -701,7 +701,7 @@ export async function getRecentQuotes() {
 }
 
 // ================================================
-// 🔧 CONFIGURATION ET VALIDATION
+// CONFIGURATION ET VALIDATION
 // ================================================
 
 /**

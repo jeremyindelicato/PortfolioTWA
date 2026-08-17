@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useTheme } from '../contexts/ThemeContext';
-import DataScienceBackground from './DataScienceBackground';
-import DataScienceBackgroundDark from './DataScienceBackgroundDark';
 
 const Pattern = () => {
-  const { isDarkMode } = useTheme();
   const [deviceType, setDeviceType] = useState('desktop');
   const [orientation, setOrientation] = useState('portrait');
 
@@ -77,44 +73,35 @@ const Pattern = () => {
     return baseStyle;
   };
 
-  // Overlay adaptatif selon la taille d'écran et le mode
+  // Overlay adaptatif selon la taille d'écran
   const getOverlayOpacity = () => {
     // Petits mobiles - Overlay très opaque pour meilleure lisibilité
     if (deviceType === 'mobile-small') {
-      return isDarkMode ? 'bg-black/75' : 'bg-white/45';
+      return 'bg-white/45';
     }
 
     // Mobiles standards - Overlay opaque
     if (deviceType === 'mobile') {
-      return isDarkMode ? 'bg-black/70' : 'bg-white/40';
+      return 'bg-white/40';
     }
 
     // Tablettes - Overlay intermédiaire
     if (deviceType === 'tablet') {
-      return isDarkMode ? 'bg-black/65' : 'bg-white/35';
+      return 'bg-white/35';
     }
 
     // Desktop - Overlay standard
-    return isDarkMode ? 'bg-black/60' : 'bg-white/30';
+    return 'bg-white/30';
   };
   
   return (
     <div className="fixed top-0 left-0 w-full h-full pointer-events-none transition-all duration-700" style={{ zIndex: -1 }}>
-      {/* Background adaptatif selon le mode */}
-      {isDarkMode ? (
-        /* Background DataScience animé pour le mode sombre */
-        <div className="absolute top-0 left-0 w-full h-full bg-[#0a0a0a]">
-          <DataScienceBackgroundDark />
-        </div>
-      ) : (
-        /* Background DataScience animé pour le mode clair */
-        <div className="absolute top-0 left-0 w-full h-full bg-[#fdfdfd]">
-          <DataScienceBackground />
-        </div>
-      )}
-      
+      {/* Background simple en mode clair */}
+      <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-gray-50 via-white to-gray-100">
+      </div>
+
       {/* Overlay adaptatif responsive */}
-      <div 
+      <div
         className={`absolute inset-0 w-full h-full transition-all duration-700 ${getOverlayOpacity()}`}
         style={{
           mixBlendMode: 'normal'
@@ -126,11 +113,7 @@ const Pattern = () => {
         <div
           className="absolute inset-0 w-full h-full transition-opacity duration-700"
           style={{
-            background: isDarkMode
-              ? deviceType === 'mobile-small'
-                ? 'radial-gradient(ellipse at center, transparent 10%, rgba(0,0,0,0.4) 60%)' // Plus intense sur petits écrans
-                : 'radial-gradient(ellipse at center, transparent 15%, rgba(0,0,0,0.35) 65%)'
-              : deviceType === 'mobile-small'
+            background: deviceType === 'mobile-small'
                 ? 'radial-gradient(ellipse at center, transparent 10%, rgba(255,255,255,0.25) 60%)'
                 : 'radial-gradient(ellipse at center, transparent 15%, rgba(255,255,255,0.2) 65%)',
             pointerEvents: 'none'
@@ -143,9 +126,7 @@ const Pattern = () => {
         <div
           className="absolute inset-0 w-full h-full transition-opacity duration-700"
           style={{
-            background: isDarkMode
-              ? 'linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, transparent 20%, transparent 80%, rgba(0,0,0,0.15) 100%)'
-              : 'linear-gradient(to bottom, rgba(255,255,255,0.1) 0%, transparent 20%, transparent 80%, rgba(255,255,255,0.1) 100%)',
+            background: 'linear-gradient(to bottom, rgba(255,255,255,0.1) 0%, transparent 20%, transparent 80%, rgba(255,255,255,0.1) 100%)',
             pointerEvents: 'none'
           }}
         />

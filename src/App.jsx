@@ -7,17 +7,16 @@ gsap.registerPlugin(ScrollTrigger);
 import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import NavigationBar from './components/NavigationBar';
 import Pattern from './components/Pattern';
-import ThemeToggle from './components/ThemeToggle';
-import { ThemeProvider, useTheme } from './contexts/ThemeContext';
+import LanguageToggle from './components/LanguageToggle';
+import { LanguageProvider } from './contexts/LanguageContext';
 import Loader from './components/Loader';
 import ProjectCarousel from './components/ProjectCarousel';
-import ServicesCards from './components/ServicesCards';
 import CustomCursor from './components/CustomCursor';
-import TypewriterEffect from './components/TypewriterEffect';
-import CredibilityDashboard from './components/CredibilityDashboard';
 import ProjectModal from './components/ProjectModal';
 import InspirationMarquee from './components/InspirationMarquee';
 import Footer from './components/Footer';
+import TechnologiesSection from './components/TechnologiesSection';
+import DataWebToggleSection from './components/DataWebToggleSection';
 
 // Import direct de NeuralNetwork3D pour éviter les problèmes de contexte WebGL
 import NeuralNetwork3D from './components/NeuralNetwork3D';
@@ -43,12 +42,12 @@ const LoadingFallback = ({ height = "400px", componentName = "Composant" }) => {
 };
 
 
-import { useForm } from 'react-hook-form';
-import { Mail, Phone, MapPin, Send, FileText, Download, ExternalLink } from 'lucide-react';
-import { submitContactForm } from './utils/supabase';
+import { Mail, Phone, MapPin, FileText, Download, ExternalLink } from 'lucide-react';
 import photoProfil from './assets/autre/photo-de-profil.webp';
 import epitechLogo from './assets/autre/epitech.svg';
 import strykerLogo from './assets/autre/stryker.svg';
+import heroVideo from './assets/autre/herosectionanimation.mp4';
+import phoneVideo from './assets/autre/phone.mp4';
 import cvPdf from './assets/autre/CV_JeremyIndelicato_Alternance.pdf';
 import irisTechnicalPdf from './assets/iris/Dossier_Technique_iris_pipeline.pdf';
 
@@ -83,7 +82,6 @@ function AppContent() {
     return currentPath === '/' && !hasLoadedBefore;
   });
   const [isMobile, setIsMobile] = useState(false);
-  const { isDarkMode } = useTheme();
 
   useEffect(() => {
     const checkIsMobile = () => {
@@ -111,12 +109,11 @@ function AppContent() {
       <Router>
         <LoaderController loading={loading} setLoading={setLoading} />
         <NavigationBar />
-        <ThemeToggle />
+        <LanguageToggle />
         <div className="min-h-screen w-full">
           <Routes>
             <Route path="/" element={<Accueil />} />
             <Route path="/projects" element={<ProjetsEtExperience />} />
-            <Route path="/services" element={<MesServices />} />
             <Route path="/contact" element={<Contact />} />
           </Routes>
         </div>
@@ -184,11 +181,9 @@ function useInView(options = {}) {
 
 // Pages à créer ci-dessous
 function Accueil() {
-  const { isDarkMode } = useTheme();
   const navigate = useNavigate();
   const [servicesRef, servicesInView] = useInView();
   const [projectsRef, projectsInView] = useInView();
-  const [credibilityRef, credibilityInView] = useInView();
   const heroTextRef = useRef(null);
   const aboutSectionRef = useRef(null);
 
@@ -254,47 +249,67 @@ function Accueil() {
 
   return (
     <div className="w-full pb-24">
-      {/* Hero Section - Plein écran */}
-      <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 relative">
-        <div className="text-center max-w-6xl mx-auto" ref={heroTextRef}>
+      {/* Hero Section - Plein écran avec background vidéo */}
+      <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+        {/* Background Vidéo avec overlay */}
+        <div className="absolute inset-0 z-0">
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-full h-full object-cover"
+          >
+            <source src={heroVideo} type="video/mp4" />
+          </video>
+          <div className="absolute inset-0 bg-white/30"></div>
+        </div>
+
+        {/* Contenu */}
+        <div className="text-center max-w-6xl mx-auto relative z-10" ref={heroTextRef}>
           <div className="hero-main-text mb-8">
-            <h1 className={`text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-4 leading-tight transition-colors duration-500 ${
-              isDarkMode ? 'text-white' : 'text-gray-900'
-            }`}>
-              👋, je suis{' '}
-              <span
-                style={{
-                  color: '#3F8391'
-                }}
-              >
-                Jérémy
+            <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-4 leading-tight transition-colors duration-500 text-gray-900" style={{ fontFamily: 'LEMONMILK, sans-serif' }}>
+              <span style={{ color: '#ffffff' }}>
+                De la donnée brute à l'application qui la rend utile.
               </span>
             </h1>
           </div>
-          
-          <div className="hero-main-text">
-            <div className={`text-xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-semibold mb-6 sm:mb-8 lg:mb-12 transition-colors duration-500 ${
-              isDarkMode ? 'text-gray-300' : 'text-gray-700'
-            }`}>
-              Je{' '}
-              <span style={{ color: '#3F8391' }}>
-                <TypewriterEffect />
-              </span>
-            </div>
-          </div>
+
+          {/* Bouton Call to Action */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.5 }}
+          >
+            <motion.button
+              onClick={() => navigate('/contact')}
+              className="px-8 py-4 rounded-full font-semibold text-white text-lg shadow-xl transition-all duration-300"
+              style={{
+                background: 'linear-gradient(135deg, #3F8391 0%, #2A5C68 100%)',
+                boxShadow: '0 8px 32px rgba(63, 131, 145, 0.4)'
+              }}
+              whileHover={{
+                scale: 1.05,
+                boxShadow: '0 12px 40px rgba(63, 131, 145, 0.6)'
+              }}
+              whileTap={{ scale: 0.95 }}
+            >
+              Me Contacter
+            </motion.button>
+          </motion.div>
 
           {/* Indicateur de scroll */}
           <div className="hero-subtitle absolute bottom-4 sm:bottom-8 left-1/2 transform -translate-x-1/2 hidden xs:block">
             <motion.div
               className={`flex flex-col items-center gap-2 transition-colors duration-500 ${
-                isDarkMode ? 'text-white/60' : 'text-gray-900/60'
+                'text-gray-900/80'
               }`}
               animate={{ y: [0, 10, 0] }}
               transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
             >
               <span className="text-sm font-medium">Découvrir</span>
               <div className={`w-px h-8 bg-gradient-to-b to-transparent ${
-                isDarkMode ? 'from-white/60' : 'from-gray-900/60'
+                'from-gray-900/80'
               }`}></div>
             </motion.div>
           </div>
@@ -329,41 +344,26 @@ function Accueil() {
         {/* Contenu texte */}
         <div className="text-center lg:text-left max-w-2xl">
           <p className={`text-lg sm:text-xl lg:text-2xl mb-6 lg:mb-8 leading-relaxed transition-colors duration-500 ${
-            isDarkMode ? 'text-gray-400' : 'text-gray-600'
+            'text-gray-600'
           }`}>
             <span style={{ color: '#3F8391' }} className="font-semibold">AI & Data Scientist</span> chez <span style={{ color: '#3F8391' }} className="font-semibold">Stryker</span>, je vous accompagne de manière indépendante dans la création de <span style={{ color: '#3F8391' }} className="font-semibold">solutions web sur-mesure</span>, taillées pour vos objectifs.
             <br />
-            Mêlant <span style={{ color: '#3F8391' }} className="font-semibold">développement web</span>, <span style={{ color: '#3F8391' }} className="font-semibold">data</span> et <span style={{ color: '#3F8391' }} className="font-semibold">IA</span>, je transforme vos idées en <span style={{ color: '#3F8391' }} className="font-semibold">leviers concrets de croissance</span>. 👨‍💻
+            Mêlant <span style={{ color: '#3F8391' }} className="font-semibold">développement web</span>, <span style={{ color: '#3F8391' }} className="font-semibold">data</span> et <span style={{ color: '#3F8391' }} className="font-semibold">IA</span>, je transforme vos idées en <span style={{ color: '#3F8391' }} className="font-semibold">leviers concrets de croissance</span>. 
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start mb-8 lg:mb-12">
             <motion.button 
               onClick={() => navigate('/projects')}
-              className={`px-6 py-4 sm:px-8 sm:py-4 lg:px-10 lg:py-5 font-semibold rounded-full transition-all duration-300 text-base lg:text-lg backdrop-blur-xl relative overflow-hidden group min-h-[48px] touch-manipulation ${
-                isDarkMode 
-                  ? 'text-white border-white/20' 
-                  : 'text-gray-800 border-gray-400 bg-white/20'
-              }`}
+              className={`text-gray-800 border-gray-400 bg-white/20`}
               style={{
-                background: isDarkMode ? `
-                  linear-gradient(135deg, 
-                    rgba(255, 255, 255, 0.1) 0%, 
-                    rgba(255, 255, 255, 0.05) 50%, 
-                    rgba(0, 0, 0, 0.1) 100%
-                  )
-                ` : `
-                  linear-gradient(135deg, 
+                background: `linear-gradient(135deg, 
                     rgba(255, 255, 255, 0.9) 0%, 
                     rgba(255, 255, 255, 0.7) 50%, 
                     rgba(255, 255, 255, 0.8) 100%
-                  )
-                `,
+                  )`,
                 backdropFilter: 'blur(20px)',
-                border: isDarkMode ? '2px solid rgba(63, 131, 145, 0.5)' : '2px solid rgba(63, 131, 145, 0.8)',
-                boxShadow: isDarkMode ? `
-                  0 8px 32px rgba(0, 0, 0, 0.3),
-                  inset 0 1px 0 rgba(255, 255, 255, 0.2)
-                ` : `
+                border: '2px solid rgba(63, 131, 145, 0.8)',
+                boxShadow: `
                   0 8px 32px rgba(0, 0, 0, 0.15),
                   inset 0 1px 0 rgba(255, 255, 255, 0.8)
                 `
@@ -381,26 +381,15 @@ function Accueil() {
             <motion.button 
               onClick={() => navigate('/contact')}
               className={`px-6 py-4 sm:px-8 sm:py-4 lg:px-10 lg:py-5 font-semibold rounded-full transition-all duration-300 text-base lg:text-lg relative overflow-hidden group min-h-[48px] touch-manipulation ${
-                isDarkMode ? 'text-white' : 'text-white'
+                'text-white'
               }`}
               style={{
-                background: isDarkMode ? `
-                  linear-gradient(135deg, 
-                    rgba(63, 131, 145, 0.8) 0%, 
-                    rgba(63, 131, 145, 0.6) 50%, 
-                    rgba(63, 131, 145, 0.4) 100%
-                  )
-                ` : `
-                  linear-gradient(135deg, 
+                background: `linear-gradient(135deg, 
                     rgba(63, 131, 145, 1) 0%, 
                     rgba(63, 131, 145, 0.9) 50%, 
                     rgba(63, 131, 145, 0.8) 100%
-                  )
-                `,
-                boxShadow: isDarkMode ? `
-                  0 4px 16px rgba(63, 131, 145, 0.3),
-                  inset 0 1px 0 rgba(255, 255, 255, 0.2)
-                ` : `
+                  )`,
+                boxShadow: `
                   0 6px 20px rgba(63, 131, 145, 0.4),
                   inset 0 1px 0 rgba(255, 255, 255, 0.3)
                 `
@@ -433,7 +422,7 @@ function Accueil() {
                 className="h-12 sm:h-14 lg:h-16 w-auto filter brightness-90 hover:brightness-110 transition-all duration-300"
               />
               <span className={`text-sm font-medium transition-colors duration-500 ${
-                isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                'text-gray-600'
               }`}>École</span>
             </motion.a>
             
@@ -453,23 +442,23 @@ function Accueil() {
                 className="h-12 sm:h-14 lg:h-16 w-auto filter brightness-90 hover:brightness-110 transition-all duration-300"
               />
               <span className={`text-sm font-medium transition-colors duration-500 ${
-                isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                'text-gray-600'
               }`}>Alternance</span>
             </motion.a>
           </div>
         </div>
       </div>
 
-      {/* Section Services */}
+      {/* Section Data/Web Toggle */}
       <motion.div
-        ref={servicesRef}
         initial={{ opacity: 0, y: 100 }}
-        animate={servicesInView ? { opacity: 1, y: 0 } : {}}
+        whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.2 }}
+        viewport={{ once: true }}
       >
-        <ServicesCards />
+        <DataWebToggleSection />
       </motion.div>
-      
+
       {/* Section Projets */}
       <motion.div
         ref={projectsRef}
@@ -479,15 +468,15 @@ function Accueil() {
       >
         <ProjectCarousel />
       </motion.div>
-      
-      {/* Section Crédibilité - Dashboard */}
+
+      {/* Section Technologies Maîtrisées */}
       <motion.div
-        ref={credibilityRef}
         initial={{ opacity: 0, y: 100 }}
-        animate={credibilityInView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.8, delay: 0.6 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.2 }}
+        viewport={{ once: true }}
       >
-        <CredibilityDashboard />
+        <TechnologiesSection />
       </motion.div>
 
       {/* Footer avec CV et Copyright */}
@@ -505,33 +494,21 @@ function Accueil() {
               href={cvPdf}
               download="CV-Jeremy-Indelicato-TWA.pdf"
               className={`inline-flex items-center gap-3 px-8 py-4 rounded-2xl font-semibold transition-all duration-300 border backdrop-blur-xl relative overflow-hidden group ${
-                isDarkMode ? 'border-white/20' : 'border-gray-300/40'
+                'border-gray-300/40'
               }`}
               style={{
-                background: isDarkMode ? `
-                  linear-gradient(135deg, 
-                    rgba(255, 255, 255, 0.15) 0%, 
-                    rgba(255, 255, 255, 0.05) 50%, 
-                    rgba(255, 255, 255, 0.1) 100%
-                  )
-                ` : `
-                  linear-gradient(135deg, 
+                background: `linear-gradient(135deg, 
                     rgba(255, 255, 255, 0.95) 0%, 
                     rgba(255, 255, 255, 0.85) 50%, 
                     rgba(255, 255, 255, 0.9) 100%
-                  )
-                `,
+                  )`,
                 backdropFilter: 'blur(20px)',
-                boxShadow: isDarkMode ? `
-                  0 8px 32px rgba(0, 0, 0, 0.1),
-                  inset 0 1px 0 rgba(255, 255, 255, 0.3),
-                  inset 0 -1px 0 rgba(0, 0, 0, 0.1)
-                ` : `
+                boxShadow: `
                   0 8px 32px rgba(0, 0, 0, 0.05),
                   inset 0 1px 0 rgba(255, 255, 255, 0.8),
                   inset 0 -1px 0 rgba(0, 0, 0, 0.05)
                 `,
-                color: isDarkMode ? '#FFFFFF' : '#1F2937'
+                color: '#1F2937'
               }}
               whileHover={{ 
                 scale: 1.05,
@@ -571,7 +548,7 @@ function Accueil() {
           {/* Copyright */}
           <motion.p 
             className={`text-sm leading-relaxed drop-shadow-md transition-colors duration-500 ${
-              isDarkMode ? 'text-gray-300' : 'text-gray-600'
+              'text-gray-600'
             }`}
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -586,7 +563,6 @@ function Accueil() {
   );
 }
 function ProjetsEtExperience() {
-  const { isDarkMode } = useTheme();
   const [selectedProject, setSelectedProject] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -815,7 +791,7 @@ function ProjetsEtExperience() {
         "Création d'une communauté engagée",
         "Commande en ligne sur mesure"
       ],
-      websiteUrl: "https://maisonlic.fr",
+      websiteUrl: "https://maisonlic.com",
       media: {
         type: "image",
         src: maisonlicLogo
@@ -880,7 +856,7 @@ function ProjetsEtExperience() {
     }
   ];
 
-  const ProjectCard = ({ project, index, isDarkMode }) => {
+  const ProjectCard = ({ project, index }) => {
     const handleCardClick = () => {
       if (project.gameUrl) {
         window.open(project.gameUrl, '_blank');
@@ -891,30 +867,15 @@ function ProjetsEtExperience() {
 
     return (
     <motion.div
-      className={`group relative overflow-hidden rounded-3xl backdrop-blur-sm transition-all duration-300 cursor-pointer ${
-        isDarkMode
-          ? 'border-white/10 hover:border-white/20'
-          : 'border-gray-300/30 hover:border-gray-400/50'
-      }`}
+      className={`border-gray-300/30 hover:border-gray-400/50`}
       style={{
-        background: isDarkMode ? `
-          linear-gradient(135deg,
-            rgba(255, 255, 255, 0.1) 0%,
-            rgba(255, 255, 255, 0.05) 50%,
-            rgba(0, 0, 0, 0.1) 100%
-          )
-        ` : `
-          linear-gradient(135deg,
+        background: `linear-gradient(135deg,
             rgba(255, 255, 255, 0.9) 0%,
             rgba(255, 255, 255, 0.8) 50%,
             rgba(255, 255, 255, 0.85) 100%
-          )
-        `,
+          )`,
         backdropFilter: 'blur(20px)',
-        boxShadow: isDarkMode ? `
-          0 8px 32px rgba(0, 0, 0, 0.2),
-          inset 0 1px 0 rgba(255, 255, 255, 0.2)
-        ` : `
+        boxShadow: `
           0 8px 32px rgba(0, 0, 0, 0.1),
           inset 0 1px 0 rgba(255, 255, 255, 0.8)
         `
@@ -939,10 +900,10 @@ function ProjetsEtExperience() {
         <div className="flex items-start justify-between mb-4">
           <div>
             <h3 className={`text-xl font-bold mb-2 transition-colors duration-500 ${
-              isDarkMode ? 'text-white' : 'text-gray-900'
+              'text-gray-900'
             }`}>{project.name}</h3>
             <p className={`text-sm transition-colors duration-500 ${
-              isDarkMode ? 'text-gray-400' : 'text-gray-600'
+              'text-gray-600'
             }`}>{project.date}</p>
           </div>
           <span 
@@ -959,7 +920,7 @@ function ProjetsEtExperience() {
 
         {/* Description */}
         <p className={`mb-6 leading-relaxed text-sm transition-colors duration-500 ${
-          isDarkMode ? 'text-gray-300' : 'text-gray-600'
+          'text-gray-600'
         }`}>
           {project.shortDescription}
         </p>
@@ -981,7 +942,7 @@ function ProjetsEtExperience() {
           ))}
           {project.technologies.length > 3 && (
             <span className={`text-xs transition-colors duration-500 ${
-              isDarkMode ? 'text-gray-400' : 'text-gray-600'
+              'text-gray-600'
             }`}>
               +{project.technologies.length - 3} autres
             </span>
@@ -992,13 +953,9 @@ function ProjetsEtExperience() {
         <motion.button
           className="w-full py-3 px-6 rounded-full font-semibold transition-all duration-300 text-sm text-white"
           style={{
-            background: isDarkMode 
-              ? 'linear-gradient(135deg, #3F8391 0%, #5ba3b0 100%)'
-              : 'linear-gradient(135deg, #3F8391 0%, #4a9bb8 100%)',
-            border: isDarkMode ? '1px solid rgba(255, 255, 255, 0.2)' : '1px solid rgba(255, 255, 255, 0.4)',
-            boxShadow: isDarkMode 
-              ? '0 4px 16px rgba(63, 131, 145, 0.3)'
-              : '0 6px 20px rgba(63, 131, 145, 0.4)',
+            background: 'linear-gradient(135deg, #3F8391 0%, #4a9bb8 100%)',
+            border: '1px solid rgba(255, 255, 255, 0.4)',
+            boxShadow: '0 6px 20px rgba(63, 131, 145, 0.4)',
             color: '#FFFFFF'
           }}
           whileHover={{ 
@@ -1024,14 +981,14 @@ function ProjetsEtExperience() {
         transition={{ duration: 0.6 }}
       >
         <h1 className={`text-4xl md:text-6xl font-bold mb-6 transition-colors duration-500 ${
-          isDarkMode ? 'text-white' : 'text-gray-900'
+          'text-gray-900'
         }`} style={{ fontFamily: 'LEMONMILK, sans-serif' }}>
           PROJETS & <span style={{ color: '#3F8391' }}>EXPÉRIENCE</span>
         </h1>
         <p className={`text-xl max-w-3xl mx-auto transition-colors duration-500 ${
-          isDarkMode ? 'text-gray-300' : 'text-gray-600'
+          'text-gray-600'
         }`}>
-          Découvrez une sélection de projets réalisés au fil de ma carrière, accompagnés de mes expériences professionnelles. 💼
+          Découvrez une sélection de projets réalisés au fil de ma carrière, accompagnés de mes expériences professionnelles. 
         </p>
       </motion.div>
 
@@ -1043,13 +1000,13 @@ function ProjetsEtExperience() {
           transition={{ duration: 0.6, delay: 0.2 }}
         >
           <h2 className={`text-3xl font-bold mb-8 text-left transition-colors duration-500 ${
-            isDarkMode ? 'text-white' : 'text-gray-900'
+            'text-gray-900'
           }`}>
             Projets d'<span style={{ color: '#3F8391' }}>Étude</span>
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {studyProjects.map((project, index) => (
-              <ProjectCard key={project.id} project={project} index={index} isDarkMode={isDarkMode} />
+              <ProjectCard key={project.id} project={project} index={index} />
             ))}
           </div>
         </motion.section>
@@ -1061,13 +1018,13 @@ function ProjetsEtExperience() {
           transition={{ duration: 0.6, delay: 0.4 }}
         >
           <h2 className={`text-3xl font-bold mb-8 text-left transition-colors duration-500 ${
-            isDarkMode ? 'text-white' : 'text-gray-900'
+            'text-gray-900'
           }`}>
             <span style={{ color: '#3F8391' }}>Expériences</span> Professionnelles
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {experiences.map((project, index) => (
-              <ProjectCard key={project.id} project={project} index={index} isDarkMode={isDarkMode} />
+              <ProjectCard key={project.id} project={project} index={index} />
             ))}
           </div>
         </motion.section>
@@ -1079,13 +1036,13 @@ function ProjetsEtExperience() {
           transition={{ duration: 0.6, delay: 0.6 }}
         >
           <h2 className={`text-3xl font-bold mb-8 text-left transition-colors duration-500 ${
-            isDarkMode ? 'text-white' : 'text-gray-900'
+            'text-gray-900'
           }`}>
             Clients <span style={{ color: '#3F8391' }}>Freelance</span>
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {freelanceProjects.map((project, index) => (
-              <ProjectCard key={project.id} project={project} index={index} isDarkMode={isDarkMode} />
+              <ProjectCard key={project.id} project={project} index={index} />
             ))}
           </div>
         </motion.section>
@@ -1097,13 +1054,13 @@ function ProjetsEtExperience() {
           transition={{ duration: 0.6, delay: 0.8 }}
         >
           <h2 className={`text-3xl font-bold mb-8 text-left transition-colors duration-500 ${
-            isDarkMode ? 'text-white' : 'text-gray-900'
+            'text-gray-900'
           }`}>
             Jeux <span style={{ color: '#3F8391' }}>Vidéos</span>
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {videoGames.map((project, index) => (
-              <ProjectCard key={project.id} project={project} index={index} isDarkMode={isDarkMode} />
+              <ProjectCard key={project.id} project={project} index={index} />
             ))}
           </div>
         </motion.section>
@@ -1118,109 +1075,6 @@ function ProjetsEtExperience() {
 
       {/* Footer */}
       <Footer />
-    </div>
-  );
-}
-function MesServices() {
-  const { isDarkMode } = useTheme();
-  const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
-
-  return (
-    <div className="w-full min-h-screen py-16 pb-24">
-      <div className="max-w-6xl mx-auto px-4 space-y-20">
-        {/* Section IA avec réseau de neurones 3D */}
-        <section className="flex justify-center">
-          <div className="w-full max-w-6xl">
-            <NeuralNetwork3D />
-          </div>
-        </section>
-
-        {/* Section Développement Web */}
-        <section className="flex justify-center">
-          <div className="w-full max-w-6xl">
-            <Suspense fallback={<LoadingFallback height="500px" />}>
-              <WebDevSection />
-            </Suspense>
-          </div>
-        </section>
-
-        {/* Section Growth Marketing */}
-        <section className="flex justify-center">
-          <div className="w-full max-w-6xl">
-            <Suspense fallback={<LoadingFallback height="500px" />}>
-              <GrowthMarketingSection />
-            </Suspense>
-          </div>
-        </section>
-      </div>
-
-      {/* Call to Action Global */}
-      <motion.div
-        className="text-center mt-20 max-w-4xl mx-auto px-4"
-        initial={{ y: 50, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.6, delay: 0.8 }}
-      >
-        <h2 className={`text-3xl font-bold mb-6 transition-colors duration-500 ${
-          isDarkMode ? 'text-white' : 'text-gray-900'
-        }`}>
-          Prêt à transformer votre vision en réalité ?
-        </h2>
-        <p className={`mb-8 max-w-2xl mx-auto leading-relaxed transition-colors duration-500 ${
-          isDarkMode ? 'text-gray-300' : 'text-gray-600'
-        }`}>
-          Chaque projet est unique. Discutons de vos besoins spécifiques et créons 
-          ensemble la solution parfaite pour votre entreprise.
-        </p>
-        
-        <div className="flex justify-center items-center">
-
-          <motion.button
-            onClick={() => setIsQuoteModalOpen(true)}
-            className="px-12 py-4 text-white font-semibold rounded-full transition-all duration-300 relative overflow-hidden group flex items-center gap-2"
-            style={{
-              background: isDarkMode ? `
-                linear-gradient(135deg, 
-                  rgba(63, 131, 145, 0.8) 0%, 
-                  rgba(63, 131, 145, 0.6) 100%
-                )
-              ` : `
-                linear-gradient(135deg, 
-                  rgba(63, 131, 145, 1) 0%, 
-                  rgba(63, 131, 145, 0.9) 100%
-                )
-              `,
-              boxShadow: isDarkMode ? `
-                0 8px 32px rgba(63, 131, 145, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2)
-              ` : `
-                0 10px 40px rgba(63, 131, 145, 0.4),
-                inset 0 1px 0 rgba(255, 255, 255, 0.3)
-              `
-            }}
-            whileHover={{ 
-              scale: 1.05,
-              boxShadow: "0 12px 40px rgba(63, 131, 145, 0.4)"
-            }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-            <FileText size={20} />
-            <span className="relative">Faire une demande de devis</span>
-          </motion.button>
-        </div>
-      </motion.div>
-
-      {/* Footer */}
-      <Footer />
-
-      {/* Quote Modal */}
-      <Suspense fallback={null}>
-        <QuoteModal 
-          isOpen={isQuoteModalOpen} 
-          onClose={() => setIsQuoteModalOpen(false)} 
-        />
-      </Suspense>
     </div>
   );
 }
@@ -1244,32 +1098,7 @@ const YouTubeIcon = ({ size = 20, ...props }) => (
 );
 
 function Contact() {
-  const { isDarkMode } = useTheme();
-  const { register, handleSubmit, formState: { errors }, reset } = useForm();
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState(null);
-  const [submitMessage, setSubmitMessage] = useState('');
   const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
-
-  const onSubmit = async (data) => {
-    setIsSubmitting(true);
-    try {
-      const result = await submitContactForm(data);
-
-      if (result.success) {
-        setSubmitStatus('success');
-        setSubmitMessage(result.message);
-        reset();
-      } else {
-        setSubmitStatus('error');
-        setSubmitMessage(result.message);
-      }
-    } catch (error) {
-      setSubmitStatus('error');
-      setSubmitMessage('Une erreur inattendue est survenue. Veuillez réessayer.');
-    }
-    setIsSubmitting(false);
-  };
 
   const contactInfo = [
     {
@@ -1320,9 +1149,9 @@ function Contact() {
   ];
 
   return (
-    <div className="w-full min-h-screen py-16 pb-24 relative">
+    <div className="w-full min-h-screen pt-40 pb-24 relative">
       {/* Overlay spécial pour la page contact - plus clair */}
-      <div 
+      <div
         className="fixed inset-0 w-full h-full pointer-events-none"
         style={{
           background: 'rgba(255, 255, 255, 0.02)', // Overlay très léger
@@ -1330,36 +1159,37 @@ function Contact() {
           zIndex: -1
         }}
       />
-      
-      {/* Header */}
-      <motion.div 
-        className="text-center mb-16 px-4 mx-auto max-w-6xl"
-        initial={{ y: 50, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.6 }}
-      >
-        <h1 className={`text-4xl md:text-6xl font-bold mb-6 drop-shadow-lg transition-colors duration-500 ${
-          isDarkMode ? 'text-white' : 'text-gray-900'
-        }`} style={{ fontFamily: 'LEMONMILK, sans-serif' }}>
-          ME <span style={{ color: '#3F8391' }}>CONTACTER</span>
-        </h1>
-        <p className={`text-xl max-w-3xl mx-auto drop-shadow-md transition-colors duration-500 ${
-          isDarkMode ? 'text-gray-100' : 'text-gray-700'
-        }`}>
-          Un projet en tête ? Parlons-en ! Je suis disponible pour donner vie à vos idées sur mesure.👨‍💻
-        </p>
-      </motion.div>
+
 
       <div className="max-w-6xl mx-auto px-4">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Informations de contact */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          {/* Vidéo phone à gauche */}
           <motion.div
             initial={{ x: -50, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.6 }}
+          >
+            <div className="relative rounded-3xl overflow-hidden shadow-2xl w-full">
+              <video
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="w-full h-auto"
+              >
+                <source src={phoneVideo} type="video/mp4" />
+              </video>
+            </div>
+          </motion.div>
+
+          {/* Informations de contact à droite */}
+          <motion.div
+            initial={{ x: 50, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
             <h2 className={`text-3xl font-bold mb-8 drop-shadow-lg transition-colors duration-500 ${
-              isDarkMode ? 'text-white' : 'text-gray-900'
+              'text-gray-900'
             }`}>
               Restons connectés
             </h2>
@@ -1369,28 +1199,16 @@ function Contact() {
                 <motion.div
                   key={index}
                   className={`flex items-center gap-4 p-6 rounded-2xl backdrop-blur-xl overflow-hidden relative transition-all duration-500 ${
-                    isDarkMode ? 'border-white/20' : 'border-gray-300/30'
+                    'border-gray-300/30'
                   }`}
                   style={{
-                    background: isDarkMode ? `
-                      linear-gradient(135deg, 
-                        rgba(255, 255, 255, 0.15) 0%, 
-                        rgba(255, 255, 255, 0.05) 50%, 
-                        rgba(255, 255, 255, 0.1) 100%
-                      )
-                    ` : `
-                      linear-gradient(135deg, 
+                    background: `linear-gradient(135deg, 
                         rgba(255, 255, 255, 0.95) 0%, 
                         rgba(255, 255, 255, 0.85) 50%, 
                         rgba(255, 255, 255, 0.9) 100%
-                      )
-                    `,
+                      )`,
                     backdropFilter: 'blur(20px)',
-                    boxShadow: isDarkMode ? `
-                      0 8px 32px rgba(0, 0, 0, 0.1),
-                      inset 0 1px 0 rgba(255, 255, 255, 0.3),
-                      inset 0 -1px 0 rgba(0, 0, 0, 0.1)
-                    ` : `
+                    boxShadow: `
                       0 8px 32px rgba(0, 0, 0, 0.08),
                       inset 0 1px 0 rgba(255, 255, 255, 0.8),
                       inset 0 -1px 0 rgba(0, 0, 0, 0.05)
@@ -1424,13 +1242,13 @@ function Contact() {
                   </div>
                   <div className="relative z-10">
                     <h3 className={`font-semibold drop-shadow-md transition-colors duration-500 ${
-                      isDarkMode ? 'text-white' : 'text-gray-800'
+                      'text-gray-800'
                     }`}>{info.title}</h3>
                     {info.link ? (
                       <a 
                         href={info.link} 
                         className={`hover:opacity-80 transition-colors drop-shadow-sm ${
-                          isDarkMode ? 'text-gray-100' : 'text-gray-700'
+                          'text-gray-700'
                         }`}
                         style={{ color: '#3F8391' }}
                       >
@@ -1438,7 +1256,7 @@ function Contact() {
                       </a>
                     ) : (
                       <p className={`drop-shadow-sm transition-colors duration-500 ${
-                        isDarkMode ? 'text-gray-100' : 'text-gray-700'
+                        'text-gray-700'
                       }`}>{info.value}</p>
                     )}
                   </div>
@@ -1449,7 +1267,7 @@ function Contact() {
             {/* Réseaux sociaux */}
             <div>
               <h3 className={`text-xl font-bold mb-4 drop-shadow-lg transition-colors duration-500 ${
-                isDarkMode ? 'text-white' : 'text-gray-800'
+                'text-gray-800'
               }`}>
                 Suivez-moi
               </h3>
@@ -1460,28 +1278,14 @@ function Contact() {
                     href={social.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={`p-4 rounded-2xl backdrop-blur-xl transition-all duration-300 relative overflow-hidden group min-h-[56px] min-w-[56px] flex items-center justify-center touch-manipulation ${
-                      isDarkMode 
-                        ? 'border-white/20 hover:border-white/40' 
-                        : 'border-gray-300/30 hover:border-gray-400/50'
-                    }`}
+                    className={`border-gray-300/30 hover:border-gray-400/50`}
                     style={{
-                      background: isDarkMode ? `
-                        linear-gradient(135deg, 
-                          rgba(255, 255, 255, 0.12) 0%, 
-                          rgba(255, 255, 255, 0.08) 100%
-                        )
-                      ` : `
-                        linear-gradient(135deg, 
+                      background: `linear-gradient(135deg, 
                           rgba(255, 255, 255, 0.9) 0%, 
                           rgba(255, 255, 255, 0.8) 100%
-                        )
-                      `,
+                        )`,
                       backdropFilter: 'blur(15px)',
-                      boxShadow: isDarkMode ? `
-                        0 6px 24px rgba(0, 0, 0, 0.1),
-                        inset 0 1px 0 rgba(255, 255, 255, 0.2)
-                      ` : `
+                      boxShadow: `
                         0 6px 24px rgba(0, 0, 0, 0.08),
                         inset 0 1px 0 rgba(255, 255, 255, 0.8)
                       `
@@ -1505,21 +1309,11 @@ function Contact() {
                   onClick={() => setIsQuoteModalOpen(true)}
                   className="px-6 py-4 text-white font-semibold rounded-2xl transition-all duration-300 relative overflow-hidden group flex items-center gap-2 min-h-[56px] touch-manipulation"
                   style={{
-                    background: isDarkMode ? `
-                      linear-gradient(135deg, 
-                        rgba(63, 131, 145, 0.8) 0%, 
-                        rgba(63, 131, 145, 0.6) 100%
-                      )
-                    ` : `
-                      linear-gradient(135deg, 
+                    background: `linear-gradient(135deg, 
                         rgba(63, 131, 145, 1) 0%, 
                         rgba(63, 131, 145, 0.9) 100%
-                      )
-                    `,
-                    boxShadow: isDarkMode ? `
-                      0 8px 32px rgba(63, 131, 145, 0.3),
-                      inset 0 1px 0 rgba(255, 255, 255, 0.2)
-                    ` : `
+                      )`,
+                    boxShadow: `
                       0 10px 40px rgba(63, 131, 145, 0.4),
                       inset 0 1px 0 rgba(255, 255, 255, 0.3)
                     `
@@ -1541,315 +1335,6 @@ function Contact() {
             </div>
 
           </motion.div>
-
-          {/* Formulaire de contact */}
-          <motion.div
-            initial={{ x: 50, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-          >
-            <div 
-              className={`p-8 rounded-3xl backdrop-blur-xl relative overflow-hidden transition-all duration-500 ${
-                isDarkMode ? 'border-white/20' : 'border-gray-300/30'
-              }`}
-              style={{
-                background: isDarkMode ? `
-                  linear-gradient(135deg, 
-                    rgba(255, 255, 255, 0.15) 0%, 
-                    rgba(255, 255, 255, 0.05) 50%, 
-                    rgba(255, 255, 255, 0.1) 100%
-                  )
-                ` : `
-                  linear-gradient(135deg, 
-                    rgba(255, 255, 255, 0.95) 0%, 
-                    rgba(255, 255, 255, 0.85) 50%, 
-                    rgba(255, 255, 255, 0.9) 100%
-                  )
-                `,
-                backdropFilter: 'blur(20px)',
-                boxShadow: isDarkMode ? `
-                  0 12px 48px rgba(0, 0, 0, 0.1),
-                  inset 0 1px 0 rgba(255, 255, 255, 0.3),
-                  inset 0 -1px 0 rgba(0, 0, 0, 0.1)
-                ` : `
-                  0 12px 48px rgba(0, 0, 0, 0.08),
-                  inset 0 1px 0 rgba(255, 255, 255, 0.8),
-                  inset 0 -1px 0 rgba(0, 0, 0, 0.05)
-                `
-              }}
-            >
-              {/* Floating reflections */}
-              <div className="absolute top-6 left-6 w-16 h-16 bg-gradient-to-br from-white/20 to-transparent rounded-full blur-xl opacity-60" />
-              <div className="absolute bottom-6 right-6 w-12 h-12 bg-gradient-to-tl from-white/15 to-transparent rounded-full blur-lg opacity-40" />
-              
-              <h2 className={`text-2xl font-bold mb-6 drop-shadow-lg relative z-10 transition-colors duration-500 ${
-                isDarkMode ? 'text-white' : 'text-gray-800'
-              }`}>
-                Envoyez-moi un message
-              </h2>
-
-              <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 relative z-10">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className={`block text-sm font-semibold mb-2 drop-shadow-md transition-colors duration-500 ${
-                      isDarkMode ? 'text-white' : 'text-gray-800'
-                    }`}>
-                      Prénom *
-                    </label>
-                    <input
-                      {...register("firstName", { required: "Le prénom est requis" })}
-                      className={`w-full px-4 py-4 sm:py-3 rounded-xl border focus:outline-none transition-all duration-300 backdrop-blur-md min-h-[48px] touch-manipulation ${
-                        isDarkMode 
-                          ? 'border-white/30 text-white placeholder-gray-200 focus:border-white/50' 
-                          : 'border-gray-300 text-gray-800 placeholder-gray-500 focus:border-gray-400'
-                      }`}
-                      style={{
-                        background: `
-                          linear-gradient(135deg, 
-                            rgba(255, 255, 255, 0.1) 0%, 
-                            rgba(255, 255, 255, 0.05) 100%
-                          )
-                        `,
-                        backdropFilter: 'blur(10px)',
-                        boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.2)'
-                      }}
-                      placeholder="Votre prénom"
-                    />
-                    {errors.firstName && (
-                      <p className="text-red-400 text-sm mt-1 drop-shadow-md">{errors.firstName.message}</p>
-                    )}
-                  </div>
-
-                  <div>
-                    <label className={`block text-sm font-semibold mb-2 drop-shadow-md transition-colors duration-500 ${
-                      isDarkMode ? 'text-white' : 'text-gray-800'
-                    }`}>
-                      Nom *
-                    </label>
-                    <input
-                      {...register("lastName", { required: "Le nom est requis" })}
-                      className={`w-full px-4 py-4 sm:py-3 rounded-xl border focus:outline-none transition-all duration-300 backdrop-blur-md min-h-[48px] touch-manipulation ${
-                        isDarkMode 
-                          ? 'border-white/30 text-white placeholder-gray-200 focus:border-white/50' 
-                          : 'border-gray-300 text-gray-800 placeholder-gray-500 focus:border-gray-400'
-                      }`}
-                      style={{
-                        background: `
-                          linear-gradient(135deg, 
-                            rgba(255, 255, 255, 0.1) 0%, 
-                            rgba(255, 255, 255, 0.05) 100%
-                          )
-                        `,
-                        backdropFilter: 'blur(10px)',
-                        boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.2)'
-                      }}
-                      placeholder="Votre nom"
-                    />
-                    {errors.lastName && (
-                      <p className="text-red-300 text-sm mt-1 drop-shadow-md">{errors.lastName.message}</p>
-                    )}
-                  </div>
-                </div>
-
-                <div>
-                  <label className={`block text-sm font-semibold mb-2 drop-shadow-md transition-colors duration-500 ${
-                    isDarkMode ? 'text-white' : 'text-gray-800'
-                  }`}>
-                    Email *
-                  </label>
-                  <input
-                    {...register("email", { 
-                      required: "L'email est requis",
-                      pattern: {
-                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                        message: "Email invalide"
-                      }
-                    })}
-                    type="email"
-                    className={`w-full px-4 py-3 rounded-xl border focus:outline-none transition-all duration-300 backdrop-blur-md ${
-                      isDarkMode 
-                        ? 'border-white/30 text-white placeholder-gray-200 focus:border-white/50' 
-                        : 'border-gray-300 text-gray-800 placeholder-gray-500 focus:border-gray-400'
-                    }`}
-                    style={{
-                      background: `
-                        linear-gradient(135deg, 
-                          rgba(255, 255, 255, 0.1) 0%, 
-                          rgba(255, 255, 255, 0.05) 100%
-                        )
-                      `,
-                      backdropFilter: 'blur(10px)',
-                      boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.2)'
-                    }}
-                    placeholder="votre@email.com"
-                  />
-                  {errors.email && (
-                    <p className="text-red-300 text-sm mt-1 drop-shadow-md">{errors.email.message}</p>
-                  )}
-                </div>
-
-                <div>
-                  <label className={`block text-sm font-semibold mb-2 drop-shadow-md transition-colors duration-500 ${
-                    isDarkMode ? 'text-white' : 'text-gray-800'
-                  }`}>
-                    Sujet *
-                  </label>
-                  <select
-                    {...register("subject", { required: "Le sujet est requis" })}
-                    className={`w-full px-4 py-3 rounded-xl border focus:outline-none transition-all duration-300 backdrop-blur-md ${
-                      isDarkMode 
-                        ? 'border-white/30 text-white focus:border-white/50' 
-                        : 'border-gray-300 text-gray-800 focus:border-gray-400'
-                    }`}
-                    style={{
-                      background: `
-                        linear-gradient(135deg, 
-                          rgba(255, 255, 255, 0.1) 0%, 
-                          rgba(255, 255, 255, 0.05) 100%
-                        )
-                      `,
-                      backdropFilter: 'blur(10px)',
-                      boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.2)'
-                    }}
-                  >
-                    <option value="" style={{ background: '#1a1a1a', color: '#fff' }}>Sélectionnez un sujet</option>
-                    <option value="web" style={{ background: '#1a1a1a', color: '#fff' }}>Développement Web</option>
-                    <option value="mobile" style={{ background: '#1a1a1a', color: '#fff' }}>Application Mobile</option>
-                    <option value="ai" style={{ background: '#1a1a1a', color: '#fff' }}>Intelligence Artificielle</option>
-                    <option value="growth" style={{ background: '#1a1a1a', color: '#fff' }}>Growth Hacking</option>
-                    <option value="other" style={{ background: '#1a1a1a', color: '#fff' }}>Autre</option>
-                  </select>
-                  {errors.subject && (
-                    <p className="text-red-300 text-sm mt-1 drop-shadow-md">{errors.subject.message}</p>
-                  )}
-                </div>
-
-                <div>
-                  <label className={`block text-sm font-semibold mb-2 drop-shadow-md transition-colors duration-500 ${
-                    isDarkMode ? 'text-white' : 'text-gray-800'
-                  }`}>
-                    Message *
-                  </label>
-                  <textarea
-                    {...register("message", { required: "Le message est requis" })}
-                    rows={5}
-                    className={`w-full px-4 py-4 sm:py-3 rounded-xl border focus:outline-none transition-all duration-300 resize-none backdrop-blur-md touch-manipulation ${
-                      isDarkMode 
-                        ? 'border-white/30 text-white placeholder-gray-200 focus:border-white/50' 
-                        : 'border-gray-300 text-gray-800 placeholder-gray-500 focus:border-gray-400'
-                    }`}
-                    style={{
-                      background: `
-                        linear-gradient(135deg, 
-                          rgba(255, 255, 255, 0.1) 0%, 
-                          rgba(255, 255, 255, 0.05) 100%
-                        )
-                      `,
-                      backdropFilter: 'blur(10px)',
-                      boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.2)'
-                    }}
-                    placeholder="Décrivez votre projet..."
-                  />
-                  {errors.message && (
-                    <p className="text-red-300 text-sm mt-1 drop-shadow-md">{errors.message.message}</p>
-                  )}
-                </div>
-
-                <motion.button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full py-4 px-6 rounded-2xl font-semibold transition-all duration-300 flex items-center justify-center gap-2 border border-white/30 backdrop-blur-xl relative overflow-hidden group min-h-[56px] touch-manipulation"
-                  style={{
-                    background: isSubmitting 
-                      ? 'rgba(255, 255, 255, 0.05)' 
-                      : `
-                        linear-gradient(135deg, 
-                          rgba(63, 131, 145, 0.8) 0%, 
-                          rgba(63, 131, 145, 0.6) 100%
-                        )
-                      `,
-                    backdropFilter: 'blur(15px)',
-                    boxShadow: `
-                      0 8px 32px rgba(63, 131, 145, 0.3),
-                      inset 0 1px 0 rgba(255, 255, 255, 0.3)
-                    `,
-                    color: '#FFFFFF'
-                  }}
-                  whileHover={!isSubmitting ? { 
-                    scale: 1.02,
-                    boxShadow: "0 12px 40px rgba(63, 131, 145, 0.4)"
-                  } : {}}
-                  whileTap={!isSubmitting ? { scale: 0.98 } : {}}
-                >
-                  {/* Shimmer effect */}
-                  <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/30 to-transparent" />
-                  
-                  {isSubmitting ? (
-                    <>
-                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin relative z-10" />
-                      <span className="relative z-10">Envoi en cours...</span>
-                    </>
-                  ) : (
-                    <>
-                      <Send size={20} className="relative z-10" />
-                      <span className="relative z-10">Envoyer le message</span>
-                    </>
-                  )}
-                </motion.button>
-
-                {submitStatus === 'success' && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className={`text-center p-4 rounded-2xl border backdrop-blur-xl transition-colors duration-500 ${
-                      isDarkMode 
-                        ? 'text-green-100 border-green-400/30' 
-                        : 'text-green-800 border-green-400/50'
-                    }`}
-                    style={{
-                      background: isDarkMode ? `
-                        linear-gradient(135deg, 
-                          rgba(34, 197, 94, 0.15) 0%, 
-                          rgba(34, 197, 94, 0.08) 100%
-                        )
-                      ` : `
-                        linear-gradient(135deg, 
-                          rgba(34, 197, 94, 0.1) 0%, 
-                          rgba(34, 197, 94, 0.05) 100%
-                        )
-                      `,
-                      backdropFilter: 'blur(15px)',
-                      boxShadow: isDarkMode 
-                        ? 'inset 0 1px 0 rgba(255, 255, 255, 0.2)'
-                        : 'inset 0 1px 0 rgba(255, 255, 255, 0.8)'
-                    }}
-                  >
-                    {submitMessage || 'Message envoyé avec succès ! Je vous répondrai bientôt.'}
-                  </motion.div>
-                )}
-
-                {submitStatus === 'error' && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="text-red-100 text-center p-4 rounded-2xl border border-red-400/30 backdrop-blur-xl"
-                    style={{
-                      background: `
-                        linear-gradient(135deg, 
-                          rgba(239, 68, 68, 0.15) 0%, 
-                          rgba(239, 68, 68, 0.08) 100%
-                        )
-                      `,
-                      backdropFilter: 'blur(15px)',
-                      boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.2)'
-                    }}
-                  >
-                    {submitMessage || 'Erreur lors de l\'envoi. Veuillez réessayer.'}
-                  </motion.div>
-                )}
-              </form>
-            </div>
-          </motion.div>
         </div>
       </div>
 
@@ -1870,9 +1355,9 @@ function Contact() {
 // Nouveau composant App simple sans theme hook
 function App() {
   return (
-    <ThemeProvider>
+    <LanguageProvider>
       <AppContent />
-    </ThemeProvider>
+    </LanguageProvider>
   );
 }
 

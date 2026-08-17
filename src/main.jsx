@@ -13,7 +13,7 @@ async function initWebVitals() {
     // Fonction pour envoyer les métriques
     function sendToAnalytics(metric) {
       if (import.meta.env.DEV) {
-        console.log('📊 Web Vitals:', metric)
+        console.log(' Web Vitals:', metric)
       }
     }
 

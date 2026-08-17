@@ -1,7 +1,5 @@
 import { motion } from 'framer-motion';
 import { Code2, Database, Smartphone, Shield, Search, ShoppingCart } from 'lucide-react';
-import { useTheme } from '../contexts/ThemeContext';
-
 // Import des logos technologies
 import reactLogo from '../assets/software/React-logo.webp';
 import pythonLogo from '../assets/software/python-logo.webp';
@@ -10,23 +8,20 @@ import vuejsLogo from '../assets/software/Logo-Vuejs.webp';
 import sqlLogo from '../assets/software/sql-logo.webp';
 import figmaLogo from '../assets/software/figma-logo.webp';
 import gitLogo from '../assets/software/git-logo.webp';
-import blenderLogo from '../assets/software/Blender-logo.webp';
-import adobeLogo from '../assets/software/adobesuite-logo.webp';
+import gsapLogo from '../assets/software/GSAP_2023.webp';
 import pandasLogo from '../assets/software/Pandas_logo.svg.webp';
 import pytorchLogo from '../assets/software/Pytorch_logo.webp';
 import scikitLearnLogo from '../assets/software/Scikit_learn_logo.webp';
-import threejsLogo from '../assets/software/threejs.webp';
 import supabaseLogo from '../assets/software/supabase-logo.webp';
-import shopifyLogo from '../assets/software/shopify-logo.webp';
 import powerBiLogo from '../assets/software/PowerBI-logo.webp';
-import hostingerLogo from '../assets/software/hostinger-logo.webp';
-import sageX3Logo from '../assets/software/logo-erp-sage-x3.webp';
-import wordpressLogo from '../assets/software/wordpress-logo.webp';
+import sageX3Logo from '../assets/software/logo-Sage-X3-1.webp';
 import analyticsLogo from '../assets/software/analytics-logo.webp';
+import dbtLogo from '../assets/software/dbt-logo.webp';
+import azureLogo from '../assets/software/Microsoft_Azure_Logo.svg.webp';
+import databricksLogo from '../assets/software/databricks-logo.webp';
 import institutCorailMockup from '../assets/institut-corail/Mockup.webp';
 
 const WebDevSection = ({ className = "" }) => {
-  const { isDarkMode } = useTheme();
   const features = [
     {
       icon: Code2,
@@ -68,7 +63,7 @@ const WebDevSection = ({ className = "" }) => {
         <div className="text-center mb-8 sm:mb-12 lg:mb-16">
         <motion.h2
           className={`text-4xl md:text-5xl font-bold mb-4 transition-colors duration-500 ${
-            isDarkMode ? 'text-white' : 'text-gray-900'
+            'text-gray-900'
           }`}
           style={{ fontFamily: 'LEMONMILK, sans-serif' }}
           initial={{ opacity: 0, y: 20 }}
@@ -80,7 +75,7 @@ const WebDevSection = ({ className = "" }) => {
         </motion.h2>
         <motion.p 
           className={`text-xl leading-relaxed max-w-4xl mx-auto transition-colors duration-500 ${
-            isDarkMode ? 'text-gray-300' : 'text-gray-600'
+            'text-gray-600'
           }`}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -104,28 +99,15 @@ const WebDevSection = ({ className = "" }) => {
         >
           {/* Main Image Container */}
           <div 
-            className={`relative h-[500px] rounded-3xl overflow-hidden border transition-all duration-500 ${
-              isDarkMode ? 'border-white/10' : 'border-gray-300/30'
-            }`}
+            className={`relative h-[500px] rounded-3xl overflow-hidden border transition-all duration-500 border-gray-300/30`}
             style={{
-              background: isDarkMode ? `
-                linear-gradient(135deg, 
-                  rgba(255, 255, 255, 0.1) 0%, 
-                  rgba(255, 255, 255, 0.05) 50%, 
-                  rgba(0, 0, 0, 0.1) 100%
-                )
-              ` : `
-                linear-gradient(135deg, 
+              background: `linear-gradient(135deg, 
                   rgba(255, 255, 255, 0.95) 0%, 
                   rgba(255, 255, 255, 0.85) 50%, 
                   rgba(255, 255, 255, 0.9) 100%
-                )
-              `,
+                )`,
               backdropFilter: 'blur(20px)',
-              boxShadow: isDarkMode ? `
-                0 20px 50px rgba(0, 0, 0, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2)
-              ` : `
+              boxShadow: `
                 0 20px 50px rgba(0, 0, 0, 0.1),
                 inset 0 1px 0 rgba(255, 255, 255, 0.8)
               `
@@ -174,27 +156,14 @@ const WebDevSection = ({ className = "" }) => {
             {features.map((feature, index) => (
               <motion.div
                 key={index}
-                className={`p-4 rounded-2xl border backdrop-blur-md transition-all duration-300 group cursor-pointer ${
-                  isDarkMode ? 'border-white/10 hover:border-white/20' : 'border-gray-300/30 hover:border-gray-400/40'
-                }`}
+                className={`p-4 rounded-2xl border backdrop-blur-md transition-all duration-300 group cursor-pointer border-gray-300/30 hover:border-gray-400/40`}
                 style={{
-                  background: isDarkMode ? `
-                    linear-gradient(135deg, 
-                      rgba(255, 255, 255, 0.1) 0%, 
-                      rgba(255, 255, 255, 0.05) 50%, 
-                      rgba(0, 0, 0, 0.1) 100%
-                    )
-                  ` : `
-                    linear-gradient(135deg, 
+                  background: `linear-gradient(135deg, 
                       rgba(255, 255, 255, 0.9) 0%, 
                       rgba(255, 255, 255, 0.8) 50%, 
                       rgba(255, 255, 255, 0.85) 100%
-                    )
-                  `,
-                  boxShadow: isDarkMode ? `
-                    0 4px 16px rgba(0, 0, 0, 0.2),
-                    inset 0 1px 0 rgba(255, 255, 255, 0.2)
-                  ` : `
+                    )`,
+                  boxShadow: `
                     0 4px 16px rgba(0, 0, 0, 0.1),
                     inset 0 1px 0 rgba(255, 255, 255, 0.8)
                   `
@@ -231,12 +200,12 @@ const WebDevSection = ({ className = "" }) => {
                     <feature.icon size={20} color="#3F8391" />
                   </div>
                   <h4 className={`font-semibold mb-1 text-sm transition-colors duration-500 ${
-                    isDarkMode ? 'text-white' : 'text-gray-800'
+                    'text-gray-800'
                   }`}>
                     {feature.title}
                   </h4>
                   <p className={`text-xs leading-relaxed transition-colors duration-500 ${
-                    isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                    'text-gray-600'
                   }`}>
                     {feature.description}
                   </p>
@@ -255,7 +224,7 @@ const WebDevSection = ({ className = "" }) => {
         transition={{ duration: 0.6, delay: 0.6 }}
       >
         <h4 className={`text-lg font-semibold mb-6 text-center transition-colors duration-500 ${
-          isDarkMode ? 'text-white' : 'text-gray-800'
+          'text-gray-800'
         }`}>
           Technologies maîtrisées
         </h4>
@@ -441,10 +410,10 @@ const WebDevSection = ({ className = "" }) => {
                 <img src={gitLogo} alt="Git" loading="lazy" />
               </div>
               <div className="tech-logo-container">
-                <img src={blenderLogo} alt="Blender" loading="lazy" />
+                <img src={gsapLogo} alt="GSAP" loading="lazy" />
               </div>
               <div className="tech-logo-container">
-                <img src={adobeLogo} alt="Adobe Suite" loading="lazy" />
+                <img src={dbtLogo} alt="dbt" loading="lazy" />
               </div>
               <div className="tech-logo-container">
                 <img src={pandasLogo} alt="Pandas" loading="lazy" />
@@ -456,7 +425,7 @@ const WebDevSection = ({ className = "" }) => {
                 <img src={scikitLearnLogo} alt="Scikit-learn" loading="lazy" />
               </div>
               <div className="tech-logo-container">
-                <img src={threejsLogo} alt="Three.js" loading="lazy" />
+                <img src={azureLogo} alt="Azure" loading="lazy" />
               </div>
             </div>
 
@@ -483,10 +452,10 @@ const WebDevSection = ({ className = "" }) => {
                 <img src={gitLogo} alt="Git" loading="lazy" />
               </div>
               <div className="tech-logo-container">
-                <img src={blenderLogo} alt="Blender" loading="lazy" />
+                <img src={gsapLogo} alt="GSAP" loading="lazy" />
               </div>
               <div className="tech-logo-container">
-                <img src={adobeLogo} alt="Adobe Suite" loading="lazy" />
+                <img src={dbtLogo} alt="dbt" loading="lazy" />
               </div>
               <div className="tech-logo-container">
                 <img src={pandasLogo} alt="Pandas" loading="lazy" />
@@ -498,7 +467,7 @@ const WebDevSection = ({ className = "" }) => {
                 <img src={scikitLearnLogo} alt="Scikit-learn" loading="lazy" />
               </div>
               <div className="tech-logo-container">
-                <img src={threejsLogo} alt="Three.js" loading="lazy" />
+                <img src={azureLogo} alt="Azure" loading="lazy" />
               </div>
             </div>
           </div>
@@ -509,19 +478,19 @@ const WebDevSection = ({ className = "" }) => {
                 <img src={supabaseLogo} alt="Supabase" loading="lazy" />
               </div>
               <div className="tech-logo-container">
-                <img src={shopifyLogo} alt="Shopify" loading="lazy" />
+                <img src={databricksLogo} alt="Databricks" loading="lazy" />
               </div>
               <div className="tech-logo-container">
                 <img src={powerBiLogo} alt="Power BI" loading="lazy" />
               </div>
               <div className="tech-logo-container">
-                <img src={hostingerLogo} alt="Hostinger" loading="lazy" />
+                <img src={powerBiLogo} alt="Power BI" loading="lazy" />
               </div>
               <div className="tech-logo-container">
                 <img src={sageX3Logo} alt="Sage X3" loading="lazy" />
               </div>
               <div className="tech-logo-container">
-                <img src={wordpressLogo} alt="WordPress" loading="lazy" />
+                <img src={analyticsLogo} alt="Analytics" loading="lazy" />
               </div>
               <div className="tech-logo-container">
                 <img src={analyticsLogo} alt="Analytics" loading="lazy" />
@@ -533,19 +502,19 @@ const WebDevSection = ({ className = "" }) => {
                 <img src={supabaseLogo} alt="Supabase" loading="lazy" />
               </div>
               <div className="tech-logo-container">
-                <img src={shopifyLogo} alt="Shopify" loading="lazy" />
+                <img src={databricksLogo} alt="Databricks" loading="lazy" />
               </div>
               <div className="tech-logo-container">
                 <img src={powerBiLogo} alt="Power BI" loading="lazy" />
               </div>
               <div className="tech-logo-container">
-                <img src={hostingerLogo} alt="Hostinger" loading="lazy" />
+                <img src={powerBiLogo} alt="Power BI" loading="lazy" />
               </div>
               <div className="tech-logo-container">
                 <img src={sageX3Logo} alt="Sage X3" loading="lazy" />
               </div>
               <div className="tech-logo-container">
-                <img src={wordpressLogo} alt="WordPress" loading="lazy" />
+                <img src={analyticsLogo} alt="Analytics" loading="lazy" />
               </div>
               <div className="tech-logo-container">
                 <img src={analyticsLogo} alt="Analytics" loading="lazy" />
