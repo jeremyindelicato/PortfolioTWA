@@ -1,12 +1,15 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { SplitText } from 'gsap/SplitText';
+import { useLanguage } from '../contexts/LanguageContext';
+import { translations } from '../translations';
 
 gsap.registerPlugin(SplitText);
 
 const SkillsSection = () => {
   const headlineRef = useRef(null);
   const animatedRef = useRef(false);
+  const { t } = useLanguage();
 
   useEffect(() => {
     const element = headlineRef.current;
@@ -129,7 +132,7 @@ const SkillsSection = () => {
 
       <div className="skills-container">
         <h2 ref={headlineRef} className="skills-headline">
-          Dashboard Médico-économie Automatisation Scraping ETL RAG MCP
+          {t(translations.skills.keywords)}
         </h2>
       </div>
     </section>

@@ -1,16 +1,20 @@
 import { motion } from 'framer-motion';
 import { useState, useEffect, memo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useLanguage } from '../contexts/LanguageContext';
+import { translations } from '../translations';
 
 const NavigationBar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const location = useLocation();
+  const { t } = useLanguage();
+
   const navItems = [
-    { name: 'À propos de moi', path: '/' },
-    { name: 'Projets & Expérience', path: '/projects' },
-    { name: 'Contact', path: '/contact' }
+    { name: t(translations.nav.about), path: '/' },
+    { name: t(translations.nav.projects), path: '/projects' },
+    { name: t(translations.nav.contact), path: '/contact' }
   ];
 
   useEffect(() => {
@@ -91,23 +95,30 @@ const NavigationBar = () => {
       <div className="md:hidden">
         <motion.button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className={`fixed top-4 right-4 z-50 p-3 rounded-full shadow-lg transition-colors duration-300 ${
-            'text-gray-900'
-          }`}
+          className="fixed top-4 left-4 z-50 p-3 rounded-full shadow-xl transition-all duration-300"
           style={{
-            background: `rgba(0, 0, 0, ${isScrolled ? 0.8 : 0.9})`,
-            backdropFilter: isScrolled ? 'blur(15px)' : 'blur(5px)',
-            border: `1px solid rgba(255, 255, 255, ${isScrolled ? 0.15 : 0.2})`
+            background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.15) 100%)',
+            backdropFilter: 'blur(20px) saturate(180%)',
+            WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+            border: '1px solid rgba(255, 255, 255, 0.3)',
+            boxShadow: '0 4px 16px rgba(0, 0, 0, 0.1)'
+          }}
+          whileHover={{
+            scale: 1.1,
+            boxShadow: '0 6px 24px rgba(63, 131, 145, 0.3)'
           }}
           whileTap={{ scale: 0.95 }}
-          transition={{ duration: 0.2, ease: "easeOut" }}
         >
           <motion.div
             animate={mobileMenuOpen ? "open" : "closed"}
             className="w-6 h-6 flex flex-col justify-center items-center"
           >
             <motion.span
-              className="block h-0.5 w-6 bg-white rounded-full"
+              className="block h-0.5 w-6 rounded-full"
+              style={{
+                backgroundColor: '#ffffff',
+                filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3))'
+              }}
               variants={{
                 closed: { rotate: 0, y: 0 },
                 open: { rotate: 45, y: 6 }
@@ -115,7 +126,11 @@ const NavigationBar = () => {
               transition={{ duration: 0.25, ease: "easeInOut" }}
             />
             <motion.span
-              className="block h-0.5 w-6 bg-white rounded-full mt-1.5"
+              className="block h-0.5 w-6 rounded-full mt-1.5"
+              style={{
+                backgroundColor: '#ffffff',
+                filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3))'
+              }}
               variants={{
                 closed: { opacity: 1 },
                 open: { opacity: 0 }
@@ -123,7 +138,11 @@ const NavigationBar = () => {
               transition={{ duration: 0.2, ease: "easeInOut" }}
             />
             <motion.span
-              className="block h-0.5 w-6 bg-white rounded-full mt-1.5"
+              className="block h-0.5 w-6 rounded-full mt-1.5"
+              style={{
+                backgroundColor: '#ffffff',
+                filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3))'
+              }}
               variants={{
                 closed: { rotate: 0, y: 0 },
                 open: { rotate: -45, y: -6 }

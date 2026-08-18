@@ -1,4 +1,6 @@
 import { motion } from 'framer-motion';
+import { useLanguage } from '../contexts/LanguageContext';
+import { translations } from '../translations';
 // Import des logos technologies
 import reactLogo from '../assets/software/React-logo.webp';
 import pythonLogo from '../assets/software/python-logo.webp';
@@ -20,6 +22,8 @@ import databricksLogo from '../assets/software/databricks-logo.webp';
 import gsapLogo from '../assets/software/GSAP_2023.webp';
 
 const TechnologiesSection = () => {
+  const { t } = useLanguage();
+
   const technologiesRow1 = [
     { logo: reactLogo, name: 'React' },
     { logo: pythonLogo, name: 'Python' },
@@ -53,7 +57,7 @@ const TechnologiesSection = () => {
     >
       <div className="max-w-6xl mx-auto px-4">
         <h3 className={`text-3xl md:text-4xl font-bold mb-12 text-center transition-colors duration-500 text-gray-900`} style={{ fontFamily: 'LEMONMILK, sans-serif' }}>
-          TECHNOLOGIES MAÎTRISÉES
+          {t(translations.technologies.title)}
         </h3>
 
         {/* Marquee Container */}

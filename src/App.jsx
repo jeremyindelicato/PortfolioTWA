@@ -8,7 +8,8 @@ import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from
 import NavigationBar from './components/NavigationBar';
 import Pattern from './components/Pattern';
 import LanguageToggle from './components/LanguageToggle';
-import { LanguageProvider } from './contexts/LanguageContext';
+import { LanguageProvider, useLanguage } from './contexts/LanguageContext';
+import { translations } from './translations';
 import Loader from './components/Loader';
 import ProjectCarousel from './components/ProjectCarousel';
 import CustomCursor from './components/CustomCursor';
@@ -184,6 +185,7 @@ function useInView(options = {}) {
 // Pages à créer ci-dessous
 function Accueil() {
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const [servicesRef, servicesInView] = useInView();
   const [projectsRef, projectsInView] = useInView();
   const heroTextRef = useRef(null);
@@ -252,7 +254,7 @@ function Accueil() {
   return (
     <div className="w-full pb-24">
       {/* Hero Section - Plein écran avec background vidéo */}
-      <div className="min-h-screen flex items-center px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+      <div className="min-h-screen flex items-center relative overflow-hidden">
         {/* Background Vidéo avec overlay assombri pour améliorer le contraste */}
         <div className="absolute inset-0 z-0">
           <video
@@ -270,7 +272,7 @@ function Accueil() {
         </div>
 
         {/* Contenu */}
-        <div className="max-w-6xl mx-auto relative z-10 w-full" ref={heroTextRef}>
+        <div className="max-w-6xl mx-auto relative z-10 w-full px-4 sm:px-6 lg:px-8" ref={heroTextRef}>
           {/* Eyebrow */}
           <motion.p
             className="text-sm uppercase tracking-[0.15em] font-medium mb-6"
@@ -283,13 +285,13 @@ function Accueil() {
             animate={{ opacity: 0.85, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            Jérémy Indelicato — Data & AI Engineer
+            {t(translations.hero.name)}
           </motion.p>
 
           <div className="hero-main-text mb-6">
             <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-4 leading-tight transition-colors duration-500 text-gray-900" style={{ fontFamily: 'LEMONMILK, sans-serif' }}>
               <span style={{ color: '#ffffff', textShadow: '0 2px 8px rgba(0,0,0,0.3)' }}>
-                Collecter, nettoyer, modéliser, livrer
+                {t(translations.hero.title)}
               </span>
             </h1>
           </div>
@@ -302,7 +304,7 @@ function Accueil() {
             transition={{ duration: 0.6, delay: 0.4 }}
           >
             <p className="text-lg sm:text-xl text-white leading-relaxed" style={{ lineHeight: '1.6' }}>
-              Pipelines, IA appliquée et applications sur-mesure, avec une expertise dans le secteur médical.
+              {t(translations.hero.subtitle)}
             </p>
           </motion.div>
 
@@ -326,7 +328,7 @@ function Accueil() {
               }}
               whileTap={{ scale: 0.95 }}
             >
-              Me Contacter
+              {t(translations.hero.ctaContact)}
             </motion.button>
 
             <motion.button
@@ -343,7 +345,7 @@ function Accueil() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              Voir mes projets →
+              {t(translations.hero.ctaProjects)}
             </motion.button>
           </motion.div>
 
@@ -384,7 +386,7 @@ function Accueil() {
         {/* Contenu texte */}
         <div className="text-center lg:text-left max-w-2xl">
           <p className={`text-lg sm:text-xl lg:text-2xl mb-8 lg:mb-12 leading-relaxed transition-colors duration-500 text-gray-700`}>
-            AI & Data Scientist chez Stryker, Mes services couvrent toute la chaîne data et la création de sites web intégrant analytics et responsive design. Je transforme vos idées en leviers concrets de croissance, portés par une forte expérience dans le secteur médical, notamment en analyses médico-économiques.
+            {t(translations.about.description)}
           </p>
 
           {/* Logos École et Entreprise */}
@@ -462,14 +464,14 @@ function Accueil() {
 
       {/* Section Web Development */}
       <motion.section
-        className="w-full py-20"
+        className="w-full py-12 md:py-20"
         initial={{ opacity: 0, y: 100 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.2 }}
         viewport={{ once: true }}
       >
         <div className="max-w-6xl mx-auto px-4">
-          <div className="flex flex-col lg:flex-row items-center gap-12">
+          <div className="flex flex-col lg:flex-row items-center gap-8 md:gap-12">
             {/* Vidéo à gauche */}
             <motion.div
               className="w-full lg:w-1/2"
@@ -478,7 +480,7 @@ function Accueil() {
               transition={{ duration: 0.8, delay: 0.3 }}
               viewport={{ once: true }}
             >
-              <div className="relative rounded-3xl overflow-hidden shadow-2xl">
+              <div className="relative rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl">
                 <video
                   autoPlay
                   loop
@@ -500,15 +502,15 @@ function Accueil() {
               viewport={{ once: true }}
             >
               <h3
-                className="text-3xl md:text-4xl font-bold mb-6 transition-colors duration-500 text-gray-900"
+                className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 md:mb-6 transition-colors duration-500 text-gray-900 text-center lg:text-left"
                 style={{ fontFamily: 'LEMONMILK, sans-serif' }}
               >
-                WEB
+                {t(translations.web.title)}
               </h3>
-              <p className="text-base md:text-lg leading-relaxed text-gray-700">
-                Mes solutions de développement web proposent des sites sur mesure (vitrine, e‑commerce, applications) avec un responsive design optimisé pour mobile, bâtis sur des technologies dynamiques et actuelles, et intégrant la gestion des données d'analytics.
+              <p className="text-sm md:text-base lg:text-lg leading-relaxed text-gray-700 text-center lg:text-left">
+                {t(translations.web.description)}
                 <br /><br />
-                Une expérience fluide, moderne et performante, conçue pour convertir, fidéliser et piloter la croissance grâce à la data.
+                {t(translations.web.description2)}
               </p>
             </motion.div>
           </div>
@@ -549,7 +551,7 @@ function Accueil() {
               <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
 
               <Download size={20} className="relative z-10" style={{ textShadow: '0 1px 2px rgba(0, 0, 0, 0.1)' }} />
-              <span className="relative z-10" style={{ textShadow: '0 1px 2px rgba(0, 0, 0, 0.1)' }}>Télécharger mon CV</span>
+              <span className="relative z-10" style={{ textShadow: '0 1px 2px rgba(0, 0, 0, 0.1)' }}>{t(translations.footer.downloadCV)}</span>
             </motion.a>
           </motion.div>
 
@@ -590,6 +592,7 @@ function Accueil() {
   );
 }
 function ProjetsEtExperience() {
+  const { t } = useLanguage();
   const [selectedProject, setSelectedProject] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [viewMode, setViewMode] = useState('grid'); // 'grid' ou 'list'
@@ -608,25 +611,15 @@ function ProjetsEtExperience() {
   const studyProjects = [
     {
       id: 3,
-      name: "Hackaton Élysée",
-      category: "Projet d'étude",
-      shortDescription: "Solution prédictive et interactive pour anticiper les épidémies de grippe en France",
-      fullDescription: "Développement d'une solution prédictive et interactive permettant de centraliser les données pour anticiper et comprendre les dynamiques épidémiques et hospitalières de la grippe en France. Le projet vise à dépasser les limites des outils de surveillance actuels (souvent statiques, non croisés ou complexes).\n\nLe système s'articule autour du traitement de données publiques (Météo France, Insee, Santé Publique France, data.gouv.fr) qui sont nettoyées, agrégées et croisées (densité de population, couverture vaccinale, syndromes grippaux et météo).\n\nL'équipe a mis en œuvre trois modèles complémentaires de Machine Learning : XGBoost pour la prédiction des foyers épidémiques, un modèle de régression pour les taux de passages aux urgences, et SARIMAX pour la prédiction des hospitalisations basée sur les séries temporelles.",
+      name: t(translations.studyProjectsData.hackaton.name),
+      category: t(translations.studyProjectsData.hackaton.category),
+      shortDescription: t(translations.studyProjectsData.hackaton.shortDescription),
+      fullDescription: t(translations.studyProjectsData.hackaton.fullDescription),
       image: hackatonLogo,
       date: "2025",
       technologies: ["Python", "Streamlit", "XGBoost", "SARIMAX", "Plotly", "Pandas", "NumPy", "Scikit-learn"],
-      keyFeatures: [
-        "Dashboard interactif Streamlit avec visualisations dynamiques (Plotly, Matplotlib, Seaborn)",
-        "Modèle XGBoost pour détection des foyers épidémiques (35 features : météo, densité, âge)",
-        "Modèle de régression pour prédiction des passages aux urgences",
-        "Modèle SARIMAX pour prédiction saisonnière des hospitalisations"
-      ],
-      achievements: [
-        "Centralisation et croisement de multiples sources de données publiques",
-        "Système de prédiction multi-niveaux (foyers, urgences, hospitalisations)",
-        "Identification des zones d'alerte épidémique grâce aux patterns complexes",
-        "Perspectives d'amélioration : suivi temps réel pharmacies, déplacements SNCF, eaux usées"
-      ],
+      keyFeatures: translations.studyProjectsData.hackaton.keyFeatures.map(feature => t(feature)),
+      achievements: translations.studyProjectsData.hackaton.achievements.map(achievement => t(achievement)),
       media: {
         type: "image",
         src: hackatonThumbnail
@@ -635,25 +628,15 @@ function ProjetsEtExperience() {
     },
     {
       id: 2,
-      name: "Start & Trade",
-      category: "Projet d'étude",
-      shortDescription: "Assistant IA pédagogique pour jeunes investisseurs avec données financières en temps réel",
-      fullDescription: "Développement d'un assistant IA pédagogique et gratuit, accessible 24h/24 et 7j/7, pour guider les jeunes investisseurs (18-30 ans) face à la complexité des informations financières. L'application permet d'accéder à des données financières en temps réel (Actions, ETF, Indices, Cryptos) et de s'éduquer de manière progressive.\n\nL'objectif est de proposer un système entièrement local et open-source, intégrant des règles strictes (guardrails) pour éviter de donner des conseils d'investissement personnalisés ou des prédictions de prix, tout en garantissant la protection de la vie privée des utilisateurs.\n\nL'architecture repose sur FastAPI comme orchestrateur, Ollama avec le modèle Qwen2.5:7b pour l'IA conversationnelle, et un système de scraping via yfinance pour extraire plus de 25 métriques financières en temps réel depuis Yahoo Finance.",
+      name: t(translations.studyProjectsData.startTrade.name),
+      category: t(translations.studyProjectsData.startTrade.category),
+      shortDescription: t(translations.studyProjectsData.startTrade.shortDescription),
+      fullDescription: t(translations.studyProjectsData.startTrade.fullDescription),
       image: sntLogo,
       date: "2026",
       technologies: ["React", "Vite", "FastAPI", "Ollama", "Qwen2.5", "yfinance", "Tailwind CSS"],
-      keyFeatures: [
-        "Assistant IA 100% local avec modèle Qwen2.5:7b (7B paramètres, 32k contexte)",
-        "Données financières en temps réel (Actions, ETF, Indices, Cryptos)",
-        "Système de guardrails pour éviter conseils personnalisés et prédictions",
-        "Knowledge Base locale avec concepts financiers théoriques fiables"
-      ],
-      achievements: [
-        "Zéro hallucination sur les données financières grâce à la contextualisation forcée",
-        "Protection des débutants via alertes automatiques sur les cryptomonnaies",
-        "Architecture 100% locale garantissant la vie privée (aucune donnée cloud)",
-        "Scraping optimisé : +25 métriques financières en ~500ms par ticker"
-      ],
+      keyFeatures: translations.studyProjectsData.startTrade.keyFeatures.map(feature => t(feature)),
+      achievements: translations.studyProjectsData.startTrade.achievements.map(achievement => t(achievement)),
       media: {
         type: "image",
         src: sntThumbnail
@@ -662,24 +645,15 @@ function ProjetsEtExperience() {
     },
     {
       id: 1,
-      name: "Iris Pipeline",
-      category: "Projet d'étude",
-      shortDescription: "Pipeline de machine learning pour la prédiction de la largeur de sépale",
-      fullDescription: "Développement d'un pipeline de machine learning complet pour l'analyse et la prédiction d'une largeur de sépale. Le projet inclut la création d'une API REST pour les prédictions, l'utilisation de MLflow pour le suivi des modèles, et une base de données PostgreSQL pour stocker les données structurées.\n\nL'objectif est de fournir une solution robuste et scalable pour le traitement d'images, avec un focus sur la performance et la maintenabilité du code.\n\nLe projet a été réalisé dans le cadre de ma formation à Epitech.",
+      name: t(translations.studyProjectsData.iris.name),
+      category: t(translations.studyProjectsData.iris.category),
+      shortDescription: t(translations.studyProjectsData.iris.shortDescription),
+      fullDescription: t(translations.studyProjectsData.iris.fullDescription),
       image: irisLogo,
       date: "2025",
       technologies: ["Python", "FastAPI", "MLflow", "Docker", "Scikit-learn", "PostgreSQL"],
-      keyFeatures: [
-        "Pipeline automatisé de traitement d'images",
-        "API REST pour faire des prédictions via /predict",
-        "Base de données PostgreSQL pour les données structurées",
-        "Tracking des modèles et métriques via MLflow"
-      ],
-      achievements: [
-        "MSE < 0.1 avec RandomForestRegressor",
-        "Containerisation et orchestration réussies avec Docker Compose",
-        "Pipeline traçable et maintenable"
-      ],
+      keyFeatures: translations.studyProjectsData.iris.keyFeatures.map(feature => t(feature)),
+      achievements: translations.studyProjectsData.iris.achievements.map(achievement => t(achievement)),
       media: {
         type: "image",
         src: irisMockup
@@ -692,25 +666,15 @@ function ProjetsEtExperience() {
   const experiences = [
     {
       id: 4,
-      name: "Stryker - Data / AI Scientist",
-      category: "Expérience",
-      shortDescription: "Alternance en tant que Data/AI Scientist - Projets confidentiels en Data Science et IA",
-      fullDescription: "Actuellement en alternance chez Stryker, leader mondial des technologies médicales, en tant que Data/AI Scientist. L'intégralité de mes projets sont confidentiels.\n\nJe travaille sur des projets innovants mêlant Data Science, Intelligence Artificielle et automatisation, en utilisant les dernières technologies du domaine pour créer des solutions d'analyse et de traitement de données de santé publiques.\n\nMon rôle implique le développement de pipelines de données, l'implémentation de systèmes RAG avec des LLMs locaux, et la création d'outils d'analyse avancés pour supporter les décisions stratégiques de l'entreprise.",
+      name: t(translations.experiencesData.stryker.name),
+      category: t(translations.experiencesData.stryker.category),
+      shortDescription: t(translations.experiencesData.stryker.shortDescription),
+      fullDescription: t(translations.experiencesData.stryker.fullDescription),
       image: strykerProjectLogo,
       date: "2025 - Présent",
       technologies: ["Python", "ChromaDB", "Ollama", "GitHub Actions", "Power BI", "DataGouv MCP", "Supabase"],
-      keyFeatures: [
-        "Développement de systèmes RAG (Retrieval-Augmented Generation) avec LLM",
-        "Création de pipelines de données automatisés",
-        "Implémentation de solutions MCP (Model Context Protocol)",
-        "Outils d'analyse et visualisation avec Power BI"
-      ],
-      achievements: [
-        "Scraping et traitement de données de santé publiques",
-        "Automatisation de processus métier via GitHub Actions",
-        "Développement de modèles de Machine Learning pour l'analyse prédictive",
-        "Architecture de solutions IA scalables et sécurisées"
-      ],
+      keyFeatures: translations.experiencesData.stryker.keyFeatures.map(feature => t(feature)),
+      achievements: translations.experiencesData.stryker.achievements.map(achievement => t(achievement)),
       media: {
         type: "image",
         src: strykerProjectThumbnail
@@ -719,24 +683,15 @@ function ProjetsEtExperience() {
     },
     {
       id: 5,
-      name: "Paredes Orapi - Data Engineering",
-      category: "Expérience",
-      shortDescription: "Alternance en tant que Data Engineer - Développement de ChatBot et gestion de données",
-      fullDescription: "Mission en alternance chez Orapi, spécialisée dans les solutions de nettoyage industriel. Développement d'un système de ChatBot intelligent pour le support client et mise en place d'une architecture de gestion des données robuste.\n\nLe projet a inclus l'analyse des besoins clients, la conception d'une base de données optimisée, et l'implémentation d'algorithmes de traitement du langage naturel pour améliorer l'expérience utilisateur.",
+      name: t(translations.experiencesData.orapi.name),
+      category: t(translations.experiencesData.orapi.category),
+      shortDescription: t(translations.experiencesData.orapi.shortDescription),
+      fullDescription: t(translations.experiencesData.orapi.fullDescription),
       image: orapiLogo,
       date: "2025",
       technologies: ["Python", "Sage X3 V12", "PostgreSQL", "Mistral AI API", "Google Colab", "PyTorch"],
-      keyFeatures: [
-        "IA fine-tuné conversationnelle",
-        "Système de gestion de données produits",
-        "Nettoyage et structuration des données",
-        "Intégration avec les systèmes existants"
-      ],
-      achievements: [
-        "Restructuration de la base de données (+ de 1000 produits)",
-        "Gestion de la gamme de produit MDD",
-        "Amélioration de la satisfaction client"
-      ],
+      keyFeatures: translations.experiencesData.orapi.keyFeatures.map(feature => t(feature)),
+      achievements: translations.experiencesData.orapi.achievements.map(achievement => t(achievement)),
       media: {
         type: "image",
         src: orapiChatbot
@@ -745,24 +700,15 @@ function ProjetsEtExperience() {
     },
     {
       id: 6,
-      name: "Hartmann Group - Growth Hacking",
-      category: "Expérience",
-      shortDescription: "Stage en Growth Hacking - Développement web et design & croissance",
-      fullDescription: "Stage de 7 mois chez Advanced Silicone Coating (Groupe Hartmann), une entreprise spécialisée dans les solutions de pansements. Le projet a consisté à développer une stratégie de growth marketing incluant la création d'un site web moderne, l'automatisation des campagnes de prospection, et l'analyse des données de marché.\n\nL'objectif était d'augmenter la visibilité en ligne de l'entreprise et de générer des leads qualifiés pour les équipes commerciales.",
+      name: t(translations.experiencesData.hartmann.name),
+      category: t(translations.experiencesData.hartmann.category),
+      shortDescription: t(translations.experiencesData.hartmann.shortDescription),
+      fullDescription: t(translations.experiencesData.hartmann.fullDescription),
       image: ascLogo,
       date: "2023",
       technologies: ["SiteCore", "PhantomBuster", "Python", "Intégration HTML", "Figma", "Premiere Pro"],
-      keyFeatures: [
-        "Site web moderne",
-        "Création de contenus pour les réseaux sociaux",
-        "Analyse de données et de marché",
-        "Automatisation de la prospection"
-      ],
-      achievements: [
-        "Augmentation du trafic web de 28%",
-        "Génération de plus de 30 leads qualifiés via les campagnes automatisées",
-        "Amélioration de la stratégie de contenu B2B"
-      ],
+      keyFeatures: translations.experiencesData.hartmann.keyFeatures.map(feature => t(feature)),
+      achievements: translations.experiencesData.hartmann.achievements.map(achievement => t(achievement)),
       websiteUrl: "https://www.hartmann.info/fr-fr/",
       media: {
         type: "image",
@@ -775,24 +721,15 @@ function ProjetsEtExperience() {
   const freelanceProjects = [
     {
       id: 7,
-      name: "Institut Corail",
-      category: "Client freelance",
-      shortDescription: "Institut de beauté et soins - Développement web, design, SEO et e-commerce",
-      fullDescription: "Projet complet pour l'Institut Corail, spécialisé dans les soins de beauté et l'esthétique. Création d'une présence digitale complète incluant le site web, la stratégie SEO, et la mise en place d'une boutique en ligne.\n\nLe projet a nécessité une approche sur-mesure pour refléter l'élégance et le professionnalisme de l'institut, avec une attention particulière portée à l'expérience utilisateur et à la conversion client.\n\n L'institut se situe à Loyettes, à 298 Rue du Bugey, 01360 Loyettes.",
+      name: t(translations.freelanceProjectsData.institutCorail.name),
+      category: t(translations.freelanceProjectsData.institutCorail.category),
+      shortDescription: t(translations.freelanceProjectsData.institutCorail.shortDescription),
+      fullDescription: t(translations.freelanceProjectsData.institutCorail.fullDescription),
       image: institutCorailLogo,
       date: "2024",
       technologies: ["Hostinger", "Google Analytics", "Vue.js", "Search Console", "Figma", "Tag Manager"],
-      keyFeatures: [
-        "Site web vitrine élégant",
-        "Boutique e-commerce intégrée",
-        "Système de réservation en ligne",
-        "Optimisation SEO complète"
-      ],
-      achievements: [
-        "Augmentation de la visibilité",
-        "Positionnement #1 sur Google local",
-        "Taux de conversion e-commerce de 4.2%"
-      ],
+      keyFeatures: translations.freelanceProjectsData.institutCorail.keyFeatures.map(feature => t(feature)),
+      achievements: translations.freelanceProjectsData.institutCorail.achievements.map(achievement => t(achievement)),
       websiteUrl: "https://institut-corail.com",
       media: {
         type: "image",
@@ -801,24 +738,15 @@ function ProjetsEtExperience() {
     },
     {
       id: 8,
-      name: "Maison L.I.C",
-      category: "Client freelance",
-      shortDescription: "Création d'art floral - Développement web, design, SEO et e-commerce",
-      fullDescription: "Développement complet de la présence digitale pour Maison L.I.C, spécialisée dans la création d'art floral haut de gamme. Le projet englobe la création d'un univers visuel unique, le développement d'un site e-commerce, et une stratégie SEO ciblée.\n\nL'accent a été mis sur la mise en valeur des créations florales à travers une galerie interactive et un système de commande personnalisé pour les événements sur-mesure.",
+      name: t(translations.freelanceProjectsData.maisonLic.name),
+      category: t(translations.freelanceProjectsData.maisonLic.category),
+      shortDescription: t(translations.freelanceProjectsData.maisonLic.shortDescription),
+      fullDescription: t(translations.freelanceProjectsData.maisonLic.fullDescription),
       image: maisonlicLogo,
       date: "2025",
       technologies: ["Shopify", "HTML", "Stripe", "SEO", "Search Console", "Hostinger"],
-      keyFeatures: [
-        "Boutique e-commerce florale",
-        "Mise en avant des créations",
-        "Design optimisé pour les mobiles",
-        "Système de paiement sécurisé"
-      ],
-      achievements: [
-        "SEO optimisé pour les recherches locales",
-        "Création d'une communauté engagée",
-        "Commande en ligne sur mesure"
-      ],
+      keyFeatures: translations.freelanceProjectsData.maisonLic.keyFeatures.map(feature => t(feature)),
+      achievements: translations.freelanceProjectsData.maisonLic.achievements.map(achievement => t(achievement)),
       websiteUrl: "https://maisonlic.com",
       media: {
         type: "image",
@@ -831,25 +759,15 @@ function ProjetsEtExperience() {
   const videoGames = [
     {
       id: 10,
-      name: "IAM CRYPTO",
-      category: "Jeu vidéo",
-      shortDescription: "Jeu rétro dédié à l'univers de Playboi Carti - Collectez un maximum de cryptomonnaies",
-      fullDescription: "Un jeu vidéo rétro dédié à l'univers de Playboi Carti, sans réellement de sens mais avec beaucoup de fun ! L'objectif est simple : acquérir un maximum de cryptomonnaies dans cet univers pixel art inspiré de la culture hip-hop et crypto.\n\nDéveloppé en pur HTML, CSS et JavaScript vanilla, ce projet combine l'esthétique rétro des jeux arcade avec la culture moderne de la crypto et du rap. Plongez dans une expérience de jeu nostalgique et addictive.\n\nUn projet fun et décalé qui mixe passion pour le développement web et culture pop contemporaine.",
+      name: t(translations.videoGamesData.iamCrypto.name),
+      category: t(translations.videoGamesData.iamCrypto.category),
+      shortDescription: t(translations.videoGamesData.iamCrypto.shortDescription),
+      fullDescription: t(translations.videoGamesData.iamCrypto.fullDescription),
       image: iamCryptoLogo,
       date: "2025",
       technologies: ["HTML", "CSS", "JavaScript"],
-      keyFeatures: [
-        "Gameplay rétro inspiré des jeux arcade classiques",
-        "Univers graphique pixel art dédié à Playboi Carti",
-        "Système de collecte de cryptomonnaies (Bitcoin, Ethereum, Pi Network)",
-        "Développement vanilla sans framework pour performance optimale"
-      ],
-      achievements: [
-        "Expérience de jeu fluide et addictive",
-        "Design rétro authentique avec palette de couleurs vintage",
-        "Code optimisé pour des performances maximales",
-        "Accessible directement depuis le navigateur"
-      ],
+      keyFeatures: translations.videoGamesData.iamCrypto.keyFeatures.map(feature => t(feature)),
+      achievements: translations.videoGamesData.iamCrypto.achievements.map(achievement => t(achievement)),
       gameUrl: "https://cartigame.indelicatojeremy.com/index.html",
       media: {
         type: "image",
@@ -858,24 +776,15 @@ function ProjetsEtExperience() {
     },
     {
       id: 9,
-      name: "LinguaXplore",
-      category: "Jeu vidéo",
-      shortDescription: "Jeu vidéo éducatif pour l'apprentissage des langues",
-      fullDescription: "Création d'une plateforme immersive d'apprentissage des langues à travers des jeux vidéo et des expériences interactives. Le projet inclut le développement d'un site web moderne, l'intégration de l'intelligence artificielle pour les interactions avec les personnages non-joueurs (PNJ), et un système de progression gamifié.\n\nL'objectif est de rendre l'apprentissage des langues plus engageant et efficace en combinant technologie et pédagogie.\n\nNous avons développé un site web minimaliste et responsive, intégrant des éléments de design moderne et une interface utilisateur intuitive.",
+      name: t(translations.videoGamesData.linguaXplore.name),
+      category: t(translations.videoGamesData.linguaXplore.category),
+      shortDescription: t(translations.videoGamesData.linguaXplore.shortDescription),
+      fullDescription: t(translations.videoGamesData.linguaXplore.fullDescription),
       image: lxpLogo,
       date: "2024",
       technologies: ["Unreal Engine", "Blender", "JavaScript", "OpenAI API", "Figma", "Illustrator"],
-      keyFeatures: [
-        "Quêtes linguistiques scénarisées en VR",
-        "Site Web : Design minimaliste et responsive",
-        "Intelligence artificielle pour les PNJ",
-        "Système de progression et de niveaux"
-      ],
-      achievements: [
-        "Personnalisation du skin personnage",
-        "Chat de proximité",
-        "Interface web responsive et moderne"
-      ],
+      keyFeatures: translations.videoGamesData.linguaXplore.keyFeatures.map(feature => t(feature)),
+      achievements: translations.videoGamesData.linguaXplore.achievements.map(achievement => t(achievement)),
       websiteUrl: "https://lavender-curlew-739021.hostingersite.com/",
       media: {
         type: "image",
@@ -1092,7 +1001,7 @@ function ProjetsEtExperience() {
           transition={{ duration: 0.6, delay: 0.2 }}
         >
           <h2 className="text-3xl font-bold mb-8 text-left transition-colors duration-500 text-gray-900">
-            Projets d'étude
+            {t(translations.projects.studyProjects)}
           </h2>
           <div className={viewMode === 'grid' ? 'grid grid-cols-1 md:grid-cols-2 gap-8' : 'flex flex-col gap-6'}>
             {studyProjects.map((project, index) => (
@@ -1108,7 +1017,7 @@ function ProjetsEtExperience() {
           transition={{ duration: 0.6, delay: 0.4 }}
         >
           <h2 className="text-3xl font-bold mb-8 text-left transition-colors duration-500 text-gray-900">
-            Expériences professionnelles
+            {t(translations.projects.professionalExperience)}
           </h2>
           <div className={viewMode === 'grid' ? 'grid grid-cols-1 md:grid-cols-2 gap-8' : 'flex flex-col gap-6'}>
             {[...experiences, ...freelanceProjects].map((project, index) => (
@@ -1124,7 +1033,7 @@ function ProjetsEtExperience() {
           transition={{ duration: 0.6, delay: 0.8 }}
         >
           <h2 className="text-3xl font-bold mb-8 text-left transition-colors duration-500 text-gray-900">
-            Jeux vidéos
+            {t(translations.projects.videoGames)}
           </h2>
           <div className={viewMode === 'grid' ? 'grid grid-cols-1 md:grid-cols-2 gap-8' : 'flex flex-col gap-6'}>
             {videoGames.map((project, index) => (
@@ -1167,23 +1076,24 @@ const YouTubeIcon = ({ size = 20, ...props }) => (
 
 function Contact() {
   const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
+  const { t } = useLanguage();
 
   const contactInfo = [
     {
       icon: Mail,
-      title: "Email",
+      title: t(translations.contact.email),
       value: "indelicatojeremy@gmail.com",
       link: "mailto:jeremy@exemple.com"
     },
     {
       icon: Phone,
-      title: "Téléphone",
+      title: t(translations.contact.phone),
       value: "+33 7 80 04 17 08",
       link: "tel:+33600000000"
     },
     {
       icon: MapPin,
-      title: "Localisation",
+      title: t(translations.contact.location),
       value: "Lyon, France",
       link: null
     }
@@ -1217,7 +1127,7 @@ function Contact() {
   ];
 
   return (
-    <div className="w-full min-h-screen pt-40 pb-24 relative">
+    <div className="w-full min-h-screen pt-24 md:pt-32 lg:pt-40 pb-12 md:pb-24 relative">
       {/* Overlay spécial pour la page contact - plus clair */}
       <div
         className="fixed inset-0 w-full h-full pointer-events-none"
@@ -1230,14 +1140,15 @@ function Contact() {
 
 
       <div className="max-w-6xl mx-auto px-4">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
           {/* Vidéo phone à gauche */}
           <motion.div
             initial={{ x: -50, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ duration: 0.6 }}
+            className="order-2 lg:order-1"
           >
-            <div className="relative rounded-3xl overflow-hidden shadow-2xl w-full">
+            <div className="relative rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl w-full max-w-md mx-auto lg:max-w-full">
               <video
                 autoPlay
                 loop
@@ -1255,11 +1166,10 @@ function Contact() {
             initial={{ x: 50, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.2 }}
+            className="order-1 lg:order-2"
           >
-            <h2 className={`text-3xl font-bold mb-8 drop-shadow-lg transition-colors duration-500 ${
-              'text-gray-900'
-            }`}>
-              Restons connectés
+            <h2 className="text-2xl md:text-3xl font-bold mb-6 md:mb-8 drop-shadow-lg transition-colors duration-500 text-gray-900 text-center lg:text-left">
+              {t(translations.contact.title)}
             </h2>
             
             <div className="space-y-6 mb-8">
@@ -1334,35 +1244,35 @@ function Contact() {
 
             {/* Réseaux sociaux */}
             <div>
-              <h3 className={`text-xl font-bold mb-4 drop-shadow-lg transition-colors duration-500 ${
-                'text-gray-800'
-              }`}>
-                Suivez-moi
+              <h3 className="text-lg md:text-xl font-bold mb-4 drop-shadow-lg transition-colors duration-500 text-gray-800 text-center lg:text-left">
+                {t(translations.contact.followMe)}
               </h3>
-              <div className="flex gap-4 items-center">
-                {socialLinks.map((social, index) => (
-                  <motion.a
-                    key={index}
-                    href={social.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    whileHover={{
-                      scale: 1.1,
-                      y: -2
-                    }}
-                    whileTap={{ scale: 0.9 }}
-                  >
-                    <social.icon size={24} style={{ color: "#3F8391" }} />
-                  </motion.a>
-                ))}
-                
-                {/* Bouton Demander un devis - Inline avec les icônes */}
+              <div className="flex flex-col sm:flex-row gap-4 items-center justify-center lg:justify-start">
+                <div className="flex gap-4 items-center">
+                  {socialLinks.map((social, index) => (
+                    <motion.a
+                      key={index}
+                      href={social.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      whileHover={{
+                        scale: 1.1,
+                        y: -2
+                      }}
+                      whileTap={{ scale: 0.9 }}
+                    >
+                      <social.icon size={24} style={{ color: "#3F8391" }} />
+                    </motion.a>
+                  ))}
+                </div>
+
+                {/* Bouton Demander un devis - Séparé sur mobile */}
                 <motion.button
                   onClick={() => setIsQuoteModalOpen(true)}
-                  className="px-6 py-4 text-white font-semibold rounded-2xl transition-all duration-300 relative overflow-hidden group flex items-center gap-2 min-h-[56px] touch-manipulation"
+                  className="px-4 md:px-6 py-3 md:py-4 text-white font-semibold rounded-xl md:rounded-2xl transition-all duration-300 relative overflow-hidden group flex items-center gap-2 min-h-[48px] md:min-h-[56px] touch-manipulation text-sm md:text-base"
                   style={{
-                    background: `linear-gradient(135deg, 
-                        rgba(63, 131, 145, 1) 0%, 
+                    background: `linear-gradient(135deg,
+                        rgba(63, 131, 145, 1) 0%,
                         rgba(63, 131, 145, 0.9) 100%
                       )`,
                     boxShadow: `
@@ -1370,7 +1280,7 @@ function Contact() {
                       inset 0 1px 0 rgba(255, 255, 255, 0.3)
                     `
                   }}
-                  whileHover={{ 
+                  whileHover={{
                     scale: 1.05,
                     boxShadow: "0 12px 40px rgba(63, 131, 145, 0.4)"
                   }}
@@ -1381,7 +1291,7 @@ function Contact() {
                 >
                   <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
                   <FileText size={16} />
-                  <span className="relative">Demander un devis</span>
+                  <span className="relative">{t(translations.contact.getQuote)}</span>
                 </motion.button>
               </div>
             </div>

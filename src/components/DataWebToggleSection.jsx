@@ -2,9 +2,12 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import dnaVideo from '../assets/autre/dna-healthdata.mp4';
 import computerVideo from '../assets/autre/computer.mp4';
+import { useLanguage } from '../contexts/LanguageContext';
+import { translations } from '../translations';
 
 const DataWebToggleSection = () => {
   const [isAI, setIsAI] = useState(false);
+  const { t } = useLanguage();
 
   const handleToggle = () => {
     setIsAI(!isAI);
@@ -26,7 +29,7 @@ const DataWebToggleSection = () => {
               animate={{ scale: !isAI ? 1.15 : 1 }}
               whileHover={{ scale: 1.1 }}
             >
-              DATA
+              {t(translations.dataAi.data)}
             </motion.span>
 
             <div className="checkbox-wrapper-25">
@@ -86,7 +89,7 @@ const DataWebToggleSection = () => {
               animate={{ scale: isAI ? 1.15 : 1 }}
               whileHover={{ scale: 1.1 }}
             >
-              AI
+              {t(translations.dataAi.ai)}
             </motion.span>
           </div>
 
@@ -101,15 +104,7 @@ const DataWebToggleSection = () => {
               className="max-w-4xl mx-auto text-center px-4"
             >
               <p className="text-base md:text-lg leading-relaxed text-gray-700">
-                {!isAI ? (
-                  <>
-                    Mes services de data couvrent toute la chaîne : collecte (APIs, données publiques), transformation, puis analyse et mise en valeur actionable. Une forte expérience dans le secteur médical, notamment en analyses médico‑économiques, permet d'adresser des enjeux métiers exigeants.
-                  </>
-                ) : (
-                  <>
-                    Mes solutions d'IA combinent implémentation de LLM, automatisation intelligente et architectures avancées (MCP, RAG avec recherche vectorielle) pour exploiter pleinement vos données. Des techniques de modélisation comme la régression logistique permettent des prédictions fiables.
-                  </>
-                )}
+                {!isAI ? t(translations.dataAi.dataDescription) : t(translations.dataAi.aiDescription)}
               </p>
             </motion.div>
           </AnimatePresence>

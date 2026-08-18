@@ -1,4 +1,6 @@
 import { motion } from 'framer-motion';
+import { useLanguage } from '../contexts/LanguageContext';
+import { translations } from '../translations';
 // Import des images d'inspiration
 import img1 from '../assets/inspirations/Adam-Scott-Severance.webp';
 import img2 from '../assets/inspirations/Quand-la-machine-apprend.webp';
@@ -10,24 +12,26 @@ import img7 from '../assets/inspirations/spderman.webp';
 import img8 from '../assets/inspirations/zinedine-zidane.webp';
 
 const InspirationMarquee = () => {
+  const { t } = useLanguage();
+
   // Structure du contenu avec alternance images/texte
   const content = [
     { type: 'image', content: img1 },
-    { type: 'text', content: 'ce sont mes inspirations' },
+    { type: 'text', content: t(translations.inspiration.text) },
     { type: 'image', content: img2 },
-    { type: 'text', content: 'ce sont mes inspirations' },
+    { type: 'text', content: t(translations.inspiration.text) },
     { type: 'image', content: img3 },
-    { type: 'text', content: 'ce sont mes inspirations' },
+    { type: 'text', content: t(translations.inspiration.text) },
     { type: 'image', content: img4 },
-    { type: 'text', content: 'ce sont mes inspirations' },
+    { type: 'text', content: t(translations.inspiration.text) },
     { type: 'image', content: img5 },
-    { type: 'text', content: 'ce sont mes inspirations' },
+    { type: 'text', content: t(translations.inspiration.text) },
     { type: 'image', content: img6 },
-    { type: 'text', content: 'ce sont mes inspirations' },
+    { type: 'text', content: t(translations.inspiration.text) },
     { type: 'image', content: img7 },
-    { type: 'text', content: 'ce sont mes inspirations' },
+    { type: 'text', content: t(translations.inspiration.text) },
     { type: 'image', content: img8 },
-    { type: 'text', content: 'ce sont mes inspirations' }
+    { type: 'text', content: t(translations.inspiration.text) }
   ];
 
   // Créer plusieurs copies pour un défilement vraiment infini
