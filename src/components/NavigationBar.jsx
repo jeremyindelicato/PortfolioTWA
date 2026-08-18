@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { useState, useEffect, memo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+
 const NavigationBar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -29,15 +30,16 @@ const NavigationBar = () => {
         className="hidden md:block mx-auto max-w-4xl rounded-full px-6 py-3 shadow-xl fixed top-8 left-1/2 -translate-x-1/2 z-40 transition-all duration-500"
         style={{
           background: `linear-gradient(135deg,
-            rgba(63, 131, 145, ${isScrolled && !isHovered ? 0.85 : 0.9}) 0%,
-            rgba(42, 92, 104, ${isScrolled && !isHovered ? 0.9 : 0.95}) 100%
+            rgba(255, 255, 255, ${isScrolled && !isHovered ? 0.15 : 0.2}) 0%,
+            rgba(255, 255, 255, ${isScrolled && !isHovered ? 0.1 : 0.15}) 100%
           )`,
           backgroundRepeat: 'no-repeat',
           backgroundOrigin: 'border-box',
           backgroundClip: 'border-box',
-          backdropFilter: isScrolled && !isHovered ? 'blur(20px)' : 'blur(10px)',
-          border: `1px solid rgba(255, 255, 255, ${isScrolled && !isHovered ? 0.1 : 0.2})`,
-          overflow: 'hidden'
+          backdropFilter: isScrolled && !isHovered ? 'blur(20px) saturate(180%)' : 'blur(15px) saturate(180%)',
+          WebkitBackdropFilter: isScrolled && !isHovered ? 'blur(20px) saturate(180%)' : 'blur(15px) saturate(180%)',
+          border: `1px solid rgba(255, 255, 255, ${isScrolled && !isHovered ? 0.3 : 0.4})`,
+          overflow: 'visible'
         }}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
@@ -46,42 +48,43 @@ const NavigationBar = () => {
         }}
         transition={{ duration: 0.3, ease: "easeOut" }}
       >
-        <div className="flex items-center justify-center">
-          {navItems.map((item, index) => (
-            <div key={index} className="flex items-center">
-              <motion.div
-                whileHover={{ 
-                  scale: 1.05,
-                  transition: { duration: 0.2, ease: "easeOut" }
-                }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Link
-                  to={item.path}
-                  className={`relative font-medium text-sm px-5 py-2.5 rounded-full transition-all duration-300 whitespace-nowrap block ${
-                    location.pathname === item.path 
-                      ? `text-gray-900 bg-black/20`
-                      : `text-gray-900 hover:bg-black/10 hover:text-gray-900`
-                  }`}
-                >
-                  {item.name}
-                </Link>
-              </motion.div>
-              
-              {/* Séparateur élégant entre les boutons */}
-              {index < navItems.length - 1 && (
-                <div className="flex items-center justify-center mx-3">
+            <div className="flex items-center justify-center">
+              {navItems.map((item, index) => (
+                <div key={index} className="flex items-center">
                   <motion.div
-                    className="w-px h-5 bg-gradient-to-b from-transparent via-white/30 to-transparent"
-                    initial={{ opacity: 0.3, scaleY: 0.8 }}
-                    animate={{ opacity: 0.5, scaleY: 1 }}
-                    transition={{ duration: 2, repeat: Infinity, repeatType: "reverse" }}
-                  />
+                    whileHover={{
+                      scale: 1.05,
+                      transition: { duration: 0.2, ease: "easeOut" }
+                    }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <Link
+                      to={item.path}
+                      className={`relative font-medium text-sm px-5 py-2.5 rounded-full transition-all duration-300 whitespace-nowrap block ${
+                        location.pathname === item.path
+                          ? `text-gray-900 bg-black/20`
+                          : `text-gray-900 hover:bg-black/10 hover:text-gray-900`
+                      }`}
+                      style={{ textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)' }}
+                    >
+                      {item.name}
+                    </Link>
+                  </motion.div>
+
+                  {/* Séparateur élégant entre les boutons */}
+                  {index < navItems.length - 1 && (
+                    <div className="flex items-center justify-center mx-3">
+                      <motion.div
+                        className="w-px h-5 bg-gradient-to-b from-transparent via-white/30 to-transparent"
+                        initial={{ opacity: 0.3, scaleY: 0.8 }}
+                        animate={{ opacity: 0.5, scaleY: 1 }}
+                        transition={{ duration: 2, repeat: Infinity, repeatType: "reverse" }}
+                      />
+                    </div>
+                  )}
                 </div>
-              )}
+              ))}
             </div>
-          ))}
-        </div>
       </motion.nav>
 
       {/* Mobile Navigation */}

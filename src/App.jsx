@@ -17,6 +17,7 @@ import InspirationMarquee from './components/InspirationMarquee';
 import Footer from './components/Footer';
 import TechnologiesSection from './components/TechnologiesSection';
 import DataWebToggleSection from './components/DataWebToggleSection';
+import SkillsSection from './components/SkillsSection';
 
 // Import direct de NeuralNetwork3D pour éviter les problèmes de contexte WebGL
 import NeuralNetwork3D from './components/NeuralNetwork3D';
@@ -42,12 +43,13 @@ const LoadingFallback = ({ height = "400px", componentName = "Composant" }) => {
 };
 
 
-import { Mail, Phone, MapPin, FileText, Download, ExternalLink } from 'lucide-react';
+import { Mail, Phone, MapPin, FileText, Download, ExternalLink, Grid3x3, List } from 'lucide-react';
 import photoProfil from './assets/autre/photo-de-profil.webp';
 import epitechLogo from './assets/autre/epitech.svg';
 import strykerLogo from './assets/autre/stryker.svg';
 import heroVideo from './assets/autre/herosectionanimation.mp4';
 import phoneVideo from './assets/autre/phone.mp4';
+import devVideo from './assets/autre/dev.mp4';
 import cvPdf from './assets/autre/CV_JeremyIndelicato_Alternance.pdf';
 import irisTechnicalPdf from './assets/iris/Dossier_Technique_iris_pipeline.pdf';
 
@@ -250,8 +252,8 @@ function Accueil() {
   return (
     <div className="w-full pb-24">
       {/* Hero Section - Plein écran avec background vidéo */}
-      <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-        {/* Background Vidéo avec overlay */}
+      <div className="min-h-screen flex items-center px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+        {/* Background Vidéo avec overlay assombri pour améliorer le contraste */}
         <div className="absolute inset-0 z-0">
           <video
             autoPlay
@@ -259,24 +261,54 @@ function Accueil() {
             muted
             playsInline
             className="w-full h-full object-cover"
+            style={{ filter: 'brightness(0.8)' }}
           >
             <source src={heroVideo} type="video/mp4" />
           </video>
-          <div className="absolute inset-0 bg-white/30"></div>
+          {/* Gradient overlay pour meilleur contraste WCAG AA */}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#2A5C68]/60 via-transparent to-[#2A5C68]/40"></div>
         </div>
 
         {/* Contenu */}
-        <div className="text-center max-w-6xl mx-auto relative z-10" ref={heroTextRef}>
-          <div className="hero-main-text mb-8">
+        <div className="max-w-6xl mx-auto relative z-10 w-full" ref={heroTextRef}>
+          {/* Eyebrow */}
+          <motion.p
+            className="text-sm uppercase tracking-[0.15em] font-medium mb-6"
+            style={{
+              opacity: 0.85,
+              color: '#ffffff',
+              letterSpacing: '0.15em'
+            }}
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 0.85, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            Jérémy Indelicato — Data & AI Engineer
+          </motion.p>
+
+          <div className="hero-main-text mb-6">
             <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-4 leading-tight transition-colors duration-500 text-gray-900" style={{ fontFamily: 'LEMONMILK, sans-serif' }}>
-              <span style={{ color: '#ffffff' }}>
-                De la donnée brute à l'application qui la rend utile.
+              <span style={{ color: '#ffffff', textShadow: '0 2px 8px rgba(0,0,0,0.3)' }}>
+                Collecter, nettoyer, modéliser, livrer
               </span>
             </h1>
           </div>
 
-          {/* Bouton Call to Action */}
+          {/* Sous-titre */}
           <motion.div
+            className="max-w-xl mb-10"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+          >
+            <p className="text-lg sm:text-xl text-white leading-relaxed" style={{ lineHeight: '1.6' }}>
+              Pipelines, IA appliquée et applications sur-mesure, avec une expertise dans le secteur médical.
+            </p>
+          </motion.div>
+
+          {/* CTAs */}
+          <motion.div
+            className="flex flex-col sm:flex-row items-start gap-6 mb-32"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.5 }}
@@ -285,16 +317,33 @@ function Accueil() {
               onClick={() => navigate('/contact')}
               className="px-8 py-4 rounded-full font-semibold text-white text-lg shadow-xl transition-all duration-300"
               style={{
-                background: 'linear-gradient(135deg, #3F8391 0%, #2A5C68 100%)',
-                boxShadow: '0 8px 32px rgba(63, 131, 145, 0.4)'
+                background: 'linear-gradient(135deg, #13434D 0%, #0d2e35 100%)',
+                boxShadow: '0 8px 32px rgba(19, 67, 77, 0.4)'
               }}
               whileHover={{
                 scale: 1.05,
-                boxShadow: '0 12px 40px rgba(63, 131, 145, 0.6)'
+                boxShadow: '0 12px 40px rgba(19, 67, 77, 0.6)'
               }}
               whileTap={{ scale: 0.95 }}
             >
               Me Contacter
+            </motion.button>
+
+            <motion.button
+              onClick={() => navigate('/projects')}
+              className="px-6 py-3 rounded-full text-lg font-medium transition-all duration-300"
+              style={{
+                background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.15) 100%)',
+                backdropFilter: 'blur(20px) saturate(180%)',
+                WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+                border: '1px solid rgba(255, 255, 255, 0.3)',
+                color: '#ffffff',
+                textShadow: '0 1px 2px rgba(0, 0, 0, 0.1)'
+              }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              Voir mes projets →
             </motion.button>
           </motion.div>
 
@@ -323,88 +372,20 @@ function Accueil() {
       >
         {/* Photo de profil */}
         <div className="relative profile-image group">
-          <div className="relative w-48 h-48 sm:w-64 sm:h-64 lg:w-80 lg:h-80 transition-transform duration-300 hover:scale-105">
-            <div className="absolute inset-0 rounded-full p-1" style={{
-              background: 'radial-gradient(ellipse at center, #3C3C3D 0%, #040F11 100%)'
-            }}>
-              <div className="w-full h-full rounded-full p-2" style={{
-                background: 'radial-gradient(ellipse at center, #3C3C3D 0%, #040F11 100%)'
-              }}>
-                <img 
-                  src={photoProfil} 
-                  alt="Photo de profil Jeremy Indelicato"
-                  className="w-full h-full object-cover rounded-full border-2 border-white/20"
-                />
-              </div>
-            </div>
-            
+          <div className="relative w-40 h-40 sm:w-48 sm:h-48 lg:w-56 lg:h-56 transition-transform duration-300 hover:scale-105">
+            <img
+              src={photoProfil}
+              alt="Photo de profil Jeremy Indelicato"
+              className="w-full h-full object-cover rounded-full"
+            />
           </div>
         </div>
 
         {/* Contenu texte */}
         <div className="text-center lg:text-left max-w-2xl">
-          <p className={`text-lg sm:text-xl lg:text-2xl mb-6 lg:mb-8 leading-relaxed transition-colors duration-500 ${
-            'text-gray-600'
-          }`}>
-            <span style={{ color: '#3F8391' }} className="font-semibold">AI & Data Scientist</span> chez <span style={{ color: '#3F8391' }} className="font-semibold">Stryker</span>, je vous accompagne de manière indépendante dans la création de <span style={{ color: '#3F8391' }} className="font-semibold">solutions web sur-mesure</span>, taillées pour vos objectifs.
-            <br />
-            Mêlant <span style={{ color: '#3F8391' }} className="font-semibold">développement web</span>, <span style={{ color: '#3F8391' }} className="font-semibold">data</span> et <span style={{ color: '#3F8391' }} className="font-semibold">IA</span>, je transforme vos idées en <span style={{ color: '#3F8391' }} className="font-semibold">leviers concrets de croissance</span>. 
+          <p className={`text-lg sm:text-xl lg:text-2xl mb-8 lg:mb-12 leading-relaxed transition-colors duration-500 text-gray-700`}>
+            AI & Data Scientist chez Stryker, Mes services couvrent toute la chaîne data et la création de sites web intégrant analytics et responsive design. Je transforme vos idées en leviers concrets de croissance, portés par une forte expérience dans le secteur médical, notamment en analyses médico-économiques.
           </p>
-
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start mb-8 lg:mb-12">
-            <motion.button 
-              onClick={() => navigate('/projects')}
-              className={`text-gray-800 border-gray-400 bg-white/20`}
-              style={{
-                background: `linear-gradient(135deg, 
-                    rgba(255, 255, 255, 0.9) 0%, 
-                    rgba(255, 255, 255, 0.7) 50%, 
-                    rgba(255, 255, 255, 0.8) 100%
-                  )`,
-                backdropFilter: 'blur(20px)',
-                border: '2px solid rgba(63, 131, 145, 0.8)',
-                boxShadow: `
-                  0 8px 32px rgba(0, 0, 0, 0.15),
-                  inset 0 1px 0 rgba(255, 255, 255, 0.8)
-                `
-              }}
-              whileHover={{ 
-                scale: 1.05,
-                boxShadow: '0 12px 40px rgba(63, 131, 145, 0.4)'
-              }}
-              whileTap={{ scale: 0.95 }}
-            >
-              {/* Shimmer effect */}
-              <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-              <span className="relative z-10">Voir mes projets</span>
-            </motion.button>
-            <motion.button 
-              onClick={() => navigate('/contact')}
-              className={`px-6 py-4 sm:px-8 sm:py-4 lg:px-10 lg:py-5 font-semibold rounded-full transition-all duration-300 text-base lg:text-lg relative overflow-hidden group min-h-[48px] touch-manipulation ${
-                'text-white'
-              }`}
-              style={{
-                background: `linear-gradient(135deg, 
-                    rgba(63, 131, 145, 1) 0%, 
-                    rgba(63, 131, 145, 0.9) 50%, 
-                    rgba(63, 131, 145, 0.8) 100%
-                  )`,
-                boxShadow: `
-                  0 6px 20px rgba(63, 131, 145, 0.4),
-                  inset 0 1px 0 rgba(255, 255, 255, 0.3)
-                `
-              }}
-              whileHover={{ 
-                scale: 1.05,
-                boxShadow: '0 6px 24px rgba(63, 131, 145, 0.4)'
-              }}
-              whileTap={{ scale: 0.95 }}
-            >
-              {/* Shimmer effect */}
-              <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-              <span className="relative z-10">Me contacter</span>
-            </motion.button>
-          </div>
 
           {/* Logos École et Entreprise */}
           <div className="flex items-center justify-center lg:justify-start gap-4 sm:gap-6 lg:gap-8">
@@ -449,6 +430,16 @@ function Accueil() {
         </div>
       </div>
 
+      {/* Section Compétences avec SplitText */}
+      <motion.div
+        initial={{ opacity: 0, y: 100 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.2 }}
+        viewport={{ once: true }}
+      >
+        <SkillsSection />
+      </motion.div>
+
       {/* Section Data/Web Toggle */}
       <motion.div
         initial={{ opacity: 0, y: 100 }}
@@ -457,16 +448,6 @@ function Accueil() {
         viewport={{ once: true }}
       >
         <DataWebToggleSection />
-      </motion.div>
-
-      {/* Section Projets */}
-      <motion.div
-        ref={projectsRef}
-        initial={{ opacity: 0, y: 100 }}
-        animate={projectsInView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.8, delay: 0.4 }}
-      >
-        <ProjectCarousel />
       </motion.div>
 
       {/* Section Technologies Maîtrisées */}
@@ -478,6 +459,61 @@ function Accueil() {
       >
         <TechnologiesSection />
       </motion.div>
+
+      {/* Section Web Development */}
+      <motion.section
+        className="w-full py-20"
+        initial={{ opacity: 0, y: 100 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.2 }}
+        viewport={{ once: true }}
+      >
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="flex flex-col lg:flex-row items-center gap-12">
+            {/* Vidéo à gauche */}
+            <motion.div
+              className="w-full lg:w-1/2"
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              viewport={{ once: true }}
+            >
+              <div className="relative rounded-3xl overflow-hidden shadow-2xl">
+                <video
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  className="w-full h-auto object-cover"
+                >
+                  <source src={devVideo} type="video/mp4" />
+                </video>
+              </div>
+            </motion.div>
+
+            {/* Texte à droite */}
+            <motion.div
+              className="w-full lg:w-1/2"
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              viewport={{ once: true }}
+            >
+              <h3
+                className="text-3xl md:text-4xl font-bold mb-6 transition-colors duration-500 text-gray-900"
+                style={{ fontFamily: 'LEMONMILK, sans-serif' }}
+              >
+                WEB
+              </h3>
+              <p className="text-base md:text-lg leading-relaxed text-gray-700">
+                Mes solutions de développement web proposent des sites sur mesure (vitrine, e‑commerce, applications) avec un responsive design optimisé pour mobile, bâtis sur des technologies dynamiques et actuelles, et intégrant la gestion des données d'analytics.
+                <br /><br />
+                Une expérience fluide, moderne et performante, conçue pour convertir, fidéliser et piloter la croissance grâce à la data.
+              </p>
+            </motion.div>
+          </div>
+        </div>
+      </motion.section>
 
       {/* Footer avec CV et Copyright */}
       <motion.footer
@@ -493,36 +529,27 @@ function Accueil() {
             <motion.a
               href={cvPdf}
               download="CV-Jeremy-Indelicato-TWA.pdf"
-              className={`inline-flex items-center gap-3 px-8 py-4 rounded-2xl font-semibold transition-all duration-300 border backdrop-blur-xl relative overflow-hidden group ${
-                'border-gray-300/40'
-              }`}
+              className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl font-semibold transition-all duration-300 relative overflow-hidden group"
               style={{
-                background: `linear-gradient(135deg, 
-                    rgba(255, 255, 255, 0.95) 0%, 
-                    rgba(255, 255, 255, 0.85) 50%, 
-                    rgba(255, 255, 255, 0.9) 100%
-                  )`,
-                backdropFilter: 'blur(20px)',
-                boxShadow: `
-                  0 8px 32px rgba(0, 0, 0, 0.05),
-                  inset 0 1px 0 rgba(255, 255, 255, 0.8),
-                  inset 0 -1px 0 rgba(0, 0, 0, 0.05)
-                `,
+                background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.15) 100%)',
+                backdropFilter: 'blur(20px) saturate(180%)',
+                WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+                border: '1px solid rgba(255, 255, 255, 0.3)',
+                boxShadow: '0 4px 16px rgba(0, 0, 0, 0.1)',
                 color: '#1F2937'
               }}
-              whileHover={{ 
+              whileHover={{
                 scale: 1.05,
                 boxShadow: "0 12px 40px rgba(63, 131, 145, 0.3)",
-                background: "linear-gradient(135deg, #3F8391 0%, #5ba3b0 100%)",
-                color: "#FFFFFF"
+                background: "linear-gradient(135deg, rgba(63, 131, 145, 0.3) 0%, rgba(63, 131, 145, 0.25) 100%)"
               }}
               whileTap={{ scale: 0.95 }}
             >
               {/* Shimmer effect */}
               <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-              
-              <Download size={20} className="relative z-10" />
-              <span className="relative z-10">Télécharger mon CV</span>
+
+              <Download size={20} className="relative z-10" style={{ textShadow: '0 1px 2px rgba(0, 0, 0, 0.1)' }} />
+              <span className="relative z-10" style={{ textShadow: '0 1px 2px rgba(0, 0, 0, 0.1)' }}>Télécharger mon CV</span>
             </motion.a>
           </motion.div>
 
@@ -565,6 +592,7 @@ function Accueil() {
 function ProjetsEtExperience() {
   const [selectedProject, setSelectedProject] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [viewMode, setViewMode] = useState('grid'); // 'grid' ou 'list'
 
   const openProjectModal = (project) => {
     setSelectedProject(project);
@@ -576,33 +604,34 @@ function ProjetsEtExperience() {
     setSelectedProject(null);
   };
 
-  // Projets d'étude
+  // Projets d'étude (du plus récent au plus ancien)
   const studyProjects = [
     {
-      id: 1,
-      name: "Iris Pipeline",
+      id: 3,
+      name: "Hackaton Élysée",
       category: "Projet d'étude",
-      shortDescription: "Pipeline de machine learning pour la prédiction de la largeur de sépale",
-      fullDescription: "Développement d'un pipeline de machine learning complet pour l'analyse et la prédiction d'une largeur de sépale. Le projet inclut la création d'une API REST pour les prédictions, l'utilisation de MLflow pour le suivi des modèles, et une base de données PostgreSQL pour stocker les données structurées.\n\nL'objectif est de fournir une solution robuste et scalable pour le traitement d'images, avec un focus sur la performance et la maintenabilité du code.\n\nLe projet a été réalisé dans le cadre de ma formation à Epitech.",
-      image: irisLogo,
+      shortDescription: "Solution prédictive et interactive pour anticiper les épidémies de grippe en France",
+      fullDescription: "Développement d'une solution prédictive et interactive permettant de centraliser les données pour anticiper et comprendre les dynamiques épidémiques et hospitalières de la grippe en France. Le projet vise à dépasser les limites des outils de surveillance actuels (souvent statiques, non croisés ou complexes).\n\nLe système s'articule autour du traitement de données publiques (Météo France, Insee, Santé Publique France, data.gouv.fr) qui sont nettoyées, agrégées et croisées (densité de population, couverture vaccinale, syndromes grippaux et météo).\n\nL'équipe a mis en œuvre trois modèles complémentaires de Machine Learning : XGBoost pour la prédiction des foyers épidémiques, un modèle de régression pour les taux de passages aux urgences, et SARIMAX pour la prédiction des hospitalisations basée sur les séries temporelles.",
+      image: hackatonLogo,
       date: "2025",
-      technologies: ["Python", "FastAPI", "MLflow", "Docker", "Scikit-learn", "PostgreSQL"],
+      technologies: ["Python", "Streamlit", "XGBoost", "SARIMAX", "Plotly", "Pandas", "NumPy", "Scikit-learn"],
       keyFeatures: [
-        "Pipeline automatisé de traitement d'images",
-        "API REST pour faire des prédictions via /predict",
-        "Base de données PostgreSQL pour les données structurées",
-        "Tracking des modèles et métriques via MLflow"
+        "Dashboard interactif Streamlit avec visualisations dynamiques (Plotly, Matplotlib, Seaborn)",
+        "Modèle XGBoost pour détection des foyers épidémiques (35 features : météo, densité, âge)",
+        "Modèle de régression pour prédiction des passages aux urgences",
+        "Modèle SARIMAX pour prédiction saisonnière des hospitalisations"
       ],
       achievements: [
-        "MSE < 0.1 avec RandomForestRegressor",
-        "Containerisation et orchestration réussies avec Docker Compose",
-        "Pipeline traçable et maintenable"
+        "Centralisation et croisement de multiples sources de données publiques",
+        "Système de prédiction multi-niveaux (foyers, urgences, hospitalisations)",
+        "Identification des zones d'alerte épidémique grâce aux patterns complexes",
+        "Perspectives d'amélioration : suivi temps réel pharmacies, déplacements SNCF, eaux usées"
       ],
       media: {
         type: "image",
-        src: irisMockup
+        src: hackatonThumbnail
       },
-      detailUrl: irisTechnicalPdf
+      detailUrl: hackatonPdf
     },
     {
       id: 2,
@@ -632,35 +661,34 @@ function ProjetsEtExperience() {
       detailUrl: sntPdf
     },
     {
-      id: 3,
-      name: "Hackaton Élysée",
+      id: 1,
+      name: "Iris Pipeline",
       category: "Projet d'étude",
-      shortDescription: "Solution prédictive et interactive pour anticiper les épidémies de grippe en France",
-      fullDescription: "Développement d'une solution prédictive et interactive permettant de centraliser les données pour anticiper et comprendre les dynamiques épidémiques et hospitalières de la grippe en France. Le projet vise à dépasser les limites des outils de surveillance actuels (souvent statiques, non croisés ou complexes).\n\nLe système s'articule autour du traitement de données publiques (Météo France, Insee, Santé Publique France, data.gouv.fr) qui sont nettoyées, agrégées et croisées (densité de population, couverture vaccinale, syndromes grippaux et météo).\n\nL'équipe a mis en œuvre trois modèles complémentaires de Machine Learning : XGBoost pour la prédiction des foyers épidémiques, un modèle de régression pour les taux de passages aux urgences, et SARIMAX pour la prédiction des hospitalisations basée sur les séries temporelles.",
-      image: hackatonLogo,
+      shortDescription: "Pipeline de machine learning pour la prédiction de la largeur de sépale",
+      fullDescription: "Développement d'un pipeline de machine learning complet pour l'analyse et la prédiction d'une largeur de sépale. Le projet inclut la création d'une API REST pour les prédictions, l'utilisation de MLflow pour le suivi des modèles, et une base de données PostgreSQL pour stocker les données structurées.\n\nL'objectif est de fournir une solution robuste et scalable pour le traitement d'images, avec un focus sur la performance et la maintenabilité du code.\n\nLe projet a été réalisé dans le cadre de ma formation à Epitech.",
+      image: irisLogo,
       date: "2025",
-      technologies: ["Python", "Streamlit", "XGBoost", "SARIMAX", "Plotly", "Pandas", "NumPy", "Scikit-learn"],
+      technologies: ["Python", "FastAPI", "MLflow", "Docker", "Scikit-learn", "PostgreSQL"],
       keyFeatures: [
-        "Dashboard interactif Streamlit avec visualisations dynamiques (Plotly, Matplotlib, Seaborn)",
-        "Modèle XGBoost pour détection des foyers épidémiques (35 features : météo, densité, âge)",
-        "Modèle de régression pour prédiction des passages aux urgences",
-        "Modèle SARIMAX pour prédiction saisonnière des hospitalisations"
+        "Pipeline automatisé de traitement d'images",
+        "API REST pour faire des prédictions via /predict",
+        "Base de données PostgreSQL pour les données structurées",
+        "Tracking des modèles et métriques via MLflow"
       ],
       achievements: [
-        "Centralisation et croisement de multiples sources de données publiques",
-        "Système de prédiction multi-niveaux (foyers, urgences, hospitalisations)",
-        "Identification des zones d'alerte épidémique grâce aux patterns complexes",
-        "Perspectives d'amélioration : suivi temps réel pharmacies, déplacements SNCF, eaux usées"
+        "MSE < 0.1 avec RandomForestRegressor",
+        "Containerisation et orchestration réussies avec Docker Compose",
+        "Pipeline traçable et maintenable"
       ],
       media: {
         type: "image",
-        src: hackatonThumbnail
+        src: irisMockup
       },
-      detailUrl: hackatonPdf
+      detailUrl: irisTechnicalPdf
     }
   ];
 
-  // Expériences professionnelles
+  // Expériences professionnelles (du plus récent au plus ancien)
   const experiences = [
     {
       id: 4,
@@ -691,7 +719,7 @@ function ProjetsEtExperience() {
     },
     {
       id: 5,
-      name: "Orapi - Data Engineering",
+      name: "Paredes Orapi - Data Engineering",
       category: "Expérience",
       shortDescription: "Alternance en tant que Data Engineer - Développement de ChatBot et gestion de données",
       fullDescription: "Mission en alternance chez Orapi, spécialisée dans les solutions de nettoyage industriel. Développement d'un système de ChatBot intelligent pour le support client et mise en place d'une architecture de gestion des données robuste.\n\nLe projet a inclus l'analyse des besoins clients, la conception d'une base de données optimisée, et l'implémentation d'algorithmes de traitement du langage naturel pour améliorer l'expérience utilisateur.",
@@ -713,13 +741,13 @@ function ProjetsEtExperience() {
         type: "image",
         src: orapiChatbot
       },
-      detailUrl: "https://huggingface.co/taciturn999/OrapAI"
+      detailUrl: "https://www.linkedin.com/company/gpo-groupe-paredes-orapi/"
     },
     {
       id: 6,
-      name: "ASC - Growth Marketing",
+      name: "Hartmann Group - Growth Hacking",
       category: "Expérience",
-      shortDescription: "Stage en Growth Marketing - Développement web et design & croissance",
+      shortDescription: "Stage en Growth Hacking - Développement web et design & croissance",
       fullDescription: "Stage de 7 mois chez Advanced Silicone Coating (Groupe Hartmann), une entreprise spécialisée dans les solutions de pansements. Le projet a consisté à développer une stratégie de growth marketing incluant la création d'un site web moderne, l'automatisation des campagnes de prospection, et l'analyse des données de marché.\n\nL'objectif était d'augmenter la visibilité en ligne de l'entreprise et de générer des leads qualifiés pour les équipes commerciales.",
       image: ascLogo,
       date: "2023",
@@ -735,7 +763,7 @@ function ProjetsEtExperience() {
         "Génération de plus de 30 leads qualifiés via les campagnes automatisées",
         "Amélioration de la stratégie de contenu B2B"
       ],
-      websiteUrl: "https://bento.me/advanced-silicone-coating",
+      websiteUrl: "https://www.hartmann.info/fr-fr/",
       media: {
         type: "image",
         src: ascThumbnail
@@ -799,34 +827,8 @@ function ProjetsEtExperience() {
     }
   ];
 
-  // Jeux vidéos
+  // Jeux vidéos (du plus récent au plus ancien)
   const videoGames = [
-    {
-      id: 9,
-      name: "LinguaXplore",
-      category: "Jeu vidéo",
-      shortDescription: "Jeu vidéo éducatif pour l'apprentissage des langues",
-      fullDescription: "Création d'une plateforme immersive d'apprentissage des langues à travers des jeux vidéo et des expériences interactives. Le projet inclut le développement d'un site web moderne, l'intégration de l'intelligence artificielle pour les interactions avec les personnages non-joueurs (PNJ), et un système de progression gamifié.\n\nL'objectif est de rendre l'apprentissage des langues plus engageant et efficace en combinant technologie et pédagogie.\n\nNous avons développé un site web minimaliste et responsive, intégrant des éléments de design moderne et une interface utilisateur intuitive.",
-      image: lxpLogo,
-      date: "2024",
-      technologies: ["Unreal Engine", "Blender", "JavaScript", "OpenAI API", "Figma", "Illustrator"],
-      keyFeatures: [
-        "Quêtes linguistiques scénarisées en VR",
-        "Site Web : Design minimaliste et responsive",
-        "Intelligence artificielle pour les PNJ",
-        "Système de progression et de niveaux"
-      ],
-      achievements: [
-        "Personnalisation du skin personnage",
-        "Chat de proximité",
-        "Interface web responsive et moderne"
-      ],
-      websiteUrl: "https://lavender-curlew-739021.hostingersite.com/",
-      media: {
-        type: "image",
-        src: lxpThumbnail
-      }
-    },
     {
       id: 10,
       name: "IAM CRYPTO",
@@ -853,10 +855,36 @@ function ProjetsEtExperience() {
         type: "image",
         src: iamCryptoThumbnail
       }
+    },
+    {
+      id: 9,
+      name: "LinguaXplore",
+      category: "Jeu vidéo",
+      shortDescription: "Jeu vidéo éducatif pour l'apprentissage des langues",
+      fullDescription: "Création d'une plateforme immersive d'apprentissage des langues à travers des jeux vidéo et des expériences interactives. Le projet inclut le développement d'un site web moderne, l'intégration de l'intelligence artificielle pour les interactions avec les personnages non-joueurs (PNJ), et un système de progression gamifié.\n\nL'objectif est de rendre l'apprentissage des langues plus engageant et efficace en combinant technologie et pédagogie.\n\nNous avons développé un site web minimaliste et responsive, intégrant des éléments de design moderne et une interface utilisateur intuitive.",
+      image: lxpLogo,
+      date: "2024",
+      technologies: ["Unreal Engine", "Blender", "JavaScript", "OpenAI API", "Figma", "Illustrator"],
+      keyFeatures: [
+        "Quêtes linguistiques scénarisées en VR",
+        "Site Web : Design minimaliste et responsive",
+        "Intelligence artificielle pour les PNJ",
+        "Système de progression et de niveaux"
+      ],
+      achievements: [
+        "Personnalisation du skin personnage",
+        "Chat de proximité",
+        "Interface web responsive et moderne"
+      ],
+      websiteUrl: "https://lavender-curlew-739021.hostingersite.com/",
+      media: {
+        type: "image",
+        src: lxpThumbnail
+      }
     }
   ];
 
-  const ProjectCard = ({ project, index }) => {
+  const ProjectCard = ({ project, index, viewMode = 'grid' }) => {
     const handleCardClick = () => {
       if (project.gameUrl) {
         window.open(project.gameUrl, '_blank');
@@ -865,132 +893,196 @@ function ProjetsEtExperience() {
       }
     };
 
+    const isListView = viewMode === 'list';
+
     return (
     <motion.div
-      className={`border-gray-300/30 hover:border-gray-400/50`}
+      className={`cursor-pointer ${
+        isListView ? 'flex flex-row items-center gap-6 rounded-3xl' : 'rounded-3xl'
+      }`}
       style={{
-        background: `linear-gradient(135deg,
-            rgba(255, 255, 255, 0.9) 0%,
-            rgba(255, 255, 255, 0.8) 50%,
-            rgba(255, 255, 255, 0.85) 100%
-          )`,
-        backdropFilter: 'blur(20px)',
-        boxShadow: `
-          0 8px 32px rgba(0, 0, 0, 0.1),
-          inset 0 1px 0 rgba(255, 255, 255, 0.8)
-        `
+        background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.15) 100%)',
+        backdropFilter: 'blur(20px) saturate(180%)',
+        WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+        border: '1px solid rgba(255, 255, 255, 0.3)',
+        boxShadow: '0 4px 16px rgba(0, 0, 0, 0.1)'
       }}
       initial={{ y: 50, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, delay: index * 0.1 }}
-      whileHover={{ scale: 1.02, y: -5 }}
+      whileHover={{
+        scale: isListView ? 1.01 : 1.02,
+        y: isListView ? 0 : -5,
+        boxShadow: '0 8px 24px rgba(63, 131, 145, 0.2)'
+      }}
       onClick={handleCardClick}
     >
-      <div className="p-6">
-        {/* Project Image */}
-        <div className="w-16 h-16 mb-4 rounded-2xl overflow-hidden border border-white/10">
-          <img
-            src={project.image}
-            alt={project.name}
-            className="w-full h-full object-cover"
-          />
-        </div>
-
-        {/* Header */}
-        <div className="flex items-start justify-between mb-4">
-          <div>
-            <h3 className={`text-xl font-bold mb-2 transition-colors duration-500 ${
-              'text-gray-900'
-            }`}>{project.name}</h3>
-            <p className={`text-sm transition-colors duration-500 ${
-              'text-gray-600'
-            }`}>{project.date}</p>
+      <div className={`p-6 ${isListView ? 'w-full' : ''}`}>
+        <div className={isListView ? 'flex items-center gap-6 w-full' : ''}>
+          {/* Project Image */}
+          <div className={`${isListView ? 'w-24 h-24' : 'w-16 h-16 mb-4'} rounded-2xl overflow-hidden border border-white/10 flex-shrink-0`}>
+            <img
+              src={project.image}
+              alt={project.name}
+              className="w-full h-full object-cover"
+            />
           </div>
-          <span 
-            className="px-3 py-1 rounded-full text-xs font-medium border"
-            style={{
-              backgroundColor: 'rgba(63, 131, 145, 0.2)',
-              color: '#3F8391',
-              borderColor: 'rgba(63, 131, 145, 0.3)'
-            }}
-          >
-            {project.category}
-          </span>
-        </div>
 
-        {/* Description */}
-        <p className={`mb-6 leading-relaxed text-sm transition-colors duration-500 ${
-          'text-gray-600'
-        }`}>
-          {project.shortDescription}
-        </p>
+          <div className={isListView ? 'flex-1' : ''}>
+            {/* Header */}
+            <div className={`flex items-start justify-between ${isListView ? 'mb-2' : 'mb-4'}`}>
+              <div>
+                <h3 className={`text-xl font-bold ${isListView ? 'mb-1' : 'mb-2'} transition-colors duration-500 ${
+                  'text-gray-900'
+                }`}>{project.name}</h3>
+                <p className={`text-sm transition-colors duration-500 ${
+                  'text-gray-600'
+                }`}>{project.date}</p>
+              </div>
+              <span
+                className="px-3 py-1 rounded-full text-xs font-medium border flex-shrink-0"
+                style={{
+                  backgroundColor: 'rgba(63, 131, 145, 0.2)',
+                  color: '#3F8391',
+                  borderColor: 'rgba(63, 131, 145, 0.3)'
+                }}
+              >
+                {project.category}
+              </span>
+            </div>
 
-        {/* Technologies */}
-        <div className="flex flex-wrap gap-2 mb-6">
-          {project.technologies.slice(0, 3).map((tech, idx) => (
-            <span 
-              key={idx}
-              className="px-2 py-1 rounded text-xs border"
+            {/* Description */}
+            {!isListView && (
+              <p className={`mb-6 leading-relaxed text-sm transition-colors duration-500 ${
+                'text-gray-600'
+              }`}>
+                {project.shortDescription}
+              </p>
+            )}
+
+            {/* Technologies */}
+            <div className={`flex flex-wrap gap-2 ${isListView ? 'mb-0' : 'mb-6'}`}>
+              {project.technologies.slice(0, isListView ? 5 : 3).map((tech, idx) => (
+                <span
+                  key={idx}
+                  className="px-2 py-1 rounded text-xs border"
+                  style={{
+                    borderColor: 'rgba(63, 131, 145, 0.5)',
+                    color: '#3F8391',
+                    backgroundColor: 'rgba(63, 131, 145, 0.1)'
+                  }}
+                >
+                  {tech}
+                </span>
+              ))}
+              {project.technologies.length > (isListView ? 5 : 3) && (
+                <span className={`text-xs transition-colors duration-500 ${
+                  'text-gray-600'
+                }`}>
+                  +{project.technologies.length - (isListView ? 5 : 3)} autres
+                </span>
+              )}
+            </div>
+          </div>
+
+          {/* CTA Button */}
+          {isListView && (
+            <motion.button
+              className="px-6 py-3 rounded-full font-semibold transition-all duration-300 text-sm text-white flex-shrink-0"
               style={{
-                borderColor: 'rgba(63, 131, 145, 0.5)',
-                color: '#3F8391',
-                backgroundColor: 'rgba(63, 131, 145, 0.1)'
+                background: 'linear-gradient(135deg, #3F8391 0%, #4a9bb8 100%)',
+                border: '1px solid rgba(255, 255, 255, 0.4)',
+                boxShadow: '0 6px 20px rgba(63, 131, 145, 0.4)',
+                color: '#FFFFFF'
               }}
+              whileHover={{
+                scale: 1.05,
+                boxShadow: '0 6px 20px rgba(63, 131, 145, 0.4)'
+              }}
+              whileTap={{ scale: 0.95 }}
             >
-              {tech}
-            </span>
-          ))}
-          {project.technologies.length > 3 && (
-            <span className={`text-xs transition-colors duration-500 ${
-              'text-gray-600'
-            }`}>
-              +{project.technologies.length - 3} autres
-            </span>
+              {project.gameUrl ? 'Jouer' : 'Voir les détails'}
+            </motion.button>
           )}
         </div>
 
-        {/* CTA Button */}
-        <motion.button
-          className="w-full py-3 px-6 rounded-full font-semibold transition-all duration-300 text-sm text-white"
-          style={{
-            background: 'linear-gradient(135deg, #3F8391 0%, #4a9bb8 100%)',
-            border: '1px solid rgba(255, 255, 255, 0.4)',
-            boxShadow: '0 6px 20px rgba(63, 131, 145, 0.4)',
-            color: '#FFFFFF'
-          }}
-          whileHover={{ 
-            scale: 1.05,
-            boxShadow: '0 6px 20px rgba(63, 131, 145, 0.4)'
-          }}
-          whileTap={{ scale: 0.95 }}
-        >
-          {project.gameUrl ? 'Jouer' : 'Voir les détails'}
-        </motion.button>
+        {/* CTA Button for Grid View */}
+        {!isListView && (
+          <motion.button
+            className="w-full py-3 px-6 rounded-full font-semibold transition-all duration-300 text-sm text-white"
+            style={{
+              background: 'linear-gradient(135deg, #3F8391 0%, #4a9bb8 100%)',
+              border: '1px solid rgba(255, 255, 255, 0.4)',
+              boxShadow: '0 6px 20px rgba(63, 131, 145, 0.4)',
+              color: '#FFFFFF'
+            }}
+            whileHover={{
+              scale: 1.05,
+              boxShadow: '0 6px 20px rgba(63, 131, 145, 0.4)'
+            }}
+            whileTap={{ scale: 0.95 }}
+          >
+            {project.gameUrl ? 'Jouer' : 'Voir les détails'}
+          </motion.button>
+        )}
       </div>
     </motion.div>
     );
   };
 
   return (
-    <div className="w-full min-h-screen py-16 pb-24">
-      {/* Header */}
-      <motion.div 
-        className="text-center mb-16 px-4 mx-auto max-w-6xl"
-        initial={{ y: 50, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.6 }}
-      >
-        <h1 className={`text-4xl md:text-6xl font-bold mb-6 transition-colors duration-500 ${
-          'text-gray-900'
-        }`} style={{ fontFamily: 'LEMONMILK, sans-serif' }}>
-          PROJETS & <span style={{ color: '#3F8391' }}>EXPÉRIENCE</span>
-        </h1>
-        <p className={`text-xl max-w-3xl mx-auto transition-colors duration-500 ${
-          'text-gray-600'
-        }`}>
-          Découvrez une sélection de projets réalisés au fil de ma carrière, accompagnés de mes expériences professionnelles. 
-        </p>
-      </motion.div>
+    <div className="w-full min-h-screen pt-40 pb-24">
+      {/* Toggle View Button */}
+      <div className="max-w-6xl mx-auto px-4 mb-8">
+        <div className="flex justify-end gap-2">
+          <motion.button
+            onClick={() => setViewMode('grid')}
+            className="p-3 rounded-full transition-all duration-300"
+            style={{
+              background: viewMode === 'grid'
+                ? 'linear-gradient(135deg, #3F8391 0%, #2A5C68 100%)'
+                : 'linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.15) 100%)',
+              backdropFilter: 'blur(20px) saturate(180%)',
+              WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+              border: viewMode === 'grid'
+                ? '1px solid rgba(63, 131, 145, 0.5)'
+                : '1px solid rgba(255, 255, 255, 0.3)',
+              color: '#ffffff'
+            }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            aria-label="Vue grille"
+          >
+            <Grid3x3 size={20} style={{ filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3))' }} />
+          </motion.button>
+          <motion.button
+            onClick={() => setViewMode('list')}
+            className="p-3 rounded-full transition-all duration-300"
+            style={{
+              background: viewMode === 'list'
+                ? 'linear-gradient(135deg, #3F8391 0%, #2A5C68 100%)'
+                : 'linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.15) 100%)',
+              backdropFilter: 'blur(20px) saturate(180%)',
+              WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+              border: viewMode === 'list'
+                ? '1px solid rgba(63, 131, 145, 0.5)'
+                : '1px solid rgba(255, 255, 255, 0.3)',
+              color: '#ffffff'
+            }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            aria-label="Vue liste"
+          >
+            <List size={20} style={{ filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3))' }} />
+          </motion.button>
+        </div>
+      </div>
 
       <div className="max-w-6xl mx-auto px-4 space-y-20">
         {/* Projets d'étude */}
@@ -999,14 +1091,12 @@ function ProjetsEtExperience() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <h2 className={`text-3xl font-bold mb-8 text-left transition-colors duration-500 ${
-            'text-gray-900'
-          }`}>
-            Projets d'<span style={{ color: '#3F8391' }}>Étude</span>
+          <h2 className="text-3xl font-bold mb-8 text-left transition-colors duration-500 text-gray-900">
+            Projets d'étude
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className={viewMode === 'grid' ? 'grid grid-cols-1 md:grid-cols-2 gap-8' : 'flex flex-col gap-6'}>
             {studyProjects.map((project, index) => (
-              <ProjectCard key={project.id} project={project} index={index} />
+              <ProjectCard key={project.id} project={project} index={index} viewMode={viewMode} />
             ))}
           </div>
         </motion.section>
@@ -1017,32 +1107,12 @@ function ProjetsEtExperience() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.4 }}
         >
-          <h2 className={`text-3xl font-bold mb-8 text-left transition-colors duration-500 ${
-            'text-gray-900'
-          }`}>
-            <span style={{ color: '#3F8391' }}>Expériences</span> Professionnelles
+          <h2 className="text-3xl font-bold mb-8 text-left transition-colors duration-500 text-gray-900">
+            Expériences professionnelles
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {experiences.map((project, index) => (
-              <ProjectCard key={project.id} project={project} index={index} />
-            ))}
-          </div>
-        </motion.section>
-
-        {/* Clients freelance */}
-        <motion.section
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
-        >
-          <h2 className={`text-3xl font-bold mb-8 text-left transition-colors duration-500 ${
-            'text-gray-900'
-          }`}>
-            Clients <span style={{ color: '#3F8391' }}>Freelance</span>
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {freelanceProjects.map((project, index) => (
-              <ProjectCard key={project.id} project={project} index={index} />
+          <div className={viewMode === 'grid' ? 'grid grid-cols-1 md:grid-cols-2 gap-8' : 'flex flex-col gap-6'}>
+            {[...experiences, ...freelanceProjects].map((project, index) => (
+              <ProjectCard key={project.id} project={project} index={index} viewMode={viewMode} />
             ))}
           </div>
         </motion.section>
@@ -1053,14 +1123,12 @@ function ProjetsEtExperience() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.8 }}
         >
-          <h2 className={`text-3xl font-bold mb-8 text-left transition-colors duration-500 ${
-            'text-gray-900'
-          }`}>
-            Jeux <span style={{ color: '#3F8391' }}>Vidéos</span>
+          <h2 className="text-3xl font-bold mb-8 text-left transition-colors duration-500 text-gray-900">
+            Jeux vidéos
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className={viewMode === 'grid' ? 'grid grid-cols-1 md:grid-cols-2 gap-8' : 'flex flex-col gap-6'}>
             {videoGames.map((project, index) => (
-              <ProjectCard key={project.id} project={project} index={index} />
+              <ProjectCard key={project.id} project={project} index={index} viewMode={viewMode} />
             ))}
           </div>
         </motion.section>
@@ -1278,29 +1346,13 @@ function Contact() {
                     href={social.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={`border-gray-300/30 hover:border-gray-400/50`}
-                    style={{
-                      background: `linear-gradient(135deg, 
-                          rgba(255, 255, 255, 0.9) 0%, 
-                          rgba(255, 255, 255, 0.8) 100%
-                        )`,
-                      backdropFilter: 'blur(15px)',
-                      boxShadow: `
-                        0 6px 24px rgba(0, 0, 0, 0.08),
-                        inset 0 1px 0 rgba(255, 255, 255, 0.8)
-                      `
-                    }}
-                    whileHover={{ 
-                      scale: 1.1, 
-                      y: -2,
-                      boxShadow: "0 8px 32px rgba(0, 0, 0, 0.15)"
+                    whileHover={{
+                      scale: 1.1,
+                      y: -2
                     }}
                     whileTap={{ scale: 0.9 }}
                   >
-                    {/* Shimmer effect */}
-                    <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/30 to-transparent" />
-                    
-                    <social.icon size={20} className="relative z-10" style={{ color: "#3F8391" }} />
+                    <social.icon size={24} style={{ color: "#3F8391" }} />
                   </motion.a>
                 ))}
                 

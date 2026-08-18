@@ -52,10 +52,8 @@ const TechnologiesSection = () => {
       transition={{ duration: 0.6, delay: 0.6 }}
     >
       <div className="max-w-6xl mx-auto px-4">
-        <h3 className={`text-3xl md:text-4xl font-bold mb-12 text-center transition-colors duration-500 ${
-          'text-gray-900'
-        }`} style={{ fontFamily: 'LEMONMILK, sans-serif' }}>
-          TECHNOLOGIES <span style={{ color: '#3F8391' }}>MAÎTRISÉES</span>
+        <h3 className={`text-3xl md:text-4xl font-bold mb-12 text-center transition-colors duration-500 text-gray-900`} style={{ fontFamily: 'LEMONMILK, sans-serif' }}>
+          TECHNOLOGIES MAÎTRISÉES
         </h3>
 
         {/* Marquee Container */}

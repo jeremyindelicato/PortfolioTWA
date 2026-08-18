@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import asciiBackground from '../assets/autre/ascii-magic-7.webp';
 
 const Pattern = () => {
   const [deviceType, setDeviceType] = useState('desktop');
@@ -38,13 +39,14 @@ const Pattern = () => {
     const baseStyle = {
       objectFit: 'cover',
       objectPosition: 'center center',
+      transform: 'scaleY(-1)', // Retourne l'image verticalement pour mettre les reflets bleus vers le haut
     };
 
     // Petits mobiles (≤480px) - iPhone SE, petits Android
     if (deviceType === 'mobile-small') {
       return {
         ...baseStyle,
-        transform: orientation === 'portrait' ? 'scale(1.3)' : 'scale(1.15)',
+        transform: orientation === 'portrait' ? 'scale(1.3) scaleY(-1)' : 'scale(1.15) scaleY(-1)',
         filter: 'blur(1px)', // Plus de blur pour masquer les artéfacts sur petits écrans
         imageRendering: 'auto',
       };
@@ -54,7 +56,7 @@ const Pattern = () => {
     if (deviceType === 'mobile') {
       return {
         ...baseStyle,
-        transform: orientation === 'portrait' ? 'scale(1.2)' : 'scale(1.1)',
+        transform: orientation === 'portrait' ? 'scale(1.2) scaleY(-1)' : 'scale(1.1) scaleY(-1)',
         filter: 'blur(0.8px)',
         imageRendering: 'auto',
       };
@@ -64,12 +66,12 @@ const Pattern = () => {
     if (deviceType === 'tablet') {
       return {
         ...baseStyle,
-        transform: orientation === 'portrait' ? 'scale(1.1)' : 'scale(1.05)',
+        transform: orientation === 'portrait' ? 'scale(1.1) scaleY(-1)' : 'scale(1.05) scaleY(-1)',
         filter: 'blur(0.3px)',
       };
     }
 
-    // Desktop - Aucune transformation
+    // Desktop - Avec rotation verticale
     return baseStyle;
   };
 
@@ -96,8 +98,14 @@ const Pattern = () => {
   
   return (
     <div className="fixed top-0 left-0 w-full h-full pointer-events-none transition-all duration-700" style={{ zIndex: -1 }}>
-      {/* Background simple en mode clair */}
-      <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-gray-50 via-white to-gray-100">
+      {/* Background avec image ASCII */}
+      <div className="absolute top-0 left-0 w-full h-full">
+        <img
+          src={asciiBackground}
+          alt="ASCII Background"
+          className="w-full h-full"
+          style={getResponsiveStyles()}
+        />
       </div>
 
       {/* Overlay adaptatif responsive */}
