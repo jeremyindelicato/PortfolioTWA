@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { memo } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { translations } from '../translations';
 // Import des images d'inspiration
@@ -143,4 +144,4 @@ const InspirationMarquee = () => {
   );
 };
 
-export default InspirationMarquee;
+export default memo(InspirationMarquee);

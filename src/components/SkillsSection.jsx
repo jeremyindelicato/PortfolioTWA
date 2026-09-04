@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, memo } from 'react';
 import { gsap } from 'gsap';
 import { SplitText } from 'gsap/SplitText';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -9,11 +9,15 @@ gsap.registerPlugin(SplitText);
 const SkillsSection = () => {
   const headlineRef = useRef(null);
   const animatedRef = useRef(false);
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
+  const splitInstanceRef = useRef(null);
 
   useEffect(() => {
     const element = headlineRef.current;
-    if (!element || animatedRef.current) return;
+    if (!element) return;
+
+    // Réinitialiser l'animation quand la langue change
+    animatedRef.current = false;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -22,14 +26,19 @@ const SkillsSection = () => {
 
           // Attendre que les fonts soient chargées
           requestAnimationFrame(() => {
+            // Nettoyer l'instance précédente de SplitText si elle existe
+            if (splitInstanceRef.current) {
+              splitInstanceRef.current.revert();
+            }
+
             gsap.set(element, { opacity: 1 });
 
-            const headlineSplit = new SplitText(element, {
+            splitInstanceRef.current = new SplitText(element, {
               type: "words",
               wordsClass: "skill-word++",
             });
 
-            gsap.from(headlineSplit.words, {
+            gsap.from(splitInstanceRef.current.words, {
               y: -100,
               opacity: 0,
               rotation: () => gsap.utils.random(-80, 80),
@@ -48,8 +57,11 @@ const SkillsSection = () => {
 
     return () => {
       observer.disconnect();
+      if (splitInstanceRef.current) {
+        splitInstanceRef.current.revert();
+      }
     };
-  }, []);
+  }, [language]);
 
   return (
     <section className="w-full py-20">
@@ -82,14 +94,7 @@ const SkillsSection = () => {
         .skill-word {
           display: inline-block;
           border: 1.5px dashed rgba(63, 131, 145, 0.3);
-          background: linear-gradient(135deg, #3F8391 0%, #5ba3b0 100%);
-          background-size: 100%;
-          -webkit-background-clip: text;
-          -moz-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          -moz-text-fill-color: transparent;
-          background-clip: text;
-          text-fill-color: transparent;
+          color: #1a1a1a;
           min-height: 40px;
           padding: 0.5rem 0.8rem;
           border-radius: 10px;
@@ -139,4 +144,4 @@ const SkillsSection = () => {
   );
 };
 
-export default SkillsSection;
+export default memo(SkillsSection);

@@ -12,7 +12,6 @@ import { LanguageProvider, useLanguage } from './contexts/LanguageContext';
 import { translations } from './translations';
 import Loader from './components/Loader';
 import ProjectCarousel from './components/ProjectCarousel';
-import CustomCursor from './components/CustomCursor';
 import ProjectModal from './components/ProjectModal';
 import InspirationMarquee from './components/InspirationMarquee';
 import Footer from './components/Footer';
@@ -44,7 +43,7 @@ const LoadingFallback = ({ height = "400px", componentName = "Composant" }) => {
 };
 
 
-import { Mail, Phone, MapPin, FileText, Download, ExternalLink, Grid3x3, List } from 'lucide-react';
+import { Mail, Phone, MapPin, FileText, Download, ExternalLink } from 'lucide-react';
 import photoProfil from './assets/autre/photo-de-profil.webp';
 import epitechLogo from './assets/autre/epitech.svg';
 import strykerLogo from './assets/autre/stryker.svg';
@@ -84,31 +83,10 @@ function AppContent() {
     const hasLoadedBefore = sessionStorage.getItem('hasLoadedBefore');
     return currentPath === '/' && !hasLoadedBefore;
   });
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const checkIsMobile = () => {
-      const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-      const isSmallScreen = window.innerWidth < 768;
-      const hasCoarsePointer = window.matchMedia('(pointer: coarse)').matches;
-      
-      return isTouchDevice || isSmallScreen || hasCoarsePointer;
-    };
-
-    setIsMobile(checkIsMobile());
-
-    const handleResize = () => {
-      setIsMobile(checkIsMobile());
-    };
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
 
   return (
     <>
       <Pattern />
-      {!isMobile && <CustomCursor />}
       <Router>
         <LoaderController loading={loading} setLoading={setLoading} />
         <NavigationBar />
@@ -595,7 +573,6 @@ function ProjetsEtExperience() {
   const { t } = useLanguage();
   const [selectedProject, setSelectedProject] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [viewMode, setViewMode] = useState('grid'); // 'grid' ou 'list'
 
   const openProjectModal = (project) => {
     setSelectedProject(project);
@@ -793,7 +770,7 @@ function ProjetsEtExperience() {
     }
   ];
 
-  const ProjectCard = ({ project, index, viewMode = 'grid' }) => {
+  const ProjectCard = ({ project, index }) => {
     const handleCardClick = () => {
       if (project.gameUrl) {
         window.open(project.gameUrl, '_blank');
@@ -802,17 +779,16 @@ function ProjetsEtExperience() {
       }
     };
 
-    const isListView = viewMode === 'list';
+    // Détection mobile pour réduire les effets coûteux
+    const isMobile = window.innerWidth <= 768;
 
     return (
     <motion.div
-      className={`cursor-pointer ${
-        isListView ? 'flex flex-row items-center gap-6 rounded-3xl' : 'rounded-3xl'
-      }`}
+      className="cursor-pointer flex flex-row items-center gap-6 rounded-3xl"
       style={{
         background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.15) 100%)',
-        backdropFilter: 'blur(20px) saturate(180%)',
-        WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+        backdropFilter: isMobile ? 'blur(10px)' : 'blur(20px) saturate(180%)',
+        WebkitBackdropFilter: isMobile ? 'blur(10px)' : 'blur(20px) saturate(180%)',
         border: '1px solid rgba(255, 255, 255, 0.3)',
         boxShadow: '0 4px 16px rgba(0, 0, 0, 0.1)'
       }}
@@ -820,30 +796,29 @@ function ProjetsEtExperience() {
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, delay: index * 0.1 }}
       whileHover={{
-        scale: isListView ? 1.01 : 1.02,
-        y: isListView ? 0 : -5,
+        scale: 1.01,
+        y: 0,
         boxShadow: '0 8px 24px rgba(63, 131, 145, 0.2)'
       }}
       onClick={handleCardClick}
     >
-      <div className={`p-6 ${isListView ? 'w-full' : ''}`}>
-        <div className={isListView ? 'flex items-center gap-6 w-full' : ''}>
+      <div className="p-6 w-full">
+        <div className="flex items-center gap-6 w-full">
           {/* Project Image */}
-          <div className={`${isListView ? 'w-24 h-24' : 'w-16 h-16 mb-4'} rounded-2xl overflow-hidden border border-white/10 flex-shrink-0`}>
+          <div className="w-24 h-24 rounded-2xl overflow-hidden border border-white/10 flex-shrink-0">
             <img
               src={project.image}
               alt={project.name}
               className="w-full h-full object-cover"
+              loading="lazy"
             />
           </div>
 
-          <div className={isListView ? 'flex-1' : ''}>
+          <div className="flex-1">
             {/* Header */}
-            <div className={`flex items-start justify-between ${isListView ? 'mb-2' : 'mb-4'}`}>
+            <div className="flex items-start justify-between mb-2">
               <div>
-                <h3 className={`text-xl font-bold ${isListView ? 'mb-1' : 'mb-2'} transition-colors duration-500 ${
-                  'text-gray-900'
-                }`}>{project.name}</h3>
+                <h3 className="text-xl font-bold mb-1 transition-colors duration-500 text-gray-900">{project.name}</h3>
                 <p className={`text-sm transition-colors duration-500 ${
                   'text-gray-600'
                 }`}>{project.date}</p>
@@ -860,18 +835,9 @@ function ProjetsEtExperience() {
               </span>
             </div>
 
-            {/* Description */}
-            {!isListView && (
-              <p className={`mb-6 leading-relaxed text-sm transition-colors duration-500 ${
-                'text-gray-600'
-              }`}>
-                {project.shortDescription}
-              </p>
-            )}
-
             {/* Technologies */}
-            <div className={`flex flex-wrap gap-2 ${isListView ? 'mb-0' : 'mb-6'}`}>
-              {project.technologies.slice(0, isListView ? 5 : 3).map((tech, idx) => (
+            <div className="flex flex-wrap gap-2 mb-0">
+              {project.technologies.slice(0, 5).map((tech, idx) => (
                 <span
                   key={idx}
                   className="px-2 py-1 rounded text-xs border"
@@ -884,41 +850,17 @@ function ProjetsEtExperience() {
                   {tech}
                 </span>
               ))}
-              {project.technologies.length > (isListView ? 5 : 3) && (
-                <span className={`text-xs transition-colors duration-500 ${
-                  'text-gray-600'
-                }`}>
-                  +{project.technologies.length - (isListView ? 5 : 3)} autres
+              {project.technologies.length > 5 && (
+                <span className="text-xs transition-colors duration-500 text-gray-600">
+                  +{project.technologies.length - 5} autres
                 </span>
               )}
             </div>
           </div>
 
           {/* CTA Button */}
-          {isListView && (
-            <motion.button
-              className="px-6 py-3 rounded-full font-semibold transition-all duration-300 text-sm text-white flex-shrink-0"
-              style={{
-                background: 'linear-gradient(135deg, #3F8391 0%, #4a9bb8 100%)',
-                border: '1px solid rgba(255, 255, 255, 0.4)',
-                boxShadow: '0 6px 20px rgba(63, 131, 145, 0.4)',
-                color: '#FFFFFF'
-              }}
-              whileHover={{
-                scale: 1.05,
-                boxShadow: '0 6px 20px rgba(63, 131, 145, 0.4)'
-              }}
-              whileTap={{ scale: 0.95 }}
-            >
-              {project.gameUrl ? 'Jouer' : 'Voir les détails'}
-            </motion.button>
-          )}
-        </div>
-
-        {/* CTA Button for Grid View */}
-        {!isListView && (
           <motion.button
-            className="w-full py-3 px-6 rounded-full font-semibold transition-all duration-300 text-sm text-white"
+            className="px-6 py-3 rounded-full font-semibold transition-all duration-300 text-sm text-white flex-shrink-0"
             style={{
               background: 'linear-gradient(135deg, #3F8391 0%, #4a9bb8 100%)',
               border: '1px solid rgba(255, 255, 255, 0.4)',
@@ -933,7 +875,7 @@ function ProjetsEtExperience() {
           >
             {project.gameUrl ? 'Jouer' : 'Voir les détails'}
           </motion.button>
-        )}
+        </div>
       </div>
     </motion.div>
     );
@@ -941,58 +883,6 @@ function ProjetsEtExperience() {
 
   return (
     <div className="w-full min-h-screen pt-40 pb-24">
-      {/* Toggle View Button */}
-      <div className="max-w-6xl mx-auto px-4 mb-8">
-        <div className="flex justify-end gap-2">
-          <motion.button
-            onClick={() => setViewMode('grid')}
-            className="p-3 rounded-full transition-all duration-300"
-            style={{
-              background: viewMode === 'grid'
-                ? 'linear-gradient(135deg, #3F8391 0%, #2A5C68 100%)'
-                : 'linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.15) 100%)',
-              backdropFilter: 'blur(20px) saturate(180%)',
-              WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-              border: viewMode === 'grid'
-                ? '1px solid rgba(63, 131, 145, 0.5)'
-                : '1px solid rgba(255, 255, 255, 0.3)',
-              color: '#ffffff'
-            }}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            aria-label="Vue grille"
-          >
-            <Grid3x3 size={20} style={{ filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3))' }} />
-          </motion.button>
-          <motion.button
-            onClick={() => setViewMode('list')}
-            className="p-3 rounded-full transition-all duration-300"
-            style={{
-              background: viewMode === 'list'
-                ? 'linear-gradient(135deg, #3F8391 0%, #2A5C68 100%)'
-                : 'linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.15) 100%)',
-              backdropFilter: 'blur(20px) saturate(180%)',
-              WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-              border: viewMode === 'list'
-                ? '1px solid rgba(63, 131, 145, 0.5)'
-                : '1px solid rgba(255, 255, 255, 0.3)',
-              color: '#ffffff'
-            }}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            aria-label="Vue liste"
-          >
-            <List size={20} style={{ filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3))' }} />
-          </motion.button>
-        </div>
-      </div>
-
       <div className="max-w-6xl mx-auto px-4 space-y-20">
         {/* Projets d'étude */}
         <motion.section
@@ -1003,9 +893,9 @@ function ProjetsEtExperience() {
           <h2 className="text-3xl font-bold mb-8 text-left transition-colors duration-500 text-gray-900">
             {t(translations.projects.studyProjects)}
           </h2>
-          <div className={viewMode === 'grid' ? 'grid grid-cols-1 md:grid-cols-2 gap-8' : 'flex flex-col gap-6'}>
+          <div className="flex flex-col gap-6">
             {studyProjects.map((project, index) => (
-              <ProjectCard key={project.id} project={project} index={index} viewMode={viewMode} />
+              <ProjectCard key={project.id} project={project} index={index} />
             ))}
           </div>
         </motion.section>
@@ -1019,9 +909,9 @@ function ProjetsEtExperience() {
           <h2 className="text-3xl font-bold mb-8 text-left transition-colors duration-500 text-gray-900">
             {t(translations.projects.professionalExperience)}
           </h2>
-          <div className={viewMode === 'grid' ? 'grid grid-cols-1 md:grid-cols-2 gap-8' : 'flex flex-col gap-6'}>
+          <div className="flex flex-col gap-6">
             {[...experiences, ...freelanceProjects].map((project, index) => (
-              <ProjectCard key={project.id} project={project} index={index} viewMode={viewMode} />
+              <ProjectCard key={project.id} project={project} index={index} />
             ))}
           </div>
         </motion.section>
@@ -1035,9 +925,9 @@ function ProjetsEtExperience() {
           <h2 className="text-3xl font-bold mb-8 text-left transition-colors duration-500 text-gray-900">
             {t(translations.projects.videoGames)}
           </h2>
-          <div className={viewMode === 'grid' ? 'grid grid-cols-1 md:grid-cols-2 gap-8' : 'flex flex-col gap-6'}>
+          <div className="flex flex-col gap-6">
             {videoGames.map((project, index) => (
-              <ProjectCard key={project.id} project={project} index={index} viewMode={viewMode} />
+              <ProjectCard key={project.id} project={project} index={index} />
             ))}
           </div>
         </motion.section>
@@ -1127,7 +1017,7 @@ function Contact() {
   ];
 
   return (
-    <div className="w-full min-h-screen pt-24 md:pt-32 lg:pt-40 pb-12 md:pb-24 relative">
+    <div className="w-full min-h-screen pt-32 md:pt-40 lg:pt-48 pb-12 md:pb-24 relative">
       {/* Overlay spécial pour la page contact - plus clair */}
       <div
         className="fixed inset-0 w-full h-full pointer-events-none"

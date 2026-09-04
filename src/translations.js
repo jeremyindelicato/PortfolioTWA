@@ -9,10 +9,10 @@ export const translations = {
   // Hero Section
   hero: {
     name: { fr: 'Jérémy Indelicato', en: 'Jérémy Indelicato' },
-    title: { fr: 'Collecter, nettoyer, analyser.', en: 'Collect, clean, analyze.' },
+    title: { fr: 'Data, IA & BI pour la santé', en: 'Data, AI & BI for Healthcare' },
     subtitle: {
-      fr: 'Transformez vos données en actions concrètes',
-      en: 'Transform your data into concrete actions'
+      fr: '+3 ans d\'expériences',
+      en: '+3 years of experience'
     },
     ctaContact: { fr: 'Me Contacter', en: 'Contact Me' },
     ctaProjects: { fr: 'Voir mes projets →', en: 'View my projects →' },

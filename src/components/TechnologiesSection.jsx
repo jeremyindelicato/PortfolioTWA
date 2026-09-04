@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { memo } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { translations } from '../translations';
 // Import des logos technologies
@@ -24,28 +25,30 @@ import gsapLogo from '../assets/software/GSAP_2023.webp';
 const TechnologiesSection = () => {
   const { t } = useLanguage();
 
+  // Rangée 1 - Technologies Web & Frontend
   const technologiesRow1 = [
     { logo: reactLogo, name: 'React' },
-    { logo: pythonLogo, name: 'Python' },
     { logo: htmlCssJsLogo, name: 'HTML CSS JS' },
     { logo: vuejsLogo, name: 'Vue.js' },
-    { logo: sqlLogo, name: 'SQL' },
     { logo: figmaLogo, name: 'Figma' },
     { logo: gitLogo, name: 'Git' },
     { logo: gsapLogo, name: 'GSAP' },
-    { logo: pandasLogo, name: 'Pandas' },
-    { logo: pytorchLogo, name: 'PyTorch' },
-    { logo: scikitLearnLogo, name: 'Scikit-learn' }
+    { logo: supabaseLogo, name: 'Supabase' }
   ];
 
+  // Rangée 2 - Technologies Data & BI (complètement différente)
   const technologiesRow2 = [
-    { logo: supabaseLogo, name: 'Supabase' },
+    { logo: pythonLogo, name: 'Python' },
+    { logo: sqlLogo, name: 'SQL' },
+    { logo: pandasLogo, name: 'Pandas' },
+    { logo: pytorchLogo, name: 'PyTorch' },
+    { logo: scikitLearnLogo, name: 'Scikit-learn' },
     { logo: powerBiLogo, name: 'Power BI' },
-    { logo: sageX3Logo, name: 'Sage X3' },
-    { logo: analyticsLogo, name: 'Analytics' },
-    { logo: dbtLogo, name: 'dbt' },
     { logo: azureLogo, name: 'Azure' },
-    { logo: databricksLogo, name: 'Databricks' }
+    { logo: databricksLogo, name: 'Databricks' },
+    { logo: dbtLogo, name: 'dbt' },
+    { logo: analyticsLogo, name: 'Analytics' },
+    { logo: sageX3Logo, name: 'Sage X3' }
   ];
 
   return (
@@ -105,9 +108,10 @@ const TechnologiesSection = () => {
               animation: scroll-x var(--duration) linear infinite;
             }
 
-            .marquee:hover .marquee__group {
+            /* Animation continue même au survol - désactivé */
+            /* .marquee:hover .marquee__group {
               animation-play-state: paused;
-            }
+            } */
 
             .marquee--reverse .marquee__group {
               animation-direction: reverse;
@@ -258,4 +262,4 @@ const TechnologiesSection = () => {
   );
 };
 
-export default TechnologiesSection;
+export default memo(TechnologiesSection);

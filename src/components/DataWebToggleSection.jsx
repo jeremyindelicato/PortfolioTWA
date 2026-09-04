@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import dnaVideo from '../assets/autre/dna-healthdata.mp4';
 import computerVideo from '../assets/autre/computer.mp4';
@@ -177,4 +177,4 @@ const DataWebToggleSection = () => {
   );
 };
 
-export default DataWebToggleSection;
+export default memo(DataWebToggleSection);

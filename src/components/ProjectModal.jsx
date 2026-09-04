@@ -1,8 +1,31 @@
-import React from 'react';
+import React, { useEffect, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ExternalLink, FileText, Calendar, Tag } from 'lucide-react';
 
 const ProjectModal = ({ project, isOpen, onClose }) => {
+  // Handle ESC key and body scroll lock
+  useEffect(() => {
+    if (isOpen) {
+      // Block body scroll when modal is open
+      document.body.style.overflow = 'hidden';
+
+      // Handle ESC key
+      const handleEscape = (e) => {
+        if (e.key === 'Escape') {
+          onClose();
+        }
+      };
+
+      document.addEventListener('keydown', handleEscape);
+
+      return () => {
+        // Restore body scroll when modal closes
+        document.body.style.overflow = 'unset';
+        document.removeEventListener('keydown', handleEscape);
+      };
+    }
+  }, [isOpen, onClose]);
+
   if (!project) return null;
 
   return (
@@ -294,4 +317,4 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
   );
 };
 
-export default ProjectModal;
+export default memo(ProjectModal);
