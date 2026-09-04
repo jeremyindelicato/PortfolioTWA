@@ -10,7 +10,6 @@ import Pattern from './components/Pattern';
 import LanguageToggle from './components/LanguageToggle';
 import { LanguageProvider, useLanguage } from './contexts/LanguageContext';
 import { translations } from './translations';
-import Loader from './components/Loader';
 import ProjectCarousel from './components/ProjectCarousel';
 import ProjectModal from './components/ProjectModal';
 import InspirationMarquee from './components/InspirationMarquee';
@@ -77,18 +76,11 @@ import strykerProjectLogo from './assets/stryker/logostryker.webp';
 import strykerProjectThumbnail from './assets/stryker/stryker grande image.webp';
 
 function AppContent() {
-  // Loader uniquement si on arrive sur la page d'accueil ET qu'on n'a jamais visité
-  const [loading, setLoading] = useState(() => {
-    const currentPath = window.location.pathname;
-    const hasLoadedBefore = sessionStorage.getItem('hasLoadedBefore');
-    return currentPath === '/' && !hasLoadedBefore;
-  });
-
   return (
     <>
       <Pattern />
       <Router>
-        <LoaderController loading={loading} setLoading={setLoading} />
+        <ScrollToTopController />
         <NavigationBar />
         <LanguageToggle />
         <div className="min-h-screen w-full">
@@ -99,37 +91,20 @@ function AppContent() {
           </Routes>
         </div>
       </Router>
-      {loading && <Loader />}
     </>
   );
 }
 
-function LoaderController({ setLoading }) {
+function ScrollToTopController() {
   const location = useLocation();
-  
+
   useEffect(() => {
     if (location) {
-      // Scroll vers le haut lors du changement de page (sauf au premier chargement)
-      if (location.pathname !== '/' || sessionStorage.getItem('hasLoadedBefore')) {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-      
-      // Afficher le loader uniquement sur la page d'accueil
-      if (location.pathname === '/') {
-        setLoading(true);
-        const timer = setTimeout(() => {
-          setLoading(false);
-          // Marquer que l'utilisateur a déjà vu le loader
-          sessionStorage.setItem('hasLoadedBefore', 'true');
-        }, 2000);
-        return () => clearTimeout(timer);
-      } else {
-        // S'assurer que le loader est caché sur les autres pages
-        setLoading(false);
-      }
+      // Scroll vers le haut lors du changement de page
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-  }, [location, setLoading]);
-  
+  }, [location]);
+
   return null;
 }
 
@@ -890,7 +865,7 @@ function ProjetsEtExperience() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <h2 className="text-3xl font-bold mb-8 text-left transition-colors duration-500 text-gray-900">
+          <h2 className="text-3xl font-bold mb-8 text-left transition-colors duration-500 text-gray-900 uppercase" style={{ fontFamily: 'LEMONMILK, sans-serif' }}>
             {t(translations.projects.studyProjects)}
           </h2>
           <div className="flex flex-col gap-6">
@@ -906,7 +881,7 @@ function ProjetsEtExperience() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.4 }}
         >
-          <h2 className="text-3xl font-bold mb-8 text-left transition-colors duration-500 text-gray-900">
+          <h2 className="text-3xl font-bold mb-8 text-left transition-colors duration-500 text-gray-900 uppercase" style={{ fontFamily: 'LEMONMILK, sans-serif' }}>
             {t(translations.projects.professionalExperience)}
           </h2>
           <div className="flex flex-col gap-6">
@@ -922,7 +897,7 @@ function ProjetsEtExperience() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.8 }}
         >
-          <h2 className="text-3xl font-bold mb-8 text-left transition-colors duration-500 text-gray-900">
+          <h2 className="text-3xl font-bold mb-8 text-left transition-colors duration-500 text-gray-900 uppercase" style={{ fontFamily: 'LEMONMILK, sans-serif' }}>
             {t(translations.projects.videoGames)}
           </h2>
           <div className="flex flex-col gap-6">
