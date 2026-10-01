@@ -75,6 +75,7 @@ const TechnologiesSection = () => {
 
               width: 100%;
               max-width: 100%;
+              overflow: hidden;
             }
 
             .marquee {

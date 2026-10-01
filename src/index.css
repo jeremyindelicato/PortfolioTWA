@@ -31,6 +31,21 @@ body {
   min-height: 100vh;
   -webkit-touch-callout: none;
   -webkit-tap-highlight-color: transparent;
+  overflow-x: hidden;
+}
+
+html {
+  overflow-x: hidden;
+}
+
+#root {
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 /* Améliorer l'expérience tactile */

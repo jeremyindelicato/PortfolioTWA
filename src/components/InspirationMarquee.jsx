@@ -75,11 +75,11 @@ const InspirationMarquee = () => {
 
 
   return (
-    <div className="w-full relative overflow-hidden">
+    <div className="w-full relative overflow-hidden px-2 sm:px-4">
 
       {/* Conteneur principal avec design liquid glass */}
-      <div 
-        className={`h-32 rounded-2xl border overflow-hidden relative mx-4 transition-all duration-500 border-gray-300/30`}
+      <div
+        className={`h-32 rounded-2xl border overflow-hidden relative transition-all duration-500 border-gray-300/30`}
         style={{
           background: `linear-gradient(135deg, 
               rgba(255, 255, 255, 0.95) 0%, 

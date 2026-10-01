@@ -2,13 +2,13 @@ import { motion } from 'framer-motion';
 const Footer = () => {
   return (
     <motion.footer
-      className="w-full py-16 mt-20"
+      className="w-full py-8 sm:py-12 md:py-16 mt-12 sm:mt-16 md:mt-20"
       initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8 }}
       viewport={{ once: true }}
     >
-      <div className="max-w-6xl mx-auto px-4 text-center">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         {/* Ligne de séparation */}
         <div
           className="w-full h-px mb-8 mx-auto"

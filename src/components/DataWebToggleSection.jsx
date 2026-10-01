@@ -110,13 +110,13 @@ const DataWebToggleSection = () => {
           </AnimatePresence>
 
           {/* Vidéo Container avec vidéos chevauchées - Taille réduite */}
-          <div className="relative w-full max-w-3xl h-[500px] mx-auto flex items-center justify-center">
+          <div className="relative w-full max-w-3xl h-[300px] sm:h-[400px] md:h-[500px] mx-auto flex items-center justify-center px-4">
             {/* Vidéo DATA */}
             <motion.div
-              className="absolute w-[400px] h-[400px] rounded-3xl overflow-hidden shadow-2xl"
+              className="absolute w-[250px] h-[250px] sm:w-[350px] sm:h-[350px] md:w-[400px] md:h-[400px] rounded-3xl overflow-hidden shadow-2xl"
               animate={{
-                x: !isAI ? -70 : -130,
-                y: !isAI ? -30 : 15,
+                x: !isAI ? -40 : -80,
+                y: !isAI ? -20 : 10,
                 zIndex: !isAI ? 20 : 10,
                 scale: !isAI ? 1.05 : 0.9,
                 rotateY: !isAI ? 0 : -15,
@@ -143,10 +143,10 @@ const DataWebToggleSection = () => {
 
             {/* Vidéo AI */}
             <motion.div
-              className="absolute w-[400px] h-[400px] rounded-3xl overflow-hidden shadow-2xl"
+              className="absolute w-[250px] h-[250px] sm:w-[350px] sm:h-[350px] md:w-[400px] md:h-[400px] rounded-3xl overflow-hidden shadow-2xl"
               animate={{
-                x: isAI ? 70 : 130,
-                y: isAI ? -30 : 15,
+                x: isAI ? 40 : 80,
+                y: isAI ? -20 : 10,
                 zIndex: isAI ? 20 : 10,
                 scale: isAI ? 1.05 : 0.9,
                 rotateY: isAI ? 0 : 15,

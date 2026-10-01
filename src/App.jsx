@@ -83,7 +83,7 @@ function AppContent() {
         <ScrollToTopController />
         <NavigationBar />
         <LanguageToggle />
-        <div className="min-h-screen w-full">
+        <div className="min-h-screen w-full overflow-x-hidden">
           <Routes>
             <Route path="/" element={<Accueil />} />
             <Route path="/projects" element={<ProjetsEtExperience />} />
@@ -857,15 +857,15 @@ function ProjetsEtExperience() {
   };
 
   return (
-    <div className="w-full min-h-screen pt-40 pb-24">
-      <div className="max-w-6xl mx-auto px-4 space-y-20">
+    <div className="w-full min-h-screen pt-24 sm:pt-32 md:pt-40 pb-12 sm:pb-16 md:pb-24">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 sm:space-y-16 md:space-y-20">
         {/* Projets d'étude */}
         <motion.section
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <h2 className="text-3xl font-bold mb-8 text-left transition-colors duration-500 text-gray-900 uppercase" style={{ fontFamily: 'LEMONMILK, sans-serif' }}>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 sm:mb-8 text-left transition-colors duration-500 text-gray-900 uppercase" style={{ fontFamily: 'LEMONMILK, sans-serif' }}>
             {t(translations.projects.studyProjects)}
           </h2>
           <div className="flex flex-col gap-6">
@@ -881,7 +881,7 @@ function ProjetsEtExperience() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.4 }}
         >
-          <h2 className="text-3xl font-bold mb-8 text-left transition-colors duration-500 text-gray-900 uppercase" style={{ fontFamily: 'LEMONMILK, sans-serif' }}>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 sm:mb-8 text-left transition-colors duration-500 text-gray-900 uppercase" style={{ fontFamily: 'LEMONMILK, sans-serif' }}>
             {t(translations.projects.professionalExperience)}
           </h2>
           <div className="flex flex-col gap-6">
@@ -897,7 +897,7 @@ function ProjetsEtExperience() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.8 }}
         >
-          <h2 className="text-3xl font-bold mb-8 text-left transition-colors duration-500 text-gray-900 uppercase" style={{ fontFamily: 'LEMONMILK, sans-serif' }}>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6 sm:mb-8 text-left transition-colors duration-500 text-gray-900 uppercase" style={{ fontFamily: 'LEMONMILK, sans-serif' }}>
             {t(translations.projects.videoGames)}
           </h2>
           <div className="flex flex-col gap-6">

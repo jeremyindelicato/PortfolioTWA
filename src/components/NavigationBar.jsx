@@ -31,7 +31,7 @@ const NavigationBar = () => {
     <>
       {/* Desktop Navigation */}
       <motion.nav
-        className="hidden md:block mx-auto max-w-4xl rounded-full px-6 py-3 shadow-xl fixed top-8 left-1/2 -translate-x-1/2 z-40 transition-all duration-500"
+        className="hidden md:block mx-auto max-w-4xl rounded-full px-4 md:px-6 py-3 shadow-xl fixed top-4 md:top-8 left-1/2 -translate-x-1/2 z-40 transition-all duration-500"
         style={{
           background: `linear-gradient(135deg,
             rgba(255, 255, 255, ${isScrolled && !isHovered ? 0.15 : 0.2}) 0%,

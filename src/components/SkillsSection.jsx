@@ -64,7 +64,7 @@ const SkillsSection = () => {
   }, [language]);
 
   return (
-    <section className="w-full py-20">
+    <section className="w-full py-12 sm:py-16 md:py-20 overflow-hidden">
       <style>{`
         .skills-headline {
           opacity: 0;
@@ -77,14 +77,21 @@ const SkillsSection = () => {
 
         .skills-container {
           position: relative;
-          width: 90vw;
+          width: 95%;
           max-width: 1200px;
           margin: 0 auto;
           display: flex;
           flex-direction: column;
           align-items: center;
           border-radius: 9px;
-          padding: 0 1rem;
+          padding: 0 0.5rem;
+        }
+
+        @media (min-width: 640px) {
+          .skills-container {
+            width: 90%;
+            padding: 0 1rem;
+          }
         }
 
         .skill-line {
